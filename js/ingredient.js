@@ -7,24 +7,30 @@ var Ingredient = (function() {
 	};
 
 	Ingredient.parseSingle = function(text) {
-		var ingredients = {};
-		text = text.trim();
-		if (text != "") {
-			var amount = "" + text.match(/^\d[\/\d]*/);
-			if (amount == null) {
-				amount = "1";
-			}
-			var item = text.substr(amount.length);
-			item = item.trim();
-			ingredients[item] = amount;
+		if (text == null) {
+			return null;
 		}
-		return ingredients;
+
+		text = text.trim();
+		if (text == "") {
+			return null;
+		}
+
+		var amount = "" + text.match(/^\d[\/\d]*/);
+		if (amount == null) {
+			amount = "1";
+		}
+
+		var item = text.substr(amount.length);
+		item = item.trim();
+
+		return new Ingredient(item, amount);
 	};
 
 	Ingredient.addSingle = function(ingredients, addIngredient) {
-		for (var item in addIngredient) {
-			ingredients[item] = Ingredient.addAmounts(ingredients[item], addIngredient[item]);
-		}
+		var item = addIngredient._item;
+		var amount = addIngredient._amount;
+		ingredients[item] = Ingredient.addAmounts(ingredients[item], amount);
 		return ingredients;
 	};
 
