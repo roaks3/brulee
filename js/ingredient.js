@@ -6,21 +6,34 @@ var Ingredient = (function() {
 		this._amount = amount;
 	};
 
+	Ingredient.parseSingle = function(text) {
+		var ingredients = {};
+		text = text.trim();
+		if (text != "") {
+			var amount = "" + text.match(/^\d[\/\d]*/);
+			if (amount == null) {
+				amount = "1";
+			}
+			var item = text.substr(amount.length);
+			item = item.trim();
+			ingredients[item] = amount;
+		}
+		return ingredients;
+	};
+
+	Ingredient.addSingle = function(ingredients, addIngredient) {
+		for (var item in addIngredient) {
+			ingredients[item] = Ingredient.addAmounts(ingredients[item], addIngredient[item]);
+		}
+		return ingredients;
+	};
+
 	Ingredient.parse = function(text) {
 		var unparsedIngredients = text.split("\n");
 		var ingredients = {};
 		for (var i = 0; i < unparsedIngredients.length; i++) {
-			var unparsedIngredient = unparsedIngredients[i];
-			unparsedIngredient = unparsedIngredient.trim();
-			if (unparsedIngredient != "") {
-				var amount = "" + unparsedIngredient.match(/^\d[\/\d]*/);
-				if (amount == null) {
-					amount = "1";
-				}
-				var item = unparsedIngredient.substr(amount.length);
-				item = item.trim();
-				ingredients[item] = Ingredient.addAmounts(ingredients[item], amount);
-			}
+			var singleIngredient = Ingredient.parseSingle(unparsedIngredients[i]);
+			Ingredient.addSingle(ingredients, singleIngredient);
 		}
 		return ingredients;
 	};
