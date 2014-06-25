@@ -65,10 +65,14 @@ var Ingredients = (function() {
 			return;
 		}
 
-		/*// Add duplicates
-		this._ingredients.push(ingredient);*/
+		this._ingredients.push(ingredient);
+	};
 
-		// Add without duplicates
+	Ingredients.prototype.combine = function(ingredient) {
+		if (ingredient == null) {
+			return;
+		}
+
 		var item = ingredient._item;
 		var amount = ingredient._amount;
 
@@ -89,6 +93,13 @@ var Ingredients = (function() {
 		for (var i = 0; i < ingredients._ingredients.length; i++) {
 			var ingredient = ingredients._ingredients[i];
 			this.add(ingredient);
+		}
+	};
+
+	Ingredients.prototype.combineAll = function(ingredients) {
+		for (var i = 0; i < ingredients._ingredients.length; i++) {
+			var ingredient = ingredients._ingredients[i];
+			this.combine(ingredient);
 		}
 	};
 
