@@ -6,7 +6,7 @@ var Ingredient = (function() {
 		this._amount = amount;
 	};
 
-	Ingredient.parseSingle = function(text) {
+	Ingredient.parse = function(text) {
 		if (text == null) {
 			return null;
 		}
@@ -27,34 +27,6 @@ var Ingredient = (function() {
 		return new Ingredient(item, amount);
 	};
 
-	Ingredient.addSingle = function(ingredients, addIngredient) {
-		var item = addIngredient._item;
-		var amount = addIngredient._amount;
-		ingredients[item] = Ingredient.addAmounts(ingredients[item], amount);
-		return ingredients;
-	};
-
-	Ingredient.parse = function(text) {
-		var unparsedIngredients = text.split("\n");
-		var ingredients = {};
-		for (var i = 0; i < unparsedIngredients.length; i++) {
-			var singleIngredient = Ingredient.parseSingle(unparsedIngredients[i]);
-			Ingredient.addSingle(ingredients, singleIngredient);
-		}
-		return ingredients;
-	};
-
-	Ingredient.addAll = function(leftIngredients, rightIngredients) {
-		var resultIngredients = {};
-		for (var item in leftIngredients) {
-			resultIngredients[item] = Ingredient.addAmounts(resultIngredients[item], leftIngredients[item]);
-		}
-		for (var item in rightIngredients) {
-			resultIngredients[item] = Ingredient.addAmounts(resultIngredients[item], rightIngredients[item]);
-		}
-		return resultIngredients;
-	};
-
 	Ingredient.addAmounts = function(leftAmount, rightAmount) {
 		var resultAmount = "";
 		if (leftAmount == null) {
@@ -69,5 +41,70 @@ var Ingredient = (function() {
 	};
 
 	return Ingredient;
+
+} ());
+
+var Ingredients = (function() {
+
+	var Ingredients = function() {
+		this._ingredients = [];
+	};
+
+	Ingredients.parse = function(text) {
+		if (text == null) {
+			return null;
+		}
+
+		var ingredients = new Ingredients();
+		var unparsedIngredients = text.split("\n");
+		for (var i = 0; i < unparsedIngredients.length; i++) {
+			var ingredient = Ingredient.parse(unparsedIngredients[i]);
+			ingredients.add(ingredient);
+		}
+
+		return ingredients;
+	};
+
+	Ingredients.prototype.size = function() {
+		return this._ingredients.length;
+	}
+
+	Ingredients.prototype.get = function(index) {
+		return this._ingredients[index];
+	}
+
+	Ingredients.prototype.add = function(ingredient) {
+		if (ingredient == null) {
+			return;
+		}
+
+		/*// Add duplicates
+		this._ingredients.push(ingredient);*/
+
+		// Add without duplicates
+		var item = ingredient._item;
+		var amount = ingredient._amount;
+
+		for (var i = 0; i < this._ingredients.length; i++) {
+			var existingIngredient = this._ingredients[i];
+			if (existingIngredient._item == item) {
+				var newAmount = Ingredient.addAmounts(existingIngredient._amount, amount);
+				existingIngredient._amount = newAmount;
+				return;
+			}
+		}
+
+		// Ingredient does not exist yet
+		this._ingredients.push(ingredient);
+	};
+
+	Ingredients.prototype.addAll = function(ingredients) {
+		for (var i = 0; i < ingredients._ingredients.length; i++) {
+			var ingredient = ingredients._ingredients[i];
+			this.add(ingredient);
+		}
+	};
+
+	return Ingredients;
 
 } ());
