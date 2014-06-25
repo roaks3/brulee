@@ -27,19 +27,6 @@ var Ingredient = (function() {
 		return new Ingredient(item, amount);
 	};
 
-	Ingredient.addAmounts = function(leftAmount, rightAmount) {
-		var resultAmount = "";
-		if (leftAmount == null) {
-			resultAmount = rightAmount;
-		} else if (rightAmount == null) {
-			resultAmount = leftAmount;
-		} else {
-			resultAmount = leftAmount + " + " + rightAmount;
-			//resultAmount = Ratio.parse(leftAmount).add(rightAmount).simplify().toLocaleString();
-		}
-		return resultAmount;
-	};
-
 	return Ingredient;
 
 } ());
@@ -88,8 +75,8 @@ var Ingredients = (function() {
 		for (var i = 0; i < this._ingredients.length; i++) {
 			var existingIngredient = this._ingredients[i];
 			if (existingIngredient._item == item) {
-				var newAmount = Ingredient.addAmounts(existingIngredient._amount, amount);
-				existingIngredient._amount = newAmount;
+				existingIngredient._amount = existingIngredient._amount + " + " + amount;
+				//existingIngredient._amount = Ratio.parse(existingIngredient._amount).add(amount).simplify().toLocaleString();
 				return;
 			}
 		}
