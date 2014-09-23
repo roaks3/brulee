@@ -106,3 +106,77 @@ var Ingredients = (function() {
 	return Ingredients;
 
 } ());
+
+var Recipe = (function() {
+
+	var Recipe = function(name, ingredients) {
+		this._name = name;
+		this._ingredients = new Ingredients();
+		if (ingredients != null) {
+			this._ingredients.combineAll(ingredients);
+		}
+	};
+
+	Recipe.prototype.getName = function() {
+		return this._name;
+	}
+
+	Recipe.prototype.getIngredients = function() {
+		return this._ingredients;
+	}
+
+	Recipe.prototype.addIngredient = function(ingredient) {
+		if (ingredient == null) {
+			return;
+		}
+
+		this._ingredients.combine(ingredient);
+	};
+
+	return Recipe;
+
+} ());
+
+var Recipes = (function() {
+
+	var Recipes = function() {
+		this._recipes = [];
+	};
+
+	Recipes.prototype.size = function() {
+		return this._recipes.length;
+	}
+
+	Recipes.prototype.get = function(index) {
+		return this._recipes[index];
+	}
+
+	// Slow search functionality
+	Recipes.prototype.getByName = function(name) {
+		for (var i = 0; i < this.size(); i++) {
+			var recipe = this.get(i);
+			if (recipe.getName() == name) {
+				return recipe;
+			}
+		}
+		return null;
+	}
+
+	Recipes.prototype.add = function(recipe) {
+		if (recipe == null) {
+			return;
+		}
+
+		this._recipes.push(recipe);
+	};
+
+	Recipes.prototype.addAll = function(recipes) {
+		for (var i = 0; i < recipes._recipes.length; i++) {
+			var recipe = recipes._recipes[i];
+			this.add(recipe);
+		}
+	};
+
+	return Recipes;
+
+} ());
