@@ -180,3 +180,56 @@ var Recipes = (function() {
 	return Recipes;
 
 } ());
+
+var ElasticSearchRecipeStore = (function() {
+
+	var ElasticSearchRecipeStore = function() {
+	};
+
+	ElasticSearchRecipeStore.prototype.getAllRecipes = function() {
+		var recipes = new Recipes();
+		var jsonString = "";
+		$.ajax({
+			type: "GET",
+			url: "http://localhost:9200/recipes/recipe/_search?q=*",
+			contentType: "application/json",
+			success: function(data) {
+				var hitsJson = data;
+				for (var i in hitsJson.hits.hits) {
+					var recipeJson = hitsJson.hits.hits[i]._source;
+					var name = recipeJson._name;
+					var recipe = new Recipe(name, null);
+					for (var j in recipeJson._ingredients._ingredients) {
+						var ingredientJson = recipeJson._ingredients._ingredients[j];
+						var ingredient = new Ingredient(ingredientJson._item, ingredientJson._amount);
+						recipe.addIngredient(ingredient);
+					}
+					recipes.add(recipe);
+				}
+				console.log(JSON.stringify(recipes));
+			}
+		});
+
+		return recipes;
+	}
+
+	ElasticSearchRecipeStore.prototype.saveAllRecipes = function(recipes) {
+		for (var i = 0; i < recipes.size(); i++) {
+			this.saveRecipe(recipes.get(i));
+		}
+	};
+
+	ElasticSearchRecipeStore.prototype.saveRecipe = function(recipe) {
+		var jsonString = JSON.stringify(recipe);
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:9200/recipes/recipe/",
+			contentType: "application/json",
+			data: jsonString
+		});
+		console.log(jsonString);
+	};
+
+	return ElasticSearchRecipeStore;
+
+} ());
