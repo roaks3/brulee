@@ -1,0 +1,18 @@
+
+body {
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#recipes {
+    display: inline-block;
+    width: 45%;
+    vertical-align: top;
+}
+
+#list {
+    display: inline-block;
+    width: 45%;
+    vertical-align: top;
+}
