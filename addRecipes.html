@@ -1,0 +1,53 @@
+<head>
+    <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="js/ingredient.js"></script>
+    <script type="text/javascript">
+
+        var recipeStore = new ElasticSearchRecipeStore();
+        
+        $(document).ready(function() {
+
+            $("#parseButton").click(function() {
+                var ingredientText = $("#recipe").attr("value");
+                var ingredients = Ingredients.parse(ingredientText);
+
+                $("#result").html("");
+                for (var i = 0; i < ingredients.size(); i++) {
+                    var ingredient = ingredients.get(i);
+                    $("#result").append("<span class='ingredient'><input type='text' name='ingredientAmount' value='" + ingredient._amount + "' style='width:50px' /><input type='text' name='ingredient' value='" + ingredient._item + "' /></span><br />");
+                }
+            });
+
+            $("#addRecipesButton").click(function() {
+                var name = $("#recipeName").attr("value");
+                var originalText = $("#recipe").attr("value");
+                var recipe = new Recipe(name, null, originalText);
+
+                $(".ingredient").each(function() {
+                    var amount = $(this).children("[name=ingredientAmount]").attr("value");
+                    var item = $(this).children("[name=ingredient]").attr("value");
+                    var ingredient = new Ingredient(item, amount);
+                    recipe.addIngredient(ingredient);
+                });
+
+                recipeStore.saveRecipe(recipe);
+                $("#result").html("Saved");
+            });
+
+        });
+        
+    </script>
+    
+    <title>
+        Add Recipes
+    </title>
+</head>
+
+<textarea id="recipe" rows="20" cols="50"></textarea>
+<button id="parseButton">Parse</button>
+
+<label for="recipeName">Name:</label>
+<input id="recipeName" type="text" name="recipeName" />
+<button id="addRecipesButton">Add Recipe</button>
+
+<div id="result" style="width:400px"><div>
