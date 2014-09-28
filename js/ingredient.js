@@ -186,14 +186,13 @@ var ElasticSearchRecipeStore = (function() {
     var ElasticSearchRecipeStore = function() {
     };
 
-    ElasticSearchRecipeStore.prototype.getAllRecipes = function() {
-        var recipes = new Recipes();
-        var jsonString = "";
+    ElasticSearchRecipeStore.prototype.getAllRecipes = function(callback) {
         $.ajax({
             type: "GET",
             url: "http://localhost:9200/recipes/recipe/_search?q=*",
             contentType: "application/json",
             success: function(data) {
+                var recipes = new Recipes();
                 var hitsJson = data;
                 for (var i in hitsJson.hits.hits) {
                     var recipeJson = hitsJson.hits.hits[i]._source;
@@ -206,11 +205,9 @@ var ElasticSearchRecipeStore = (function() {
                     }
                     recipes.add(recipe);
                 }
-                console.log(JSON.stringify(recipes));
+                callback(recipes);
             }
         });
-
-        return recipes;
     }
 
     ElasticSearchRecipeStore.prototype.saveAllRecipes = function(recipes) {
