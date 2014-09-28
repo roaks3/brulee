@@ -109,12 +109,13 @@ var Ingredients = (function() {
 
 var Recipe = (function() {
 
-    var Recipe = function(name, ingredients) {
+    var Recipe = function(name, ingredients, originalText) {
         this._name = name;
         this._ingredients = new Ingredients();
         if (ingredients != null) {
             this._ingredients.combineAll(ingredients);
         }
+        this._originalText = originalText;
     };
 
     Recipe.prototype.getName = function() {
@@ -123,6 +124,10 @@ var Recipe = (function() {
 
     Recipe.prototype.getIngredients = function() {
         return this._ingredients;
+    }
+
+    Recipe.prototype.getOriginalText = function() {
+        return this._originalText;
     }
 
     Recipe.prototype.addIngredient = function(ingredient) {
@@ -197,7 +202,7 @@ var ElasticSearchRecipeStore = (function() {
                 for (var i in hitsJson.hits.hits) {
                     var recipeJson = hitsJson.hits.hits[i]._source;
                     var name = recipeJson._name;
-                    var recipe = new Recipe(name, null);
+                    var recipe = new Recipe(name, null, recipeJson._originalText);
                     for (var j in recipeJson._ingredients._ingredients) {
                         var ingredientJson = recipeJson._ingredients._ingredients[j];
                         var ingredient = new Ingredient(ingredientJson._item, ingredientJson._amount);
