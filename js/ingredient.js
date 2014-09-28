@@ -224,7 +224,6 @@ var ElasticSearchRecipeStore = (function() {
             contentType: "application/json",
             data: jsonString
         });
-        console.log(jsonString);
     };
 
     return ElasticSearchRecipeStore;
