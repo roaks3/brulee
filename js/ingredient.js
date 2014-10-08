@@ -60,6 +60,17 @@ var Ingredients = (function() {
         return this._ingredients[index];
     };
 
+    // Slow search functionality
+    Ingredients.prototype.getByItem = function(item) {
+        for (var i = 0; i < this.size(); i++) {
+            var ingredient = this.get(i);
+            if (ingredient._item == item) {
+                return ingredient;
+            }
+        }
+        return null;
+    };
+
     Ingredients.prototype.add = function(ingredient) {
         if (ingredient == null) {
             return;
@@ -100,6 +111,16 @@ var Ingredients = (function() {
         for (var i = 0; i < ingredients._ingredients.length; i++) {
             var ingredient = ingredients._ingredients[i];
             this.combine(ingredient);
+        }
+    };
+
+    Ingredients.prototype.removeByItem = function(item) {
+        for (var i = 0; i < this.size(); i++) {
+            var ingredient = this.get(i);
+            if (ingredient._item == item) {
+                this._ingredients.splice(i, 1);
+                return;
+            }
         }
     };
 
