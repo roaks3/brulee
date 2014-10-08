@@ -1,5 +1,5 @@
 <head>
-    <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="js/ingredient.js"></script>
     <script type="text/javascript">
 
@@ -8,7 +8,7 @@
         $(document).ready(function() {
 
             $("#parseButton").click(function() {
-                var ingredientText = $("#recipe").attr("value");
+                var ingredientText = $("#recipe").val();
                 var ingredients = Ingredients.parse(ingredientText);
 
                 $("#result").html("");
@@ -19,13 +19,13 @@
             });
 
             $("#addRecipesButton").click(function() {
-                var name = $("#recipeName").attr("value");
-                var originalText = $("#recipe").attr("value");
+                var name = $("#recipeName").val();
+                var originalText = $("#recipe").val();
                 var recipe = new Recipe(name, null, originalText);
 
                 $(".ingredient").each(function() {
-                    var amount = $(this).children("[name=ingredientAmount]").attr("value");
-                    var item = $(this).children("[name=ingredient]").attr("value");
+                    var amount = $(this).children("[name=ingredientAmount]").val();
+                    var item = $(this).children("[name=ingredient]").val();
                     var ingredient = new Ingredient(item, amount);
                     recipe.addIngredient(ingredient);
                 });

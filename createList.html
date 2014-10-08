@@ -1,6 +1,6 @@
 <head>
     <link rel="stylesheet" type="text/css" href="createList.css" />
-    <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="js/ingredient.js"></script>
     <script type="text/javascript">
 
@@ -29,7 +29,7 @@
                 var allIngredients = new Ingredients();
                 $("input:checkbox").each(function() {
                     if ($(this).is(":checked")) {
-                        var recipeName = $(this).attr("value");
+                        var recipeName = $(this).val();
                         var recipe = allRecipes.getByName(recipeName);
                         var ingredients = new Ingredients();
                         ingredients.addAll(recipe.getIngredients());
