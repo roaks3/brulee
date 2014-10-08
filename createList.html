@@ -6,7 +6,10 @@
 
         var allRecipes = new Recipes();
         var recipeStore = new ElasticSearchRecipeStore();
-        
+
+        var allCategories = new Categories();
+        var shoppingListStore = new ElasticSearchShoppingListStore();
+
         $(document).ready(function() {
 
             recipeStore.getAllRecipes(function(recipes) {
@@ -15,6 +18,10 @@
                     $("#recipes").append("<input type='checkbox' name='recipes' value='" + recipeName + "' /> " + recipeName + "<br />");
                 }
                 allRecipes = recipes;
+            });
+
+            shoppingListStore.getAllCategories(function(categories) {
+                allCategories = categories;
             });
 
             $("#createListButton").click(function() {
@@ -30,8 +37,25 @@
                     }
                 });
 
-                for (var i = 0; i < allIngredients.size(); i++) {
-                    $("#ingredients").append(allIngredients.get(i)._amount + " - " + allIngredients.get(i)._item + "<br />");
+                var leftoverIngredients = new Ingredients();
+                leftoverIngredients.addAll(allIngredients);
+                for (var i = 0; i < allCategories.size(); i++) {
+                    var category = allCategories.get(i);
+                    $("#ingredients").append("<b>" + category.getName() + "</b><br />");
+                    for (var j = 0; j < category.getItems().length; j++) {
+                        var item = category.getItems()[j];
+                        var ingredient = allIngredients.getByItem(item);
+                        if (ingredient != null) {
+                            $("#ingredients").append(ingredient._amount + " - " + ingredient._item + "<br />");
+                        }
+                        leftoverIngredients.removeByItem(item);
+                    }
+                }
+
+                $("#ingredients").append("<b>Leftover</b><br />");
+                for (var k = 0; k < leftoverIngredients.size(); k++) {
+                    var ingredient = leftoverIngredients.get(k);
+                    $("#ingredients").append(ingredient._amount + " - " + ingredient._item + "<br />");
                 }
             });
         });
