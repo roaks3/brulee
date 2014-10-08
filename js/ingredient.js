@@ -54,11 +54,11 @@ var Ingredients = (function() {
 
     Ingredients.prototype.size = function() {
         return this._ingredients.length;
-    }
+    };
 
     Ingredients.prototype.get = function(index) {
         return this._ingredients[index];
-    }
+    };
 
     Ingredients.prototype.add = function(ingredient) {
         if (ingredient == null) {
@@ -120,15 +120,15 @@ var Recipe = (function() {
 
     Recipe.prototype.getName = function() {
         return this._name;
-    }
+    };
 
     Recipe.prototype.getIngredients = function() {
         return this._ingredients;
-    }
+    };
 
     Recipe.prototype.getOriginalText = function() {
         return this._originalText;
-    }
+    };
 
     Recipe.prototype.addIngredient = function(ingredient) {
         if (ingredient == null) {
@@ -150,11 +150,11 @@ var Recipes = (function() {
 
     Recipes.prototype.size = function() {
         return this._recipes.length;
-    }
+    };
 
     Recipes.prototype.get = function(index) {
         return this._recipes[index];
-    }
+    };
 
     // Slow search functionality
     Recipes.prototype.getByName = function(name) {
@@ -165,7 +165,7 @@ var Recipes = (function() {
             }
         }
         return null;
-    }
+    };
 
     Recipes.prototype.add = function(recipe) {
         if (recipe == null) {
@@ -213,7 +213,7 @@ var ElasticSearchRecipeStore = (function() {
                 callback(recipes);
             }
         });
-    }
+    };
 
     ElasticSearchRecipeStore.prototype.saveAllRecipes = function(recipes) {
         for (var i = 0; i < recipes.size(); i++) {
