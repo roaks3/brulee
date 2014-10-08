@@ -255,3 +255,128 @@ var ElasticSearchRecipeStore = (function() {
     return ElasticSearchRecipeStore;
 
 } ());
+
+var Category = (function() {
+
+    var Category = function(name, order, items) {
+        this._name = name;
+        this._order = order;
+        this._items = [];
+        if (items != null) {
+            for (var i = 0; i < items.length; i++) {
+                var item = items[i];
+                this._items.add(item);
+            }
+        }
+    };
+
+    Category.prototype.getName = function() {
+        return this._name;
+    };
+
+    Category.prototype.getOrder = function() {
+        return this._order;
+    };
+
+    Category.prototype.getItems = function() {
+        return this._items;
+    };
+
+    Category.prototype.addItem = function(item) {
+        if (item == null) {
+            return;
+        }
+
+        this._items.push(item);
+    };
+
+    return Category;
+
+} ());
+
+var Categories = (function() {
+
+    var Categories = function() {
+        this._categories = [];
+    };
+
+    Categories.prototype.size = function() {
+        return this._categories.length;
+    };
+
+    Categories.prototype.get = function(index) {
+        return this._categories[index];
+    };
+
+    // Slow search functionality
+    Categories.prototype.getByName = function(name) {
+        for (var i = 0; i < this.size(); i++) {
+            var category = this.get(i);
+            if (category.getName() == name) {
+                return category;
+            }
+        }
+        return null;
+    };
+
+    Categories.prototype.add = function(category) {
+        if (category == null) {
+            return;
+        }
+
+        this._categories.push(category);
+    };
+
+    Categories.prototype.addAll = function(categories) {
+        for (var i = 0; i < categories._categories.length; i++) {
+            var category = categories._categories[i];
+            this.add(category);
+        }
+    };
+
+    return Categories;
+
+} ());
+
+var ElasticSearchShoppingListStore = (function() {
+
+    var ElasticSearchShoppingListStore = function() {
+    };
+
+    ElasticSearchShoppingListStore.prototype.getAllCategories = function(callback) {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:9200/recipes/category/_search?q=*",
+            contentType: "application/json",
+            success: function(data) {
+                var categories = new Categories();
+                var hitsJson = data;
+                for (var i in hitsJson.hits.hits) {
+                    var categoryJson = hitsJson.hits.hits[i]._source;
+                    var name = categoryJson._name;
+                    var order = categoryJson._order;
+                    var category = new Category(name, order, null);
+                    for (var j in categoryJson._items) {
+                        var item = categoryJson._items[j];
+                        category.addItem(item);
+                    }
+                    categories.add(category);
+                }
+                callback(categories);
+            }
+        });
+    };
+
+    ElasticSearchShoppingListStore.prototype.saveCategory = function(category) {
+        var jsonString = JSON.stringify(category);
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:9200/recipes/category/",
+            contentType: "application/json",
+            data: jsonString
+        });
+    };
+
+    return ElasticSearchShoppingListStore;
+
+} ());
