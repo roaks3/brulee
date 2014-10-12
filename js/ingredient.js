@@ -215,7 +215,7 @@ var ElasticSearchRecipeStore = (function() {
     ElasticSearchRecipeStore.prototype.getAllRecipes = function(callback) {
         $.ajax({
             type: "GET",
-            url: "http://localhost:9200/recipes/recipe/_search?q=*",
+            url: "http://localhost:9200/recipes/recipe/_search?q=*&size=500",
             contentType: "application/json",
             success: function(data) {
                 var recipes = new Recipes();
