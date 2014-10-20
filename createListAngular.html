@@ -1,0 +1,39 @@
+<html ng-app="createListApp">
+<head>
+    <link rel="stylesheet" type="text/css" href="createList.css" />
+    <script src="js/angular.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="js/ingredient.js"></script>
+    <script src="createList.js"></script>
+    
+    <title>
+        Create Shopping List
+    </title>
+</head>
+
+<div ng-controller="CreateListController">
+<div id="recipes">
+    <ul class="unstyled">
+        <li ng-repeat="recipe in recipes">
+            <input type="checkbox" ng-model="recipe.selected" />
+            {{recipe.name}}
+        </li>
+    </ul>
+</div>
+<div id="list">
+    <button id="createListButton" ng-click="calculateShoppingList()">Create Shopping List</button>
+    <div id="ingredients">
+        <ul class="unstyled">
+            <li ng-repeat="category in shoppingList">
+                {{category.name}}
+                <ul class="unstyled">
+                    <li ng-repeat="item in category.items">
+                        {{item}}
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+</html>
