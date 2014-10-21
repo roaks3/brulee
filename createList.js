@@ -2,8 +2,7 @@
 angular.module('createListApp', [])
     .controller('CreateListController', ['$scope', function($scope) {
         $scope.recipes = [
-            {name: "Chicken Parm", selected: true, ingredient: "salt"},
-            {name: "Salsa Verde", selected: false, ingredient: "pepper"}];
+            {"_name":"Cashew Chicken and Broccoli","_ingredients":{"_ingredients":[{"_item":"broccoli","_amount":"4"},{"_item":"cashews","_amount":"1"},{"_item":"onion","_amount":"1/2"}]}}];
 
         $scope.shoppingList = [];
 
@@ -14,7 +13,7 @@ angular.module('createListApp', [])
         $scope.calculateShoppingList = function() {
             var ingredientList = [];
             angular.forEach($scope.recipes, function(recipe) {
-                if (recipe.selected) ingredientList.push(recipe.ingredient);
+                if (recipe._selected) ingredientList.push(recipe._ingredients._ingredients[0]._item);
             });
 
             $scope.shoppingList = [];
@@ -27,7 +26,6 @@ angular.module('createListApp', [])
                             shoppingListCategory.items.push(item);
                         }
                     });
-                    //leftoverList.remove(item);
                     leftoverList = leftoverList.filter(function(element) {
                         return !(element === item);
                     });
