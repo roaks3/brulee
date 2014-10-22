@@ -31,8 +31,24 @@ angular.module('createListApp', ['elasticsearch'])
 
         $scope.shoppingList = [];
 
-        $scope.categories = [
-            {"_name": "Fruits/Vegetables", "_order": 1, "_items": ["cucumber", "pobalano chili", "lime", "asparagus", "red potatoes"] }];
+        $scope.categories = [];
+        client.search({
+            index: 'recipes',
+            type: 'category',
+            size: 500,
+            body: {
+                query: {
+                    match_all: {}
+                }
+            }
+        }).then(function (body) {
+            var hits = body.hits.hits;
+            $scope.categories = hits.map(function(element) {
+                return element._source;
+            });
+        }, function (error) {
+            console.trace(error.message);
+        });
 
         $scope.calculateShoppingList = function() {
             var ingredientList = [];
