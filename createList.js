@@ -1,8 +1,33 @@
 
-angular.module('createListApp', [])
-    .controller('CreateListController', ['$scope', function($scope) {
-        $scope.recipes = [
-            {"_name":"Cashew Chicken and Broccoli","_ingredients":{"_ingredients":[{"_item":"cucumber","_amount":"4"},{"_item":"cashews","_amount":"1"},{"_item":"onion","_amount":"1/2"}]}}];
+angular.module('createListApp', ['elasticsearch'])
+
+    .service('client', function (esFactory) {
+        return esFactory({
+            host: 'localhost:9200',
+            apiVersion: '1.2',
+            log: 'trace'
+        });
+    })
+
+    .controller('CreateListController', function($scope, client, esFactory) {
+        $scope.recipes = [];
+        client.search({
+            index: 'recipes',
+            type: 'recipe',
+            size: 500,
+            body: {
+                query: {
+                    match_all: {}
+                }
+            }
+        }).then(function (body) {
+            var hits = body.hits.hits;
+            $scope.recipes = hits.map(function(element) {
+                return element._source;
+            });
+        }, function (error) {
+            console.trace(error.message);
+        });
 
         $scope.shoppingList = [];
 
@@ -34,4 +59,4 @@ angular.module('createListApp', [])
 
             $scope.shoppingList.push({name: "Leftovers", items: leftoverList});
         };
-    }]);
+    });
