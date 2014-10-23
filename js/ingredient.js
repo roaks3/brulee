@@ -7,17 +7,17 @@ var Ingredient = (function() {
     };
 
     Ingredient.parse = function(text) {
-        if (text == null) {
+        if (text === null) {
             return null;
         }
 
         text = text.trim();
-        if (text == "") {
+        if (text === "") {
             return null;
         }
 
         var amount = "" + text.match(/^\d[\/\d]*/);
-        if (amount == null) {
+        if (amount === null) {
             amount = "1";
         }
 
@@ -38,7 +38,7 @@ var Ingredients = (function() {
     };
 
     Ingredients.parse = function(text) {
-        if (text == null) {
+        if (text === null) {
             return null;
         }
 
@@ -64,7 +64,7 @@ var Ingredients = (function() {
     Ingredients.prototype.getByItem = function(item) {
         for (var i = 0; i < this.size(); i++) {
             var ingredient = this.get(i);
-            if (ingredient.item == item) {
+            if (ingredient.item === item) {
                 return ingredient;
             }
         }
@@ -72,7 +72,7 @@ var Ingredients = (function() {
     };
 
     Ingredients.prototype.add = function(ingredient) {
-        if (ingredient == null) {
+        if (ingredient === null) {
             return;
         }
 
@@ -80,7 +80,7 @@ var Ingredients = (function() {
     };
 
     Ingredients.prototype.combine = function(ingredient) {
-        if (ingredient == null) {
+        if (ingredient === null) {
             return;
         }
 
@@ -89,7 +89,7 @@ var Ingredients = (function() {
 
         for (var i = 0; i < this._ingredients.length; i++) {
             var existingIngredient = this._ingredients[i];
-            if (existingIngredient.item == item) {
+            if (existingIngredient.item === item) {
                 existingIngredient.amount = existingIngredient.amount + " + " + amount;
                 //existingIngredient._amount = Ratio.parse(existingIngredient._amount).add(amount).simplify().toLocaleString();
                 return;
@@ -117,7 +117,7 @@ var Ingredients = (function() {
     Ingredients.prototype.removeByItem = function(item) {
         for (var i = 0; i < this.size(); i++) {
             var ingredient = this.get(i);
-            if (ingredient.item == item) {
+            if (ingredient.item === item) {
                 this._ingredients.splice(i, 1);
                 return;
             }
@@ -133,14 +133,14 @@ var Recipe = (function() {
     var Recipe = function(name, ingredients, originalText) {
         this.name = name;
         this.ingredients = new Ingredients();
-        if (ingredients != null) {
+        if (ingredients !== null) {
             this.ingredients.combineAll(ingredients);
         }
         this.originalText = originalText;
     };
 
     Recipe.prototype.addIngredient = function(ingredient) {
-        if (ingredient == null) {
+        if (ingredient === null) {
             return;
         }
 
@@ -169,7 +169,7 @@ var Recipes = (function() {
     Recipes.prototype.getByName = function(name) {
         for (var i = 0; i < this.size(); i++) {
             var recipe = this.get(i);
-            if (recipe.name == name) {
+            if (recipe.name === name) {
                 return recipe;
             }
         }
@@ -177,7 +177,7 @@ var Recipes = (function() {
     };
 
     Recipes.prototype.add = function(recipe) {
-        if (recipe == null) {
+        if (recipe === null) {
             return;
         }
 
@@ -250,7 +250,7 @@ var Category = (function() {
         this.name = name;
         this.order = order;
         this.items = [];
-        if (items != null) {
+        if (items !== null) {
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
                 this.items.add(item);
@@ -259,7 +259,7 @@ var Category = (function() {
     };
 
     Category.prototype.addItem = function(item) {
-        if (item == null) {
+        if (item === null) {
             return;
         }
 
@@ -288,7 +288,7 @@ var Categories = (function() {
     Categories.prototype.getByName = function(name) {
         for (var i = 0; i < this.size(); i++) {
             var category = this.get(i);
-            if (category.name == name) {
+            if (category.name === name) {
                 return category;
             }
         }
@@ -296,7 +296,7 @@ var Categories = (function() {
     };
 
     Categories.prototype.add = function(category) {
-        if (category == null) {
+        if (category === null) {
             return;
         }
 

@@ -45,7 +45,7 @@
                     for (var j = 0; j < category.items.length; j++) {
                         var item = category.items[j];
                         var ingredient = allIngredients.getByItem(item);
-                        if (ingredient != null) {
+                        if (ingredient !== null) {
                             $("#ingredients").append(ingredient.amount + " - " + ingredient.item + "<br />");
                         }
                         leftoverIngredients.removeByItem(item);

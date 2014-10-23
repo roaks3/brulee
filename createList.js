@@ -80,11 +80,11 @@ angular.module('createListApp', ['elasticsearch'])
                 var shoppingListCategory = {name: category.name, items: []};
                 angular.forEach(category.items, function(item) {
                     var ingredient = ingredientList.getByItem(item);
-                    if (ingredient != null) {
+                    if (ingredient !== null) {
                         shoppingListCategory.items.push(item);
                     }
                     leftoverList = leftoverList.filter(function(element) {
-                        return !(element === item);
+                        return element !== item;
                     });
                 });
                 $scope.shoppingList.push(shoppingListCategory);
