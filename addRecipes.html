@@ -14,7 +14,7 @@
                 $("#result").html("");
                 for (var i = 0; i < ingredients.size(); i++) {
                     var ingredient = ingredients.get(i);
-                    $("#result").append("<span class='ingredient'><input type='text' name='ingredientAmount' value='" + ingredient._amount + "' style='width:50px' /><input type='text' name='ingredient' value='" + ingredient._item + "' /></span><br />");
+                    $("#result").append("<span class='ingredient'><input type='text' name='ingredientAmount' value='" + ingredient.amount + "' style='width:50px' /><input type='text' name='ingredient' value='" + ingredient.item + "' /></span><br />");
                 }
             });
 

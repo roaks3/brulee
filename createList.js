@@ -69,16 +69,16 @@ angular.module('createListApp', ['elasticsearch'])
         $scope.calculateShoppingList = function() {
             var ingredientList = new Ingredients();
             angular.forEach($scope.recipes._recipes, function(recipe) {
-                if (recipe._selected) ingredientList.combineAll(recipe.getIngredients());
+                if (recipe._selected) ingredientList.combineAll(recipe.ingredients);
             });
 
             $scope.shoppingList = [];
             var leftoverList = ingredientList._ingredients.map(function(ingredient) {
-                return ingredient._item;
+                return ingredient.item;
             });
             angular.forEach($scope.categories._categories, function(category) {
-                var shoppingListCategory = {name: category._name, items: []};
-                angular.forEach(category._items, function(item) {
+                var shoppingListCategory = {name: category.name, items: []};
+                angular.forEach(category.items, function(item) {
                     var ingredient = ingredientList.getByItem(item);
                     if (ingredient != null) {
                         shoppingListCategory.items.push(item);

@@ -14,7 +14,7 @@
 
             recipeStore.getAllRecipes(function(recipes) {
                 for (var i = 0; i < recipes.size(); i++) {
-                    var recipeName = recipes.get(i).getName();
+                    var recipeName = recipes.get(i).name;
                     $("#recipes").append("<input type='checkbox' name='recipes' value='" + recipeName + "' /> " + recipeName + "<br />");
                 }
                 allRecipes = recipes;
@@ -32,7 +32,7 @@
                         var recipeName = $(this).val();
                         var recipe = allRecipes.getByName(recipeName);
                         var ingredients = new Ingredients();
-                        ingredients.addAll(recipe.getIngredients());
+                        ingredients.addAll(recipe.ingredients);
                         allIngredients.combineAll(ingredients);
                     }
                 });
@@ -41,12 +41,12 @@
                 leftoverIngredients.addAll(allIngredients);
                 for (var i = 0; i < allCategories.size(); i++) {
                     var category = allCategories.get(i);
-                    $("#ingredients").append("<b>" + category.getName() + "</b><br />");
-                    for (var j = 0; j < category.getItems().length; j++) {
-                        var item = category.getItems()[j];
+                    $("#ingredients").append("<b>" + category.name + "</b><br />");
+                    for (var j = 0; j < category.items.length; j++) {
+                        var item = category.items[j];
                         var ingredient = allIngredients.getByItem(item);
                         if (ingredient != null) {
-                            $("#ingredients").append(ingredient._amount + " - " + ingredient._item + "<br />");
+                            $("#ingredients").append(ingredient.amount + " - " + ingredient.item + "<br />");
                         }
                         leftoverIngredients.removeByItem(item);
                     }
@@ -55,7 +55,7 @@
                 $("#ingredients").append("<b>Leftover</b><br />");
                 for (var k = 0; k < leftoverIngredients.size(); k++) {
                     var ingredient = leftoverIngredients.get(k);
-                    $("#ingredients").append(ingredient._amount + " - " + ingredient._item + "<br />");
+                    $("#ingredients").append(ingredient.amount + " - " + ingredient.item + "<br />");
                 }
             });
         });
