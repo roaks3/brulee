@@ -15,9 +15,9 @@
 <div ng-controller="CreateListController">
 <div id="recipes">
     <ul class="unstyled">
-        <li ng-repeat="recipe in recipes">
+        <li ng-repeat="recipe in recipes._recipes">
             <input type="checkbox" ng-model="recipe._selected" />
-            {{recipe._name}}
+            {{recipe.getName()}}
         </li>
     </ul>
 </div>
