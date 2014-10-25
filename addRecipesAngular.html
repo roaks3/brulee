@@ -1,0 +1,34 @@
+<html ng-app="addRecipesApp">
+<head>
+    <script src="js/angular.js"></script>
+    <script src="js/elasticsearch.angular.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="js/ingredient.js"></script>
+    <script src="addRecipes.js"></script>
+    
+    <title>
+        Add Recipes
+    </title>
+</head>
+
+<div ng-controller="AddRecipesController">
+<textarea id="recipe" ng-model="recipe.originalText" rows="20" cols="50"></textarea>
+<button id="parseButton" ng-click="parseRecipeText()">Parse</button>
+
+<label for="recipeName">Name:</label>
+<input id="recipeName" ng-model="recipe.name" type="text" name="recipeName" />
+<button id="addRecipesButton" ng-click="addRecipe()">Add Recipe</button>
+
+<div id="result" style="width:400px">
+    <ul class="unstyled">
+        <li ng-repeat="ingredient in recipe.ingredients._ingredients">
+            <span class="ingredient">
+                <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
+                <input ng-model="ingredient.item" type="text" name="ingredient" />
+            </span>
+        </li>
+    </ul>
+</div>
+
+</div>
+</html>
