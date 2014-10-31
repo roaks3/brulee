@@ -10,11 +10,11 @@ angular.module('addRecipesApp', ['elasticsearch'])
     })
 
     .controller('AddRecipesController', function($scope, client, esFactory) {
-        $scope.recipe = new Recipe("", new Ingredients(), "");
+        $scope.recipe = new Recipe("", null, "");
 
         $scope.addRecipe = function() {
             client.create({
-                index: 'recipes2',
+                index: 'test',
                 type: 'recipe',
                 body: $scope.recipe
             }, function (error, response) {

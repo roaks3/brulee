@@ -26,8 +26,8 @@ angular.module('createListApp', ['elasticsearch'])
                 var recipeJson = hitsJson.hits.hits[i]._source;
                 var name = recipeJson.name;
                 var recipe = new Recipe(name, null, recipeJson.originalText);
-                for (var j in recipeJson.ingredients._ingredients) {
-                    var ingredientJson = recipeJson.ingredients._ingredients[j];
+                for (var j in recipeJson.ingredients) {
+                    var ingredientJson = recipeJson.ingredients[j];
                     var ingredient = new Ingredient(ingredientJson.item, ingredientJson.amount);
                     recipe.addIngredient(ingredient);
                 }
@@ -67,19 +67,19 @@ angular.module('createListApp', ['elasticsearch'])
         });
 
         $scope.calculateShoppingList = function() {
-            var ingredientList = new Ingredients();
+            var ingredientList = [];
             angular.forEach($scope.recipes._recipes, function(recipe) {
-                if (recipe._selected) ingredientList.combineAll(recipe.ingredients);
+                if (recipe._selected) ingredientList = Ingredients.combineAll(ingredientList, recipe.ingredients);
             });
 
             $scope.shoppingList = [];
-            var leftoverList = ingredientList._ingredients.map(function(ingredient) {
+            var leftoverList = ingredientList.map(function(ingredient) {
                 return ingredient.item;
             });
             angular.forEach($scope.categories._categories, function(category) {
                 var shoppingListCategory = {name: category.name, items: []};
                 angular.forEach(category.items, function(item) {
-                    var ingredient = ingredientList.getByItem(item);
+                    var ingredient = Ingredients.getByItem(ingredientList, item);
                     if (ingredient !== null) {
                         shoppingListCategory.items.push(item);
                     }

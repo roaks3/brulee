@@ -34,7 +34,6 @@ var Ingredient = (function() {
 var Ingredients = (function() {
 
     var Ingredients = function() {
-        this._ingredients = [];
     };
 
     Ingredients.parse = function(text) {
@@ -42,28 +41,20 @@ var Ingredients = (function() {
             return null;
         }
 
-        var ingredients = new Ingredients();
+        var ingredients = [];
         var unparsedIngredients = text.split("\n");
         for (var i = 0; i < unparsedIngredients.length; i++) {
             var ingredient = Ingredient.parse(unparsedIngredients[i]);
-            ingredients.add(ingredient);
+            ingredients.push(ingredient);
         }
 
         return ingredients;
     };
 
-    Ingredients.prototype.size = function() {
-        return this._ingredients.length;
-    };
-
-    Ingredients.prototype.get = function(index) {
-        return this._ingredients[index];
-    };
-
     // Slow search functionality
-    Ingredients.prototype.getByItem = function(item) {
-        for (var i = 0; i < this.size(); i++) {
-            var ingredient = this.get(i);
+    Ingredients.getByItem = function(ingredients, item) {
+        for (var i = 0; i < ingredients.length; i++) {
+            var ingredient = ingredients[i];
             if (ingredient.item === item) {
                 return ingredient;
             }
@@ -71,57 +62,35 @@ var Ingredients = (function() {
         return null;
     };
 
-    Ingredients.prototype.add = function(ingredient) {
-        if (ingredient === null) {
-            return;
+    Ingredients.combine = function(ingredients, otherIngredient) {
+        if (otherIngredient === null) {
+            return ingredients;
         }
 
-        this._ingredients.push(ingredient);
-    };
+        var item = otherIngredient.item;
+        var amount = otherIngredient.amount;
 
-    Ingredients.prototype.combine = function(ingredient) {
-        if (ingredient === null) {
-            return;
-        }
-
-        var item = ingredient.item;
-        var amount = ingredient.amount;
-
-        for (var i = 0; i < this._ingredients.length; i++) {
-            var existingIngredient = this._ingredients[i];
+        for (var i = 0; i < ingredients.length; i++) {
+            var existingIngredient = ingredients[i];
             if (existingIngredient.item === item) {
                 existingIngredient.amount = existingIngredient.amount + " + " + amount;
-                //existingIngredient._amount = Ratio.parse(existingIngredient._amount).add(amount).simplify().toLocaleString();
-                return;
+                //existingIngredient.amount = Ratio.parse(existingIngredient.amount).add(amount).simplify().toLocaleString();
+                return ingredients;
             }
         }
 
         // Ingredient does not exist yet
-        this._ingredients.push(ingredient);
+        ingredients.push(otherIngredient);
+
+        return ingredients;
     };
 
-    Ingredients.prototype.addAll = function(ingredients) {
-        for (var i = 0; i < ingredients._ingredients.length; i++) {
-            var ingredient = ingredients._ingredients[i];
-            this.add(ingredient);
+    Ingredients.combineAll = function(ingredients, otherIngredients) {
+        for (var i = 0; i < otherIngredients.length; i++) {
+            var otherIngredient = otherIngredients[i];
+            ingredients = Ingredients.combine(ingredients, otherIngredient);
         }
-    };
-
-    Ingredients.prototype.combineAll = function(ingredients) {
-        for (var i = 0; i < ingredients._ingredients.length; i++) {
-            var ingredient = ingredients._ingredients[i];
-            this.combine(ingredient);
-        }
-    };
-
-    Ingredients.prototype.removeByItem = function(item) {
-        for (var i = 0; i < this.size(); i++) {
-            var ingredient = this.get(i);
-            if (ingredient.item === item) {
-                this._ingredients.splice(i, 1);
-                return;
-            }
-        }
+        return ingredients;
     };
 
     return Ingredients;
@@ -132,9 +101,9 @@ var Recipe = (function() {
 
     var Recipe = function(name, ingredients, originalText) {
         this.name = name;
-        this.ingredients = new Ingredients();
+        this.ingredients = [];
         if (ingredients !== null) {
-            this.ingredients.combineAll(ingredients);
+            this.ingredients = Ingredients.combineAll(this.ingredients, ingredients);
         }
         this.originalText = originalText;
     };
@@ -144,7 +113,7 @@ var Recipe = (function() {
             return;
         }
 
-        this.ingredients.combine(ingredient);
+        this.ingredients = Ingredients.combine(this.ingredients, ingredient);
     };
 
     return Recipe;
