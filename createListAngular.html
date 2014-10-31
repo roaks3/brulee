@@ -1,40 +1,53 @@
+<!DOCTYPE html>
 <html ng-app="createListApp">
 <head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="createList.css" />
     <script src="js/angular.js"></script>
     <script src="js/elasticsearch.angular.js"></script>
     <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
     <script type="text/javascript" src="js/ingredient.js"></script>
     <script src="createList.js"></script>
-    
+
     <title>
         Create Shopping List
     </title>
 </head>
 
-<div ng-controller="CreateListController">
-<div id="recipes">
-    <ul class="unstyled">
-        <li ng-repeat="recipe in recipes._recipes">
-            <input type="checkbox" ng-model="recipe._selected" />
-            {{recipe.name}}
-        </li>
-    </ul>
-</div>
-<div id="list">
-    <button id="createListButton" ng-click="calculateShoppingList()">Create Shopping List</button>
-    <div id="ingredients">
-        <ul class="unstyled">
-            <li ng-repeat="category in shoppingList">
-                {{category.name}}
-                <ul class="unstyled">
-                    <li ng-repeat="item in category.items">
-                        {{item}}
-                    </li>
-                </ul>
-            </li>
-        </ul>
+<body>
+    <div ng-controller="CreateListController" class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1 recipeList">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Recipes
+                    </div>
+                    <div class="panel-body">
+                        <div class="checkbox">
+                            <label ng-repeat="recipe in recipes._recipes">
+                                <input type="checkbox" ng-model="recipe._selected">
+                                {{recipe.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 shoppingListSection">
+                <button class="btn btn-primary" id="createListButton" ng-click="calculateShoppingList()">
+                    Create Shopping List
+                </button>
+                <div class="shoppingList">
+                    <ul class="list-group" ng-repeat="category in shoppingList">
+                        <li class="list-group-item list-group-item-info">
+                            {{category.name}}
+                        </li>
+                        <li class="list-group-item" ng-repeat="item in category.items">
+                            {{item}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
+</body>
 </html>

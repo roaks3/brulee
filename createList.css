@@ -1,18 +1,10 @@
 
 body {
-    width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-#recipes {
-    display: inline-block;
-    width: 45%;
-    vertical-align: top;
-}
-
-#list {
-    display: inline-block;
-    width: 45%;
-    vertical-align: top;
+.shoppingList {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
