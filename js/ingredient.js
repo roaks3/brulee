@@ -45,7 +45,9 @@ var Ingredients = (function() {
         var unparsedIngredients = text.split("\n");
         for (var i = 0; i < unparsedIngredients.length; i++) {
             var ingredient = Ingredient.parse(unparsedIngredients[i]);
-            ingredients.push(ingredient);
+            if (ingredient != null) {
+                ingredients.push(ingredient);
+            }
         }
 
         return ingredients;
