@@ -12,7 +12,7 @@ angular.module('createListApp', ['elasticsearch'])
     .controller('CreateListController', function($scope, client, esFactory) {
         $scope.recipes = new Recipes();
         client.search({
-            index: 'recipes',
+            index: 'test',
             type: 'recipe',
             size: 500,
             body: {
@@ -24,11 +24,11 @@ angular.module('createListApp', ['elasticsearch'])
             var hitsJson = body;
             for (var i in hitsJson.hits.hits) {
                 var recipeJson = hitsJson.hits.hits[i]._source;
-                var name = recipeJson._name;
-                var recipe = new Recipe(name, null, recipeJson._originalText);
-                for (var j in recipeJson._ingredients._ingredients) {
-                    var ingredientJson = recipeJson._ingredients._ingredients[j];
-                    var ingredient = new Ingredient(ingredientJson._item, ingredientJson._amount);
+                var name = recipeJson.name;
+                var recipe = new Recipe(name, null, recipeJson.originalText);
+                for (var j in recipeJson.ingredients._ingredients) {
+                    var ingredientJson = recipeJson.ingredients._ingredients[j];
+                    var ingredient = new Ingredient(ingredientJson.item, ingredientJson.amount);
                     recipe.addIngredient(ingredient);
                 }
                 $scope.recipes.add(recipe);
