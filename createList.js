@@ -10,7 +10,7 @@ angular.module('createListApp', ['elasticsearch'])
     })
 
     .controller('CreateListController', function($scope, client, esFactory) {
-        $scope.recipes = new Recipes();
+        $scope.recipes = [];
         client.search({
             index: 'test',
             type: 'recipe',
@@ -31,7 +31,7 @@ angular.module('createListApp', ['elasticsearch'])
                     var ingredient = new Ingredient(ingredientJson.item, ingredientJson.amount);
                     recipe.addIngredient(ingredient);
                 }
-                $scope.recipes.add(recipe);
+                $scope.recipes.push(recipe);
             }
         }, function (error) {
             console.trace(error.message);
@@ -68,7 +68,7 @@ angular.module('createListApp', ['elasticsearch'])
 
         $scope.calculateShoppingList = function() {
             var ingredientList = [];
-            angular.forEach($scope.recipes._recipes, function(recipe) {
+            angular.forEach($scope.recipes, function(recipe) {
                 if (recipe._selected) ingredientList = Ingredients.combineAll(ingredientList, recipe.ingredients);
             });
 

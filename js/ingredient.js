@@ -120,50 +120,6 @@ var Recipe = (function() {
 
 } ());
 
-var Recipes = (function() {
-
-    var Recipes = function() {
-        this._recipes = [];
-    };
-
-    Recipes.prototype.size = function() {
-        return this._recipes.length;
-    };
-
-    Recipes.prototype.get = function(index) {
-        return this._recipes[index];
-    };
-
-    // Slow search functionality
-    Recipes.prototype.getByName = function(name) {
-        for (var i = 0; i < this.size(); i++) {
-            var recipe = this.get(i);
-            if (recipe.name === name) {
-                return recipe;
-            }
-        }
-        return null;
-    };
-
-    Recipes.prototype.add = function(recipe) {
-        if (recipe === null) {
-            return;
-        }
-
-        this._recipes.push(recipe);
-    };
-
-    Recipes.prototype.addAll = function(recipes) {
-        for (var i = 0; i < recipes._recipes.length; i++) {
-            var recipe = recipes._recipes[i];
-            this.add(recipe);
-        }
-    };
-
-    return Recipes;
-
-} ());
-
 var ElasticSearchRecipeStore = (function() {
 
     var ElasticSearchRecipeStore = function() {
