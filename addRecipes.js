@@ -34,4 +34,8 @@ angular.module('addRecipesApp', ['elasticsearch'])
             $scope.recipe.ingredients = Ingredients.parse($scope.recipe.originalText);
             $scope.isParsed = true;
         };
+
+        $scope.removeIngredient = function(index) {
+            $scope.recipe.ingredients.splice(index, 1);
+        };
     });

@@ -39,6 +39,9 @@
                 <input ng-model="recipe.name" type="text" name="recipeName" />
                 <div class="parsedIngredientSection">
                     <div class="ingredient input-group" ng-repeat="ingredient in recipe.ingredients">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default ingredientDelete" type="button" ng-click="removeIngredient($index)">&times;</button>
+                        </span>
                         <span class="input-group-addon text-input-group-addon">
                             <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
                         </span>
