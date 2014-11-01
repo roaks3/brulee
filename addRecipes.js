@@ -14,6 +14,31 @@ angular.module('addRecipesApp', ['elasticsearch'])
         $scope.isParsed = false;
         $scope.isSaved = false;
 
+        $scope.categoryMap = {};
+        client.search({
+            index: 'test',
+            type: 'category',
+            size: 500,
+            body: {
+                query: {
+                    match_all: {}
+                }
+            }
+        }).then(function (body) {
+            var categories = [];
+            var hitsJson = body;
+            for (var i in hitsJson.hits.hits) {
+                var categoryJson = hitsJson.hits.hits[i]._source;
+                var name = categoryJson.name;
+                for (var j in categoryJson.items) {
+                    var item = categoryJson.items[j];
+                    $scope.categoryMap[item] = name;
+                }
+            }
+        }, function (error) {
+            console.trace(error.message);
+        });
+
         $scope.addRecipe = function() {
             client.create({
                 index: 'test',
@@ -37,5 +62,15 @@ angular.module('addRecipesApp', ['elasticsearch'])
 
         $scope.removeIngredient = function(index) {
             $scope.recipe.ingredients.splice(index, 1);
+        };
+
+        $scope.getCategory = function(ingredient) {
+            if (ingredient) {
+                var item = $scope.categoryMap[ingredient.item];
+                if (item) {
+                    return $scope.categoryMap[ingredient.item];
+                }
+            }
+            return "None";
         };
     });

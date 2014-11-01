@@ -46,6 +46,11 @@
                             <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
                         </span>
                         <input class="form-control" ng-model="ingredient.item" type="text" name="ingredient" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info">
+                                {{getCategory(ingredient)}}
+                            </button>
+                        </span>
                     </div>
                 </div>
                 <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
