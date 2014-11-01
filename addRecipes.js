@@ -11,6 +11,8 @@ angular.module('addRecipesApp', ['elasticsearch'])
 
     .controller('AddRecipesController', function($scope, client, esFactory) {
         $scope.recipe = new Recipe("", null, "");
+        $scope.isParsed = false;
+        $scope.isSaved = false;
 
         $scope.addRecipe = function() {
             client.create({
@@ -18,11 +20,18 @@ angular.module('addRecipesApp', ['elasticsearch'])
                 type: 'recipe',
                 body: $scope.recipe
             }, function (error, response) {
-                console.trace(error.message);
+                if (error) {
+                    //console.trace(error.message);
+                    console.log("Error:" + error);
+                } else {
+                    $scope.isSaved = true;
+                }
+                //console.log("Response:" + JSON.stringify(response));
             });
         };
 
         $scope.parseRecipeText = function() {
             $scope.recipe.ingredients = Ingredients.parse($scope.recipe.originalText);
+            $scope.isParsed = true;
         };
     });

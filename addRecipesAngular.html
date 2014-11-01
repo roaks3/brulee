@@ -1,5 +1,7 @@
 <html ng-app="addRecipesApp">
 <head>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="addRecipes.css" />
     <script src="js/angular.js"></script>
     <script src="js/elasticsearch.angular.js"></script>
     <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
@@ -11,24 +13,43 @@
     </title>
 </head>
 
-<div ng-controller="AddRecipesController">
-<textarea id="recipe" ng-model="recipe.originalText" rows="20" cols="50"></textarea>
-<button id="parseButton" ng-click="parseRecipeText()">Parse</button>
-
-<label for="recipeName">Name:</label>
-<input id="recipeName" ng-model="recipe.name" type="text" name="recipeName" />
-<button id="addRecipesButton" ng-click="addRecipe()">Add Recipe</button>
-
-<div id="result" style="width:400px">
-    <ul class="unstyled">
-        <li ng-repeat="ingredient in recipe.ingredients">
-            <span class="ingredient">
-                <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
-                <input ng-model="ingredient.item" type="text" name="ingredient" />
-            </span>
-        </li>
-    </ul>
-</div>
-
-</div>
+<body>
+    <div ng-controller="AddRecipesController" class="container">
+        <div class="row">
+            <div class="col-md-12 savedMessageSection" ng-show="isSaved">
+                <div class="savedMessage bg-success">
+                    Recipe saved!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 originalTextSection">
+                <textarea class="form-control" ng-model="recipe.originalText" rows="20">
+                </textarea>
+            </div>
+            <div class="col-md-2 parseButtonSection">
+                <button class="parseButton btn btn-primary center-block" id="parseButton" ng-click="parseRecipeText()">
+                    ==>
+                </button>
+            </div>
+            <div class="col-md-5 saveRecipeSection" ng-show="isParsed">
+                <label for="recipeName">
+                    Name
+                </label>
+                <input ng-model="recipe.name" type="text" name="recipeName" />
+                <div class="parsedIngredientSection">
+                    <div class="ingredient input-group" ng-repeat="ingredient in recipe.ingredients">
+                        <span class="input-group-addon text-input-group-addon">
+                            <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
+                        </span>
+                        <input class="form-control" ng-model="ingredient.item" type="text" name="ingredient" />
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
+                    Add Recipe
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
