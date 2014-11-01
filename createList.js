@@ -39,9 +39,9 @@ angular.module('createListApp', ['elasticsearch'])
 
         $scope.shoppingList = [];
 
-        $scope.categories = new Categories();
+        $scope.categories = [];
         client.search({
-            index: 'recipes',
+            index: 'test',
             type: 'category',
             size: 500,
             body: {
@@ -53,14 +53,14 @@ angular.module('createListApp', ['elasticsearch'])
             var hitsJson = body;
             for (var i in hitsJson.hits.hits) {
                 var categoryJson = hitsJson.hits.hits[i]._source;
-                var name = categoryJson._name;
-                var order = categoryJson._order;
+                var name = categoryJson.name;
+                var order = categoryJson.order;
                 var category = new Category(name, order, null);
-                for (var j in categoryJson._items) {
-                    var item = categoryJson._items[j];
+                for (var j in categoryJson.items) {
+                    var item = categoryJson.items[j];
                     category.addItem(item);
                 }
-                $scope.categories.add(category);
+                $scope.categories.push(category);
             }
         }, function (error) {
             console.trace(error.message);
@@ -76,7 +76,7 @@ angular.module('createListApp', ['elasticsearch'])
             var leftoverList = ingredientList.map(function(ingredient) {
                 return ingredient.item;
             });
-            angular.forEach($scope.categories._categories, function(category) {
+            angular.forEach($scope.categories, function(category) {
                 var shoppingListCategory = {name: category.name, items: []};
                 angular.forEach(category.items, function(item) {
                     var ingredient = Ingredients.getByItem(ingredientList, item);

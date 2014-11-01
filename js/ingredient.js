@@ -180,7 +180,7 @@ var Category = (function() {
         if (items !== null) {
             for (var i = 0; i < items.length; i++) {
                 var item = items[i];
-                this.items.add(item);
+                this.items.push(item);
             }
         }
     };
@@ -194,50 +194,6 @@ var Category = (function() {
     };
 
     return Category;
-
-} ());
-
-var Categories = (function() {
-
-    var Categories = function() {
-        this._categories = [];
-    };
-
-    Categories.prototype.size = function() {
-        return this._categories.length;
-    };
-
-    Categories.prototype.get = function(index) {
-        return this._categories[index];
-    };
-
-    // Slow search functionality
-    Categories.prototype.getByName = function(name) {
-        for (var i = 0; i < this.size(); i++) {
-            var category = this.get(i);
-            if (category.name === name) {
-                return category;
-            }
-        }
-        return null;
-    };
-
-    Categories.prototype.add = function(category) {
-        if (category === null) {
-            return;
-        }
-
-        this._categories.push(category);
-    };
-
-    Categories.prototype.addAll = function(categories) {
-        for (var i = 0; i < categories._categories.length; i++) {
-            var category = categories._categories[i];
-            this.add(category);
-        }
-    };
-
-    return Categories;
 
 } ());
 
