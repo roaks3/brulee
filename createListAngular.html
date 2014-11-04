@@ -23,8 +23,8 @@
                         Recipes
                     </div>
                     <div class="panel-body">
-                        <div class="checkbox">
-                            <label ng-repeat="recipe in recipes">
+                        <div class="checkbox" ng-repeat="recipe in recipes">
+                            <label>
                                 <input type="checkbox" ng-model="recipe._selected">
                                 {{recipe.name}}
                             </label>
