@@ -46,7 +46,7 @@
                         <span class="input-group-addon text-input-group-addon">
                             <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
                         </span>
-                        <input class="form-control" typeahead="item for item in items | filter:$viewValue | limitTo:8" ng-model="ingredient.item" type="text" name="ingredient" />
+                        <input class="form-control" typeahead="item for item in items | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="ingredient.item" type="text" name="ingredient" />
                         <span class="input-group-btn">
                             <button class="btn btn-info">
                                 {{getCategory(ingredient)}}
