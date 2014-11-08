@@ -3529,6 +3529,9 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap
 
       var appendToBody =  attrs.typeaheadAppendToBody ? originalScope.$eval(attrs.typeaheadAppendToBody) : false;
 
+      //should typeahead open when initially clicked, and close when clicked again
+      var toggleOnClick = attrs.typeaheadToggleOnClick ? originalScope.$eval(attrs.typeaheadToggleOnClick) : false;
+
       //INTERNAL VARIABLES
 
       //model setter executed upon match selection
@@ -3770,17 +3773,30 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap
       });
 
       // Keep reference to click handler to unbind it.
-      var dismissClickHandler = function (evt) {
+      var clickHandler = function (evt) {
         if (element[0] !== evt.target) {
+          // If clicked outside, dismiss typeahead
           resetMatches();
           scope.$digest();
+        } else {
+          // If clicked on the typeahead element, toggle typeahead
+          if (toggleOnClick) {
+            if (element.attr("aria-expanded") !== "false") {
+              resetMatches();
+              scope.$digest();
+            } else {
+              scope.$apply(function () {
+                modelCtrl.$setViewValue(modelCtrl.$viewValue);
+              });
+            }
+          }
         }
       };
 
-      $document.bind('click', dismissClickHandler);
+      $document.bind('click', clickHandler);
 
       originalScope.$on('$destroy', function(){
-        $document.unbind('click', dismissClickHandler);
+        $document.unbind('click', clickHandler);
       });
 
       var $popup = $compile(popUpEl)(scope);
