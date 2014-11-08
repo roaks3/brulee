@@ -12,7 +12,7 @@ angular.module('createListApp', ['elasticsearch'])
     .controller('CreateListController', function($scope, client, esFactory) {
         $scope.recipes = [];
         client.search({
-            index: 'test',
+            index: 'test3',
             type: 'recipe',
             size: 500,
             body: {

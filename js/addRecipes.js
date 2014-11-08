@@ -43,7 +43,7 @@ angular.module('addRecipesApp', ['elasticsearch', 'ui.bootstrap'])
 
         $scope.addRecipe = function() {
             client.create({
-                index: 'test',
+                index: 'test3',
                 type: 'recipe',
                 body: $scope.recipe
             }, function (error, response) {
@@ -73,6 +73,7 @@ angular.module('addRecipesApp', ['elasticsearch', 'ui.bootstrap'])
                     return $scope.categoryMap[ingredient.item];
                 }
             }
+            // set ingredient.isCategorized = false;
             return "None";
         };
     });
