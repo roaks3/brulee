@@ -1,5 +1,5 @@
 
-angular.module('addRecipesApp', ['elasticsearch'])
+angular.module('addRecipesApp', ['elasticsearch', 'ui.bootstrap'])
 
     .service('client', function (esFactory) {
         return esFactory({
@@ -15,6 +15,7 @@ angular.module('addRecipesApp', ['elasticsearch'])
         $scope.isSaved = false;
 
         $scope.categoryMap = {};
+        $scope.items = [];
         client.search({
             index: 'test',
             type: 'category',
@@ -33,6 +34,7 @@ angular.module('addRecipesApp', ['elasticsearch'])
                 for (var j in categoryJson.items) {
                     var item = categoryJson.items[j];
                     $scope.categoryMap[item] = name;
+                    $scope.items.push(item);
                 }
             }
         }, function (error) {

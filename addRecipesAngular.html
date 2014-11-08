@@ -5,6 +5,7 @@
     <script src="js/angular.js"></script>
     <script src="js/elasticsearch.angular.js"></script>
     <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.2.js"></script>
     <script type="text/javascript" src="js/ingredient.js"></script>
     <script src="addRecipes.js"></script>
     
@@ -45,7 +46,7 @@
                         <span class="input-group-addon text-input-group-addon">
                             <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
                         </span>
-                        <input class="form-control" ng-model="ingredient.item" type="text" name="ingredient" />
+                        <input class="form-control" typeahead="item for item in items | filter:$viewValue | limitTo:8" ng-model="ingredient.item" type="text" name="ingredient" />
                         <span class="input-group-btn">
                             <button class="btn btn-info">
                                 {{getCategory(ingredient)}}
