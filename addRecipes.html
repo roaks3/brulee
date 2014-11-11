@@ -5,6 +5,7 @@
     <script src="js/angular.js"></script>
     <script src="js/elasticsearch.angular.js"></script>
     <script src="js/jquery-1.11.1.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script src="js/ui-bootstrap-tpls-0.11.2.js"></script>
     <script src="js/ingredient.js"></script>
     <script src="js/addRecipes.js"></script>
@@ -47,10 +48,19 @@
                             <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
                         </span>
                         <input class="form-control" typeahead="item for item in items | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="ingredient.item" type="text" name="ingredient" />
-                        <span class="input-group-btn">
+                        <span ng-if="isCategorized(ingredient)" class="input-group-btn">
                             <button class="btn btn-info">
                                 {{getCategory(ingredient)}}
                             </button>
+                        </span>
+                        <span ng-if="!isCategorized(ingredient)" class="input-group-btn">
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                {{ingredient.selectedCategory || "None"}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li ng-repeat="categoryName in categoryNames" ng-click="setSelectedCategory(ingredient, categoryName)"><a href="#">{{categoryName}}</a></li>
+                            </ul>
                         </span>
                     </div>
                 </div>
