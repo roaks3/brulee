@@ -122,55 +122,6 @@ var Recipe = (function() {
 
 } ());
 
-var ElasticSearchRecipeStore = (function() {
-
-    var ElasticSearchRecipeStore = function() {
-    };
-
-    ElasticSearchRecipeStore.prototype.getAllRecipes = function(callback) {
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:9200/recipes/recipe/_search?q=*&size=500",
-            contentType: "application/json",
-            success: function(data) {
-                var recipes = new Recipes();
-                var hitsJson = data;
-                for (var i in hitsJson.hits.hits) {
-                    var recipeJson = hitsJson.hits.hits[i]._source;
-                    var name = recipeJson._name;
-                    var recipe = new Recipe(name, null, recipeJson._originalText);
-                    for (var j in recipeJson._ingredients._ingredients) {
-                        var ingredientJson = recipeJson._ingredients._ingredients[j];
-                        var ingredient = new Ingredient(ingredientJson._item, ingredientJson._amount);
-                        recipe.addIngredient(ingredient);
-                    }
-                    recipes.add(recipe);
-                }
-                callback(recipes);
-            }
-        });
-    };
-
-    ElasticSearchRecipeStore.prototype.saveAllRecipes = function(recipes) {
-        for (var i = 0; i < recipes.size(); i++) {
-            this.saveRecipe(recipes.get(i));
-        }
-    };
-
-    ElasticSearchRecipeStore.prototype.saveRecipe = function(recipe) {
-        var jsonString = JSON.stringify(recipe);
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:9200/recipes/recipe/",
-            contentType: "application/json",
-            data: jsonString
-        });
-    };
-
-    return ElasticSearchRecipeStore;
-
-} ());
-
 var Category = (function() {
 
     var Category = function(name, order, items) {
@@ -194,48 +145,5 @@ var Category = (function() {
     };
 
     return Category;
-
-} ());
-
-var ElasticSearchShoppingListStore = (function() {
-
-    var ElasticSearchShoppingListStore = function() {
-    };
-
-    ElasticSearchShoppingListStore.prototype.getAllCategories = function(callback) {
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:9200/recipes/category/_search?q=*",
-            contentType: "application/json",
-            success: function(data) {
-                var categories = new Categories();
-                var hitsJson = data;
-                for (var i in hitsJson.hits.hits) {
-                    var categoryJson = hitsJson.hits.hits[i]._source;
-                    var name = categoryJson._name;
-                    var order = categoryJson._order;
-                    var category = new Category(name, order, null);
-                    for (var j in categoryJson._items) {
-                        var item = categoryJson._items[j];
-                        category.addItem(item);
-                    }
-                    categories.add(category);
-                }
-                callback(categories);
-            }
-        });
-    };
-
-    ElasticSearchShoppingListStore.prototype.saveCategory = function(category) {
-        var jsonString = JSON.stringify(category);
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:9200/recipes/category/",
-            contentType: "application/json",
-            data: jsonString
-        });
-    };
-
-    return ElasticSearchShoppingListStore;
 
 } ());
