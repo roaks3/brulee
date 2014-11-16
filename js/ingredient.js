@@ -124,7 +124,8 @@ var Recipe = (function() {
 
 var Category = (function() {
 
-    var Category = function(name, order, items) {
+    var Category = function(id, name, order, items) {
+        this.id = id;
         this.name = name;
         this.order = order;
         this.items = [];

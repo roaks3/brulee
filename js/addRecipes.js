@@ -1,15 +1,11 @@
 
-angular.module('addRecipesApp', ['elasticsearch', 'ui.bootstrap'])
+angular.module('addRecipesApp', ['ui.bootstrap', 'recipesService'])
 
-    .service('client', function (esFactory) {
-        return esFactory({
-            host: 'localhost:9200',
-            apiVersion: '1.2',
-            log: 'trace'
-        });
+    .service('client', function (recipesFactory) {
+        return recipesFactory;
     })
 
-    .controller('AddRecipesController', function($scope, client, esFactory) {
+    .controller('AddRecipesController', function($scope, client) {
         $scope.recipe = new Recipe("", null, "");
         $scope.isParsed = false;
         $scope.isSaved = false;
@@ -18,36 +14,19 @@ angular.module('addRecipesApp', ['elasticsearch', 'ui.bootstrap'])
         $scope.items = [];
         $scope.categoryNames = [];
         $scope.categories = [];
-        client.search({
-            index: 'test',
-            type: 'category',
-            size: 500,
-            body: {
-                query: {
-                    match_all: {}
-                }
-            }
-        }).then(function (body) {
-            var categories = {};
-            var hitsJson = body;
-            for (var i in hitsJson.hits.hits) {
-                var categoryJson = hitsJson.hits.hits[i]._source;
-                var name = categoryJson.name;
-                for (var j in categoryJson.items) {
-                    var item = categoryJson.items[j];
-                    $scope.categoryMap[item] = name;
+
+        client.getCategories().then(function (categories) {
+            angular.forEach(categories, function (category) {
+                for (var i in category.items) {
+                    var item = category.items[i];
+                    $scope.categoryMap[item] = category.name;
                     $scope.items.push(item);
-                    categories[name] = true;
                 }
-                $scope.categories.push({
-                    id: hitsJson.hits.hits[i]._id, 
-                    name: name, 
-                    items: categoryJson.items
-                });
-            }
-            $scope.categoryNames = Object.keys(categories);
-        }, function (error) {
-            console.trace(error.message);
+            });
+            $scope.categories = categories;
+            $scope.categoryNames = categories.map(function (category) {
+                return category.name;
+            });
         });
 
         $scope.addRecipe = function() {
@@ -68,41 +47,10 @@ angular.module('addRecipesApp', ['elasticsearch', 'ui.bootstrap'])
                 }
             });
 
-            $scope.updateCategories();
+            client.updateCategories($scope.categories);
 
-            client.create({
-                index: 'test3',
-                type: 'recipe',
-                body: $scope.recipe
-            }, function (error, response) {
-                if (error) {
-                    //console.trace(error.message);
-                    console.log("Error:" + error);
-                } else {
-                    $scope.isSaved = true;
-                }
-                //console.log("Response:" + JSON.stringify(response));
-            });
-        };
-
-        $scope.updateCategories = function() {
-            angular.forEach($scope.categories, function (category) {
-                client.update({
-                    index: 'test',
-                    type: 'category',
-                    id: category.id,
-                    body: {
-                        doc: {
-                            items: category.items
-                        }
-                    }
-                }, function (error, response) {
-                    if (error) {
-                        //console.trace(error.message);
-                        console.log("Error:" + error);
-                    }
-                    //console.log("Response:" + JSON.stringify(response));
-                });
+            client.createRecipe($scope.recipe).then(function (success) {
+                $scope.isSaved = success;
             });
         };
 

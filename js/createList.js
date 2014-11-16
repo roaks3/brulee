@@ -1,70 +1,22 @@
 
-angular.module('createListApp', ['elasticsearch'])
+angular.module('createListApp', ['recipesService'])
 
-    .service('client', function (esFactory) {
-        return esFactory({
-            host: 'localhost:9200',
-            apiVersion: '1.2',
-            log: 'trace'
-        });
+    .service('client', function (recipesFactory) {
+        return recipesFactory;
     })
 
-    .controller('CreateListController', function($scope, client, esFactory) {
+    .controller('CreateListController', function($scope, client) {
         $scope.recipes = [];
-        client.search({
-            index: 'test3',
-            type: 'recipe',
-            size: 500,
-            body: {
-                query: {
-                    match_all: {}
-                }
-            }
-        }).then(function (body) {
-            var hitsJson = body;
-            for (var i in hitsJson.hits.hits) {
-                var recipeJson = hitsJson.hits.hits[i]._source;
-                var name = recipeJson.name;
-                var recipe = new Recipe(name, null, recipeJson.originalText);
-                for (var j in recipeJson.ingredients) {
-                    var ingredientJson = recipeJson.ingredients[j];
-                    var ingredient = new Ingredient(ingredientJson.item, ingredientJson.amount);
-                    recipe.addIngredient(ingredient);
-                }
-                $scope.recipes.push(recipe);
-            }
-        }, function (error) {
-            console.trace(error.message);
+        client.getRecipes().then(function (recipes) {
+            $scope.recipes = recipes;
+        });
+
+        $scope.categories = [];
+        client.getCategories().then(function (categories) {
+            $scope.categories = categories;
         });
 
         $scope.shoppingList = [];
-
-        $scope.categories = [];
-        client.search({
-            index: 'test',
-            type: 'category',
-            size: 500,
-            body: {
-                query: {
-                    match_all: {}
-                }
-            }
-        }).then(function (body) {
-            var hitsJson = body;
-            for (var i in hitsJson.hits.hits) {
-                var categoryJson = hitsJson.hits.hits[i]._source;
-                var name = categoryJson.name;
-                var order = categoryJson.order;
-                var category = new Category(name, order, null);
-                for (var j in categoryJson.items) {
-                    var item = categoryJson.items[j];
-                    category.addItem(item);
-                }
-                $scope.categories.push(category);
-            }
-        }, function (error) {
-            console.trace(error.message);
-        });
 
         $scope.calculateShoppingList = function() {
             var ingredientList = [];
