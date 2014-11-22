@@ -75,14 +75,14 @@ var Ingredients = (function() {
         for (var i = 0; i < ingredients.length; i++) {
             var existingIngredient = ingredients[i];
             if (existingIngredient.item === item) {
-                existingIngredient.amount = existingIngredient.amount + " + " + amount;
+                existingIngredient.amount++;
                 //existingIngredient.amount = Ratio.parse(existingIngredient.amount).add(amount).simplify().toLocaleString();
                 return ingredients;
             }
         }
 
         // Ingredient does not exist yet
-        ingredients.push(otherIngredient);
+        ingredients.push({item: otherIngredient.item, amount: 1});
 
         return ingredients;
     };

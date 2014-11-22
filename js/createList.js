@@ -29,11 +29,12 @@ angular.module('createListApp', ['recipesService'])
                 return ingredient.item;
             });
             angular.forEach($scope.categories, function(category) {
-                var shoppingListCategory = {name: category.name, items: []};
+                var shoppingListCategory = {name: category.name, items: {}};
                 angular.forEach(category.items, function(item) {
                     var ingredient = Ingredients.getByItem(ingredientList, item);
                     if (ingredient !== null) {
-                        shoppingListCategory.items.push(item);
+                        //shoppingListCategory.items.push(item);
+                        shoppingListCategory.items[item] = ingredient.amount;
                     }
                     leftoverList = leftoverList.filter(function(element) {
                         return element !== item;
@@ -42,6 +43,14 @@ angular.module('createListApp', ['recipesService'])
                 $scope.shoppingList.push(shoppingListCategory);
             });
 
-            $scope.shoppingList.push({name: "Leftovers", items: leftoverList});
+            var shoppingListCategory = {name: "Leftovers", items: {}};
+            angular.forEach(leftoverList, function(item) {
+                var ingredient = Ingredients.getByItem(ingredientList, item);
+                if (ingredient !== null) {
+                    shoppingListCategory.items[item] = ingredient.amount;
+                }
+            });
+
+            $scope.shoppingList.push(shoppingListCategory);
         };
     });

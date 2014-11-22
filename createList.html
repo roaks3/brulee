@@ -42,8 +42,8 @@
                         <li class="list-group-item list-group-item-info">
                             {{category.name}}
                         </li>
-                        <li class="list-group-item" ng-repeat="item in category.items">
-                            {{item}}
+                        <li class="list-group-item" ng-repeat="(item, amount) in category.items">
+                            {{item}} <span class="badge">{{amount}}</span>
                         </li>
                     </ul>
                 </div>
