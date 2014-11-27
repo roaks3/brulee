@@ -9,6 +9,7 @@ angular.module('addRecipesApp', ['ui.bootstrap', 'recipesService'])
         $scope.recipe = new Recipe("", null, "");
         $scope.isParsed = false;
         $scope.isSaved = false;
+        $scope.isNameInvalid = false;
 
         $scope.categoryMap = {};
         $scope.items = [];
@@ -30,6 +31,13 @@ angular.module('addRecipesApp', ['ui.bootstrap', 'recipesService'])
         });
 
         $scope.addRecipe = function() {
+            // Make sure there is a recipe name present
+            if (!$scope.recipe.name) {
+                $scope.isNameInvalid = true;
+                return;
+            }
+
+            $scope.isNameInvalid = false;
             angular.forEach($scope.recipe.ingredients, function (ingredient) {
                 if (ingredient.selectedCategory) {
                     // Do not add if it already belongs to a category
