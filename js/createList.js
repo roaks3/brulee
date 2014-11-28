@@ -1,5 +1,7 @@
 
-angular.module('createListApp', ['recipesService'])
+"use strict";
+
+angular.module('bruleeApp', ['bruleeApp.services'])
 
     .service('client', function (recipesFactory) {
         return recipesFactory;
