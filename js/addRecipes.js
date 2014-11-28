@@ -7,7 +7,7 @@ angular.module('bruleeApp', ['ui.bootstrap', 'bruleeApp.services'])
         return recipesFactory;
     })
 
-    .controller('AddRecipesController', function($scope, client) {
+    .controller('AddRecipesCtrl', function($scope, client) {
         $scope.recipe = new Recipe("", null, "");
         $scope.isParsed = false;
         $scope.isSaved = false;

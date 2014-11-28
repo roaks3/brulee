@@ -7,7 +7,7 @@ angular.module('bruleeApp', ['bruleeApp.services'])
         return recipesFactory;
     })
 
-    .controller('CategoryController', function($scope, client) {
+    .controller('CategoryCtrl', function($scope, client) {
         $scope.categories = [];
         client.getCategories().then(function (categories) {
             $scope.categories = categories;
