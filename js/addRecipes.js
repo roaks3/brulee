@@ -1,5 +1,5 @@
 
-"use strict";
+'use strict';
 
 angular.module('bruleeApp', ['ui.bootstrap', 'bruleeApp.services'])
 
