@@ -6,17 +6,21 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="styles/createList.css" />
+        <link rel="stylesheet" type="text/css" href="styles/addRecipes.css" />
     </head>
     <body ng-app="bruleeApp">
         <div class="container">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a ng-href="#">Home</a></li>
-                    <li><a ng-href="views/createList.html">Create List</a></li>
-                    <li><a ng-href="views/addRecipes.html">Add Recipes</a></li>
+                    <li><a ng-href="#/createList">Create List</a></li>
+                    <li><a ng-href="#/addRecipes">Add Recipes</a></li>
                 </ul>
                 <h3 class="text-muted">brulee</h3>
             </div>
+
+            <div ng-view></div>
 
             <div class="footer">
                 <p>from the Yeoman team</p>
@@ -25,6 +29,15 @@
 
         <script src="../bower_components/jquery/dist/jquery.js"></script>
         <script src="../bower_components/angular/angular.js"></script>
+        <script src="../bower_components/angular-route/angular-route.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="../bower_components/elasticsearch/elasticsearch.angular.js"></script>
+        <script src="scripts/ui-bootstrap-tpls-0.11.2.js"></script>
+        <script src="scripts/ingredient.js"></script>
         <script src="scripts/app.js"></script>
+        <script src="scripts/recipesService.js"></script>
+        <script src="scripts/controllers/createList.js"></script>
+        <script src="scripts/controllers/addRecipes.js"></script>
+
     </body>
 </html>

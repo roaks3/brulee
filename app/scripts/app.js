@@ -9,4 +9,23 @@
  *
  * Main module of the application.
  */
-angular.module('bruleeApp', [])
+angular.module('bruleeApp', [
+        'ngRoute',
+        'ui.bootstrap',
+        'bruleeApp.services'
+    ])
+
+    .config(function ($routeProvider) {
+        $routeProvider
+            .when('/createList', {
+                templateUrl: 'views/createList.html',
+                controller: 'CreateListCtrl'
+            })
+            .when('/addRecipes', {
+                templateUrl: 'views/addRecipes.html',
+                controller: 'AddRecipesCtrl'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    });

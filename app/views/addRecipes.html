@@ -1,78 +1,57 @@
-<html ng-app="bruleeApp">
-<head>
-    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../styles/addRecipes.css" />
-    <script src="../../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../../bower_components/angular/angular.js"></script>
-    <script src="../../bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="../../bower_components/elasticsearch/elasticsearch.angular.js"></script>
-    <script src="../scripts/ui-bootstrap-tpls-0.11.2.js"></script>
-    <script src="../scripts/ingredient.js"></script>
-    <script src="../scripts/recipesService.js"></script>
-    <script src="../scripts/controllers/addRecipes.js"></script>
-    
-    <title>
-        Add Recipes
-    </title>
-</head>
-
-<body>
-    <div ng-controller="AddRecipesCtrl" class="container">
-        <div class="row">
-            <div class="col-md-12 savedMessageSection" ng-show="isSaved">
-                <div class="savedMessage bg-success">
-                    Recipe saved!
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-5 originalTextSection">
-                <textarea class="form-control" ng-model="recipe.originalText" rows="20">
-                </textarea>
-            </div>
-            <div class="col-md-2 parseButtonSection">
-                <button class="parseButton btn btn-primary center-block" id="parseButton" ng-click="parseRecipeText()">
-                    ==>
-                </button>
-            </div>
-            <div class="col-md-5 saveRecipeSection" ng-show="isParsed">
-                <div class="form-group" ng-class="{'has-error': !recipe.name && isNameInvalid}">
-                    <label class="control-label" for="recipeName">
-                        Name
-                    </label>
-                    <input class="form-control" ng-model="recipe.name" type="text" name="recipeName" required />
-                </div>
-                <div class="parsedIngredientSection">
-                    <div class="ingredient input-group" ng-repeat="ingredient in recipe.ingredients">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default ingredientDelete" type="button" ng-click="removeIngredient($index)">&times;</button>
-                        </span>
-                        <span class="input-group-addon text-input-group-addon">
-                            <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
-                        </span>
-                        <input class="form-control" typeahead="item for item in items | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="ingredient.item" type="text" name="ingredient" />
-                        <span ng-if="isCategorized(ingredient)" class="input-group-btn">
-                            <button class="btn btn-info">
-                                {{getCategory(ingredient)}}
-                            </button>
-                        </span>
-                        <span ng-if="!isCategorized(ingredient)" class="input-group-btn">
-                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                {{ingredient.selectedCategory || "None"}}
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li ng-repeat="categoryName in categoryNames" ng-click="setSelectedCategory(ingredient, categoryName)"><a href="#">{{categoryName}}</a></li>
-                            </ul>
-                        </span>
-                    </div>
-                </div>
-                <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
-                    Add Recipe
-                </button>
-                <span ng-if="!recipe.name && isNameInvalid" class="text-danger"><strong>Name is required</strong></span>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 savedMessageSection" ng-show="isSaved">
+            <div class="savedMessage bg-success">
+                Recipe saved!
             </div>
         </div>
     </div>
-</body>
-</html>
+    <div class="row">
+        <div class="col-md-5 originalTextSection">
+            <textarea class="form-control" ng-model="recipe.originalText" rows="20">
+            </textarea>
+        </div>
+        <div class="col-md-2 parseButtonSection">
+            <button class="parseButton btn btn-primary center-block" id="parseButton" ng-click="parseRecipeText()">
+                ==>
+            </button>
+        </div>
+        <div class="col-md-5 saveRecipeSection" ng-show="isParsed">
+            <div class="form-group" ng-class="{'has-error': !recipe.name && isNameInvalid}">
+                <label class="control-label" for="recipeName">
+                    Name
+                </label>
+                <input class="form-control" ng-model="recipe.name" type="text" name="recipeName" required />
+            </div>
+            <div class="parsedIngredientSection">
+                <div class="ingredient input-group" ng-repeat="ingredient in recipe.ingredients">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default ingredientDelete" type="button" ng-click="removeIngredient($index)">&times;</button>
+                    </span>
+                    <span class="input-group-addon text-input-group-addon">
+                        <input ng-model="ingredient.amount" type="text" name="ingredientAmount" style="width:50px" />
+                    </span>
+                    <input class="form-control" typeahead="item for item in items | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="ingredient.item" type="text" name="ingredient" />
+                    <span ng-if="isCategorized(ingredient)" class="input-group-btn">
+                        <button class="btn btn-info">
+                            {{getCategory(ingredient)}}
+                        </button>
+                    </span>
+                    <span ng-if="!isCategorized(ingredient)" class="input-group-btn">
+                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            {{ingredient.selectedCategory || "None"}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li ng-repeat="categoryName in categoryNames" ng-click="setSelectedCategory(ingredient, categoryName)"><a href="#">{{categoryName}}</a></li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
+                Add Recipe
+            </button>
+            <span ng-if="!recipe.name && isNameInvalid" class="text-danger"><strong>Name is required</strong></span>
+        </div>
+    </div>
+</div>
