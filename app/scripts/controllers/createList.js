@@ -21,22 +21,28 @@ angular.module('bruleeApp')
         $scope.shoppingList = [];
 
         $scope.calculateShoppingList = function() {
-            var ingredientList = [];
+            var itemRecipeMap = {};
             angular.forEach($scope.recipes, function(recipe) {
-                if (recipe._selected) ingredientList = Ingredients.combineAll(ingredientList, recipe.ingredients);
+                if (recipe._selected) {
+                    angular.forEach(recipe.ingredients, function(ingredient) {
+                        var itemRecipes = itemRecipeMap[ingredient.item];
+                        if (itemRecipes === undefined) {
+                            itemRecipeMap[ingredient.item] = [recipe.name];
+                        } else {
+                            itemRecipes.push(recipe.name);
+                        }
+                    });
+                }
             });
 
             $scope.shoppingList = [];
-            var leftoverList = ingredientList.map(function(ingredient) {
-                return ingredient.item;
-            });
+            var leftoverList = Object.keys(itemRecipeMap);
             angular.forEach($scope.categories, function(category) {
                 var shoppingListCategory = {name: category.name, items: {}};
                 angular.forEach(category.items, function(item) {
-                    var ingredient = Ingredients.getByItem(ingredientList, item);
-                    if (ingredient !== null) {
-                        //shoppingListCategory.items.push(item);
-                        shoppingListCategory.items[item] = ingredient.amount;
+                    var itemRecipes = itemRecipeMap[item];
+                    if (itemRecipes !== undefined) {
+                        shoppingListCategory.items[item] = itemRecipes;
                     }
                     leftoverList = leftoverList.filter(function(element) {
                         return element !== item;
@@ -47,9 +53,9 @@ angular.module('bruleeApp')
 
             var shoppingListCategory = {name: "Leftovers", items: {}};
             angular.forEach(leftoverList, function(item) {
-                var ingredient = Ingredients.getByItem(ingredientList, item);
-                if (ingredient !== null) {
-                    shoppingListCategory.items[item] = ingredient.amount;
+                var itemRecipes = itemRecipeMap[item];
+                if (itemRecipes !== undefined) {
+                    shoppingListCategory.items[item] = itemRecipes;
                 }
             });
 
