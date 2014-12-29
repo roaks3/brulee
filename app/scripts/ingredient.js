@@ -16,13 +16,17 @@ var Ingredient = (function() {
             return null;
         }
 
-        var amount = "" + text.match(/^\d[\/\d]*/);
+        var amount = text.match(/^\d[\/\. \d]*/);
+        var item = text;
         if (amount === null) {
             amount = "1";
-        }
+        } else {
+            amount = "" + amount;
+            item = text.substr(amount.length);
 
-        var item = text.substr(amount.length);
-        item = item.trim();
+            amount = amount.trim();
+            item = item.trim();
+        }
 
         return new Ingredient(item, amount);
     };
