@@ -2658,7 +2658,16 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
              * Observe the relevant attributes.
              */
             attrs.$observe( type, function ( val ) {
-              scope.tt_content = val;
+              // Modified this to assume that val is an array, and fill the 
+              // contents with each element in the array delimited by <br>'s
+              try {
+                scope.tt_content = "";
+                angular.forEach(scope[val], function(element) {
+                  scope.tt_content += element + "<br>";
+                });
+              } catch (e) {
+                scope.tt_content = "";
+              }
 
               if (!val && scope.tt_isOpen ) {
                 hide();

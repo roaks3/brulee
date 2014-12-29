@@ -25,7 +25,7 @@
                         {{category.name}}
                     </li>
                     <li class="list-group-item" ng-repeat="(item, recipes) in category.items">
-                        {{item}} <span class="badge">{{recipes.length}}</span>
+                        {{item}} <span class="badge" tooltip-html-unsafe="recipes" tooltip-placement="right">{{recipes.length}}</span>
                     </li>
                 </ul>
             </div>
