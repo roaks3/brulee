@@ -16,6 +16,7 @@ var Ingredient = (function() {
             return null;
         }
 
+        // Parse out the ingredient amount
         var amount = text.match(/^\d[\/\. \d]*/);
         var item = text;
         if (amount === null) {
@@ -25,6 +26,17 @@ var Ingredient = (function() {
             item = text.substr(amount.length);
 
             amount = amount.trim();
+            item = item.trim();
+        }
+
+        // Parse out the ingredient units
+        var unit = item.match(/^[Cc]ups*|^[Tt]sps*|^[Tt]easpoons*|^[Tt]bsps*|^[Tt]ablespoons*|^[Ll]bs*|^[Pp]ounds*|^[Oo]z|^[Oo]unces*/);
+        if (unit === null) {
+            // Do nothing
+        } else {
+            unit = "" + unit;
+            item = item.substr(unit.length);
+
             item = item.trim();
         }
 
