@@ -5,9 +5,9 @@ angular.module('bruleeApp.services', ['elasticsearch'])
 
     .factory('recipesFactory', ['$q', 'esFactory', function ($q, esFactory) {
         var client = esFactory({
-            host: 'localhost:9200',
+            host: 'https://mhkubr1u:ibllibv1l1c140a8@box-5981704.us-east-1.bonsai.io/',
             apiVersion: '1.2',
-            log: 'trace'
+            log: 'error'
         });
 
         var factory = {};
