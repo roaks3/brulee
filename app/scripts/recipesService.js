@@ -16,7 +16,7 @@ angular.module('bruleeApp.services', ['elasticsearch'])
             var deferred = $q.defer();
 
             client.search({
-                index: 'test',
+                index: 'ashlea',
                 type: 'category',
                 size: 500,
                 body: {
@@ -45,7 +45,7 @@ angular.module('bruleeApp.services', ['elasticsearch'])
         factory.updateCategories = function(categories) {
             angular.forEach(categories, function (category) {
                 client.update({
-                    index: 'test',
+                    index: 'ashlea',
                     type: 'category',
                     id: category.id,
                     body: {
@@ -67,7 +67,7 @@ angular.module('bruleeApp.services', ['elasticsearch'])
             var deferred = $q.defer();
 
             client.create({
-                index: 'test3',
+                index: 'ashlea',
                 type: 'recipe',
                 body: recipe
             }, function (error, response) {
@@ -88,7 +88,7 @@ angular.module('bruleeApp.services', ['elasticsearch'])
             var deferred = $q.defer();
 
             client.search({
-                index: 'test3',
+                index: 'ashlea',
                 type: 'recipe',
                 size: 500,
                 body: {
