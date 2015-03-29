@@ -1,7 +1,9 @@
 {
   "name": "brulee",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.12.3"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-autoprefixer": "^0.7.3",
@@ -33,9 +35,11 @@
     "time-grunt": "^0.3.1"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": "^0.10.1",
+    "npm": "^2.1.8"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "postinstall": "bower install && grunt build"
   }
 }
