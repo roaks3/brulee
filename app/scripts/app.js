@@ -25,6 +25,10 @@ angular.module('bruleeApp', [
                 templateUrl: 'views/addRecipes.html',
                 controller: 'AddRecipesCtrl'
             })
+            .when('/categories', {
+                templateUrl: 'views/category.html',
+                controller: 'CategoryCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -1,44 +1,24 @@
-<!DOCTYPE html>
-<html ng-app="bruleeApp">
-<head>
-    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../styles/createList.css" />
-    <script src="../../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../../bower_components/angular/angular.js"></script>
-    <script src="../../bower_components/elasticsearch/elasticsearch.angular.js"></script>
-    <script src="../scripts/ingredient.js"></script>
-    <script src="../scripts/recipesService.js"></script>
-    <script src="../scripts/controllers/category.js"></script>
-
-    <title>
-        Category
-    </title>
-</head>
-
-<body>
-    <div ng-controller="CategoryCtrl" class="container">
-        <div class="row">
-            <div class="col-md-5 categoryListSection">
-                <div class="categoryList">
-                    <ul class="list-group" ng-repeat="category in categories">
-                        <li class="list-group-item list-group-item-info">
-                            <input class="form-control" ng-model="category.name" type="text" />
-                        </li>
-                        <li class="list-group-item" ng-repeat="item in category.items">
-                            {{item}}
-                            <button class="btn btn-primary" ng-click="removeItem($index, category)">
-                                Remove Item
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-5 actionsSection">
-                <button class="btn btn-primary" id="saveButton" ng-click="saveCategories()">
-                    Save
-                </button>
+<div class="container">
+    <div class="row">
+        <div class="col-md-5 categoryListSection">
+            <div class="categoryList">
+                <ul class="list-group" ng-repeat="category in categories">
+                    <li class="list-group-item list-group-item-info">
+                        <input class="form-control" ng-model="category.name" type="text" />
+                    </li>
+                    <li class="list-group-item" ng-repeat="item in category.items">
+                        {{item}}
+                        <button class="btn btn-primary" ng-click="removeItem($index, category)">
+                            Remove Item
+                        </button>
+                    </li>
+                </ul>
             </div>
         </div>
+        <div class="col-md-5 actionsSection">
+            <button class="btn btn-primary" id="saveButton" ng-click="saveCategories()">
+                Save
+            </button>
+        </div>
     </div>
-</body>
-</html>
+</div>
