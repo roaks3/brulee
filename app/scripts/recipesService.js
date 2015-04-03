@@ -1,7 +1,7 @@
 
 'use strict';
 
-angular.module('bruleeApp.services', ['elasticsearch'])
+angular.module('bruleeApp.services')
 
     .factory('recipesFactory', ['$q', 'esFactory', function ($q, esFactory) {
         var client = esFactory({

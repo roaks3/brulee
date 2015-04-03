@@ -29,3 +29,15 @@ angular.module('bruleeApp', [
                 redirectTo: '/'
             });
     });
+
+/**
+ * @ngdoc overview
+ * @name bruleeApp.services
+ * @description
+ * # bruleeApp.services
+ *
+ * Main services module of the application.
+ */
+angular.module('bruleeApp.services', [
+        'elasticsearch'
+    ]);
