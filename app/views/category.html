@@ -5,6 +5,9 @@
                 <ul class="list-group" ng-repeat="category in categories">
                     <li class="list-group-item list-group-item-info">
                         <input class="form-control" ng-model="category.name" type="text" />
+                        <button class="btn btn-primary" ng-click="removeCategory(category)">
+                            Remove
+                        </button>
                     </li>
                     <li class="list-group-item" ng-repeat="item in category.items">
                         {{item}}

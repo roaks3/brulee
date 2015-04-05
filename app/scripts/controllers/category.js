@@ -26,6 +26,13 @@ angular.module('bruleeApp')
             });
         };
 
+        $scope.removeCategory = function(category) {
+            client.removeCategory(category.id).then(function () {
+                var index = $scope.categories.indexOf(category);
+                $scope.categories.splice(index, 1);
+            });
+        };
+
         $scope.removeItem = function(itemIndex, category) {
             category.items.splice(itemIndex, 1);
         };

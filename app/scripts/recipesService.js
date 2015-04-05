@@ -84,6 +84,27 @@ angular.module('bruleeApp.services')
             });
         };
 
+        factory.removeCategory = function(categoryId) {
+            var deferred = $q.defer();
+
+            client.delete({
+                index: 'ashlea',
+                type: 'category',
+                id: categoryId
+            }, function (error, response) {
+                if (error) {
+                    //console.trace(error.message);
+                    console.log("Error:" + error);
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve();
+                }
+                //console.log("Response:" + JSON.stringify(response));
+            });
+
+            return deferred.promise;
+        };
+
         factory.createRecipe = function(recipe) {
             var deferred = $q.defer();
 
