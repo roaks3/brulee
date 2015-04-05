@@ -17,6 +17,15 @@ angular.module('bruleeApp')
             client.updateCategories($scope.categories);
         };
 
+        $scope.addCategory = function(categoryName) {
+            var category = new Category(null, categoryName, null, null);
+            client.createCategory(category).then(function (id) {
+                category.id = id;
+                $scope.categories.push(category);
+                console.log(JSON.stringify(category));
+            });
+        };
+
         $scope.removeItem = function(itemIndex, category) {
             category.items.splice(itemIndex, 1);
         };

@@ -12,6 +12,27 @@ angular.module('bruleeApp.services')
 
         var factory = {};
 
+        factory.createCategory = function(category) {
+            var deferred = $q.defer();
+
+            client.create({
+                index: 'ashlea',
+                type: 'category',
+                body: category
+            }, function (error, response) {
+                if (error) {
+                    //console.trace(error.message);
+                    console.log("Error:" + error);
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve(response._id);
+                }
+                //console.log("Response:" + JSON.stringify(response));
+            });
+
+            return deferred.promise;
+        };
+
         factory.getCategories = function() {
             var deferred = $q.defer();
 
