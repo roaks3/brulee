@@ -33,6 +33,12 @@ angular.module('bruleeApp')
             });
         };
 
+        $scope.addItem = function(item, category) {
+            if (item) {
+                category.items.push(item);
+            }
+        };
+
         $scope.removeItem = function(itemIndex, category) {
             category.items.splice(itemIndex, 1);
         };
