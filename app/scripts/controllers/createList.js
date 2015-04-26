@@ -3,18 +3,14 @@
 
 angular.module('bruleeApp')
 
-  .service('client', function (recipesFactory) {
-    return recipesFactory;
-  })
-
-  .controller('CreateListCtrl', function($scope, client) {
+  .controller('CreateListCtrl', function($scope, recipesService) {
     $scope.recipes = [];
-    client.getRecipes().then(function (recipes) {
+    recipesService.getRecipes().then(function (recipes) {
       $scope.recipes = recipes;
     });
 
     $scope.categories = [];
-    client.getCategories().then(function (categories) {
+    recipesService.getCategories().then(function (categories) {
       $scope.categories = categories;
     });
 

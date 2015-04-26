@@ -3,16 +3,14 @@
 
 angular.module('bruleeApp.services')
 
-  .factory('recipesFactory', ['$q', 'esFactory', function ($q, esFactory) {
+  .service('recipesService', ['$q', 'esFactory', function ($q, esFactory) {
     var client = esFactory({
       host: 'https://mhkubr1u:ibllibv1l1c140a8@box-5981704.us-east-1.bonsai.io/',
       apiVersion: '1.2',
       log: 'error'
     });
 
-    var factory = {};
-
-    factory.createCategory = function(category) {
+    this.createCategory = function(category) {
       var deferred = $q.defer();
 
       client.create({
@@ -33,7 +31,7 @@ angular.module('bruleeApp.services')
       return deferred.promise;
     };
 
-    factory.getCategories = function() {
+    this.getCategories = function() {
       var deferred = $q.defer();
 
       client.search({
@@ -63,7 +61,7 @@ angular.module('bruleeApp.services')
       return deferred.promise;
     };
 
-    factory.updateCategories = function(categories) {
+    this.updateCategories = function(categories) {
       angular.forEach(categories, function (category) {
         client.update({
           index: 'ashlea',
@@ -84,7 +82,7 @@ angular.module('bruleeApp.services')
       });
     };
 
-    factory.removeCategory = function(categoryId) {
+    this.removeCategory = function(categoryId) {
       var deferred = $q.defer();
 
       client.delete({
@@ -105,7 +103,7 @@ angular.module('bruleeApp.services')
       return deferred.promise;
     };
 
-    factory.createRecipe = function(recipe) {
+    this.createRecipe = function(recipe) {
       var deferred = $q.defer();
 
       client.create({
@@ -126,7 +124,7 @@ angular.module('bruleeApp.services')
       return deferred.promise;
     };
 
-    factory.getRecipes = function() {
+    this.getRecipes = function() {
       var deferred = $q.defer();
 
       client.search({
@@ -160,5 +158,5 @@ angular.module('bruleeApp.services')
       return deferred.promise;
     };
 
-    return factory;
+    return this;
   }]);

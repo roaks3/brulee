@@ -3,11 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .service('client', function (recipesFactory) {
-    return recipesFactory;
-  })
-
-  .controller('AddRecipesCtrl', function($scope, client) {
+  .controller('AddRecipesCtrl', function($scope, recipesService) {
     $scope.recipe = new Recipe("", null, "");
     $scope.isParsed = false;
     $scope.isSaved = false;
@@ -18,7 +14,7 @@ angular.module('bruleeApp')
     $scope.categoryNames = [];
     $scope.categories = [];
 
-    client.getCategories().then(function (categories) {
+    recipesService.getCategories().then(function (categories) {
       angular.forEach(categories, function (category) {
         for (var i in category.items) {
           var item = category.items[i];
@@ -57,9 +53,9 @@ angular.module('bruleeApp')
         }
       });
 
-      client.updateCategories($scope.categories);
+      recipesService.updateCategories($scope.categories);
 
-      client.createRecipe($scope.recipe).then(function (success) {
+      recipesService.createRecipe($scope.recipe).then(function (success) {
         $scope.isSaved = success;
       });
     };
