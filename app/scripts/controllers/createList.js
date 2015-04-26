@@ -47,7 +47,7 @@ angular.module('bruleeApp')
         $scope.shoppingList.push(shoppingListCategory);
       });
 
-      var shoppingListCategory = {name: "Leftovers", items: {}};
+      var shoppingListCategory = {name: 'Leftovers', items: {}};
       angular.forEach(leftoverList, function(item) {
         var itemRecipes = itemRecipeMap[item];
         if (itemRecipes !== undefined) {

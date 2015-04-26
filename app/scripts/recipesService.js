@@ -68,7 +68,7 @@ angular.module('bruleeApp.services')
               items: category.items
             }
           }
-        }, function (error, response) {
+        }, function (error) {
           if (error) {
             // Do nothing
           }
@@ -83,7 +83,7 @@ angular.module('bruleeApp.services')
         index: 'ashlea',
         type: 'category',
         id: categoryId
-      }, function (error, response) {
+      }, function (error) {
         if (error) {
           deferred.reject(error);
         } else {
@@ -101,7 +101,7 @@ angular.module('bruleeApp.services')
         index: 'ashlea',
         type: 'recipe',
         body: recipe
-      }, function (error, response) {
+      }, function (error) {
         if (error) {
           deferred.reject(error);
         } else {
@@ -139,7 +139,7 @@ angular.module('bruleeApp.services')
         }
         deferred.resolve(recipes);
       }, function (error) {
-        deferred.reject(recipes);
+        deferred.reject(error);
       });
 
       return deferred.promise;

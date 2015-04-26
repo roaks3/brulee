@@ -4,7 +4,7 @@
 angular.module('bruleeApp')
 
   .controller('AddRecipesCtrl', function($scope, recipesService) {
-    $scope.recipe = new Recipe("", null, "");
+    $scope.recipe = new Recipe('', null, '');
     $scope.isParsed = false;
     $scope.isSaved = false;
     $scope.isNameInvalid = false;
@@ -49,7 +49,7 @@ angular.module('bruleeApp')
             });
           }
           // Do not save the selectedCategory in the database
-          delete ingredient["selectedCategory"];
+          delete ingredient['selectedCategory'];
         }
       });
 
@@ -76,7 +76,7 @@ angular.module('bruleeApp')
           return $scope.categoryMap[ingredient.item];
         }
       }
-      return "None";
+      return 'None';
     };
 
     $scope.isCategorized = function(ingredient) {

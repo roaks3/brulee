@@ -1,4 +1,6 @@
 
+'use strict';
+
 var Ingredient = (function() {
 
   var Ingredient = function(item, amount) {
@@ -12,7 +14,7 @@ var Ingredient = (function() {
     }
 
     text = text.trim();
-    if (text === "") {
+    if (text === '') {
       return null;
     }
 
@@ -20,9 +22,9 @@ var Ingredient = (function() {
     var amount = text.match(/^\d[\/\. \d]*/);
     var item = text;
     if (amount === null) {
-      amount = "1";
+      amount = '1';
     } else {
-      amount = "" + amount;
+      amount = '' + amount;
       item = text.substr(amount.length);
 
       amount = amount.trim();
@@ -34,7 +36,7 @@ var Ingredient = (function() {
     if (unit === null) {
       // Do nothing
     } else {
-      unit = "" + unit;
+      unit = '' + unit;
       item = item.substr(unit.length);
 
       item = item.trim();
@@ -58,10 +60,10 @@ var Ingredients = (function() {
     }
 
     var ingredients = [];
-    var unparsedIngredients = text.split("\n");
+    var unparsedIngredients = text.split('\n');
     for (var i = 0; i < unparsedIngredients.length; i++) {
       var ingredient = Ingredient.parse(unparsedIngredients[i]);
-      if (ingredient != null) {
+      if (ingredient !== null) {
         ingredients.push(ingredient);
       }
     }
@@ -86,7 +88,7 @@ var Ingredients = (function() {
     }
 
     var item = otherIngredient.item;
-    var amount = otherIngredient.amount;
+    //var amount = otherIngredient.amount;
 
     for (var i = 0; i < ingredients.length; i++) {
       var existingIngredient = ingredients[i];
