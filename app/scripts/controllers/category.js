@@ -18,7 +18,6 @@ angular.module('bruleeApp')
       recipesService.createCategory(category).then(function (id) {
         category.id = id;
         $scope.categories.push(category);
-        console.log(JSON.stringify(category));
       });
     };
 

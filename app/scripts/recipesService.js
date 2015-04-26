@@ -19,13 +19,10 @@ angular.module('bruleeApp.services')
         body: category
       }, function (error, response) {
         if (error) {
-          //console.trace(error.message);
-          console.log("Error:" + error);
           deferred.reject(error);
         } else {
           deferred.resolve(response._id);
         }
-        //console.log("Response:" + JSON.stringify(response));
       });
 
       return deferred.promise;
@@ -54,7 +51,6 @@ angular.module('bruleeApp.services')
         }
         deferred.resolve(categories);
       }, function (error) {
-        console.trace(error.message);
         deferred.reject(error);
       });
 
@@ -74,10 +70,8 @@ angular.module('bruleeApp.services')
           }
         }, function (error, response) {
           if (error) {
-            //console.trace(error.message);
-            console.log("Error:" + error);
+            // Do nothing
           }
-          //console.log("Response:" + JSON.stringify(response));
         });
       });
     };
@@ -91,13 +85,10 @@ angular.module('bruleeApp.services')
         id: categoryId
       }, function (error, response) {
         if (error) {
-          //console.trace(error.message);
-          console.log("Error:" + error);
           deferred.reject(error);
         } else {
           deferred.resolve();
         }
-        //console.log("Response:" + JSON.stringify(response));
       });
 
       return deferred.promise;
@@ -112,13 +103,10 @@ angular.module('bruleeApp.services')
         body: recipe
       }, function (error, response) {
         if (error) {
-          //console.trace(error.message);
-          console.log("Error:" + error);
           deferred.reject(error);
         } else {
           deferred.resolve(true);
         }
-        //console.log("Response:" + JSON.stringify(response));
       });
 
       return deferred.promise;
@@ -151,7 +139,6 @@ angular.module('bruleeApp.services')
         }
         deferred.resolve(recipes);
       }, function (error) {
-        console.trace(error.message);
         deferred.reject(recipes);
       });
 
