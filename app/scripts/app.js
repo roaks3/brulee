@@ -10,29 +10,29 @@
  * Main module of the application.
  */
 angular.module('bruleeApp', [
-        'ngRoute',
-        'ui.bootstrap',
-        'bruleeApp.services'
-    ])
+    'ngRoute',
+    'ui.bootstrap',
+    'bruleeApp.services'
+  ])
 
-    .config(function ($routeProvider) {
-        $routeProvider
-            .when('/createList', {
-                templateUrl: 'views/createList.html',
-                controller: 'CreateListCtrl'
-            })
-            .when('/addRecipes', {
-                templateUrl: 'views/addRecipes.html',
-                controller: 'AddRecipesCtrl'
-            })
-            .when('/categories', {
-                templateUrl: 'views/category.html',
-                controller: 'CategoryCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    });
+  .config(function ($routeProvider) {
+    $routeProvider
+      .when('/createList', {
+        templateUrl: 'views/createList.html',
+        controller: 'CreateListCtrl'
+      })
+      .when('/addRecipes', {
+        templateUrl: 'views/addRecipes.html',
+        controller: 'AddRecipesCtrl'
+      })
+      .when('/categories', {
+        templateUrl: 'views/category.html',
+        controller: 'CategoryCtrl'
+      })
+      .otherwise({
+        redirectTo: '/'
+      });
+  });
 
 /**
  * @ngdoc overview
@@ -43,5 +43,5 @@ angular.module('bruleeApp', [
  * Main services module of the application.
  */
 angular.module('bruleeApp.services', [
-        'elasticsearch'
-    ]);
+    'elasticsearch'
+  ]);
