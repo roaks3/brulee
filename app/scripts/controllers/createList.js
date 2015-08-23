@@ -38,7 +38,7 @@ angular.module('bruleeApp')
         angular.forEach(category.items, function(item) {
           var itemRecipes = itemRecipeMap[item];
           if (itemRecipes !== undefined) {
-            shoppingListCategory.items[item] = itemRecipes;
+            shoppingListCategory.items[item] = {recipes: itemRecipes};
           }
           leftoverList = leftoverList.filter(function(element) {
             return element !== item;
@@ -51,7 +51,7 @@ angular.module('bruleeApp')
       angular.forEach(leftoverList, function(item) {
         var itemRecipes = itemRecipeMap[item];
         if (itemRecipes !== undefined) {
-          shoppingListCategory.items[item] = itemRecipes;
+          shoppingListCategory.items[item] = {recipes: itemRecipes};
         }
       });
 

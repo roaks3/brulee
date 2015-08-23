@@ -15,3 +15,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.done {
+  text-decoration: line-through;
+}
