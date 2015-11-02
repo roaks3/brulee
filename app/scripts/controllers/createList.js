@@ -10,9 +10,10 @@ angular.module('bruleeApp')
     });
 
     $scope.categories = [];
-    recipesService.getCategories().then(function (categories) {
-      $scope.categories = categories;
-    });
+    recipesService.getCategories()
+      .then(function (categories) {
+        $scope.categories = categories;
+      });
 
     $scope.shoppingList = [];
 

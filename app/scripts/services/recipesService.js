@@ -42,13 +42,14 @@ angular.module('bruleeApp.services')
         }
       }).then(function (body) {
         var hitsJson = body;
-        var categories = [];
-        for (var i in hitsJson.hits.hits) {
-          var categoryJson = hitsJson.hits.hits[i]._source;
-          var categoryId = hitsJson.hits.hits[i]._id;
-          var category = new Category(categoryId, categoryJson.name, categoryJson.order, categoryJson.items);
-          categories.push(category);
-        }
+        var categories = _.map(body.hits.hits, function (hit) {
+          return new Category(
+            hit._id,
+            hit._source.name,
+            hit._source.order,
+            hit._source.items
+          );
+        });
         deferred.resolve(categories);
       }, function (error) {
         deferred.reject(error);
@@ -125,18 +126,24 @@ angular.module('bruleeApp.services')
           }
         }
       }).then(function (body) {
-        var recipes = [];
-        var hitsJson = body;
-        for (var i in hitsJson.hits.hits) {
-          var recipeJson = hitsJson.hits.hits[i]._source;
-          var recipe = new Recipe(recipeJson.name, null, recipeJson.originalText);
-          for (var j in recipeJson.ingredients) {
-            var ingredientJson = recipeJson.ingredients[j];
-            var ingredient = new Ingredient(ingredientJson.item, ingredientJson.amount);
-            recipe.addIngredient(ingredient);
-          }
-          recipes.push(recipe);
-        }
+        var recipes = _.map(body.hits.hits, function (hit) {
+          var recipe = new Recipe(
+            hit._source.name,
+            null,
+            hit._source.originalText
+          );
+
+          _.each(hit._source.ingredients, function (ingredient) {
+            recipe.addIngredient(
+              new Ingredient(
+                ingredient.item,
+                ingredient.amount
+              )
+            );
+          });
+
+          return recipe;
+        });
         deferred.resolve(recipes);
       }, function (error) {
         deferred.reject(error);
