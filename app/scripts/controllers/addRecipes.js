@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function($scope, recipesService) {
+  .controller('AddRecipesCtrl', function ($scope, categoryService, recipesService) {
     $scope.recipe = new Recipe('', null, '');
     $scope.isParsed = false;
     $scope.isSaved = false;
@@ -14,19 +14,20 @@ angular.module('bruleeApp')
     $scope.categoryNames = [];
     $scope.categories = [];
 
-    recipesService.getCategories().then(function (categories) {
-      angular.forEach(categories, function (category) {
-        for (var i in category.items) {
-          var item = category.items[i];
-          $scope.categoryMap[item] = category.name;
-          $scope.items.push(item);
-        }
+    categoryService.categories()
+      .then(function (categories) {
+        angular.forEach(categories, function (category) {
+          for (var i in category.items) {
+            var item = category.items[i];
+            $scope.categoryMap[item] = category.name;
+            $scope.items.push(item);
+          }
+        });
+        $scope.categories = categories;
+        $scope.categoryNames = categories.map(function (category) {
+          return category.name;
+        });
       });
-      $scope.categories = categories;
-      $scope.categoryNames = categories.map(function (category) {
-        return category.name;
-      });
-    });
 
     $scope.addRecipe = function() {
       // Make sure there is a recipe name present
@@ -53,7 +54,7 @@ angular.module('bruleeApp')
         }
       });
 
-      recipesService.updateCategories($scope.categories);
+      categoryService.categoryUpdateBulk($scope.categories);
 
       recipesService.createRecipe($scope.recipe).then(function (success) {
         $scope.isSaved = success;
