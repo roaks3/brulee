@@ -56,9 +56,10 @@ angular.module('bruleeApp')
 
       categoryService.categoryUpdateBulk($scope.categories);
 
-      recipesService.createRecipe($scope.recipe).then(function (success) {
-        $scope.isSaved = success;
-      });
+      recipesService.recipeCreate($scope.recipe)
+        .then(function () {
+          $scope.isSaved = true;
+        });
     };
 
     $scope.parseRecipeText = function() {
