@@ -6,7 +6,7 @@ angular.module('bruleeApp.services')
 
     this.categories = function() {
       return bruleeDataService.search({
-        index: 'ashlea',
+        index: 'ashlea2',
         type: 'category',
         size: 500,
         body: {
@@ -17,12 +17,9 @@ angular.module('bruleeApp.services')
       })
         .then(function (data) {
           return _.map(data.hits.hits, function (hit) {
-            return new Category(
-              hit._id,
-              hit._source.name,
-              hit._source.order,
-              hit._source.items
-            );
+            return _.assign(hit._source, {
+              id: hit._id
+            });
           });
         });
     };

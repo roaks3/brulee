@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($scope, categoryService, recipesService) {
+  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, ingredientService, recipesService) {
     $scope.recipe = new Recipe('', null, '');
     $scope.isParsed = false;
     $scope.isSaved = false;
@@ -14,18 +14,38 @@ angular.module('bruleeApp')
     $scope.categoryNames = [];
     $scope.categories = [];
 
-    categoryService.categories()
-      .then(function (categories) {
-        angular.forEach(categories, function (category) {
-          for (var i in category.items) {
-            var item = category.items[i];
-            $scope.categoryMap[item] = category.name;
-            $scope.items.push(item);
-          }
+    $q.all([
+      categoryService.categories(),
+      ingredientService.ingredients()
+    ])
+      .then(function (data) {
+        var categories = data[0];
+        var ingredients = data[1];
+
+        var ingredientsById = _.indexBy(ingredients, 'id');
+
+        $scope.categories = _.map(categories, function (category) {
+          return {
+            name: category.name,
+            order: category.order,
+            items: _.map(category.ingredient_ids, function (ingredientId) {
+              return ingredientsById[ingredientId].name;
+            }),
+            ingredients: _.map(category.ingredient_ids, function (ingredientId) {
+              return ingredientsById[ingredientId];
+            })
+          };
         });
-        $scope.categories = categories;
+
         $scope.categoryNames = categories.map(function (category) {
           return category.name;
+        });
+
+        _.each($scope.categories, function (category) {
+          _.each(category.ingredients, function (ingredient) {
+            $scope.categoryMap[ingredient.name] = category.name;
+            $scope.items.push(ingredient.name);
+          });
         });
       });
 
