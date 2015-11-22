@@ -6,7 +6,7 @@ angular.module('bruleeApp.services')
 
     this.recipes = function () {
       return bruleeDataService.search({
-        index: 'ashlea',
+        index: 'ashlea2',
         type: 'recipe',
         size: 500,
         body: {
@@ -17,22 +17,9 @@ angular.module('bruleeApp.services')
       })
         .then(function (data) {
           return _.map(data.hits.hits, function (hit) {
-            var recipe = new Recipe(
-              hit._source.name,
-              null,
-              hit._source.originalText
-            );
-
-            _.each(hit._source.ingredients, function (ingredient) {
-              recipe.addIngredient(
-                new Ingredient(
-                  ingredient.item,
-                  ingredient.amount
-                )
-              );
+            return _.assign(hit._source, {
+              id: hit._id
             });
-
-            return recipe;
           });
         });
     };

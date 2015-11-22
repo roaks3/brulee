@@ -6,9 +6,28 @@ angular.module('bruleeApp')
   .controller('CreateListCtrl', function ($q, $scope, categoryService, ingredientService, recipesService) {
     
     $scope.recipes = [];
-    recipesService.recipes()
-      .then(function (recipes) {
-        $scope.recipes = recipes;
+    $q.all([
+      recipesService.recipes(),
+      ingredientService.ingredients()
+    ])
+      .then(function (data) {
+        var recipes = data[0];
+        var ingredients = data[1];
+
+        var ingredientsById = _.indexBy(ingredients, 'id');
+
+        $scope.recipes = _.map(recipes, function (recipe) {
+          return {
+            name: recipe.name,
+            originalText: recipe.original_text,
+            ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
+              return {
+                item: ingredientsById[recipeIngredient.ingredient_id].name,
+                amount: recipeIngredient.amount
+              };
+            })
+          };
+        });
       });
 
     $scope.categories = [];
