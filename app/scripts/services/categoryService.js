@@ -26,7 +26,7 @@ angular.module('bruleeApp.services')
 
     this.categoryCreate = function (category) {
       return bruleeDataService.create({
-        index: 'ashlea',
+        index: 'ashlea2',
         type: 'category',
         body: category
       })
@@ -37,18 +37,18 @@ angular.module('bruleeApp.services')
 
     this.categoryUpdate = function (category) {
       return bruleeDataService.update({
-        index: 'ashlea',
+        index: 'ashlea2',
         type: 'category',
         id: category.id,
         body: {
           doc: {
-            items: category.items
+            ingredient_ids: category.ingredient_ids
           }
         }
       });
     };
 
-    this.categoryBulkUpdate = function (categories) {
+    this.categoryUpdateBulk = function (categories) {
       var scope = this;
       return $q.all(
         _.map(categories, function (category) {
@@ -59,7 +59,7 @@ angular.module('bruleeApp.services')
 
     this.categoryDelete = function (categoryId) {
       return bruleeDataService.delete({
-        index: 'ashlea',
+        index: 'ashlea2',
         type: 'category',
         id: categoryId
       });

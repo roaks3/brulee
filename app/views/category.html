@@ -5,19 +5,19 @@
                 <ul class="list-group" ng-repeat="category in categories">
                     <li class="list-group-item list-group-item-info">
                         <input class="form-control" ng-model="category.name" type="text" />
-                        <button class="btn btn-primary" ng-click="removeCategory(category)">
+                        <button class="btn btn-primary" ng-click="removeCategory(category.id)">
                             Remove
                         </button>
                     </li>
-                    <li class="list-group-item" ng-repeat="item in category.items">
-                        {{item}}
-                        <button class="btn btn-primary" ng-click="removeItem($index, category)">
+                    <li class="list-group-item" ng-repeat="ingredient in category.ingredients">
+                        {{ingredient.name}}
+                        <button class="btn btn-primary" ng-click="removeIngredient(category, ingredient.id)">
                             Remove Item
                         </button>
                     </li>
                     <li class="list-group-item">
-                        <input class="form-control" ng-model="newItem" type="text" />
-                        <button class="btn btn-primary" ng-click="addItem(newItem, category)">
+                        <input class="form-control" typeahead="ingredient as ingredient.name for ingredient in ingredients | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="newIngredient" type="text" name="ingredient" />
+                        <button class="btn btn-primary" ng-click="addIngredient(category, newIngredient)">
                             Add Item
                         </button>
                     </li>
