@@ -42,7 +42,12 @@ var Ingredient = (function() {
       item = item.trim();
     }
 
-    return new Ingredient(item, amount);
+    return {
+      ingredient: {
+        name: item
+      },
+      amount: amount
+    };
   };
 
   return Ingredient;

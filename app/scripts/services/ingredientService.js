@@ -28,10 +28,14 @@ angular.module('bruleeApp.services')
     };
 
     this.ingredientCreate = function (ingredient) {
+      var ingredientFields = {
+        name: ingredient.name
+      };
+
       return bruleeDataService.create({
         index: index,
         type: type,
-        body: ingredient
+        body: ingredientFields
       })
         .then(function (data) {
           return data._id;

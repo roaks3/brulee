@@ -26,6 +26,7 @@ angular.module('bruleeApp')
 
         $scope.categories = _.map(categories, function (category) {
           return {
+            id: category.id,
             name: category.name,
             order: category.order,
             items: _.map(category.ingredient_ids, function (ingredientId) {
@@ -49,6 +50,14 @@ angular.module('bruleeApp')
         });
       });
 
+    // NOTE: With current implementation, first category wins
+    $scope.addIngredientToCategory = function (ingredient, categoryName) {
+      var category = _.find($scope.categories, 'name', categoryName);
+      category.ingredients.push(ingredient);
+      $scope.categoryMap[ingredient.name] = categoryName;
+      $scope.items.push(ingredient.name);
+    };
+
     $scope.addRecipe = function() {
       // Make sure there is a recipe name present
       if (!$scope.recipe.name) {
@@ -56,54 +65,64 @@ angular.module('bruleeApp')
         return;
       }
 
-      $scope.isNameInvalid = false;
-      angular.forEach($scope.recipe.ingredients, function (ingredient) {
-        if (ingredient.selectedCategory) {
-          // Do not add if it already belongs to a category
-          if (!$scope.isCategorized(ingredient)) {
-            $scope.categoryMap[ingredient.item] = ingredient.selectedCategory;
-            $scope.items.push(ingredient.item);
-            angular.forEach($scope.categories, function (category) {
-              if (category.name === ingredient.selectedCategory) {
-                category.items.push(ingredient.item);
-              }
-            });
-          }
-          // Do not save the selectedCategory in the database
-          delete ingredient['selectedCategory'];
+      // Add ingredients to categories by name
+      _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+        if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
+          $scope.addIngredientToCategory(recipe_ingredient.ingredient, recipe_ingredient.selectedCategory);
         }
       });
 
-      categoryService.categoryUpdateBulk($scope.categories);
+      // Add all new ingredients
+      $q.all(_.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
+        return ingredientService.ingredientCreate(recipeIngredient.ingredient);
+      }))
+        .then(function (data) {
+          _.each(data, function (id, index) {
+            _.assign($scope.recipe.recipe_ingredients[index].ingredient, {
+              id: id
+            });
+          });
 
-      recipesService.recipeCreate($scope.recipe)
+          return categoryService.categoryUpdateBulk(_.map($scope.categories, function (category) {
+            return {
+              id: category.id,
+              ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
+            };
+          }));
+        })
         .then(function () {
-          $scope.isSaved = true;
+          return recipesService.recipeCreate($scope.recipe)
+            .then(function () {
+              $scope.isSaved = true;
+            });
+        })
+        .catch(function (error) {
+          console.log(error);
         });
     };
 
     $scope.parseRecipeText = function() {
-      $scope.recipe.ingredients = Ingredients.parse($scope.recipe.originalText);
+      $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.originalText);
       $scope.isParsed = true;
     };
 
-    $scope.removeIngredient = function(index) {
-      $scope.recipe.ingredients.splice(index, 1);
+    $scope.removeIngredient = function (index) {
+      $scope.recipe.recipe_ingredients.splice(index, 1);
     };
 
-    $scope.getCategory = function(ingredient) {
-      if (ingredient) {
-        var item = $scope.categoryMap[ingredient.item];
+    $scope.getCategory = function (recipe_ingredient) {
+      if (recipe_ingredient && recipe_ingredient.ingredient) {
+        var item = $scope.categoryMap[recipe_ingredient.ingredient.name];
         if (item) {
-          return $scope.categoryMap[ingredient.item];
+          return $scope.categoryMap[recipe_ingredient.ingredient.name];
         }
       }
       return 'None';
     };
 
-    $scope.isCategorized = function(ingredient) {
-      if (ingredient) {
-        var item = $scope.categoryMap[ingredient.item];
+    $scope.isCategorized = function (recipe_ingredient) {
+      if (recipe_ingredient && recipe_ingredient.ingredient) {
+        var item = $scope.categoryMap[recipe_ingredient.ingredient.name];
         if (item) {
           return true;
         }
@@ -111,7 +130,7 @@ angular.module('bruleeApp')
       return false;
     };
 
-    $scope.setSelectedCategory = function(ingredient, category) {
-      ingredient.selectedCategory = category;
+    $scope.setSelectedCategory = function (recipe_ingredient, category) {
+      recipe_ingredient.selectedCategory = category;
     };
   });
