@@ -3,54 +3,66 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, categoryService, ingredientService, recipesService) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, ingredientService, recipesService) {
     
     $scope.recipes = [];
-    $q.all([
-      recipesService.recipes(),
-      ingredientService.ingredients()
-    ])
-      .then(function (data) {
-        var recipes = data[0];
-        var ingredients = data[1];
 
-        var ingredientsById = _.indexBy(ingredients, 'id');
+    $scope.refreshRecipes = function () {
+      return $q.all([
+        recipesService.recipes(),
+        ingredientService.ingredients()
+      ])
+        .then(function (data) {
+          var recipes = data[0];
+          var ingredients = data[1];
 
-        $scope.recipes = _.map(recipes, function (recipe) {
-          return {
-            name: recipe.name,
-            originalText: recipe.original_text,
-            ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
-              return {
-                item: ingredientsById[recipeIngredient.ingredient_id].name,
-                amount: recipeIngredient.amount
-              };
-            })
-          };
+          var ingredientsById = _.indexBy(ingredients, 'id');
+
+          $scope.recipes = _.map(recipes, function (recipe) {
+            return {
+              name: recipe.name,
+              originalText: recipe.original_text,
+              ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
+                return {
+                  item: ingredientsById[recipeIngredient.ingredient_id].name,
+                  amount: recipeIngredient.amount
+                };
+              })
+            };
+          });
         });
-      });
+    };
 
     $scope.categories = [];
-    $q.all([
-      categoryService.categories(),
-      ingredientService.ingredients()
-    ])
-      .then(function (data) {
-        var categories = data[0];
-        var ingredients = data[1];
 
-        var ingredientsById = _.indexBy(ingredients, 'id');
+    $scope.refreshCategories = function () {
+      return $q.all([
+        categoryService.categories(),
+        ingredientService.ingredients()
+      ])
+        .then(function (data) {
+          var categories = data[0];
+          var ingredients = data[1];
 
-        $scope.categories = _.map(categories, function (category) {
-          return {
-            name: category.name,
-            order: category.order,
-            items: _.map(category.ingredient_ids, function (ingredientId) {
-              return ingredientsById[ingredientId].name;
-            })
-          };
+          var ingredientsById = _.indexBy(ingredients, 'id');
+
+          $scope.categories = _.map(categories, function (category) {
+            return {
+              name: category.name,
+              order: category.order,
+              items: _.map(category.ingredient_ids, function (ingredientId) {
+                return ingredientsById[ingredientId].name;
+              })
+            };
+          });
         });
-      });
+    };
+
+    $scope.refreshRecipes();
+
+    $timeout(function () {
+      $scope.refreshCategories();
+    }, 1000);
 
     $scope.shoppingList = [];
 
