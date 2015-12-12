@@ -3,41 +3,31 @@
 
 angular.module('bruleeApp')
 
-  .controller('CategoryCtrl', function ($q, $scope, categoryService, ingredientService) {
+  .controller('CategoryCtrl', function ($scope, categoryEditorService) {
 
-    $scope.ingredients = [];
+    $scope.errors = [];
+    $scope.successMessage = null;
+
     $scope.categories = [];
-    $q.all([
-      categoryService.categories(),
-      ingredientService.ingredients()
-    ])
+    categoryEditorService.categories()
       .then(function (data) {
-        var categories = data[0];
-        $scope.ingredients = data[1];
-
-        var ingredientsById = _.indexBy($scope.ingredients, 'id');
-
-        $scope.categories = _.map(categories, function (category) {
-          return {
-            id: category.id,
-            name: category.name,
-            order: category.order,
-            ingredients: _.map(category.ingredient_ids, function (ingredientId) {
-              return ingredientsById[ingredientId];
-            })
-          };
-        });
+        $scope.categories = data;
+      })
+      .catch(function (error) {
+        $scope.errors.push(error);
       });
 
     $scope.saveCategories = function() {
-      categoryService.categoryUpdateBulk(
-        _.map($scope.categories, function (category) {
-          return {
-            id: category.id,
-            ingredient_ids: _.pluck(category.ingredients, 'id')
-          };
+      $scope.errors = [];
+      $scope.successMessage = null;
+
+      categoryEditorService.categoryUpdateBulk($scope.categories)
+        .then(function () {
+          $scope.successMessage = 'Saved all categories';
         })
-      );
+        .catch(function (error) {
+          $scope.errors.push(error);
+        });
     };
 
     $scope.addCategory = function (categoryName) {
@@ -45,16 +35,16 @@ angular.module('bruleeApp')
         return;
       }
 
-      var category = {
-        name: categoryName,
-        order: $scope.categories.length + 1
-      };
+      $scope.errors = [];
+      $scope.successMessage = null;
 
-      categoryService.categoryCreate(category)
-        .then(function (id) {
-          category.id = id;
-          category.ingredients = [];
-          $scope.categories.push(category);
+      categoryEditorService.categoryCreate(categoryName, $scope.categories.length + 1)
+        .then(function (data) {
+          $scope.categories.push(data);
+          $scope.successMessage = 'Created category';
+        })
+        .catch(function (error) {
+          $scope.errors.push(error);
         });
     };
 
@@ -63,9 +53,16 @@ angular.module('bruleeApp')
         return;
       }
 
-      categoryService.categoryDelete(categoryId)
+      $scope.errors = [];
+      $scope.successMessage = null;
+
+      categoryEditorService.categoryDelete(categoryId)
         .then(function () {
           _.remove($scope.categories, 'id', categoryId);
+          $scope.successMessage = 'Deleted category';
+        })
+        .catch(function (error) {
+          $scope.errors.push(error);
         });
     };
 
@@ -74,9 +71,8 @@ angular.module('bruleeApp')
         if (!_.find(category.ingredients, 'id', ingredient.id)) {
           // Remove ingredient from all other categories
           _.each($scope.categories, function (otherCategory) {
-              _.remove(otherCategory.ingredients, 'id', ingredient.id);
-            }
-          );
+            _.remove(otherCategory.ingredients, 'id', ingredient.id);
+          });
 
           // Add ingredient to this category
           category.ingredients.push(ingredient);
