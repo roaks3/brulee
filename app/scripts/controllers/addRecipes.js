@@ -3,40 +3,23 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, ingredientService, recipesService) {
+  .controller('AddRecipesCtrl', function ($q, $scope, categoryEditorService, categoryService, ingredientService, recipesService) {
     $scope.recipe = new Recipe('', null, '');
     $scope.isParsed = false;
     $scope.isSaved = false;
     $scope.isNameInvalid = false;
+
+    $scope.errors = [];
+    $scope.successMessage = null;
 
     $scope.categoryMap = {};
     $scope.items = [];
     $scope.categoryNames = [];
     $scope.categories = [];
 
-    $q.all([
-      categoryService.categories(),
-      ingredientService.ingredients()
-    ])
+    categoryEditorService.categories()
       .then(function (data) {
-        var categories = data[0];
-        var ingredients = data[1];
-
-        var ingredientsById = _.indexBy(ingredients, 'id');
-
-        $scope.categories = _.map(categories, function (category) {
-          return {
-            id: category.id,
-            name: category.name,
-            order: category.order,
-            items: _.map(category.ingredient_ids, function (ingredientId) {
-              return ingredientsById[ingredientId].name;
-            }),
-            ingredients: _.map(category.ingredient_ids, function (ingredientId) {
-              return ingredientsById[ingredientId];
-            })
-          };
-        });
+        $scope.categories = data;
 
         $scope.categoryNames = categories.map(function (category) {
           return category.name;
@@ -48,6 +31,9 @@ angular.module('bruleeApp')
             $scope.items.push(ingredient.name);
           });
         });
+      })
+      .catch(function (error) {
+        $scope.errors.push(error);
       });
 
     // NOTE: With current implementation, first category wins
@@ -83,12 +69,7 @@ angular.module('bruleeApp')
             });
           });
 
-          return categoryService.categoryUpdateBulk(_.map($scope.categories, function (category) {
-            return {
-              id: category.id,
-              ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
-            };
-          }));
+          return categoryEditorService.categoryUpdateBulk($scope.categories);
         })
         .then(function () {
           return recipesService.recipeCreate($scope.recipe)

@@ -32,7 +32,7 @@ angular.module('bruleeApp.services')
       var categoryUpdates = _.map(categories, function (category) {
         return {
           id: category.id,
-          ingredient_ids: _.pluck(category.ingredients, 'id')
+          ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
         };
       });
 

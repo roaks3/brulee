@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, ingredientService, recipesService) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryEditorService, categoryService, ingredientService, recipesService) {
     
     $scope.recipes = [];
 
@@ -36,25 +36,16 @@ angular.module('bruleeApp')
     $scope.categories = [];
 
     $scope.refreshCategories = function () {
-      return $q.all([
-        categoryService.categories(),
-        ingredientService.ingredients()
-      ])
+      $scope.errors = [];
+      $scope.successMessage = null;
+
+      $scope.categories = [];
+      categoryEditorService.categories()
         .then(function (data) {
-          var categories = data[0];
-          var ingredients = data[1];
-
-          var ingredientsById = _.indexBy(ingredients, 'id');
-
-          $scope.categories = _.map(categories, function (category) {
-            return {
-              name: category.name,
-              order: category.order,
-              items: _.map(category.ingredient_ids, function (ingredientId) {
-                return ingredientsById[ingredientId].name;
-              })
-            };
-          });
+          $scope.categories = data;
+        })
+        .catch(function (error) {
+          $scope.errors.push(error);
         });
     };
 
@@ -85,13 +76,13 @@ angular.module('bruleeApp')
       var leftoverList = Object.keys(itemRecipeMap);
       angular.forEach($scope.categories, function(category) {
         var shoppingListCategory = {name: category.name, items: {}};
-        angular.forEach(category.items, function(item) {
-          var itemRecipes = itemRecipeMap[item];
+        angular.forEach(category.ingredients, function(ingredient) {
+          var itemRecipes = itemRecipeMap[ingredient.name];
           if (itemRecipes !== undefined) {
-            shoppingListCategory.items[item] = {recipes: itemRecipes};
+            shoppingListCategory.items[ingredient.name] = {recipes: itemRecipes};
           }
           leftoverList = leftoverList.filter(function(element) {
-            return element !== item;
+            return element !== ingredient.name;
           });
         });
         $scope.shoppingList.push(shoppingListCategory);
