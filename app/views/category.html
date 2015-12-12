@@ -1,39 +1,39 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-5 categoryListSection">
-            <div class="categoryList">
-                <ul class="list-group" ng-repeat="category in categories">
-                    <li class="list-group-item list-group-item-info">
-                        <input class="form-control" ng-model="category.name" type="text" />
-                        <button class="btn btn-primary" ng-click="removeCategory(category.id)">
-                            Remove
-                        </button>
-                    </li>
-                    <li class="list-group-item" ng-repeat="ingredient in category.ingredients">
-                        {{ingredient.name}}
-                        <button class="btn btn-primary" ng-click="removeIngredient(category, ingredient.id)">
-                            Remove Item
-                        </button>
-                    </li>
-                    <li class="list-group-item">
-                        <input class="form-control" typeahead="ingredient as ingredient.name for ingredient in ingredients | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="newIngredient" type="text" name="ingredient" />
-                        <button class="btn btn-primary" ng-click="addIngredient(category, newIngredient)">
-                            Add Item
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-md-5 actionsSection">
-            <button class="btn btn-primary" id="saveButton" ng-click="saveCategories()">
-                Save
+  <div class="row">
+    <div class="col-md-5 categoryListSection">
+      <div class="categoryList">
+        <ul class="list-group" ng-repeat="category in categories">
+          <li class="list-group-item list-group-item-info">
+            <input class="form-control" ng-model="category.name" type="text" />
+            <button class="btn btn-primary" ng-click="removeCategory(category.id)">
+              Remove
             </button>
-        </div>
-        <div class="col-md-5 actionsSection">
-            <input type="text" ng-model="newCategory" />
-            <button class="btn btn-primary" ng-click="addCategory(newCategory)">
-                Add Category
+          </li>
+          <li class="list-group-item" ng-repeat="ingredient in category.ingredients">
+            {{ingredient.name}}
+            <button class="btn btn-primary" ng-click="removeIngredient(category, ingredient.id)">
+              Remove Item
             </button>
-        </div>
+          </li>
+          <li class="list-group-item">
+            <input class="form-control" typeahead="ingredient as ingredient.name for ingredient in ingredients | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="newIngredient" type="text" name="ingredient" />
+            <button class="btn btn-primary" ng-click="addIngredient(category, newIngredient)">
+              Add Item
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="col-md-5 actionsSection">
+      <button class="btn btn-primary" id="saveButton" ng-click="saveCategories()">
+        Save
+      </button>
+    </div>
+    <div class="col-md-5 actionsSection">
+      <input type="text" ng-model="newCategory" />
+      <button class="btn btn-primary" ng-click="addCategory(newCategory)">
+        Add Category
+      </button>
+    </div>
+  </div>
 </div>

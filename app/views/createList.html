@@ -1,34 +1,34 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-1 recipeList">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Recipes
-                </div>
-                <div class="panel-body">
-                    <div class="checkbox" ng-repeat="recipe in recipes">
-                        <label>
-                            <input type="checkbox" ng-model="recipe._selected">
-                            {{recipe.name}}
-                        </label>
-                    </div>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-1 recipeList">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          Recipes
         </div>
-        <div class="col-md-5 shoppingListSection">
-            <button class="btn btn-primary" id="createListButton" ng-click="calculateShoppingList()">
-                Create Shopping List
-            </button>
-            <div class="shoppingList">
-                <ul class="list-group" ng-repeat="category in shoppingList">
-                    <li class="list-group-item list-group-item-info">
-                        {{category.name}}
-                    </li>
-                    <li ng-class="{'list-group-item': true, done: item.done}" ng-repeat="(itemName, item) in category.items" ng-click="item.done = !item.done">
-                        {{itemName}} <span class="badge" tooltip-html-unsafe="item" tooltip-placement="right">{{item.recipes.length}}</span>
-                    </li>
-                </ul>
-            </div>
+        <div class="panel-body">
+          <div class="checkbox" ng-repeat="recipe in recipes">
+            <label>
+              <input type="checkbox" ng-model="recipe._selected">
+              {{recipe.name}}
+            </label>
+          </div>
         </div>
+      </div>
     </div>
+    <div class="col-md-5 shoppingListSection">
+      <button class="btn btn-primary" id="createListButton" ng-click="calculateShoppingList()">
+        Create Shopping List
+      </button>
+      <div class="shoppingList">
+        <ul class="list-group" ng-repeat="category in shoppingList">
+          <li class="list-group-item list-group-item-info">
+            {{category.name}}
+          </li>
+          <li ng-class="{'list-group-item': true, done: item.done}" ng-repeat="(itemName, item) in category.items" ng-click="item.done = !item.done">
+            {{itemName}} <span class="badge" tooltip-html-unsafe="item" tooltip-placement="right">{{item.recipes.length}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
