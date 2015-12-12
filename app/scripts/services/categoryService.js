@@ -4,10 +4,13 @@ angular.module('bruleeApp.services')
 
   .service('categoryService', function ($q, bruleeDataService) {
 
+    var index = 'ashlea2';
+    var type = 'category';
+
     this.categories = function() {
       return bruleeDataService.search({
-        index: 'ashlea2',
-        type: 'category',
+        index: index,
+        type: type,
         size: 500,
         body: {
           query: {
@@ -26,8 +29,8 @@ angular.module('bruleeApp.services')
 
     this.categoryCreate = function (category) {
       return bruleeDataService.create({
-        index: 'ashlea2',
-        type: 'category',
+        index: index,
+        type: type,
         body: category
       })
         .then(function (data) {
@@ -37,8 +40,8 @@ angular.module('bruleeApp.services')
 
     this.categoryUpdate = function (category) {
       return bruleeDataService.update({
-        index: 'ashlea2',
-        type: 'category',
+        index: index,
+        type: type,
         id: category.id,
         body: {
           doc: {
@@ -59,8 +62,8 @@ angular.module('bruleeApp.services')
 
     this.categoryDelete = function (categoryId) {
       return bruleeDataService.delete({
-        index: 'ashlea2',
-        type: 'category',
+        index: index,
+        type: type,
         id: categoryId
       });
     };

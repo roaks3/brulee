@@ -4,10 +4,13 @@ angular.module('bruleeApp.services')
 
   .service('recipesService', function ($q, bruleeDataService) {
 
+    var index = 'ashlea2';
+    var type = 'recipe';
+
     this.recipes = function () {
       return bruleeDataService.search({
-        index: 'ashlea2',
-        type: 'recipe',
+        index: index,
+        type: type,
         size: 500,
         body: {
           query: {
@@ -37,8 +40,8 @@ angular.module('bruleeApp.services')
       };
 
       return bruleeDataService.create({
-        index: 'ashlea2',
-        type: 'recipe',
+        index: index,
+        type: type,
         body: recipeFields
       });
     };
