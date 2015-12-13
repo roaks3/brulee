@@ -6,6 +6,7 @@ angular.module('bruleeApp')
   .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryEditorService, categoryService, ingredientService, recipesService) {
     
     $scope.recipes = [];
+    $scope.ingredientsById = {};
 
     $scope.refreshRecipes = function () {
       return $q.all([
@@ -16,15 +17,15 @@ angular.module('bruleeApp')
           var recipes = data[0];
           var ingredients = data[1];
 
-          var ingredientsById = _.indexBy(ingredients, 'id');
-
+          $scope.ingredientsById = _.indexBy(ingredients, 'id');
           $scope.recipes = _.map(recipes, function (recipe) {
             return {
+              id: recipe.id,
               name: recipe.name,
               originalText: recipe.original_text,
-              ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
+              recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
                 return {
-                  item: ingredientsById[recipeIngredient.ingredient_id].name,
+                  ingredient: $scope.ingredientsById[recipeIngredient.ingredient_id],
                   amount: recipeIngredient.amount
                 };
               })
@@ -58,48 +59,61 @@ angular.module('bruleeApp')
     $scope.shoppingList = [];
 
     $scope.calculateShoppingList = function () {
-      var selected = _($scope.recipes)
+      var selectedRecipes = _($scope.recipes)
         .filter('_selected')
         .value();
 
-      var itemRecipeMap = _.reduce(selected, function (memo, recipe) {
-        _.each(recipe.ingredients, function(ingredient) {
-          memo[ingredient.item] = memo[ingredient.item] || [];
-          memo[ingredient.item].push(recipe.name);
+      var recipeNamesByIngredientId = _.reduce(selectedRecipes, function (memo, recipe) {
+        _.each(recipe.recipe_ingredients, function(recipe_ingredient) {
+          memo[recipe_ingredient.ingredient.id] = memo[recipe_ingredient.ingredient.id] || [];
+          memo[recipe_ingredient.ingredient.id].push(recipe.name);
         });
         return memo;
       }, {});
 
+      // Remove ingredients from the list that are not in the selected recipes
       $scope.shoppingList = _.map($scope.categories, function (category) {
         return {
           name: category.name,
-          items: _(category.ingredients)
+          ingredients: _(category.ingredients)
             .filter(function (ingredient) {
-              return itemRecipeMap[ingredient.name];
-            })
-            .map(function (ingredient) {
-              return {
-                name: ingredient.name,
-                recipes: itemRecipeMap[ingredient.name]
-              };
+              return recipeNamesByIngredientId[ingredient.id];
             })
             .value()
         };
       });
 
-      var leftoverList = _.difference(
-        _.keys(itemRecipeMap),
-        _.keys($scope.shoppingList)
+      // Gather ids for the uncategorized ingredients
+      var leftoverIngredientIds = _.difference(
+        _.keys(recipeNamesByIngredientId),
+        _($scope.shoppingList)
+          .map(function (category) {
+            return _.pluck(category.ingredients, 'id');
+          })
+          .flatten()
+          .value()
       );
 
+      // Create leftover category for uncategorized ingredients
       $scope.shoppingList.push({
         name: 'Leftovers',
-        items: _.map(leftoverList, function (item) {
-          return {
-            name: item,
-            recipes: itemRecipeMap[item]
-          };
+        ingredients: _.map(leftoverIngredientIds, function (ingredientId) {
+          return $scope.ingredientsById[ingredientId];
         })
+      });
+
+      // Add recipe names to each ingredient
+      $scope.shoppingList = _.map($scope.shoppingList, function (category) {
+        return {
+          name: category.name,
+          ingredients: _(category.ingredients)
+            .map(function (ingredient) {
+              return _.assign(ingredient, {
+                recipes: recipeNamesByIngredientId[ingredient.id]
+              });
+            })
+            .value()
+        };
       });
     };
   });
