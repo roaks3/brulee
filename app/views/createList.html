@@ -24,8 +24,8 @@
           <li class="list-group-item list-group-item-info">
             {{category.name}}
           </li>
-          <li ng-class="{'list-group-item': true, done: item.done}" ng-repeat="(itemName, item) in category.items" ng-click="item.done = !item.done">
-            {{itemName}} <span class="badge" tooltip-html-unsafe="item" tooltip-placement="right">{{item.recipes.length}}</span>
+          <li ng-class="{'list-group-item': true, done: item.done}" ng-repeat="item in category.items" ng-click="item.done = !item.done">
+            {{item.name}} <span class="badge" tooltip-html-unsafe="item" tooltip-placement="right">{{item.recipes.length}}</span>
           </li>
         </ul>
       </div>

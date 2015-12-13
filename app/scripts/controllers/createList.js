@@ -77,9 +77,9 @@ angular.module('bruleeApp')
             .filter(function (ingredient) {
               return itemRecipeMap[ingredient.name];
             })
-            .indexBy('name')
-            .mapValues(function (ingredient) {
+            .map(function (ingredient) {
               return {
+                name: ingredient.name,
                 recipes: itemRecipeMap[ingredient.name]
               };
             })
@@ -94,14 +94,12 @@ angular.module('bruleeApp')
 
       $scope.shoppingList.push({
         name: 'Leftovers',
-        items: _(leftoverList)
-          .indexBy(_.identity)
-          .mapValues(function (item) {
-            return {
-              recipes: itemRecipeMap[item]
-            };
-          })
-          .value()
+        items: _.map(leftoverList, function (item) {
+          return {
+            name: item,
+            recipes: itemRecipeMap[item]
+          };
+        })
       });
     };
   });
