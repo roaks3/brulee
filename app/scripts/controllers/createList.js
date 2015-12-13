@@ -57,45 +57,51 @@ angular.module('bruleeApp')
 
     $scope.shoppingList = [];
 
-    $scope.calculateShoppingList = function() {
-      var itemRecipeMap = {};
-      angular.forEach($scope.recipes, function(recipe) {
-        if (recipe._selected) {
-          angular.forEach(recipe.ingredients, function(ingredient) {
-            var itemRecipes = itemRecipeMap[ingredient.item];
-            if (itemRecipes === undefined) {
-              itemRecipeMap[ingredient.item] = [recipe.name];
-            } else {
-              itemRecipes.push(recipe.name);
-            }
-          });
-        }
-      });
+    $scope.calculateShoppingList = function () {
+      var selected = _($scope.recipes)
+        .filter('_selected')
+        .value();
 
-      $scope.shoppingList = [];
-      var leftoverList = Object.keys(itemRecipeMap);
-      angular.forEach($scope.categories, function(category) {
-        var shoppingListCategory = {name: category.name, items: {}};
-        angular.forEach(category.ingredients, function(ingredient) {
-          var itemRecipes = itemRecipeMap[ingredient.name];
-          if (itemRecipes !== undefined) {
-            shoppingListCategory.items[ingredient.name] = {recipes: itemRecipes};
-          }
-          leftoverList = leftoverList.filter(function(element) {
-            return element !== ingredient.name;
-          });
+      var itemRecipeMap = _.reduce(selected, function (memo, recipe) {
+        _.each(recipe.ingredients, function(ingredient) {
+          memo[ingredient.item] = memo[ingredient.item] || [];
+          memo[ingredient.item].push(recipe.name);
         });
-        $scope.shoppingList.push(shoppingListCategory);
+        return memo;
+      }, {});
+
+      $scope.shoppingList = _.map($scope.categories, function (category) {
+        return {
+          name: category.name,
+          items: _(category.ingredients)
+            .filter(function (ingredient) {
+              return itemRecipeMap[ingredient.name];
+            })
+            .indexBy('name')
+            .mapValues(function (ingredient) {
+              return {
+                recipes: itemRecipeMap[ingredient.name]
+              };
+            })
+            .value()
+        };
       });
 
-      var shoppingListCategory = {name: 'Leftovers', items: {}};
-      angular.forEach(leftoverList, function(item) {
-        var itemRecipes = itemRecipeMap[item];
-        if (itemRecipes !== undefined) {
-          shoppingListCategory.items[item] = {recipes: itemRecipes};
-        }
-      });
+      var leftoverList = _.difference(
+        _.keys(itemRecipeMap),
+        _.keys($scope.shoppingList)
+      );
 
-      $scope.shoppingList.push(shoppingListCategory);
+      $scope.shoppingList.push({
+        name: 'Leftovers',
+        items: _(leftoverList)
+          .indexBy(_.identity)
+          .mapValues(function (item) {
+            return {
+              recipes: itemRecipeMap[item]
+            };
+          })
+          .value()
+      });
     };
   });
