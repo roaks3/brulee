@@ -50,13 +50,51 @@ angular.module('bruleeApp')
         });
     };
 
+    $scope.groceryLists = [];
+
+    $scope.refreshGroceryLists = function () {
+      $scope.errors = [];
+      $scope.successMessage = null;
+
+      $scope.groceryLists = [];
+      groceryListService.groceryLists()
+        .then(function (data) {
+          $scope.groceryLists = data;
+        })
+        .catch(function (error) {
+          $scope.errors.push(error);
+        });
+    };
+
     $scope.refreshRecipes();
 
     $timeout(function () {
       $scope.refreshCategories();
     }, 1000);
 
+    $timeout(function () {
+      $scope.refreshGroceryLists();
+    }, 1500);
+
     $scope.shoppingList = [];
+
+    $scope.selectGroceryList = function (id) {
+      var groceryList = _.find($scope.groceryLists, 'id', id);
+      var selectedRecipeIds = _(groceryList.recipe_days)
+        .map(function (recipeDay) {
+          return recipeDay.recipe_id
+        })
+        .value();
+
+      _.each(selectedRecipeIds, function (recipeId) {
+        var recipe = _.find($scope.recipes, 'id', recipeId);
+        recipe._selected = true;
+      });
+
+      $scope.selectedGroceryList = groceryList;
+
+      $scope.calculateShoppingList();
+    };
 
     $scope.calculateShoppingList = function () {
       var selectedRecipes = _($scope.recipes)
@@ -116,20 +154,22 @@ angular.module('bruleeApp')
         };
       });
 
-      $scope.groceryList = {
-        week_start: moment().day(0).format('MM/DD'),
-        recipe_days: _.map(selectedRecipes, function (recipe) {
-          return {
-            recipe_id: recipe.id
-          };
-        })
-      };
+      if (!$scope.selectedGroceryList) {
+        $scope.newGroceryList = {
+          week_start: moment().day(0).format('MM/DD'),
+          recipe_days: _.map(selectedRecipes, function (recipe) {
+            return {
+              recipe_id: recipe.id
+            };
+          })
+        };
+      }
     };
 
     $scope.saveGroceryList = function () {
       var list = {
-        week_start: $scope.groceryList.week_start,
-        recipe_days: _.map($scope.groceryList.recipe_days, function (recipeDay) {
+        week_start: $scope.newGroceryList.week_start,
+        recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipeDay) {
           return {
             recipe_id: recipeDay.recipe_id,
             day_of_week: recipeDay.day_of_week ? parseInt(recipeDay.day_of_week) : null
@@ -137,8 +177,8 @@ angular.module('bruleeApp')
         })
       };
 
-      if ($scope.groceryList.id) {
-        list.id = $scope.groceryList.id;
+      if ($scope.newGroceryList.id) {
+        list.id = $scope.newGroceryList.id;
       }
 
       groceryListService.groceryListCreate(list);

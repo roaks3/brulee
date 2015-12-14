@@ -19,11 +19,22 @@
       <button class="btn btn-primary" id="createListButton" ng-click="calculateShoppingList()">
         Create Shopping List
       </button>
-      <button class="btn btn-primary" id="createListButton" ng-click="saveGroceryList()">
+      <button class="btn btn-primary" id="createListButton" ng-click="selectGroceryList(groceryList.id)" ng-repeat="groceryList in groceryLists">
+        Grocery List {{groceryList.week_start}}
+      </button>
+      <div ng-show="selectedGroceryList" class="groceryList">
+        <ul class="list-group" ng-repeat="recipeDay in selectedGroceryList.recipe_days">
+          <li class="list-group-item">
+            {{recipeDay.recipe_id}}
+            <input type="text" ng-model="recipeDay.day_of_week" />
+          </li>
+        </ul>
+      </div>
+      <button ng-show="newGroceryList" class="btn btn-primary" id="createListButton" ng-click="saveGroceryList()">
         Save Grocery List
       </button>
-      <div class="groceryList">
-        <ul class="list-group" ng-repeat="recipeDay in groceryList.recipe_days">
+      <div ng-show="newGroceryList" class="groceryList">
+        <ul class="list-group" ng-repeat="recipeDay in newGroceryList.recipe_days">
           <li class="list-group-item">
             {{recipeDay.recipe_id}}
             <input type="text" ng-model="recipeDay.day_of_week" />
