@@ -83,7 +83,7 @@ angular.module('bruleeApp')
     };
 
     $scope.parseRecipeText = function() {
-      $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.originalText);
+      $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.original_text);
       $scope.isParsed = true;
     };
 

@@ -30,7 +30,7 @@ angular.module('bruleeApp.services')
     this.recipeCreate = function (recipe) {
       var recipeFields = {
         name: recipe.name,
-        original_text: recipe.originalText,
+        original_text: recipe.original_text,
         recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipe_ingredient) {
           return {
             ingredient_id: recipe_ingredient.ingredient.id,

@@ -19,17 +19,13 @@ angular.module('bruleeApp')
 
           $scope.ingredientsById = _.indexBy(ingredients, 'id');
           $scope.recipes = _.map(recipes, function (recipe) {
-            return {
-              id: recipe.id,
-              name: recipe.name,
-              originalText: recipe.original_text,
+            return _.assign(recipe, {
               recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
-                return {
-                  ingredient: $scope.ingredientsById[recipeIngredient.ingredient_id],
-                  amount: recipeIngredient.amount
-                };
+                return _.assign(recipeIngredient, {
+                  ingredient: $scope.ingredientsById[recipeIngredient.ingredient_id]
+                });
               })
-            };
+            });
           });
         });
     };
