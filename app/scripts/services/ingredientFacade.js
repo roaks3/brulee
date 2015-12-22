@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('ingredientService', function (bruleeDataService) {
+  .service('ingredientFacade', function (bruleeDataService) {
 
     var index = 'ashlea2';
     var type = 'ingredient';

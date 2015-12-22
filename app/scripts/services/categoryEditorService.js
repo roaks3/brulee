@@ -2,12 +2,12 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryEditorService', function ($q, categoryService, ingredientService) {
+  .service('categoryEditorService', function ($q, categoryService, ingredientFacade) {
 
     this.categories = function () {
       return $q.all([
         categoryService.categories(),
-        ingredientService.ingredients()
+        ingredientFacade.ingredients()
       ])
         .then(function (data) {
           var categories = data[0];

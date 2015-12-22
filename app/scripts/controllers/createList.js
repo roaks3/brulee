@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryEditorService, categoryService, groceryListService, ingredientService, recipesService) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryEditorService, categoryService, groceryListService, ingredientFacade, recipesService) {
     
     $scope.recipes = [];
     $scope.ingredientsById = {};
@@ -11,7 +11,7 @@ angular.module('bruleeApp')
     $scope.refreshRecipes = function () {
       return $q.all([
         recipesService.recipes(),
-        ingredientService.ingredients()
+        ingredientFacade.ingredients()
       ])
         .then(function (data) {
           var recipes = data[0];
