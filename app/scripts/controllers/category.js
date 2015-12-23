@@ -3,13 +3,13 @@
 
 angular.module('bruleeApp')
 
-  .controller('CategoryCtrl', function ($scope, categoryEditorService) {
+  .controller('CategoryCtrl', function ($scope, categoryService) {
 
     $scope.errors = [];
     $scope.successMessage = null;
 
     $scope.categories = [];
-    categoryEditorService.findAll()
+    categoryService.findAll()
       .then(function (data) {
         $scope.categories = data;
       })
@@ -21,7 +21,7 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      categoryEditorService.categoryUpdateBulk($scope.categories)
+      categoryService.categoryUpdateBulk($scope.categories)
         .then(function () {
           $scope.successMessage = 'Saved all categories';
         })
@@ -38,7 +38,7 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      categoryEditorService.categoryCreate(categoryName, $scope.categories.length + 1)
+      categoryService.categoryCreate(categoryName, $scope.categories.length + 1)
         .then(function (data) {
           $scope.categories.push(data);
           $scope.successMessage = 'Created category';
@@ -56,7 +56,7 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      categoryEditorService.categoryDelete(categoryId)
+      categoryService.categoryDelete(categoryId)
         .then(function () {
           _.remove($scope.categories, 'id', categoryId);
           $scope.successMessage = 'Deleted category';

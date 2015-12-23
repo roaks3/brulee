@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryEditorService, groceryListService, ingredientService, recipesService) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipesService) {
     
     $scope.recipes = [];
 
@@ -34,7 +34,7 @@ angular.module('bruleeApp')
       $scope.successMessage = null;
 
       $scope.categories = [];
-      categoryEditorService.findAll()
+      categoryService.findAll()
         .then(function (data) {
           $scope.categories = data;
         })

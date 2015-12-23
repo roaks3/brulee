@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryEditorService', function ($q, bruleeUtils, categoryFacade, ingredientService) {
+  .service('categoryService', function ($q, bruleeUtils, categoryFacade, ingredientService) {
 
     this.deferredCategories = null;
 
