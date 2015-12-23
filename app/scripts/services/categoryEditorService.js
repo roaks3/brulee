@@ -2,28 +2,22 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryEditorService', function ($q, categoryService, ingredientFacade) {
+  .service('categoryEditorService', function ($q, categoryService, ingredientService) {
 
     this.categories = function () {
       return $q.all([
         categoryService.categories(),
-        ingredientFacade.ingredients()
+        ingredientService.refreshAll()
       ])
         .then(function (data) {
           var categories = data[0];
-          var ingredients = data[1];
-
-          var ingredientsById = _.indexBy(ingredients, 'id');
 
           return _.map(categories, function (category) {
-            return {
-              id: category.id,
-              name: category.name,
-              order: category.order,
+            return _.assign(category, {
               ingredients: _.map(category.ingredient_ids, function (ingredientId) {
-                return ingredientsById[ingredientId];
+                return ingredientService.get(ingredientId);
               })
-            };
+            });
           });
         });
     };
