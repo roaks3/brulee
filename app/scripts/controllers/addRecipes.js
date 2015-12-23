@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, categoryEditorService, categoryService, ingredientService, recipesService) {
+  .controller('AddRecipesCtrl', function ($q, $scope, categoryEditorService, ingredientService, recipesService) {
     $scope.recipe = new Recipe('', null, '');
     $scope.isParsed = false;
     $scope.isSaved = false;

@@ -2,11 +2,11 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryEditorService', function ($q, categoryService, ingredientService) {
+  .service('categoryEditorService', function ($q, categoryFacade, ingredientService) {
 
     this.categories = function () {
       return $q.all([
-        categoryService.categories(),
+        categoryFacade.categories(),
         ingredientService.refreshAll()
       ])
         .then(function (data) {
@@ -30,7 +30,7 @@ angular.module('bruleeApp.services')
         };
       });
 
-      return categoryService.categoryUpdateBulk(categoryUpdates);
+      return categoryFacade.categoryUpdateBulk(categoryUpdates);
     };
 
     this.categoryCreate = function (categoryName, order) {
@@ -39,7 +39,7 @@ angular.module('bruleeApp.services')
         order: order
       };
 
-      return categoryService.categoryCreate(category)
+      return categoryFacade.categoryCreate(category)
         .then(function (id) {
           category.id = id;
           category.ingredients = [];
@@ -48,7 +48,7 @@ angular.module('bruleeApp.services')
     };
 
     this.categoryDelete = function (categoryId) {
-      return categoryService.categoryDelete(categoryId);
+      return categoryFacade.categoryDelete(categoryId);
     };
 
     return this;
