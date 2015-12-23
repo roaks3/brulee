@@ -10,7 +10,7 @@ angular.module('bruleeApp')
     $scope.refreshRecipes = function () {
       return $q.all([
         recipesService.recipes(),
-        ingredientService.refreshAll()
+        ingredientService.findAll()
       ])
         .then(function (data) {
           var recipes = data[0];
@@ -34,7 +34,7 @@ angular.module('bruleeApp')
       $scope.successMessage = null;
 
       $scope.categories = [];
-      categoryEditorService.categories()
+      categoryEditorService.findAll()
         .then(function (data) {
           $scope.categories = data;
         })

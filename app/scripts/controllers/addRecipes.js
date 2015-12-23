@@ -17,7 +17,7 @@ angular.module('bruleeApp')
     $scope.categoryNames = [];
     $scope.categories = [];
 
-    categoryEditorService.categories()
+    categoryEditorService.findAll()
       .then(function (data) {
         $scope.categories = data;
 

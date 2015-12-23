@@ -9,7 +9,7 @@ angular.module('bruleeApp')
     $scope.successMessage = null;
 
     $scope.categories = [];
-    categoryEditorService.categories()
+    categoryEditorService.findAll()
       .then(function (data) {
         $scope.categories = data;
       })
