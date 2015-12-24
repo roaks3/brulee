@@ -21,7 +21,7 @@ angular.module('bruleeApp')
       .then(function (data) {
         $scope.categories = data;
 
-        $scope.categoryNames = categories.map(function (category) {
+        $scope.categoryNames = $scope.categories.map(function (category) {
           return category.name;
         });
 
