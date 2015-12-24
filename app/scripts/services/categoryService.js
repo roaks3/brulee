@@ -58,15 +58,41 @@ angular.module('bruleeApp.services')
       return this._categoriesById[id];
     };
 
-    this.categoryUpdateBulk = function (categories) {
+    this.inject = function (category) {
+      var existingCategory = _.find(this._categories, 'id', category.id);
+      if (existingCategory) {
+        bruleeUtils.replaceProperties(existingCategory, category);
+      } else {
+        this._categories.push(category);
+        this._categoriesById[category.id] = category;
+      }
+    };
+
+    this.update = function (category) {
+      var categoryUpdate = {
+        id: category.id,
+        ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
+      };
+
+      return categoryFacade.categoryUpdate(categoryUpdate)
+        .then(this.inject(category));
+    };
+
+    this.updateAll = function (categories) {
       var categoryUpdates = _.map(categories, function (category) {
         return {
           id: category.id,
           ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
         };
       });
+      var scope = this;
 
-      return categoryFacade.categoryUpdateBulk(categoryUpdates);
+      return categoryFacade.categoryUpdateBulk(categoryUpdates)
+        .then(function () {
+          return $q.all(_.map(categories, function (category) {
+            return scope.inject(category);
+          }));
+        });
     };
 
     this.categoryCreate = function (categoryName, order) {

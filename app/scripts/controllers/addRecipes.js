@@ -53,10 +53,12 @@ angular.module('bruleeApp')
 
       // Add ingredients to categories by name
       var ingredientsToCreate = [];
+      var categoryNamesToUpdate = [];
       _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
         if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
           $scope.addIngredientToCategory(recipe_ingredient.ingredient, recipe_ingredient.selectedCategory);
           ingredientsToCreate.push(recipe_ingredient.ingredient);
+          categoryNamesToUpdate.push(recipe_ingredient.selectedCategory);
         }
       });
 
@@ -65,15 +67,11 @@ angular.module('bruleeApp')
         return ingredientService.create(ingredient);
       }))
         .then(function (data) {
-          // Add ids to existing ingredients
-          _.each(data, function (ingredient, index) {
-            _.assign(ingredientsToCreate[index], {
-              id: ingredient.id
-            });
-          });
-
           // Update categories with new ingredients
-          return categoryService.categoryUpdateBulk($scope.categories);
+          var categoriesToUpdate = _.map(categoryNamesToUpdate, function (categoryName) {
+            return _.find($scope.categories, 'name', categoryName);
+          });
+          return categoryService.updateAll(categoriesToUpdate);
         })
         .then(function () {
           return recipesService.recipeCreate($scope.recipe)
