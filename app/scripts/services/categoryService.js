@@ -19,7 +19,7 @@ angular.module('bruleeApp.services')
       this.deferredCategories = $q.defer();
       var scope = this;
 
-      return $q.all([
+      $q.all([
         categoryFacade.categories(),
         ingredientService.findAll()
       ])
