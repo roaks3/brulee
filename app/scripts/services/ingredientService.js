@@ -47,6 +47,10 @@ angular.module('bruleeApp.services')
       return this._ingredientsById[id];
     };
 
+    this.getByName = function (name) {
+      return _.find(this._ingredients, 'name', name);
+    };
+
     this.inject = function (ingredient) {
       var existingIngredient = _.find(this._ingredients, 'id', ingredient.id);
       if (existingIngredient) {

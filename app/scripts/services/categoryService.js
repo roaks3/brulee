@@ -58,6 +58,10 @@ angular.module('bruleeApp.services')
       return this._categoriesById[id];
     };
 
+    this.getByName = function (name) {
+      return _.find(this._categories, 'name', name);
+    };
+
     this.inject = function (category) {
       var existingCategory = _.find(this._categories, 'id', category.id);
       if (existingCategory) {

@@ -13,9 +13,14 @@ angular.module('bruleeApp')
     $scope.successMessage = null;
 
     $scope.categoryMap = {};
-    $scope.items = [];
+    $scope.ingredients = [];
     $scope.categoryNames = [];
     $scope.categories = [];
+
+    ingredientService.findAll()
+      .then(function (data) {
+        $scope.ingredients = data;
+      });
 
     categoryService.findAll()
       .then(function (data) {
@@ -28,7 +33,6 @@ angular.module('bruleeApp')
         _.each($scope.categories, function (category) {
           _.each(category.ingredients, function (ingredient) {
             $scope.categoryMap[ingredient.name] = category.name;
-            $scope.items.push(ingredient.name);
           });
         });
       })
@@ -36,12 +40,38 @@ angular.module('bruleeApp')
         $scope.errors.push(error);
       });
 
-    // NOTE: With current implementation, first category wins
-    $scope.addIngredientToCategory = function (ingredient, categoryName) {
-      var category = _.find($scope.categories, 'name', categoryName);
-      category.ingredients.push(ingredient);
-      $scope.categoryMap[ingredient.name] = categoryName;
-      $scope.items.push(ingredient.name);
+    $scope.createNewIngredients = function (recipe) {
+      var ingredientsToCreate = _(recipe.recipe_ingredients)
+        .pluck('ingredient')
+        .reject('id')
+        .value();
+
+      return $q.all(_.map(ingredientsToCreate, function (ingredient) {
+        return ingredientService.create(ingredient);
+      }));
+    };
+
+    $scope.updateCategories = function (recipe) {
+      var categoriesToUpdate = [];
+
+      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
+        if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
+          var category = categoryService.getByName(recipe_ingredient.selectedCategory);
+          var ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
+          
+          $scope.categoryMap[recipe_ingredient.ingredient.name] = recipe_ingredient.selectedCategory;
+          category.ingredients.push(ingredient);
+          categoriesToUpdate.push(category);
+        }
+      });
+
+      return categoryService.updateAll(categoriesToUpdate);
+    };
+
+    $scope.updateRecipeIngredients = function (recipe) {
+      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
+        recipe_ingredient.ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
+      });
     };
 
     $scope.addRecipe = function() {
@@ -51,27 +81,12 @@ angular.module('bruleeApp')
         return;
       }
 
-      // Add ingredients to categories by name
-      var ingredientsToCreate = [];
-      var categoryNamesToUpdate = [];
-      _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
-        if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
-          $scope.addIngredientToCategory(recipe_ingredient.ingredient, recipe_ingredient.selectedCategory);
-          ingredientsToCreate.push(recipe_ingredient.ingredient);
-          categoryNamesToUpdate.push(recipe_ingredient.selectedCategory);
-        }
-      });
-
-      // Add all new ingredients
-      $q.all(_.map(ingredientsToCreate, function (ingredient) {
-        return ingredientService.create(ingredient);
-      }))
-        .then(function (data) {
-          // Update categories with new ingredients
-          var categoriesToUpdate = _.map(categoryNamesToUpdate, function (categoryName) {
-            return _.find($scope.categories, 'name', categoryName);
-          });
-          return categoryService.updateAll(categoriesToUpdate);
+      $scope.createNewIngredients($scope.recipe)
+        .then(function () {
+          return $scope.updateCategories($scope.recipe);
+        })
+        .then(function () {
+          return $scope.updateRecipeIngredients($scope.recipe);
         })
         .then(function () {
           return recipesService.recipeCreate($scope.recipe)
@@ -86,6 +101,14 @@ angular.module('bruleeApp')
 
     $scope.parseRecipeText = function() {
       $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.original_text);
+
+      _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+        var existingIngredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
+        if (existingIngredient) {
+          recipe_ingredient.ingredient = existingIngredient;
+        }
+      });
+
       $scope.isParsed = true;
     };
 
