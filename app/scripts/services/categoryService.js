@@ -9,6 +9,10 @@ angular.module('bruleeApp.services')
     this._categories = [];
     this._categoriesById = {};
 
+    this.size = function () {
+      return this._categories.length;
+    };
+
     this.ejectAll = function () {
       this._categories = [];
       this._categoriesById = {};
@@ -72,6 +76,22 @@ angular.module('bruleeApp.services')
       }
     };
 
+    this.create = function (attrs) {
+      var category = {
+        name: attrs.name,
+        order: attrs.order
+      };
+      var scope = this;
+
+      return categoryFacade.categoryCreate(category)
+        .then(function (id) {
+          category.id = id;
+          category.ingredients = [];
+          scope.inject(category);
+          return category;
+        });
+    };
+
     this.update = function (category) {
       var categoryUpdate = {
         id: category.id,
@@ -99,22 +119,14 @@ angular.module('bruleeApp.services')
         });
     };
 
-    this.categoryCreate = function (categoryName, order) {
-      var category = {
-        name: categoryName,
-        order: order
-      };
-
-      return categoryFacade.categoryCreate(category)
-        .then(function (id) {
-          category.id = id;
-          category.ingredients = [];
-          return category;
-        });
+    this.eject = function (id) {
+      _.remove(this._categories, 'id', id);
+      delete this._categoriesById[id];
     };
 
-    this.categoryDelete = function (categoryId) {
-      return categoryFacade.categoryDelete(categoryId);
+    this.destroy = function (id) {
+      return categoryFacade.categoryDelete(id)
+        .then(this.eject(id));
     };
 
     return this;
