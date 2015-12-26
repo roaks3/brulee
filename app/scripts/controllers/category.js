@@ -23,7 +23,7 @@ angular.module('bruleeApp')
         $scope.errors.push(error);
       });
 
-    $scope.saveCategories = function() {
+    $scope.saveCategories = function () {
       $scope.errors = [];
       $scope.successMessage = null;
 
@@ -74,6 +74,10 @@ angular.module('bruleeApp')
     };
 
     $scope.addIngredient = function (category, ingredient) {
+      if (!confirm('Add \'' + ingredient.name + '\' to \'' + category.name + '\'?')) {
+        return;
+      }
+
       if (ingredient && ingredient.id) {
         if (!_.find(category.ingredients, 'id', ingredient.id)) {
           // Remove ingredient from all other categories
