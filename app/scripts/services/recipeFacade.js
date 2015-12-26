@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('recipesService', function ($q, bruleeDataService) {
+  .service('recipeFacade', function ($q, bruleeDataService) {
 
     var index = 'ashlea2';
     var type = 'recipe';
@@ -31,6 +31,7 @@ angular.module('bruleeApp.services')
       var recipeFields = {
         name: recipe.name,
         original_text: recipe.original_text,
+        //url: '',
         recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipe_ingredient) {
           return {
             ingredient_id: recipe_ingredient.ingredient.id,

@@ -3,13 +3,13 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipesService) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipeFacade) {
     
     $scope.recipes = [];
 
     $scope.refreshRecipes = function () {
       return $q.all([
-        recipesService.recipes(),
+        recipeFacade.recipes(),
         ingredientService.findAll()
       ])
         .then(function (data) {
