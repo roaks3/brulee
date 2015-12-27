@@ -70,7 +70,7 @@ angular.module('bruleeApp.services')
       var recipe = {
         name: attrs.name,
         original_text: attrs.original_text,
-        //url: '',
+        url: attrs.url,
         recipe_ingredients: attrs.recipe_ingredients
       };
       var scope = this;

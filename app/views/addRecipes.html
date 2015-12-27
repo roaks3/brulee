@@ -23,6 +23,12 @@
         </label>
         <input class="form-control" ng-model="recipe.name" type="text" name="recipeName" required />
       </div>
+      <div class="form-group">
+        <label class="control-label" for="recipeUrl">
+          Url
+        </label>
+        <input class="form-control" ng-model="recipe.url" type="text" name="recipeUrl" />
+      </div>
       <div class="parsedIngredientSection">
         <div class="ingredient input-group" ng-repeat="recipe_ingredient in recipe.recipe_ingredients">
           <span class="input-group-btn">
