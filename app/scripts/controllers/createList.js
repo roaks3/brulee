@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipeService) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListFacade, ingredientService, recipeService) {
     
     $scope.recipes = [];
 
@@ -37,7 +37,7 @@ angular.module('bruleeApp')
       $scope.successMessage = null;
 
       $scope.groceryLists = [];
-      groceryListService.groceryLists()
+      groceryListFacade.groceryLists()
         .then(function (data) {
           $scope.groceryLists = data;
         })
@@ -161,6 +161,6 @@ angular.module('bruleeApp')
         list.id = $scope.newGroceryList.id;
       }
 
-      groceryListService.groceryListCreate(list);
+      groceryListFacade.groceryListCreate(list);
     };
   });

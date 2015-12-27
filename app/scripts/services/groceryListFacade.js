@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('groceryListService', function ($q, bruleeDataService) {
+  .service('groceryListFacade', function ($q, bruleeDataService) {
 
     var index = 'ashlea2';
     var type = 'grocery_list';
@@ -28,10 +28,15 @@ angular.module('bruleeApp.services')
     };
 
     this.groceryListCreate = function (groceryList) {
+      var groceryListFields = {
+        week_start: groceryList.week_start,
+        recipe_days: groceryList.recipe_days
+      };
+
       return bruleeDataService.create({
         index: index,
         type: type,
-        body: groceryList
+        body: groceryListFields
       })
         .then(function (data) {
           return data._id;
