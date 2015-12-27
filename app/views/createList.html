@@ -25,7 +25,8 @@
       <div ng-show="selectedGroceryList" class="groceryList">
         <ul class="list-group" ng-repeat="recipeDay in selectedGroceryList.recipe_days">
           <li class="list-group-item">
-            {{recipeDay.recipe_id}}
+            {{recipeDay.recipe.name}}
+            <a ng-if="recipeDay.recipe.url" ng-href="{{recipeDay.recipe.url}}" target="_blank">Link</a>
             <input type="text" ng-model="recipeDay.day_of_week" />
           </li>
         </ul>
@@ -36,7 +37,8 @@
       <div ng-show="newGroceryList" class="groceryList">
         <ul class="list-group" ng-repeat="recipeDay in newGroceryList.recipe_days">
           <li class="list-group-item">
-            {{recipeDay.recipe_id}}
+            {{recipeDay.recipe.name}}
+            <a ng-if="recipeDay.recipe.url" ng-href="{{recipeDay.recipe.url}}" target="_blank">Link</a>
             <input type="text" ng-model="recipeDay.day_of_week" />
           </li>
         </ul>
