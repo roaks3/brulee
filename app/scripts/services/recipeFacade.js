@@ -32,12 +32,7 @@ angular.module('bruleeApp.services')
         name: recipe.name,
         original_text: recipe.original_text,
         url: recipe.url,
-        recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipe_ingredient) {
-          return {
-            ingredient_id: recipe_ingredient.ingredient.id,
-            amount: recipe_ingredient.amount
-          };
-        })
+        recipe_ingredients: recipe.recipe_ingredients
       };
 
       return bruleeDataService.create({

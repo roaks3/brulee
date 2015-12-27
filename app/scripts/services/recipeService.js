@@ -71,7 +71,12 @@ angular.module('bruleeApp.services')
         name: attrs.name,
         original_text: attrs.original_text,
         url: attrs.url,
-        recipe_ingredients: attrs.recipe_ingredients
+        recipe_ingredients: _.map(attrs.recipe_ingredients, function (recipe_ingredient) {
+          return {
+            ingredient_id: recipe_ingredient.ingredient.id,
+            amount: recipe_ingredient.amount
+          };
+        })
       };
       var scope = this;
 

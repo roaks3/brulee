@@ -28,10 +28,15 @@ angular.module('bruleeApp.services')
     };
 
     this.categoryCreate = function (category) {
+      var categoryFields = {
+        name: category.name,
+        order: category.order
+      };
+
       return bruleeDataService.create({
         index: index,
         type: type,
-        body: category
+        body: categoryFields
       })
         .then(function (data) {
           return data._id;
