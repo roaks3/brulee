@@ -44,7 +44,10 @@ angular.module('bruleeApp.services')
         index: index,
         type: type,
         body: recipeFields
-      });
+      })
+        .then(function (data) {
+          return data._id;
+        });
     };
 
     return this;

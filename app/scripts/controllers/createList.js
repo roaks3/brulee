@@ -3,27 +3,14 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipeFacade) {
+  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipeService) {
     
     $scope.recipes = [];
 
     $scope.refreshRecipes = function () {
-      return $q.all([
-        recipeFacade.recipes(),
-        ingredientService.findAll()
-      ])
+      return recipeService.findAll()
         .then(function (data) {
-          var recipes = data[0];
-
-          $scope.recipes = _.map(recipes, function (recipe) {
-            return _.assign(recipe, {
-              recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
-                return _.assign(recipeIngredient, {
-                  ingredient: ingredientService.get(recipeIngredient.ingredient_id)
-                });
-              })
-            });
-          });
+          $scope.recipes = data;
         });
     };
 
