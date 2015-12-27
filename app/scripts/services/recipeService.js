@@ -56,6 +56,10 @@ angular.module('bruleeApp.services')
         });
     };
 
+    this.get = function (id) {
+      return this._recipesById[id];
+    };
+
     this.inject = function (recipe) {
       var existingRecipe = _.find(this._recipes, 'id', recipe.id);
       if (existingRecipe) {
