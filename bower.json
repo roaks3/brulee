@@ -1,17 +1,31 @@
 {
   "name": "brulee",
   "dependencies": {
-    "angular": "^1.4.7",
-    "angular-route": "^1.4.7",
+    "angular": "^1.4.8",
     "bootstrap": "3.2.0",
+    "angular-animate": "^1.4.8",
+    "angular-route": "^1.4.8",
+    "angular-sanitize": "^1.4.8",
+    "angular-touch": "^1.4.8",
     "elasticsearch": "3.0.0",
     "moment": "^2.10.6",
     "lodash": "^3.10.1"
   },
+  "devDependencies": {
+    "angular-mocks": "^1.4.8"
+  },
+  "appPath": "app",
+  "moduleName": "bruleeApp",
   "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
     "elasticsearch": {
       "main": "elasticsearch.angular.js"
     }
-  },
-  "appPath": "app"
+  }
 }

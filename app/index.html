@@ -1,47 +1,50 @@
 <!doctype html>
-<html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        <!-- build:css(.) styles/vendor.css -->
-        <!-- bower:css -->
-        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-        <!-- endbower -->
-        <!-- endbuild -->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" type="text/css" href="styles/createList.css" />
+    <link rel="stylesheet" type="text/css" href="styles/addRecipes.css" />
+    <!-- endbuild -->
+  </head>
+  <body ng-app="bruleeApp">
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a ng-href="#">Home</a></li>
+          <li><a ng-href="#/createList">Create List</a></li>
+          <li><a ng-href="#/addRecipes">Add Recipes</a></li>
+          <li><a ng-href="#/categories">Categories</a></li>
+        </ul>
+        <h3 class="text-muted">brulee</h3>
+      </div>
 
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" type="text/css" href="styles/createList.css" />
-        <link rel="stylesheet" type="text/css" href="styles/addRecipes.css" />
-        <!-- endbuild -->
-    </head>
-    <body ng-app="bruleeApp">
-        <div class="container">
-            <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class="active"><a ng-href="#">Home</a></li>
-                    <li><a ng-href="#/createList">Create List</a></li>
-                    <li><a ng-href="#/addRecipes">Add Recipes</a></li>
-                    <li><a ng-href="#/categories">Categories</a></li>
-                </ul>
-                <h3 class="text-muted">brulee</h3>
-            </div>
+      <div ng-view></div>
+    </div>
 
-            <div ng-view></div>
-        </div>
 
-        <!-- build:js(.) scripts/vendor.js -->
-        <!-- bower:js -->
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/angular/angular.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="bower_components/elasticsearch/elasticsearch.angular.js"></script>
-        <script src="bower_components/moment/moment.js"></script>
-        <script src="bower_components/lodash/lodash.js"></script>
-        <!-- endbower -->
-        <!-- endbuild -->
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/elasticsearch/elasticsearch.angular.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/ui-bootstrap-tpls-0.11.2.js"></script>
@@ -61,6 +64,5 @@
         <script src="scripts/controllers/addRecipes.js"></script>
         <script src="scripts/controllers/category.js"></script>
         <!-- endbuild -->
-
-    </body>
+</body>
 </html>
