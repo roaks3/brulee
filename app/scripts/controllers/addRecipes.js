@@ -13,14 +13,8 @@ angular.module('bruleeApp')
     $scope.successMessage = null;
 
     $scope.categoryMap = {};
-    $scope.ingredients = [];
     $scope.categoryNames = [];
     $scope.categories = [];
-
-    ingredientService.findAll()
-      .then(function (data) {
-        $scope.ingredients = data;
-      });
 
     categoryService.findAll()
       .then(function (data) {

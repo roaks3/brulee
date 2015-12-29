@@ -34,7 +34,9 @@
           <span class="input-group-btn">
             <button class="btn btn-default ingredientDelete" type="button" ng-click="removeIngredient($index)">&times;</button>
           </span>
-          <input class="form-control" typeahead="ingredient as ingredient.name for ingredient in ingredients | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="recipe_ingredient.ingredient" type="text" name="ingredient" />
+          <ingredient-typeahead
+            selected-ingredient="recipe_ingredient.ingredient" >
+          </ingredient-typeahead>
           <span ng-if="isCategorized(recipe_ingredient)" class="input-group-btn">
             <button class="btn btn-info">
               {{getCategory(recipe_ingredient)}}

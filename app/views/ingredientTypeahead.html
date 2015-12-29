@@ -1,0 +1,7 @@
+<input
+  class="form-control"
+  type="text"
+  ng-model="vm.selectedIngredient"
+  typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"
+  typeahead-toggle-on-click="true"
+  ng-disabled="vm.inputDisabled" />

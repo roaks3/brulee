@@ -16,7 +16,9 @@
             </button>
           </li>
           <li class="list-group-item">
-            <input class="form-control" typeahead="ingredient as ingredient.name for ingredient in ingredients | filter:$viewValue | limitTo:8" typeahead-toggle-on-click="true" ng-model="newIngredient" type="text" name="ingredient" />
+            <ingredient-typeahead
+              selected-ingredient="newIngredient" >
+            </ingredient-typeahead>
             <button class="btn btn-primary" ng-click="addIngredient(category, newIngredient)">
               Add Item
             </button>

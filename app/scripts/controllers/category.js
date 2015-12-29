@@ -3,16 +3,10 @@
 
 angular.module('bruleeApp')
 
-  .controller('CategoryCtrl', function ($scope, categoryService, ingredientService) {
+  .controller('CategoryCtrl', function ($scope, categoryService) {
 
     $scope.errors = [];
     $scope.successMessage = null;
-
-    $scope.ingredients = [];
-    ingredientService.findAll()
-      .then(function (data) {
-        $scope.ingredients = data;
-      });
 
     $scope.categories = [];
     categoryService.findAll()
