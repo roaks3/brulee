@@ -13,20 +13,12 @@ angular.module('bruleeApp')
     $scope.successMessage = null;
 
     $scope.categoryMap = {};
-    $scope.categoryNames = [];
-    $scope.categories = [];
 
     categoryService.findAll()
       .then(function (data) {
-        $scope.categories = data;
-
-        $scope.categoryNames = $scope.categories.map(function (category) {
-          return category.name;
-        });
-
-        _.each($scope.categories, function (category) {
+        _.each(data, function (category) {
           _.each(category.ingredients, function (ingredient) {
-            $scope.categoryMap[ingredient.name] = category.name;
+            $scope.categoryMap[ingredient.name] = category;
           });
         });
       })
@@ -50,7 +42,7 @@ angular.module('bruleeApp')
 
       _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
         if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
-          var category = categoryService.getByName(recipe_ingredient.selectedCategory);
+          var category = recipe_ingredient.selectedCategory;
           var ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
           
           $scope.categoryMap[recipe_ingredient.ingredient.name] = recipe_ingredient.selectedCategory;
@@ -101,6 +93,10 @@ angular.module('bruleeApp')
         if (existingIngredient) {
           recipe_ingredient.ingredient = existingIngredient;
         }
+
+        // TODO: This could be changed to look through the categories
+        // here, then the categoryMap would be unnecessary
+        recipe_ingredient.selectedCategory = $scope.categoryMap[recipe_ingredient.ingredient.name];
       });
 
       $scope.isParsed = true;
@@ -110,27 +106,13 @@ angular.module('bruleeApp')
       $scope.recipe.recipe_ingredients.splice(index, 1);
     };
 
-    $scope.getCategory = function (recipe_ingredient) {
-      if (recipe_ingredient && recipe_ingredient.ingredient) {
-        var item = $scope.categoryMap[recipe_ingredient.ingredient.name];
-        if (item) {
-          return $scope.categoryMap[recipe_ingredient.ingredient.name];
-        }
-      }
-      return 'None';
-    };
-
     $scope.isCategorized = function (recipe_ingredient) {
+      // TODO: This should probably use some other field to reflect whether the
+      // selected category needs to be saved
       if (recipe_ingredient && recipe_ingredient.ingredient) {
-        var item = $scope.categoryMap[recipe_ingredient.ingredient.name];
-        if (item) {
-          return true;
-        }
+        return !!$scope.categoryMap[recipe_ingredient.ingredient.name];
       }
       return false;
     };
 
-    $scope.setSelectedCategory = function (recipe_ingredient, category) {
-      recipe_ingredient.selectedCategory = category;
-    };
   });
