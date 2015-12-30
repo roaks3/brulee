@@ -62,7 +62,7 @@ angular.module('bruleeApp')
       var groceryList = _.find($scope.groceryLists, 'id', id);
       var selectedRecipeIds = _(groceryList.recipe_days)
         .map(function (recipeDay) {
-          return recipeDay.recipe_id
+          return recipeDay.recipe_id;
         })
         .value();
 

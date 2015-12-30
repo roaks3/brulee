@@ -42,7 +42,7 @@ angular.module('bruleeApp')
         name: categoryName,
         order: categoryService.size() + 1
       })
-        .then(function (data) {
+        .then(function () {
           $scope.successMessage = 'Created category';
         })
         .catch(function (error) {
