@@ -20,7 +20,8 @@ angular.module('bruleeApp')
       scope: {},
       bindToController: {
         inputDisabled: '=',
-        selectedIngredient: '='
+        selectedIngredient: '=',
+        onSelect: '&'
       },
       controller: 'IngredientTypeaheadCtrl',
       controllerAs: 'vm',
