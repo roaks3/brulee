@@ -5,4 +5,5 @@
   typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"
   typeahead-toggle-on-click="true"
   typeahead-on-select="vm.onSelect({ingredient: vm.selectedIngredient})"
+  ng-change="vm.onChange(vm.selectedIngredient)"
   ng-disabled="vm.inputDisabled" />
