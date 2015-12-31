@@ -30,19 +30,11 @@
         <input class="form-control" ng-model="recipe.url" type="text" name="recipeUrl" />
       </div>
       <div class="parsedIngredientSection">
-        <div class="ingredient input-group" ng-repeat="recipe_ingredient in recipe.recipe_ingredients">
-          <span class="input-group-btn">
-            <button class="btn btn-default ingredientDelete" type="button" ng-click="removeIngredient($index)">&times;</button>
-          </span>
-          <ingredient-typeahead
-            selected-ingredient="recipe_ingredient.ingredient" >
-          </ingredient-typeahead>
-          <category-select
-            class="input-group-btn"
-            selected-category="recipe_ingredient.selectedCategory"
-            input-disabled="isCategorized(recipe_ingredient)" >
-          </category-select>
-        </div>
+        <recipe-ingredient-input
+          ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
+          recipe-ingredient="recipe_ingredient"
+          on-remove="removeRecipeIngredient(recipeIngredient)" >
+        </recipe-ingredient-input>
       </div>
       <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
         Add Recipe

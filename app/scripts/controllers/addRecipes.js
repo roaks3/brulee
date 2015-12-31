@@ -102,8 +102,10 @@ angular.module('bruleeApp')
       $scope.isParsed = true;
     };
 
-    $scope.removeIngredient = function (index) {
-      $scope.recipe.recipe_ingredients.splice(index, 1);
+    $scope.removeRecipeIngredient = function (recipeIngredient) {
+      _.remove($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+        return recipe_ingredient === recipeIngredient;
+      });
     };
 
     $scope.isCategorized = function (recipe_ingredient) {
