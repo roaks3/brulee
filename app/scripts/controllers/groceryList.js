@@ -54,4 +54,18 @@ angular.module('bruleeApp')
       }
     };
 
+    $scope.addIngredient = function (ingredient) {
+      $scope.groceryList.additional_ingredients = $scope.groceryList.additional_ingredients || [];
+      $scope.groceryList.additional_ingredients.push({
+        ingredient: ingredient,
+        amount: 1
+      });
+
+      groceryListService.update($scope.groceryList)
+        .then(function () {
+          // TODO: Can probably come up with a less naive solution
+          $scope.refreshGroceryLists();
+        });
+    };
+
   });

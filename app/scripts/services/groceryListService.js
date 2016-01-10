@@ -80,6 +80,12 @@ angular.module('bruleeApp.services')
             recipe_id: recipe_day.recipe_id,
             day_of_week: recipe_day.day_of_week ? parseInt(recipe_day.day_of_week) : null
           };
+        }),
+        additional_ingredients: _.map(attrs.additional_ingredients, function (additional_ingredient) {
+          return {
+            ingredient_id: additional_ingredient.ingredient.id,
+            amount: additional_ingredient.amount
+          };
         })
       };
       var scope = this;
@@ -99,6 +105,12 @@ angular.module('bruleeApp.services')
           return {
             recipe_id: recipe_day.recipe_id,
             day_of_week: recipe_day.day_of_week ? parseInt(recipe_day.day_of_week) : null
+          };
+        }),
+        additional_ingredients: _.map(groceryList.additional_ingredients, function (additional_ingredient) {
+          return {
+            ingredient_id: additional_ingredient.ingredient.id,
+            amount: additional_ingredient.amount
           };
         })
       };

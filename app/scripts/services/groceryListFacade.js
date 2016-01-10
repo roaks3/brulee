@@ -30,7 +30,8 @@ angular.module('bruleeApp.services')
     this.groceryListCreate = function (groceryList) {
       var groceryListFields = {
         week_start: groceryList.week_start,
-        recipe_days: groceryList.recipe_days
+        recipe_days: groceryList.recipe_days,
+        additional_ingredients: groceryList.additional_ingredients
       };
 
       return bruleeDataService.create({
@@ -50,7 +51,8 @@ angular.module('bruleeApp.services')
         id: groceryList.id,
         body: {
           doc: {
-            recipe_days: groceryList.recipe_days
+            recipe_days: groceryList.recipe_days,
+            additional_ingredients: groceryList.additional_ingredients
           }
         }
       });
