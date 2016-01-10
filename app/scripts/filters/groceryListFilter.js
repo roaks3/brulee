@@ -22,6 +22,7 @@ angular.module('bruleeApp')
 
       return _(recipesByIngredientId)
         .keys()
+        .concat(_.map(groceryList.additional_ingredients, 'ingredient.id'))
         .map((ingredientId) => {
           return ingredientService.get(ingredientId);
         })

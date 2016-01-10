@@ -44,12 +44,13 @@ angular.module('bruleeApp')
       $scope.refreshGroceryLists();
     }, 500);
 
-    $scope.groceryIngredients = [];
-
+    $scope.groceryList = {};
     $scope.selectGroceryList = function (id) {
-      var groceryList = _.find($scope.groceryLists, 'id', id);
-      if (groceryList) {
-        $scope.groceryIngredients = $filter('groceryListFilter')(groceryList);
+      $scope.groceryList = _.find($scope.groceryLists, 'id', id);
+      if ($scope.groceryList) {
+        $scope.groceryList.groceryIngredients = $filter('groceryListFilter')($scope.groceryList);
+      } else {
+        $scope.groceryList = {};
       }
     };
 
