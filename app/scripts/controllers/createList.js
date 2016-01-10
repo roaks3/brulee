@@ -3,7 +3,8 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $timeout, categoryService, groceryListService, ingredientService, recipeService) {
+  .controller('CreateListCtrl', function ($filter, $q, $scope, $timeout, categoryService,
+    groceryListService, ingredientService, recipeService) {
     
     $scope.recipes = [];
 
@@ -77,64 +78,13 @@ angular.module('bruleeApp')
     };
 
     $scope.calculateShoppingList = function () {
-      var selectedRecipes = _($scope.recipes)
-        .filter('_selected')
-        .value();
+      if ($scope.selectedGroceryList) {
+        $scope.shoppingList = $filter('groceryListFilter')($scope.selectedGroceryList);
+      } else {
+        var selectedRecipes = _($scope.recipes)
+          .filter('_selected')
+          .value();
 
-      var recipeNamesByIngredientId = _.reduce(selectedRecipes, function (memo, recipe) {
-        _.each(recipe.recipe_ingredients, function(recipe_ingredient) {
-          memo[recipe_ingredient.ingredient.id] = memo[recipe_ingredient.ingredient.id] || [];
-          memo[recipe_ingredient.ingredient.id].push(recipe.name);
-        });
-        return memo;
-      }, {});
-
-      // Remove ingredients from the list that are not in the selected recipes
-      $scope.shoppingList = _.map($scope.categories, function (category) {
-        return {
-          name: category.name,
-          ingredients: _(category.ingredients)
-            .filter(function (ingredient) {
-              return recipeNamesByIngredientId[ingredient.id];
-            })
-            .value()
-        };
-      });
-
-      // Gather ids for the uncategorized ingredients
-      var leftoverIngredientIds = _.difference(
-        _.keys(recipeNamesByIngredientId),
-        _($scope.shoppingList)
-          .map(function (category) {
-            return _.pluck(category.ingredients, 'id');
-          })
-          .flatten()
-          .value()
-      );
-
-      // Create leftover category for uncategorized ingredients
-      $scope.shoppingList.push({
-        name: 'Leftovers',
-        ingredients: _.map(leftoverIngredientIds, function (ingredientId) {
-          return ingredientService.get(ingredientId);
-        })
-      });
-
-      // Add recipe names to each ingredient
-      $scope.shoppingList = _.map($scope.shoppingList, function (category) {
-        return {
-          name: category.name,
-          ingredients: _(category.ingredients)
-            .map(function (ingredient) {
-              return _.assign(ingredient, {
-                recipes: recipeNamesByIngredientId[ingredient.id]
-              });
-            })
-            .value()
-        };
-      });
-
-      if (!$scope.selectedGroceryList) {
         $scope.newGroceryList = {
           week_start: moment().day(0).format('MM/DD'),
           recipe_days: _.map(selectedRecipes, function (recipe) {
@@ -143,6 +93,7 @@ angular.module('bruleeApp')
             };
           })
         };
+        $scope.shoppingList = $filter('groceryListFilter')($scope.newGroceryList);
       }
     };
 
