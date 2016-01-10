@@ -1,0 +1,10 @@
+<div class="shoppingList">
+  <ul class="list-group" ng-repeat="categoryIngredients in vm.groceryIngredients">
+    <li class="list-group-item list-group-item-info">
+      {{categoryIngredients.name}}
+    </li>
+    <li ng-class="{'list-group-item': true, done: ingredient.done}" ng-repeat="ingredient in categoryIngredients.ingredients" ng-click="ingredient.done = !ingredient.done">
+      {{ingredient.name}} <span class="badge" tooltip-html-unsafe="ingredient.recipes" tooltip-placement="right">{{ingredient.recipes.length}}</span>
+    </li>
+  </ul>
+</div>
