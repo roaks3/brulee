@@ -4,7 +4,7 @@
       {{categoryIngredients.name}}
     </li>
     <li ng-class="{'list-group-item': true, done: ingredient.done}" ng-repeat="ingredient in categoryIngredients.ingredients" ng-click="ingredient.done = !ingredient.done">
-      {{ingredient.name}} <span class="badge" tooltip-html-unsafe="ingredient.recipes" tooltip-placement="right">{{ingredient.recipes.length}}</span>
+      {{ingredient.name}} <span class="badge" tooltip-html-unsafe="ingredient.recipeNames" tooltip-placement="right">{{ingredient.recipeNames.length}}</span>
     </li>
   </ul>
 </div>

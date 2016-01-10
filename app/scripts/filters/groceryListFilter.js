@@ -34,7 +34,7 @@ angular.module('bruleeApp')
             name: categoryName,
             ingredients: _.map(ingredients, (ingredient) => {
               return _.assign(ingredient, {
-                recipes: recipesByIngredientId[ingredient.id]
+                recipeNames: _.map(recipesByIngredientId[ingredient.id], 'name')
               });
             })
           };
