@@ -61,40 +61,31 @@ angular.module('bruleeApp')
 
     $scope.selectGroceryList = function (id) {
       var groceryList = _.find($scope.groceryLists, 'id', id);
-      var selectedRecipeIds = _(groceryList.recipe_days)
-        .map(function (recipeDay) {
-          return recipeDay.recipe_id;
-        })
-        .value();
+      var selectedRecipeIds = _.map(groceryList.recipe_days, 'recipe_id');
 
       _.each(selectedRecipeIds, function (recipeId) {
         var recipe = _.find($scope.recipes, 'id', recipeId);
         recipe._selected = true;
       });
 
-      $scope.selectedGroceryList = groceryList;
-
-      $scope.calculateShoppingList();
+      $scope.shoppingList = $filter('groceryListFilter')(groceryList);
     };
 
     $scope.calculateShoppingList = function () {
-      if ($scope.selectedGroceryList) {
-        $scope.shoppingList = $filter('groceryListFilter')($scope.selectedGroceryList);
-      } else {
-        var selectedRecipes = _($scope.recipes)
-          .filter('_selected')
-          .value();
+      var selectedRecipes = _($scope.recipes)
+        .filter('_selected')
+        .value();
 
-        $scope.newGroceryList = {
-          week_start: moment().day(0).format('MM/DD'),
-          recipe_days: _.map(selectedRecipes, function (recipe) {
-            return {
-              recipe_id: recipe.id
-            };
-          })
-        };
-        $scope.shoppingList = $filter('groceryListFilter')($scope.newGroceryList);
-      }
+      $scope.newGroceryList = {
+        week_start: moment().day(0).format('MM/DD'),
+        recipe_days: _.map(selectedRecipes, function (recipe) {
+          return {
+            recipe_id: recipe.id
+          };
+        })
+      };
+
+      $scope.shoppingList = $filter('groceryListFilter')($scope.newGroceryList);
     };
 
     $scope.saveGroceryList = function () {
