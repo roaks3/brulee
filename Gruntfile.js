@@ -37,6 +37,14 @@ module.exports = function (grunt) {
         files: ['bower.json'],
         tasks: ['wiredep']
       },
+      babel: {
+        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        tasks: ['babel:dist']
+      },
+      babelTest: {
+        files: ['test/spec/{,*/}*.js'],
+        tasks: ['babel:test', 'test:watch']
+      },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
         tasks: ['newer:jshint:all', 'newer:jscs:all'],
@@ -152,6 +160,34 @@ module.exports = function (grunt) {
       },
       test: {
         src: ['test/spec/{,*/}*.js']
+      }
+    },
+
+    // Compiles ES6 with Babel
+    babel: {
+      options: {
+        sourceMap: true,
+        // Remove retainLines option to get prettier babel output, but inaccurate stack traces
+        retainLines: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          src: '{,*/}*.js',
+          dest: '.tmp/scripts',
+          ext: '.js'
+        }]
+      },
+      test: {
+        files: [{
+          expand: true,
+          cwd: 'test/spec',
+          src: '{,*/}*.js',
+          dest: '.tmp/spec',
+          ext: '.js'
+        }]
       }
     },
 
@@ -439,12 +475,15 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
+        'babel:dist',
         'sass:server'
       ],
       test: [
+        'babel',
         'sass:dist'
       ],
       dist: [
+        'babel',
         'sass:dist',
         'imagemin',
         'svgmin'
