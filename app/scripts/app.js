@@ -29,6 +29,14 @@ angular.module('bruleeApp', [
         templateUrl: 'views/category.html',
         controller: 'CategoryCtrl'
       })
+      .when('/grocery', {
+        templateUrl: 'views/groceryList.html',
+        controller: 'GroceryListCtrl'
+      })
+      .when('/grocery/:id', {
+        templateUrl: 'views/groceryList.html',
+        controller: 'GroceryListCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

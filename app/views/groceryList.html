@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 shoppingListSection">
+
+      <a class="btn btn-primary"
+         id="createListButton"
+         ng-href="#/grocery/{{groceryList.id}}"
+         ng-repeat="groceryList in groceryLists">
+        {{groceryList.week_start}}
+      </a>
+
+      <grocery-ingredient-list
+        grocery-ingredients="groceryIngredients">
+      </grocery-ingredient-list>
+
+    </div>
+  </div>
+</div>
