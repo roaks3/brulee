@@ -3,7 +3,7 @@
     <li class="list-group-item list-group-item-info">
       {{categoryIngredients.name}}
     </li>
-    <li ng-class="{'list-group-item': true, done: ingredient.done}" ng-repeat="ingredient in categoryIngredients.ingredients" ng-click="ingredient.done = !ingredient.done">
+    <li ng-class="{'list-group-item': true, done: ingredient.done}" ng-repeat="ingredient in categoryIngredients.ingredients track by $index" ng-click="ingredient.done = !ingredient.done">
       {{ingredient.name}} <span class="badge" tooltip-html-unsafe="ingredient.recipeNames" tooltip-placement="right">{{ingredient.recipeNames.length}}</span>
     </li>
   </ul>
