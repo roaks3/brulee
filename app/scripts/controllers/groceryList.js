@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams, $timeout, categoryService, groceryListService) {
+  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams, $sessionStorage, $timeout, categoryService, groceryListService) {
 
     $scope.categories = [];
     $scope.refreshCategories = function () {
@@ -43,6 +43,9 @@ angular.module('bruleeApp')
     $timeout(function () {
       $scope.refreshGroceryLists();
     }, 500);
+
+    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
+    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
 
     $scope.groceryList = {};
     $scope.selectGroceryList = function (id) {

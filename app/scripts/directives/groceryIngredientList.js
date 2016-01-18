@@ -1,9 +1,25 @@
 'use strict';
 
 angular.module('bruleeApp')
-  .controller('GroceryIngredientListCtrl', function (categoryService) {
+  .controller('GroceryIngredientListCtrl', function ($sessionStorage, categoryService) {
 
     var vm = this;
+
+    vm.crossedOutIngredients = vm.crossedOutIngredients || [];
+
+    vm.crossOut = function (ingredient) {
+      if (vm.crossedOut(ingredient)) {
+        _.remove(vm.crossedOutIngredients, function (crossedOutIngredient) {
+          return crossedOutIngredient === ingredient.id;
+        });
+      } else {
+        vm.crossedOutIngredients.push(ingredient.id);
+      }
+    };
+
+    vm.crossedOut = function (ingredient) {
+      return _.includes(vm.crossedOutIngredients, ingredient.id);
+    };
 
   });
 
@@ -12,7 +28,8 @@ angular.module('bruleeApp')
     return {
       scope: {},
       bindToController: {
-        groceryIngredients: '='
+        groceryIngredients: '=',
+        crossedOutIngredients: '='
       },
       controller: 'GroceryIngredientListCtrl',
       controllerAs: 'vm',

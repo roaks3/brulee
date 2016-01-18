@@ -12,6 +12,7 @@
 angular.module('bruleeApp', [
     'ngRoute',
     'ui.bootstrap',
+    'ngStorage',
     'bruleeApp.services'
   ])
 
