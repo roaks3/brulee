@@ -38,6 +38,10 @@ angular.module('bruleeApp', [
         templateUrl: 'views/groceryList.html',
         controller: 'GroceryListCtrl'
       })
+      .when('/ingredient', {
+        templateUrl: 'views/ingredientList.html',
+        controller: 'IngredientListCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

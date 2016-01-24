@@ -1,0 +1,20 @@
+<div class="bg-success" ng-show="successMessage">
+  {{successMessage}}
+</div>
+<div class="bg-danger" ng-show="errors && error.length">
+  <div ng-repeat="error in errors">
+    {{error}}
+  </div>
+</div>
+
+<div class="actionsSection">
+  <input type="text" ng-model="newIngredientName" />
+  <button class="btn btn-primary" ng-click="addIngredient({name: newIngredientName})">
+    New Ingredient
+  </button>
+</div>
+
+<input ng-change="filterIngredients()" ng-model="search.str" />
+<h3 ng-repeat="ingredient in filteredIngredients">
+  {{ingredient.name}}
+</h3>
