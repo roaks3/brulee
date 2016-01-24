@@ -5,12 +5,12 @@
   </button>
   <ul class="dropdown-menu" role="menu">
     <li ng-click="vm.selectCategory(null)">
-      <a ng-href="#/addRecipes">
+      <a href>
         None
       </a>
     </li>
     <li ng-repeat="category in vm.categories" ng-click="vm.selectCategory(category)">
-      <a ng-href="#/addRecipes">
+      <a href>
         {{category.name}}
       </a>
     </li>
