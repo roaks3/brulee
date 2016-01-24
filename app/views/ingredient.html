@@ -1,0 +1,27 @@
+<div class="bg-success" ng-show="successMessage">
+  {{successMessage}}
+</div>
+<div class="bg-danger" ng-show="errors && error.length">
+  <div ng-repeat="error in errors">
+    {{error}}
+  </div>
+</div>
+
+<button class="btn btn-danger" ng-click="delete()">Delete</button>
+<button class="btn btn-primary" ng-click="save()">Save</button>
+
+<h1>
+  <input type="text" ng-model="ingredient.name" />
+</h1>
+
+<div class="input-group">
+  <category-select
+    class="input-group-btn"
+    selected-category="category"
+    input-disabled="true" >
+  </category-select>
+</div>
+
+<h4 ng-repeat="recipe in recipes">
+  {{recipe.name}}
+</h4>

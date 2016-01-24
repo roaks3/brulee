@@ -60,6 +60,15 @@ angular.module('bruleeApp.services')
       return this._recipesById[id];
     };
 
+    this.filterByIngredientId = function (ingredientId) {
+      return _(this._recipesById)
+        .values()
+        .filter(function (recipe) {
+          return _.includes(_.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
+        })
+        .value();
+    };
+
     this.inject = function (recipe) {
       var existingRecipe = _.find(this._recipes, 'id', recipe.id);
       if (existingRecipe) {

@@ -16,5 +16,5 @@
 
 <input ng-change="filterIngredients()" ng-model="search.str" />
 <h3 ng-repeat="ingredient in filteredIngredients">
-  {{ingredient.name}}
+  <a ng-href="#/ingredient/{{ingredient.id}}">{{ingredient.name}}</a>
 </h3>

@@ -42,6 +42,10 @@ angular.module('bruleeApp', [
         templateUrl: 'views/ingredientList.html',
         controller: 'IngredientListCtrl'
       })
+      .when('/ingredient/:id', {
+        templateUrl: 'views/ingredient.html',
+        controller: 'IngredientCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

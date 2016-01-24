@@ -75,6 +75,26 @@ angular.module('bruleeApp.services')
         });
     };
 
+    this.update = function (ingredient) {
+      var ingredientUpdate = {
+        id: ingredient.id,
+        name: ingredient.name
+      };
+
+      return ingredientFacade.ingredientUpdate(ingredientUpdate)
+        .then(this.inject(ingredient));
+    };
+
+    this.eject = function (id) {
+      _.remove(this._ingredients, 'id', id);
+      delete this._ingredientsById[id];
+    };
+
+    this.destroy = function (id) {
+      return ingredientFacade.ingredientDelete(id)
+        .then(this.eject(id));
+    };
+
     return this;
 
   });
