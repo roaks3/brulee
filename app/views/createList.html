@@ -19,9 +19,6 @@
       <button class="btn btn-primary" id="createListButton" ng-click="calculateShoppingList()">
         Create Shopping List
       </button>
-      <button class="btn btn-primary" id="createListButton" ng-click="selectGroceryList(groceryList.id)" ng-repeat="groceryList in groceryLists">
-        Grocery List {{groceryList.week_start}}
-      </button>
       <div ng-show="selectedGroceryList" class="groceryList">
         <ul class="list-group" ng-repeat="recipeDay in selectedGroceryList.recipe_days">
           <li class="list-group-item">
