@@ -23,7 +23,7 @@ angular.module('bruleeApp')
     $scope.filteredIngredients = [];
     $scope.filterIngredients = function () {
       $scope.filteredIngredients = _.filter($scope.ingredients, function (ingredient) {
-        return ingredient.name && ingredient.name.indexOf($scope.search.str) !== -1;
+        return ingredient.name && ingredient.name.toLowerCase().indexOf($scope.search.str.toLowerCase()) !== -1;
       });
     };
 
