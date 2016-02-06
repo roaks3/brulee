@@ -1,0 +1,28 @@
+<div class="bg-success" ng-show="successMessage">
+  {{successMessage}}
+</div>
+<div class="bg-danger" ng-show="errors && error.length">
+  <div ng-repeat="error in errors">
+    {{error}}
+  </div>
+</div>
+
+<h1>
+  {{recipe.name}}
+</h1>
+
+<a ng-href="{{recipe.url}}"
+   ng-show="recipe.url">
+  Link
+</a>
+
+<div class="parsedIngredientSection">
+  <recipe-ingredient-input
+    ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
+    recipe-ingredient="recipe_ingredient">
+  </recipe-ingredient-input>
+</div>
+
+<p ng-repeat="originalTextLine in originalTextLines">
+  {{originalTextLine}}
+</p>

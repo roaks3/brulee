@@ -1,0 +1,13 @@
+<div class="bg-success" ng-show="successMessage">
+  {{successMessage}}
+</div>
+<div class="bg-danger" ng-show="errors && error.length">
+  <div ng-repeat="error in errors">
+    {{error}}
+  </div>
+</div>
+
+<input ng-change="filterRecipes()" ng-model="recipeSearch.str" />
+<h3 ng-repeat="recipe in filteredRecipes">
+  <a ng-href="#/recipe/{{recipe.id}}">{{recipe.name}}</a>
+</h3>
