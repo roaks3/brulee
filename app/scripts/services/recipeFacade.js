@@ -45,6 +45,28 @@ angular.module('bruleeApp.services')
         });
     };
 
+    this.recipeUpdate = function (recipe) {
+      return bruleeDataService.update({
+        index: index,
+        type: type,
+        id: recipe.id,
+        body: {
+          doc: {
+            name: recipe.name,
+            url: recipe.url
+          }
+        }
+      });
+    };
+
+    this.recipeDelete = function (recipeId) {
+      return bruleeDataService.delete({
+        index: index,
+        type: type,
+        id: recipeId
+      });
+    };
+
     return this;
 
   });

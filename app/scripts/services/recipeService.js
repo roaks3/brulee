@@ -101,6 +101,27 @@ angular.module('bruleeApp.services')
         });
     };
 
+    this.update = function (recipe) {
+      var recipeUpdate = {
+        id: recipe.id,
+        name: recipe.name,
+        url: recipe.url
+      };
+
+      return recipeFacade.recipeUpdate(recipeUpdate)
+        .then(this.inject(recipe));
+    };
+
+    this.eject = function (id) {
+      oldlodash.remove(this._recipes, 'id', id);
+      delete this._recipesById[id];
+    };
+
+    this.destroy = function (id) {
+      return recipeFacade.recipeDelete(id)
+        .then(this.eject(id));
+    };
+
     return this;
 
   });

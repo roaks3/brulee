@@ -21,9 +21,46 @@ angular.module('bruleeApp')
         });
 
         $scope.originalTextLines = $scope.recipe.original_text.split('\n');
+        $scope.recipeName = $scope.recipe.name;
+        $scope.recipeUrl = $scope.recipe.url;
       })
       .catch((error) => {
         $scope.errors.push(error);
       });
+
+    $scope.delete = () => {
+      if (!confirm('Remove \'' + $scope.recipe.name + '\'?')) {
+        return;
+      }
+
+      $scope.errors = [];
+      $scope.successMessage = null;
+
+      recipeService.destroy($scope.recipe.id)
+        .then(() => {
+          $scope.successMessage = 'Deleted recipe';
+          // TODO: Redirect back to recipe page
+        })
+        .catch((error) => {
+          $scope.errors.push(error);
+        });
+    };
+
+    $scope.save = () => {
+      $scope.errors = [];
+      $scope.successMessage = null;
+
+      recipeService.update({
+        id: $scope.recipe.id,
+        name: $scope.recipeName,
+        url: $scope.recipeUrl
+      })
+        .then(() => {
+          $scope.successMessage = 'Saved recipe';
+        })
+        .catch((error) => {
+          $scope.errors.push(error);
+        });
+    };
 
   });
