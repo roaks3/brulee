@@ -13,7 +13,7 @@ angular.module('bruleeApp')
       });
 
     vm.onChange = function (ingredient) {
-      if (_.isString(ingredient)) {
+      if (oldlodash.isString(ingredient)) {
         vm.selectedIngredient = {name: ingredient};
       }
       vm.onSelect({ingredient: vm.selectedIngredient});

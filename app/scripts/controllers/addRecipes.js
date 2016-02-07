@@ -16,8 +16,8 @@ angular.module('bruleeApp')
 
     categoryService.findAll()
       .then(function (data) {
-        _.each(data, function (category) {
-          _.each(category.ingredients, function (ingredient) {
+        oldlodash.each(data, function (category) {
+          oldlodash.each(category.ingredients, function (ingredient) {
             $scope.categoryMap[ingredient.name] = category;
           });
         });
@@ -27,12 +27,12 @@ angular.module('bruleeApp')
       });
 
     $scope.createNewIngredients = function (recipe) {
-      var ingredientsToCreate = _(recipe.recipe_ingredients)
+      var ingredientsToCreate = oldlodash(recipe.recipe_ingredients)
         .pluck('ingredient')
         .reject('id')
         .value();
 
-      return $q.all(_.map(ingredientsToCreate, function (ingredient) {
+      return $q.all(oldlodash.map(ingredientsToCreate, function (ingredient) {
         return ingredientService.create(ingredient);
       }));
     };
@@ -40,7 +40,7 @@ angular.module('bruleeApp')
     $scope.updateCategories = function (recipe) {
       var categoriesToUpdate = [];
 
-      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
+      oldlodash.each(recipe.recipe_ingredients, function (recipe_ingredient) {
         if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
           var category = recipe_ingredient.selectedCategory;
           var ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
@@ -55,7 +55,7 @@ angular.module('bruleeApp')
     };
 
     $scope.updateRecipeIngredients = function (recipe) {
-      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
+      oldlodash.each(recipe.recipe_ingredients, function (recipe_ingredient) {
         recipe_ingredient.ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
       });
     };
@@ -88,7 +88,7 @@ angular.module('bruleeApp')
     $scope.parseRecipeText = function() {
       $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.original_text);
 
-      _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+      oldlodash.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
         var existingIngredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
         if (existingIngredient) {
           recipe_ingredient.ingredient = existingIngredient;
@@ -103,7 +103,7 @@ angular.module('bruleeApp')
     };
 
     $scope.removeRecipeIngredient = function (recipeIngredient) {
-      _.remove($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+      oldlodash.remove($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
         return recipe_ingredient === recipeIngredient;
       });
     };

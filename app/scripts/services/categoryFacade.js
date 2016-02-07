@@ -19,8 +19,8 @@ angular.module('bruleeApp.services')
         }
       })
         .then(function (data) {
-          return _.map(data.hits.hits, function (hit) {
-            return _.assign(hit._source, {
+          return oldlodash.map(data.hits.hits, function (hit) {
+            return oldlodash.assign(hit._source, {
               id: hit._id
             });
           });
@@ -59,7 +59,7 @@ angular.module('bruleeApp.services')
     this.categoryUpdateBulk = function (categories) {
       var scope = this;
       return $q.all(
-        _.map(categories, function (category) {
+        oldlodash.map(categories, function (category) {
           return scope.categoryUpdate(category);
         })
       );

@@ -8,21 +8,21 @@ angular.module('bruleeApp')
 
     return (groceryList) => {
 
-      let selectedRecipes = _.map(groceryList.recipe_days, (recipeDay) => {
+      let selectedRecipes = oldlodash.map(groceryList.recipe_days, (recipeDay) => {
         return recipeService.get(recipeDay.recipe_id);
       });
 
-      let recipesByIngredientId = _.reduce(selectedRecipes, (memo, recipe) => {
-        _.each(recipe.recipe_ingredients, (recipe_ingredient) => {
+      let recipesByIngredientId = oldlodash.reduce(selectedRecipes, (memo, recipe) => {
+        oldlodash.each(recipe.recipe_ingredients, (recipe_ingredient) => {
           memo[recipe_ingredient.ingredient.id] = memo[recipe_ingredient.ingredient.id] || [];
           memo[recipe_ingredient.ingredient.id].push(recipe);
         });
         return memo;
       }, {});
 
-      return _(recipesByIngredientId)
+      return oldlodash(recipesByIngredientId)
         .keys()
-        .concat(_.map(groceryList.additional_ingredients, 'ingredient.id'))
+        .concat(oldlodash.map(groceryList.additional_ingredients, 'ingredient.id'))
         .map((ingredientId) => {
           return ingredientService.get(ingredientId);
         })
@@ -33,9 +33,9 @@ angular.module('bruleeApp')
         .map((ingredients, categoryName) => {
           return {
             name: categoryName,
-            ingredients: _.map(ingredients, (ingredient) => {
-              return _.assign(ingredient, {
-                recipeNames: _.map(recipesByIngredientId[ingredient.id], 'name')
+            ingredients: oldlodash.map(ingredients, (ingredient) => {
+              return oldlodash.assign(ingredient, {
+                recipeNames: oldlodash.map(recipesByIngredientId[ingredient.id], 'name')
               });
             })
           };

@@ -22,13 +22,13 @@ angular.module('bruleeApp')
 
     $scope.filteredIngredients = [];
     $scope.filterIngredients = function () {
-      $scope.filteredIngredients = _.filter($scope.ingredients, function (ingredient) {
+      $scope.filteredIngredients = oldlodash.filter($scope.ingredients, function (ingredient) {
         return ingredient.name && ingredient.name.toLowerCase().indexOf($scope.search.str.toLowerCase()) !== -1;
       });
     };
 
     $scope.addIngredient = function (ingredient) {
-      if (_.includes(_.map($scope.ingredients, 'name'), ingredient.name)) {
+      if (oldlodash.includes(oldlodash.map($scope.ingredients, 'name'), ingredient.name)) {
         alert('This ingredient already exists');
         return;
       }

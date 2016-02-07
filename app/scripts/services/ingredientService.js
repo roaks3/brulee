@@ -22,7 +22,7 @@ angular.module('bruleeApp.services')
       ingredientFacade.ingredients()
         .then(function (data) {
           bruleeUtils.replaceEach(scope._ingredients, data);
-          bruleeUtils.replaceProperties(scope._ingredientsById, _.indexBy(scope._ingredients, 'id'));
+          bruleeUtils.replaceProperties(scope._ingredientsById, oldlodash.indexBy(scope._ingredients, 'id'));
 
           scope.deferredIngredients.resolve();
         })
@@ -48,11 +48,11 @@ angular.module('bruleeApp.services')
     };
 
     this.getByName = function (name) {
-      return _.find(this._ingredients, 'name', name);
+      return oldlodash.find(this._ingredients, 'name', name);
     };
 
     this.inject = function (ingredient) {
-      var existingIngredient = _.find(this._ingredients, 'id', ingredient.id);
+      var existingIngredient = oldlodash.find(this._ingredients, 'id', ingredient.id);
       if (existingIngredient) {
         bruleeUtils.replaceProperties(existingIngredient, ingredient);
       } else {
@@ -86,7 +86,7 @@ angular.module('bruleeApp.services')
     };
 
     this.eject = function (id) {
-      _.remove(this._ingredients, 'id', id);
+      oldlodash.remove(this._ingredients, 'id', id);
       delete this._ingredientsById[id];
     };
 

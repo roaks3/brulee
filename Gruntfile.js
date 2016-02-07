@@ -94,6 +94,10 @@ module.exports = function (grunt) {
                 connect.static('./bower_components')
               ),
               connect().use(
+                '/app/scripts/custom-lodash-migrate.js',
+                connect.static('./app/scripts/custom-lodash-migrate.js')
+              ),
+              connect().use(
                 '/app/styles',
                 connect.static('./app/styles')
               ),

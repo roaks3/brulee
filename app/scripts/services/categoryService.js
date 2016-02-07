@@ -28,16 +28,16 @@ angular.module('bruleeApp.services')
         ingredientService.findAll()
       ])
         .then(function (data) {
-          var categories = _.map(data[0], function (category) {
-            return _.assign(category, {
-              ingredients: _.map(category.ingredient_ids, function (ingredientId) {
+          var categories = oldlodash.map(data[0], function (category) {
+            return oldlodash.assign(category, {
+              ingredients: oldlodash.map(category.ingredient_ids, function (ingredientId) {
                 return ingredientService.get(ingredientId);
               })
             });
           });
 
           bruleeUtils.replaceEach(scope._categories, categories);
-          bruleeUtils.replaceProperties(scope._categoriesById, _.indexBy(scope._categories, 'id'));
+          bruleeUtils.replaceProperties(scope._categoriesById, oldlodash.indexBy(scope._categories, 'id'));
 
           scope.deferredCategories.resolve();
         })
@@ -63,17 +63,17 @@ angular.module('bruleeApp.services')
     };
 
     this.getByName = function (name) {
-      return _.find(this._categories, 'name', name);
+      return oldlodash.find(this._categories, 'name', name);
     };
 
     this.getByIngredientId = function (ingredientId) {
-      return _.find(this._categories, function (category) {
-        return _.includes(_.pluck(category.ingredients, 'id'), ingredientId);
+      return oldlodash.find(this._categories, function (category) {
+        return oldlodash.includes(oldlodash.pluck(category.ingredients, 'id'), ingredientId);
       });
     };
 
     this.inject = function (category) {
-      var existingCategory = _.find(this._categories, 'id', category.id);
+      var existingCategory = oldlodash.find(this._categories, 'id', category.id);
       if (existingCategory) {
         bruleeUtils.replaceProperties(existingCategory, category);
       } else {
@@ -101,7 +101,7 @@ angular.module('bruleeApp.services')
     this.update = function (category) {
       var categoryUpdate = {
         id: category.id,
-        ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
+        ingredient_ids: oldlodash(category.ingredients).pluck('id').uniq().value()
       };
 
       return categoryFacade.categoryUpdate(categoryUpdate)
@@ -109,24 +109,24 @@ angular.module('bruleeApp.services')
     };
 
     this.updateAll = function (categories) {
-      var categoryUpdates = _.map(categories, function (category) {
+      var categoryUpdates = oldlodash.map(categories, function (category) {
         return {
           id: category.id,
-          ingredient_ids: _(category.ingredients).pluck('id').uniq().value()
+          ingredient_ids: oldlodash(category.ingredients).pluck('id').uniq().value()
         };
       });
       var scope = this;
 
       return categoryFacade.categoryUpdateBulk(categoryUpdates)
         .then(function () {
-          return $q.all(_.map(categories, function (category) {
+          return $q.all(oldlodash.map(categories, function (category) {
             return scope.inject(category);
           }));
         });
     };
 
     this.eject = function (id) {
-      _.remove(this._categories, 'id', id);
+      oldlodash.remove(this._categories, 'id', id);
       delete this._categoriesById[id];
     };
 

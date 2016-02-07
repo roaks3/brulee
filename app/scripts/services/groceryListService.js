@@ -25,15 +25,15 @@ angular.module('bruleeApp.services')
         ingredientService.findAll()
       ])
         .then(function (data) {
-          var groceryLists = _.map(data[0], function (groceryList) {
-            return _.assign(groceryList, {
-              recipe_days: _.map(groceryList.recipe_days, function (recipe_day) {
-                return _.assign(recipe_day, {
+          var groceryLists = oldlodash.map(data[0], function (groceryList) {
+            return oldlodash.assign(groceryList, {
+              recipe_days: oldlodash.map(groceryList.recipe_days, function (recipe_day) {
+                return oldlodash.assign(recipe_day, {
                   recipe: recipeService.get(recipe_day.recipe_id)
                 });
               }),
-              additional_ingredients: _.map(groceryList.additional_ingredients, function (additional_ingredient) {
-                return _.assign(additional_ingredient, {
+              additional_ingredients: oldlodash.map(groceryList.additional_ingredients, function (additional_ingredient) {
+                return oldlodash.assign(additional_ingredient, {
                   ingredient: ingredientService.get(additional_ingredient.ingredient_id)
                 });
               })
@@ -41,7 +41,7 @@ angular.module('bruleeApp.services')
           });
 
           bruleeUtils.replaceEach(scope._groceryLists, groceryLists);
-          bruleeUtils.replaceProperties(scope._groceryListsById, _.indexBy(scope._groceryLists, 'id'));
+          bruleeUtils.replaceProperties(scope._groceryListsById, oldlodash.indexBy(scope._groceryLists, 'id'));
 
           scope.deferredGroceryLists.resolve();
         })
@@ -63,7 +63,7 @@ angular.module('bruleeApp.services')
     };
 
     this.inject = function (groceryList) {
-      var existingGroceryList = _.find(this._groceryLists, 'id', groceryList.id);
+      var existingGroceryList = oldlodash.find(this._groceryLists, 'id', groceryList.id);
       if (existingGroceryList) {
         bruleeUtils.replaceProperties(existingGroceryList, groceryList);
       } else {
@@ -75,13 +75,13 @@ angular.module('bruleeApp.services')
     this.create = function (attrs) {
       var groceryList = {
         week_start: attrs.week_start,
-        recipe_days: _.map(attrs.recipe_days, function (recipe_day) {
+        recipe_days: oldlodash.map(attrs.recipe_days, function (recipe_day) {
           return {
             recipe_id: recipe_day.recipe_id,
             day_of_week: recipe_day.day_of_week ? parseInt(recipe_day.day_of_week) : null
           };
         }),
-        additional_ingredients: _.map(attrs.additional_ingredients, function (additional_ingredient) {
+        additional_ingredients: oldlodash.map(attrs.additional_ingredients, function (additional_ingredient) {
           return {
             ingredient_id: additional_ingredient.ingredient.id,
             amount: additional_ingredient.amount
@@ -101,13 +101,13 @@ angular.module('bruleeApp.services')
     this.update = function (groceryList) {
       var groceryListUpdate = {
         id: groceryList.id,
-        recipe_days: _.map(groceryList.recipe_days, function (recipe_day) {
+        recipe_days: oldlodash.map(groceryList.recipe_days, function (recipe_day) {
           return {
             recipe_id: recipe_day.recipe_id,
             day_of_week: recipe_day.day_of_week ? parseInt(recipe_day.day_of_week) : null
           };
         }),
-        additional_ingredients: _.map(groceryList.additional_ingredients, function (additional_ingredient) {
+        additional_ingredients: oldlodash.map(groceryList.additional_ingredients, function (additional_ingredient) {
           return {
             ingredient_id: additional_ingredient.ingredient.id,
             amount: additional_ingredient.amount

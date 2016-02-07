@@ -73,10 +73,10 @@ angular.module('bruleeApp')
       }
 
       if (ingredient && ingredient.id) {
-        if (!_.find(category.ingredients, 'id', ingredient.id)) {
+        if (!oldlodash.find(category.ingredients, 'id', ingredient.id)) {
           // Remove ingredient from all other categories
-          _.each($scope.categories, function (otherCategory) {
-            _.remove(otherCategory.ingredients, 'id', ingredient.id);
+          oldlodash.each($scope.categories, function (otherCategory) {
+            oldlodash.remove(otherCategory.ingredients, 'id', ingredient.id);
           });
 
           // Add ingredient to this category
@@ -93,7 +93,7 @@ angular.module('bruleeApp')
     };
 
     $scope.removeIngredient = function (category, ingredientId) {
-      _.remove(category.ingredients, 'id', ingredientId);
+      oldlodash.remove(category.ingredients, 'id', ingredientId);
     };
 
   });

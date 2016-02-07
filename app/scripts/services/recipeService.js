@@ -24,10 +24,10 @@ angular.module('bruleeApp.services')
         ingredientService.findAll()
       ])
         .then(function (data) {
-          var recipes = _.map(data[0], function (recipe) {
-            return _.assign(recipe, {
-              recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
-                return _.assign(recipeIngredient, {
+          var recipes = oldlodash.map(data[0], function (recipe) {
+            return oldlodash.assign(recipe, {
+              recipe_ingredients: oldlodash.map(recipe.recipe_ingredients, function (recipeIngredient) {
+                return oldlodash.assign(recipeIngredient, {
                   ingredient: ingredientService.get(recipeIngredient.ingredient_id)
                 });
               })
@@ -35,7 +35,7 @@ angular.module('bruleeApp.services')
           });
 
           bruleeUtils.replaceEach(scope._recipes, recipes);
-          bruleeUtils.replaceProperties(scope._recipesById, _.indexBy(scope._recipes, 'id'));
+          bruleeUtils.replaceProperties(scope._recipesById, oldlodash.indexBy(scope._recipes, 'id'));
 
           scope.deferredRecipes.resolve();
         })
@@ -61,16 +61,16 @@ angular.module('bruleeApp.services')
     };
 
     this.filterByIngredientId = function (ingredientId) {
-      return _(this._recipesById)
+      return oldlodash(this._recipesById)
         .values()
         .filter(function (recipe) {
-          return _.includes(_.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
+          return oldlodash.includes(oldlodash.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
         })
         .value();
     };
 
     this.inject = function (recipe) {
-      var existingRecipe = _.find(this._recipes, 'id', recipe.id);
+      var existingRecipe = oldlodash.find(this._recipes, 'id', recipe.id);
       if (existingRecipe) {
         bruleeUtils.replaceProperties(existingRecipe, recipe);
       } else {
@@ -84,7 +84,7 @@ angular.module('bruleeApp.services')
         name: attrs.name,
         original_text: attrs.original_text,
         url: attrs.url,
-        recipe_ingredients: _.map(attrs.recipe_ingredients, function (recipe_ingredient) {
+        recipe_ingredients: oldlodash.map(attrs.recipe_ingredients, function (recipe_ingredient) {
           return {
             ingredient_id: recipe_ingredient.ingredient.id,
             amount: recipe_ingredient.amount

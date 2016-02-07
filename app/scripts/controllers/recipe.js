@@ -16,7 +16,7 @@ angular.module('bruleeApp')
         $scope.recipe = recipeService.get($routeParams.id);
 
         // Add category to each ingredient in the recipe
-        _.each($scope.recipe.recipe_ingredients, (recipe_ingredient) => {
+        oldlodash.each($scope.recipe.recipe_ingredients, (recipe_ingredient) => {
           recipe_ingredient.selectedCategory = categoryService.getByIngredientId(recipe_ingredient.ingredient.id);
         });
 

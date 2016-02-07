@@ -5,23 +5,23 @@ angular.module('bruleeApp.services')
   .service('bruleeUtils', function () {
 
     this.replaceProperties = function (obj, source) {
-      _.each(obj, function (v, k) {
+      oldlodash.each(obj, function (v, k) {
         if (!source[k]) {
           delete obj[k];
         }
       });
 
-      return _.assign(obj, source);
+      return oldlodash.assign(obj, source);
     };
 
     this.replaceEach = function (array, source) {
-      _.remove(array, function (element) {
-        return _.includes(source, 'id', element.id);
+      oldlodash.remove(array, function (element) {
+        return oldlodash.includes(source, 'id', element.id);
       });
 
       var scope = this;
-      _.each(source, function (element) {
-        var index = _.findIndex(array, 'id', element.id);
+      oldlodash.each(source, function (element) {
+        var index = oldlodash.findIndex(array, 'id', element.id);
         if (index && index >= 0) {
           scope.replaceProperties(array[index], element);
         } else {
