@@ -21,7 +21,7 @@ angular.module('bruleeApp.services')
 
       var scope = this;
       oldlodash.each(source, function (element) {
-        var index = oldlodash.findIndex(array, 'id', element.id);
+        var index = _.findIndex(array, ['id', element.id]);
         if (index && index >= 0) {
           scope.replaceProperties(array[index], element);
         } else {

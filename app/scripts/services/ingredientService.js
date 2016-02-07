@@ -22,7 +22,7 @@ angular.module('bruleeApp.services')
       ingredientFacade.ingredients()
         .then(function (data) {
           bruleeUtils.replaceEach(scope._ingredients, data);
-          bruleeUtils.replaceProperties(scope._ingredientsById, oldlodash.indexBy(scope._ingredients, 'id'));
+          bruleeUtils.replaceProperties(scope._ingredientsById, _.keyBy(scope._ingredients, 'id'));
 
           scope.deferredIngredients.resolve();
         })

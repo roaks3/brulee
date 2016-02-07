@@ -24,9 +24,9 @@ angular.module('bruleeApp.services')
         ingredientService.findAll()
       ])
         .then(function (data) {
-          var recipes = oldlodash.map(data[0], function (recipe) {
+          var recipes = _.map(data[0], function (recipe) {
             return oldlodash.assign(recipe, {
-              recipe_ingredients: oldlodash.map(recipe.recipe_ingredients, function (recipeIngredient) {
+              recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
                 return oldlodash.assign(recipeIngredient, {
                   ingredient: ingredientService.get(recipeIngredient.ingredient_id)
                 });
@@ -35,7 +35,7 @@ angular.module('bruleeApp.services')
           });
 
           bruleeUtils.replaceEach(scope._recipes, recipes);
-          bruleeUtils.replaceProperties(scope._recipesById, oldlodash.indexBy(scope._recipes, 'id'));
+          bruleeUtils.replaceProperties(scope._recipesById, _.keyBy(scope._recipes, 'id'));
 
           scope.deferredRecipes.resolve();
         })
@@ -64,7 +64,7 @@ angular.module('bruleeApp.services')
       return oldlodash(this._recipesById)
         .values()
         .filter(function (recipe) {
-          return oldlodash.includes(oldlodash.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
+          return oldlodash.includes(_.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
         })
         .value();
     };
@@ -86,7 +86,7 @@ angular.module('bruleeApp.services')
         name: attrs.name,
         original_text: attrs.original_text,
         url: attrs.url,
-        recipe_ingredients: oldlodash.map(attrs.recipe_ingredients, function (recipe_ingredient) {
+        recipe_ingredients: _.map(attrs.recipe_ingredients, function (recipe_ingredient) {
           return {
             ingredient_id: recipe_ingredient.ingredient.id,
             amount: recipe_ingredient.amount

@@ -28,16 +28,16 @@ angular.module('bruleeApp.services')
         ingredientService.findAll()
       ])
         .then(function (data) {
-          var categories = oldlodash.map(data[0], function (category) {
+          var categories = _.map(data[0], function (category) {
             return oldlodash.assign(category, {
-              ingredients: oldlodash.map(category.ingredient_ids, function (ingredientId) {
+              ingredients: _.map(category.ingredient_ids, function (ingredientId) {
                 return ingredientService.get(ingredientId);
               })
             });
           });
 
           bruleeUtils.replaceEach(scope._categories, categories);
-          bruleeUtils.replaceProperties(scope._categoriesById, oldlodash.indexBy(scope._categories, 'id'));
+          bruleeUtils.replaceProperties(scope._categoriesById, _.keyBy(scope._categories, 'id'));
 
           scope.deferredCategories.resolve();
         })
@@ -111,7 +111,7 @@ angular.module('bruleeApp.services')
     };
 
     this.updateAll = function (categories) {
-      var categoryUpdates = oldlodash.map(categories, function (category) {
+      var categoryUpdates = _.map(categories, function (category) {
         return {
           id: category.id,
           ingredient_ids: oldlodash(category.ingredients).pluck('id').uniq().value()
@@ -121,7 +121,7 @@ angular.module('bruleeApp.services')
 
       return categoryFacade.categoryUpdateBulk(categoryUpdates)
         .then(function () {
-          return $q.all(oldlodash.map(categories, function (category) {
+          return $q.all(_.map(categories, function (category) {
             return scope.inject(category);
           }));
         });

@@ -32,7 +32,7 @@ angular.module('bruleeApp')
         .reject('id')
         .value();
 
-      return $q.all(oldlodash.map(ingredientsToCreate, function (ingredient) {
+      return $q.all(_.map(ingredientsToCreate, function (ingredient) {
         return ingredientService.create(ingredient);
       }));
     };
