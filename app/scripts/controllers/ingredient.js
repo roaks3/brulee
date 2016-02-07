@@ -23,6 +23,7 @@ angular.module('bruleeApp')
       .then(function (data) {
         $scope.ingredients = data;
         $scope.ingredient = ingredientService.get($routeParams.id);
+        $scope.ingredientName = $scope.ingredient.name;
       })
       .catch(function (error) {
         $scope.errors.push(error);
@@ -71,7 +72,7 @@ angular.module('bruleeApp')
         .map('name')
         .value();
 
-      if (_.includes(otherIngredientNames, $scope.ingredient.name)) {
+      if (_.includes(otherIngredientNames, $scope.ingredientName)) {
         alert('This ingredient name already exists');
         return;
       }
@@ -79,7 +80,10 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      ingredientService.update($scope.ingredient)
+      ingredientService.update({
+        id: $scope.ingredient.id,
+        name: $scope.ingredientName
+      })
         .then(function () {
           $scope.successMessage = 'Saved ingredient';
         })
