@@ -72,7 +72,9 @@ angular.module('bruleeApp.services')
     this.inject = function (recipe) {
       var existingRecipe = oldlodash.find(this._recipes, 'id', recipe.id);
       if (existingRecipe) {
-        bruleeUtils.replaceProperties(existingRecipe, recipe);
+        var updatedRecipe = _.clone(recipe);
+        _.defaults(updatedRecipe, existingRecipe);
+        bruleeUtils.replaceProperties(existingRecipe, updatedRecipe);
       } else {
         this._recipes.push(recipe);
         this._recipesById[recipe.id] = recipe;

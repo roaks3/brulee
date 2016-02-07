@@ -75,7 +75,9 @@ angular.module('bruleeApp.services')
     this.inject = function (category) {
       var existingCategory = oldlodash.find(this._categories, 'id', category.id);
       if (existingCategory) {
-        bruleeUtils.replaceProperties(existingCategory, category);
+        var updatedCategory = _.clone(category);
+        _.defaults(updatedCategory, existingCategory);
+        bruleeUtils.replaceProperties(existingCategory, updatedCategory);
       } else {
         this._categories.push(category);
         this._categoriesById[category.id] = category;

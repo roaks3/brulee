@@ -65,7 +65,9 @@ angular.module('bruleeApp.services')
     this.inject = function (groceryList) {
       var existingGroceryList = oldlodash.find(this._groceryLists, 'id', groceryList.id);
       if (existingGroceryList) {
-        bruleeUtils.replaceProperties(existingGroceryList, groceryList);
+        var updatedGroceryList = _.clone(groceryList);
+        _.defaults(updatedGroceryList, existingGroceryList);
+        bruleeUtils.replaceProperties(existingGroceryList, updatedGroceryList);
       } else {
         this._groceryLists.push(groceryList);
         this._groceryListsById[groceryList.id] = groceryList;
