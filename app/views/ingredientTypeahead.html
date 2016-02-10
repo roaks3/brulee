@@ -2,7 +2,7 @@
   class="form-control"
   type="text"
   ng-model="vm.selectedIngredient"
-  typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"
+  uib-typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"
   typeahead-select-on-exact="true"
   typeahead-on-select="vm.onSelect({ingredient: vm.selectedIngredient})"
   ng-change="vm.onChange(vm.selectedIngredient)"
