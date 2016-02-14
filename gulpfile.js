@@ -113,10 +113,12 @@ gulp.task('start:server:test', function() {
 });
 
 gulp.task('watch', function () {
-  $.watch(paths.styles)
-    .pipe($.plumber())
-    .pipe(styles())
-    .pipe($.connect.reload());
+  $.watch(paths.styles, function () {
+    gulp.src(paths.styles)
+      .pipe($.plumber())
+      .pipe(styles())
+      .pipe($.connect.reload());
+  });
 
   $.watch(paths.views.files)
     .pipe($.plumber())
