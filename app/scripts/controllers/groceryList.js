@@ -49,7 +49,7 @@ angular.module('bruleeApp')
 
     $scope.groceryList = {};
     $scope.selectGroceryList = function (id) {
-      $scope.groceryList = oldlodash.find($scope.groceryLists, 'id', id);
+      $scope.groceryList = _.find($scope.groceryLists, ['id', id]);
       if ($scope.groceryList) {
         $scope.groceryList.groceryIngredients = $filter('groceryListFilter')($scope.groceryList);
       } else {

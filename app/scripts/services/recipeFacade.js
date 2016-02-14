@@ -20,7 +20,7 @@ angular.module('bruleeApp.services')
       })
         .then(function (data) {
           return _.map(data.hits.hits, function (hit) {
-            return oldlodash.assign(hit._source, {
+            return _.assign(hit._source, {
               id: hit._id
             });
           });

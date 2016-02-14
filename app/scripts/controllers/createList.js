@@ -38,7 +38,7 @@ angular.module('bruleeApp')
     $scope.shoppingList = [];
 
     $scope.calculateShoppingList = function () {
-      var selectedRecipes = oldlodash($scope.recipes)
+      var selectedRecipes = _($scope.recipes)
         .filter('_selected')
         .value();
 
