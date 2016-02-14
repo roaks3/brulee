@@ -29,7 +29,7 @@ angular.module('bruleeApp.services')
       ])
         .then(function (data) {
           var categories = _.map(data[0], function (category) {
-            return oldlodash.assign(category, {
+            return _.assign(category, {
               ingredients: _.map(category.ingredient_ids, function (ingredientId) {
                 return ingredientService.get(ingredientId);
               })
@@ -63,17 +63,17 @@ angular.module('bruleeApp.services')
     };
 
     this.getByName = function (name) {
-      return oldlodash.find(this._categories, 'name', name);
+      return _.find(this._categories, ['name', name]);
     };
 
     this.getByIngredientId = function (ingredientId) {
-      return oldlodash.find(this._categories, function (category) {
+      return _.find(this._categories, function (category) {
         return _.includes(oldlodash.pluck(category.ingredients, 'id'), ingredientId);
       });
     };
 
     this.inject = function (category) {
-      var existingCategory = oldlodash.find(this._categories, 'id', category.id);
+      var existingCategory = _.find(this._categories, ['id', category.id]);
       if (existingCategory) {
         var updatedCategory = _.clone(category);
         _.defaults(updatedCategory, existingCategory);

@@ -48,11 +48,11 @@ angular.module('bruleeApp.services')
     };
 
     this.getByName = function (name) {
-      return oldlodash.find(this._ingredients, 'name', name);
+      return _.find(this._ingredients, ['name', name]);
     };
 
     this.inject = function (ingredient) {
-      var existingIngredient = oldlodash.find(this._ingredients, 'id', ingredient.id);
+      var existingIngredient = _.find(this._ingredients, ['id', ingredient.id]);
       if (existingIngredient) {
         var updatedIngredient = _.clone(ingredient);
         _.defaults(updatedIngredient, existingIngredient);

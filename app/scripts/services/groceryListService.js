@@ -26,14 +26,14 @@ angular.module('bruleeApp.services')
       ])
         .then(function (data) {
           var groceryLists = _.map(data[0], function (groceryList) {
-            return oldlodash.assign(groceryList, {
+            return _.assign(groceryList, {
               recipe_days: _.map(groceryList.recipe_days, function (recipe_day) {
-                return oldlodash.assign(recipe_day, {
+                return _.assign(recipe_day, {
                   recipe: recipeService.get(recipe_day.recipe_id)
                 });
               }),
               additional_ingredients: _.map(groceryList.additional_ingredients, function (additional_ingredient) {
-                return oldlodash.assign(additional_ingredient, {
+                return _.assign(additional_ingredient, {
                   ingredient: ingredientService.get(additional_ingredient.ingredient_id)
                 });
               })
@@ -63,7 +63,7 @@ angular.module('bruleeApp.services')
     };
 
     this.inject = function (groceryList) {
-      var existingGroceryList = oldlodash.find(this._groceryLists, 'id', groceryList.id);
+      var existingGroceryList = _.find(this._groceryLists, ['id', groceryList.id]);
       if (existingGroceryList) {
         var updatedGroceryList = _.clone(groceryList);
         _.defaults(updatedGroceryList, existingGroceryList);

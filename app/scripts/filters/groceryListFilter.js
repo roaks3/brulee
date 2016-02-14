@@ -34,7 +34,7 @@ angular.module('bruleeApp')
           return {
             name: categoryName,
             ingredients: _.map(ingredients, (ingredient) => {
-              return oldlodash.assign(ingredient, {
+              return _.assign(ingredient, {
                 recipeNames: _.map(recipesByIngredientId[ingredient.id], 'name')
               });
             })

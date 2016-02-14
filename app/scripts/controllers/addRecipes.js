@@ -103,7 +103,7 @@ angular.module('bruleeApp')
     };
 
     $scope.removeRecipeIngredient = function (recipeIngredient) {
-      oldlodash.remove($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+      _.remove($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
         return recipe_ingredient === recipeIngredient;
       });
     };

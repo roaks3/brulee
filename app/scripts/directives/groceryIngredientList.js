@@ -9,7 +9,7 @@ angular.module('bruleeApp')
 
     vm.crossOut = function (ingredient) {
       if (vm.crossedOut(ingredient)) {
-        oldlodash.remove(vm.crossedOutIngredients, function (crossedOutIngredient) {
+        _.remove(vm.crossedOutIngredients, function (crossedOutIngredient) {
           return crossedOutIngredient === ingredient.id;
         });
       } else {

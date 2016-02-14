@@ -25,9 +25,9 @@ angular.module('bruleeApp.services')
       ])
         .then(function (data) {
           var recipes = _.map(data[0], function (recipe) {
-            return oldlodash.assign(recipe, {
+            return _.assign(recipe, {
               recipe_ingredients: _.map(recipe.recipe_ingredients, function (recipeIngredient) {
-                return oldlodash.assign(recipeIngredient, {
+                return _.assign(recipeIngredient, {
                   ingredient: ingredientService.get(recipeIngredient.ingredient_id)
                 });
               })
@@ -70,7 +70,7 @@ angular.module('bruleeApp.services')
     };
 
     this.inject = function (recipe) {
-      var existingRecipe = oldlodash.find(this._recipes, 'id', recipe.id);
+      var existingRecipe = _.find(this._recipes, ['id', recipe.id]);
       if (existingRecipe) {
         var updatedRecipe = _.clone(recipe);
         _.defaults(updatedRecipe, existingRecipe);
