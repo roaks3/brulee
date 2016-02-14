@@ -61,7 +61,7 @@ angular.module('bruleeApp.services')
     };
 
     this.filterByIngredientId = function (ingredientId) {
-      return oldlodash(this._recipesById)
+      return _(this._recipesById)
         .values()
         .filter(function (recipe) {
           return _.includes(_.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);

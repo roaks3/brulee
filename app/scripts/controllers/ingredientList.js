@@ -22,7 +22,7 @@ angular.module('bruleeApp')
 
     $scope.filteredIngredients = [];
     $scope.filterIngredients = function () {
-      $scope.filteredIngredients = oldlodash.filter($scope.ingredients, function (ingredient) {
+      $scope.filteredIngredients = _.filter($scope.ingredients, function (ingredient) {
         return ingredient.name && ingredient.name.toLowerCase().indexOf($scope.search.str.toLowerCase()) !== -1;
       });
     };

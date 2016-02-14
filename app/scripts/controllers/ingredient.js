@@ -67,8 +67,8 @@ angular.module('bruleeApp')
     };
 
     $scope.save = function () {
-      var otherIngredientNames = oldlodash($scope.ingredients)
-        .reject('id', $scope.ingredient.id)
+      var otherIngredientNames = _($scope.ingredients)
+        .reject(['id', $scope.ingredient.id])
         .map('name')
         .value();
 
