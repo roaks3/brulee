@@ -173,7 +173,7 @@ gulp.task('test', ['start:server:test'], function () {
 gulp.task('bower', function () {
   return gulp.src(paths.views.main)
     .pipe(wiredep({
-      ignorePath: '..'
+      ignorePath: '../'
     }))
     .pipe(gulp.dest(yeoman.app));
 });
