@@ -18,7 +18,7 @@ angular.module('bruleeApp')
     };
 
     vm.crossedOut = function (ingredient) {
-      return oldlodash.includes(vm.crossedOutIngredients, ingredient.id);
+      return _.includes(vm.crossedOutIngredients, ingredient.id);
     };
 
   });

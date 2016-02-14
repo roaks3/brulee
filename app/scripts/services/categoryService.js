@@ -68,7 +68,7 @@ angular.module('bruleeApp.services')
 
     this.getByIngredientId = function (ingredientId) {
       return oldlodash.find(this._categories, function (category) {
-        return oldlodash.includes(oldlodash.pluck(category.ingredients, 'id'), ingredientId);
+        return _.includes(oldlodash.pluck(category.ingredients, 'id'), ingredientId);
       });
     };
 

@@ -75,7 +75,7 @@ angular.module('bruleeApp')
       if (ingredient && ingredient.id) {
         if (!oldlodash.find(category.ingredients, 'id', ingredient.id)) {
           // Remove ingredient from all other categories
-          oldlodash.each($scope.categories, function (otherCategory) {
+          _.each($scope.categories, function (otherCategory) {
             oldlodash.remove(otherCategory.ingredients, 'id', ingredient.id);
           });
 

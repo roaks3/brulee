@@ -13,7 +13,7 @@ angular.module('bruleeApp')
       });
 
       let recipesByIngredientId = oldlodash.reduce(selectedRecipes, (memo, recipe) => {
-        oldlodash.each(recipe.recipe_ingredients, (recipe_ingredient) => {
+        _.each(recipe.recipe_ingredients, (recipe_ingredient) => {
           memo[recipe_ingredient.ingredient.id] = memo[recipe_ingredient.ingredient.id] || [];
           memo[recipe_ingredient.ingredient.id].push(recipe);
         });

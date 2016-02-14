@@ -16,8 +16,8 @@ angular.module('bruleeApp')
 
     categoryService.findAll()
       .then(function (data) {
-        oldlodash.each(data, function (category) {
-          oldlodash.each(category.ingredients, function (ingredient) {
+        _.each(data, function (category) {
+          _.each(category.ingredients, function (ingredient) {
             $scope.categoryMap[ingredient.name] = category;
           });
         });
@@ -40,7 +40,7 @@ angular.module('bruleeApp')
     $scope.updateCategories = function (recipe) {
       var categoriesToUpdate = [];
 
-      oldlodash.each(recipe.recipe_ingredients, function (recipe_ingredient) {
+      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
         if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
           var category = recipe_ingredient.selectedCategory;
           var ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
@@ -55,7 +55,7 @@ angular.module('bruleeApp')
     };
 
     $scope.updateRecipeIngredients = function (recipe) {
-      oldlodash.each(recipe.recipe_ingredients, function (recipe_ingredient) {
+      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
         recipe_ingredient.ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
       });
     };
@@ -88,7 +88,7 @@ angular.module('bruleeApp')
     $scope.parseRecipeText = function() {
       $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.original_text);
 
-      oldlodash.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+      _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
         var existingIngredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
         if (existingIngredient) {
           recipe_ingredient.ingredient = existingIngredient;

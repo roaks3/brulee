@@ -72,7 +72,7 @@ angular.module('bruleeApp')
         .map('name')
         .value();
 
-      if (oldlodash.includes(otherIngredientNames, $scope.ingredientName)) {
+      if (_.includes(otherIngredientNames, $scope.ingredientName)) {
         alert('This ingredient name already exists');
         return;
       }
