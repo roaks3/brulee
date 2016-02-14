@@ -50,6 +50,15 @@ var styles = lazypipe()
   .pipe($.autoprefixer, 'last 1 version')
   .pipe(gulp.dest, '.tmp/styles');
 
+var transpile = lazypipe()
+  .pipe($.sourcemaps.init)
+  .pipe($.babel, {
+    // Remove retainLines option to get prettier babel output, but inaccurate stack traces
+    retainLines: true,
+    presets: ['es2015']
+  })
+  .pipe($.sourcemaps.write, '.');
+
 ///////////
 // Tasks //
 ///////////
@@ -57,6 +66,12 @@ var styles = lazypipe()
 gulp.task('styles', function () {
   return gulp.src(paths.styles)
     .pipe(styles());
+});
+
+gulp.task('transpile', function () {
+  return gulp.src(paths.scripts)
+    .pipe(transpile())
+    .pipe(gulp.dest('.tmp/scripts'));
 });
 
 gulp.task('lint:scripts', function () {
@@ -74,7 +89,7 @@ gulp.task('start:client', ['start:server', 'styles'], function () {
 
 gulp.task('start:server', function() {
   $.connect.server({
-    root: [yeoman.app, '.tmp'],
+    root: ['.tmp', yeoman.app],
     livereload: true,
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9000,
@@ -88,7 +103,7 @@ gulp.task('start:server', function() {
 
 gulp.task('start:server:test', function() {
   $.connect.server({
-    root: ['test', yeoman.app, '.tmp'],
+    root: ['.tmp', 'test', yeoman.app],
     livereload: true,
     port: 9001,
     middleware: function (connect) {
@@ -109,8 +124,18 @@ gulp.task('watch', function () {
 
   $.watch(paths.scripts)
     .pipe($.plumber())
-    .pipe(lintScripts())
+    .pipe(transpile())
+    .pipe(gulp.dest('.tmp/scripts'))
     .pipe($.connect.reload());
+
+  $.watch(paths.scripts)
+    .pipe($.plumber())
+    .pipe(lintScripts());
+
+  $.watch(paths.test)
+    .pipe($.plumber())
+    .pipe(transpile())
+    .pipe(gulp.dest('.tmp/test'));
 
   $.watch(paths.test)
     .pipe($.plumber())
@@ -122,6 +147,7 @@ gulp.task('watch', function () {
 gulp.task('serve', function (cb) {
   runSequence('clean:tmp',
     ['lint:scripts'],
+    ['transpile'],
     ['start:client'],
     'watch', cb);
 });
@@ -160,7 +186,7 @@ gulp.task('clean:dist', function (cb) {
   rimraf('./dist', cb);
 });
 
-gulp.task('client:build', ['html', 'styles'], function () {
+gulp.task('client:build', ['transpile', 'html', 'styles'], function () {
   var jsFilter = $.filter('**/*.js');
   var cssFilter = $.filter('**/*.css');
 
