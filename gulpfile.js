@@ -77,7 +77,12 @@ gulp.task('start:server', function() {
     root: [yeoman.app, '.tmp'],
     livereload: true,
     // Change this to '0.0.0.0' to access the server from outside.
-    port: 9000
+    port: 9000,
+    middleware: function (connect) {
+      return [
+        connect().use('/bower_components',connect.static('./bower_components')),
+      ];
+    }
   });
 });
 
@@ -85,7 +90,10 @@ gulp.task('start:server:test', function() {
   $.connect.server({
     root: ['test', yeoman.app, '.tmp'],
     livereload: true,
-    port: 9001
+    port: 9001,
+    middleware: function (connect) {
+      return [connect().use('/bower_components',connect.static('./bower_components'))];
+    }
   });
 });
 
@@ -139,10 +147,9 @@ gulp.task('test', ['start:server:test'], function () {
 gulp.task('bower', function () {
   return gulp.src(paths.views.main)
     .pipe(wiredep({
-      directory: yeoman.app + '/bower_components',
       ignorePath: '..'
     }))
-  .pipe(gulp.dest(yeoman.app + '/views'));
+    .pipe(gulp.dest(yeoman.app));
 });
 
 ///////////
