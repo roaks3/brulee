@@ -68,7 +68,7 @@ angular.module('bruleeApp.services')
 
     this.getByIngredientId = function (ingredientId) {
       return _.find(this._categories, function (category) {
-        return _.includes(oldlodash.pluck(category.ingredients, 'id'), ingredientId);
+        return _.includes(_.map(category.ingredients, 'id'), ingredientId);
       });
     };
 
@@ -103,7 +103,7 @@ angular.module('bruleeApp.services')
     this.update = function (category) {
       var categoryUpdate = {
         id: category.id,
-        ingredient_ids: oldlodash(category.ingredients).pluck('id').uniq().value()
+        ingredient_ids: _(category.ingredients).map('id').uniq().value()
       };
 
       return categoryFacade.categoryUpdate(categoryUpdate)
@@ -114,7 +114,7 @@ angular.module('bruleeApp.services')
       var categoryUpdates = _.map(categories, function (category) {
         return {
           id: category.id,
-          ingredient_ids: oldlodash(category.ingredients).pluck('id').uniq().value()
+          ingredient_ids: _(category.ingredients).map('id').uniq().value()
         };
       });
       var scope = this;

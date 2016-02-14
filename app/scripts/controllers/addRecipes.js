@@ -27,8 +27,8 @@ angular.module('bruleeApp')
       });
 
     $scope.createNewIngredients = function (recipe) {
-      var ingredientsToCreate = oldlodash(recipe.recipe_ingredients)
-        .pluck('ingredient')
+      var ingredientsToCreate = _(recipe.recipe_ingredients)
+        .map('ingredient')
         .reject('id')
         .value();
 
