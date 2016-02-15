@@ -16,7 +16,7 @@ angular.module('bruleeApp.services')
 
     this.replaceEach = function (array, source) {
       _.remove(array, function (element) {
-        return oldlodash.includes(source, 'id', element.id);
+        return !!_.find(source, ['id', element.id]);
       });
 
       var scope = this;

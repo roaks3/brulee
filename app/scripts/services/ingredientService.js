@@ -88,7 +88,7 @@ angular.module('bruleeApp.services')
     };
 
     this.eject = function (id) {
-      oldlodash.remove(this._ingredients, 'id', id);
+      _.remove(this._ingredients, ['id', id]);
       delete this._ingredientsById[id];
     };
 
