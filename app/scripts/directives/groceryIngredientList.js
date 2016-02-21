@@ -5,8 +5,6 @@ angular.module('bruleeApp')
 
     var vm = this;
 
-    vm.crossedOutIngredients = vm.crossedOutIngredients || [];
-
     vm.crossOut = function (ingredient) {
       if (vm.crossedOut(ingredient)) {
         _.remove(vm.crossedOutIngredients, function (crossedOutIngredient) {

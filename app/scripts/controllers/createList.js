@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($filter, $q, $scope, $timeout, categoryService,
+  .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, categoryService,
     groceryListService, ingredientService, recipeService) {
     
     $scope.recipes = [];
@@ -34,6 +34,9 @@ angular.module('bruleeApp')
     $timeout(function () {
       $scope.refreshCategories();
     }, 1000);
+
+    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
+    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
 
     $scope.shoppingList = [];
 
