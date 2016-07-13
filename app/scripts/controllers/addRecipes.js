@@ -3,8 +3,12 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, ingredientService, recipeService) {
-    $scope.recipe = new Recipe('', null, '');
+  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, ingredientParseService, ingredientService, recipeService) {
+    $scope.recipe = {
+      name: '',
+      ingredients: [],
+      originalText: ''
+    };
     $scope.isParsed = false;
     $scope.isSaved = false;
     $scope.isNameInvalid = false;
@@ -86,7 +90,7 @@ angular.module('bruleeApp')
     };
 
     $scope.parseRecipeText = function() {
-      $scope.recipe.recipe_ingredients = Ingredients.parse($scope.recipe.original_text);
+      $scope.recipe.recipe_ingredients = ingredientParseService.parseAll($scope.recipe.original_text);
 
       _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
         var existingIngredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
