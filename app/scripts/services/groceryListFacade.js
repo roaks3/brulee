@@ -2,29 +2,10 @@
 
 angular.module('bruleeApp.services')
 
-  .service('groceryListFacade', function ($q, bruleeDataService) {
+  .service('groceryListFacade', function (bruleeDataService) {
 
-    var index = 'ashlea2';
-    var type = 'grocery_list';
-
-    this.groceryLists = function() {
-      return bruleeDataService.search({
-        index: index,
-        type: type,
-        size: 500,
-        body: {
-          query: {
-            match_all: {}
-          }
-        }
-      })
-        .then(function (data) {
-          return _.map(data.hits.hits, function (hit) {
-            return _.assign(hit._source, {
-              id: hit._id
-            });
-          });
-        });
+    this.groceryLists = function () {
+      return bruleeDataService.search('groceryLists');
     };
 
     this.groceryListCreate = function (groceryList) {
@@ -34,27 +15,13 @@ angular.module('bruleeApp.services')
         additional_ingredients: groceryList.additional_ingredients
       };
 
-      return bruleeDataService.create({
-        index: index,
-        type: type,
-        body: groceryListFields
-      })
-        .then(function (data) {
-          return data._id;
-        });
+      return bruleeDataService.create('groceryLists', groceryListFields);
     };
 
     this.groceryListUpdate = function (groceryList) {
-      return bruleeDataService.update({
-        index: index,
-        type: type,
-        id: groceryList.id,
-        body: {
-          doc: {
-            recipe_days: groceryList.recipe_days,
-            additional_ingredients: groceryList.additional_ingredients
-          }
-        }
+      return bruleeDataService.update('groceryLists', {
+        recipe_days: groceryList.recipe_days,
+        additional_ingredients: groceryList.additional_ingredients
       });
     };
 

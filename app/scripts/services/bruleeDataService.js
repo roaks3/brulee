@@ -2,67 +2,54 @@
 
 angular.module('bruleeApp.services')
 
-  .service('bruleeDataService', function ($q, esFactory) {
-    
-    this.client = esFactory({
-      host: 'https://mhkubr1u:ibllibv1l1c140a8@box-5981704.us-east-1.bonsai.io/',
-      apiVersion: '1.2',
-      log: 'error'
-    });
+  .service('bruleeDataService', function ($http) {
 
-    this.create = function (data) {
-      var deferred = $q.defer();
-
-      this.client.create(data, function (error, response) {
-        if (error) {
-          deferred.reject(error);
-        } else {
-          deferred.resolve(response);
-        }
-      });
-
-      return deferred.promise;
+    let databaseName = 'heroku_r2q4kcbs';
+    let apiKey = 'VPQEa9jL2UFh3w24C6SWjqcWUoVYVDVB';
+    let baseUrl = `https://api.mlab.com/api/1/databases/${databaseName}/collections`;
+    let mongoConfig = {
+      headers: {
+        'Content-type': 'application/json'
+      },
+      params: {
+        apiKey: apiKey
+      }
     };
 
-    this.search = function (data) {
-      var deferred = $q.defer();
-
-      this.client.search(data)
-        .then(function (body) {
-          deferred.resolve(body);
-        }, function (error) {
-          deferred.reject(error);
+    this.create = function (collectionName, fields) {
+      return $http
+        .post(`${baseUrl}/${collectionName}`, _.omit(fields, 'id'), mongoConfig)
+        .then(function (data) {
+          return data.data._id.$oid;
         });
-
-      return deferred.promise;
     };
 
-    this.update = function (data) {
-      var deferred = $q.defer();
-
-      this.client.update(data, function (error) {
-        if (error) {
-          deferred.reject(error);
-        } else {
-          deferred.resolve();
-        }
-      });
-
-      return deferred.promise;
+    this.search = function (collectionName) {
+      return $http
+        .get(`${baseUrl}/${collectionName}`, mongoConfig)
+        .then(function (data) {
+          return _.map(data.data, function (element) {
+            return _.omit(_.assign(element, {
+              id: element._id
+            }), '_id');
+          });
+        });
     };
 
-    this.delete = function (data) {
-      var deferred = $q.defer();
+    this.update = function (collectionName, fields) {
+      return $http
+        .put(`${baseUrl}/${collectionName}/${fields.id}`, _.omit(fields, 'id'), mongoConfig)
+        .then(function (data) {
+          return data.data;
+        });
+    };
 
-      this.client.delete(data, function (error) {
-        if (error) {
-          deferred.reject(error);
-        } else {
-          deferred.resolve();
-        }
-      });
-
-      return deferred.promise;
+    this.delete = function (collectionName, id) {
+      return $http
+        .delete(`${baseUrl}/${collectionName}/${id}`, mongoConfig)
+        .then(function (data) {
+          return data.data;
+        });
     };
 
     return this;

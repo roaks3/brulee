@@ -4,27 +4,8 @@ angular.module('bruleeApp.services')
 
   .service('categoryFacade', function ($q, bruleeDataService) {
 
-    var index = 'ashlea2';
-    var type = 'category';
-
-    this.categories = function() {
-      return bruleeDataService.search({
-        index: index,
-        type: type,
-        size: 500,
-        body: {
-          query: {
-            match_all: {}
-          }
-        }
-      })
-        .then(function (data) {
-          return _.map(data.hits.hits, function (hit) {
-            return _.assign(hit._source, {
-              id: hit._id
-            });
-          });
-        });
+    this.categories = function () {
+      return bruleeDataService.search('categories');
     };
 
     this.categoryCreate = function (category) {
@@ -32,27 +13,12 @@ angular.module('bruleeApp.services')
         name: category.name,
         order: category.order
       };
-
-      return bruleeDataService.create({
-        index: index,
-        type: type,
-        body: categoryFields
-      })
-        .then(function (data) {
-          return data._id;
-        });
+      return bruleeDataService.create('categories', categoryFields);
     };
 
     this.categoryUpdate = function (category) {
-      return bruleeDataService.update({
-        index: index,
-        type: type,
-        id: category.id,
-        body: {
-          doc: {
-            ingredient_ids: category.ingredient_ids
-          }
-        }
+      return bruleeDataService.update('categories', {
+        ingredient_ids: category.ingredient_ids
       });
     };
 
@@ -66,11 +32,7 @@ angular.module('bruleeApp.services')
     };
 
     this.categoryDelete = function (categoryId) {
-      return bruleeDataService.delete({
-        index: index,
-        type: type,
-        id: categoryId
-      });
+      return bruleeDataService.delete('categories', categoryId);
     };
 
     return this;

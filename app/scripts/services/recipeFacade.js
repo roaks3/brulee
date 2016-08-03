@@ -2,29 +2,10 @@
 
 angular.module('bruleeApp.services')
 
-  .service('recipeFacade', function ($q, bruleeDataService) {
-
-    var index = 'ashlea2';
-    var type = 'recipe';
+  .service('recipeFacade', function (bruleeDataService) {
 
     this.recipes = function () {
-      return bruleeDataService.search({
-        index: index,
-        type: type,
-        size: 500,
-        body: {
-          query: {
-            match_all: {}
-          }
-        }
-      })
-        .then(function (data) {
-          return _.map(data.hits.hits, function (hit) {
-            return _.assign(hit._source, {
-              id: hit._id
-            });
-          });
-        });
+      return bruleeDataService.search('recipes');
     };
 
     this.recipeCreate = function (recipe) {
@@ -34,37 +15,18 @@ angular.module('bruleeApp.services')
         url: recipe.url,
         recipe_ingredients: recipe.recipe_ingredients
       };
-
-      return bruleeDataService.create({
-        index: index,
-        type: type,
-        body: recipeFields
-      })
-        .then(function (data) {
-          return data._id;
-        });
+      return bruleeDataService.create('recipes', recipeFields);
     };
 
     this.recipeUpdate = function (recipe) {
-      return bruleeDataService.update({
-        index: index,
-        type: type,
-        id: recipe.id,
-        body: {
-          doc: {
-            name: recipe.name,
-            url: recipe.url
-          }
-        }
+      return bruleeDataService.update('recipes', {
+        name: recipe.name,
+        url: recipe.url
       });
     };
 
     this.recipeDelete = function (recipeId) {
-      return bruleeDataService.delete({
-        index: index,
-        type: type,
-        id: recipeId
-      });
+      return bruleeDataService.delete('recipes', recipeId);
     };
 
     return this;
