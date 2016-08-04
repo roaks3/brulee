@@ -16,11 +16,15 @@ angular.module('bruleeApp.services')
       }
     };
 
+    var mongoId = function (object) {
+      return _.isString(object._id) ? object._id : object._id.$oid;
+    };
+
     this.create = function (collectionName, fields) {
       return $http
         .post(`${baseUrl}/${collectionName}`, _.omit(fields, 'id'), mongoConfig)
         .then(function (data) {
-          return data.data._id.$oid;
+          return mongoId(data.data);
         });
     };
 
@@ -30,7 +34,7 @@ angular.module('bruleeApp.services')
         .then(function (data) {
           return _.map(data.data, function (element) {
             return _.omit(_.assign(element, {
-              id: element._id
+              id: mongoId(element)
             }), '_id');
           });
         });
