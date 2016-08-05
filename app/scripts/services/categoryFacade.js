@@ -26,6 +26,8 @@ angular.module('bruleeApp.services')
 
     this.categoryUpdate = function (category) {
       return Category.update(category.id, {
+        name: category.name,
+        order: category.order,
         ingredient_ids: category.ingredient_ids
       });
     };

@@ -102,6 +102,8 @@ angular.module('bruleeApp.services')
     this.update = function (category) {
       var categoryUpdate = {
         id: category.id,
+        name: category.name,
+        order: category.order,
         ingredient_ids: _(category.ingredients).map('id').uniq().value()
       };
 
@@ -113,6 +115,8 @@ angular.module('bruleeApp.services')
       var categoryUpdates = _.map(categories, function (category) {
         return {
           id: category.id,
+          name: category.name,
+          order: category.order,
           ingredient_ids: _(category.ingredients).map('id').uniq().value()
         };
       });

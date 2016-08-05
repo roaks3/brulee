@@ -27,6 +27,7 @@ angular.module('bruleeApp.services')
 
     this.groceryListUpdate = function (groceryList) {
       return GroceryList.update(groceryList.id, {
+        week_start: groceryList.week_start,
         recipe_days: groceryList.recipe_days,
         additional_ingredients: groceryList.additional_ingredients
       });

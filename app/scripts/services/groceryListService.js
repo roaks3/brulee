@@ -102,6 +102,7 @@ angular.module('bruleeApp.services')
     this.update = function (groceryList) {
       var groceryListUpdate = {
         id: groceryList.id,
+        week_start: groceryList.week_start,
         recipe_days: _.map(groceryList.recipe_days, function (recipe_day) {
           return {
             recipe_id: recipe_day.recipe_id,

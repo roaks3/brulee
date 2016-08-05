@@ -29,7 +29,9 @@ angular.module('bruleeApp.services')
     this.recipeUpdate = function (recipe) {
       return Recipe.update(recipe.id, {
         name: recipe.name,
-        url: recipe.url
+        original_text: recipe.original_text,
+        url: recipe.url,
+        recipe_ingredients: recipe.recipe_ingredients
       });
     };
 
