@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('recipeService', function ($q, bruleeUtils, recipeFacade, ingredientService) {
+  .service('recipeService', function ($q, bruleeUtils, ingredientService, Recipe) {
 
     this.deferredRecipes = null;
 
@@ -20,7 +20,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       $q.all([
-        recipeFacade.recipes(),
+        Recipe.findAll(),
         ingredientService.findAll()
       ])
         .then(function (data) {
@@ -95,7 +95,7 @@ angular.module('bruleeApp.services')
       };
       var scope = this;
 
-      return recipeFacade.recipeCreate(recipe)
+      return Recipe.create(recipe)
         .then(function (recipe) {
           scope.inject(recipe);
           return recipe;
@@ -104,7 +104,6 @@ angular.module('bruleeApp.services')
 
     this.update = function (recipe) {
       var recipeUpdate = {
-        id: recipe.id,
         name: recipe.name,
         original_text: recipe.original_text,
         url: recipe.url,
@@ -116,7 +115,7 @@ angular.module('bruleeApp.services')
         })
       };
 
-      return recipeFacade.recipeUpdate(recipeUpdate)
+      return Recipe.update(recipe.id, recipeUpdate)
         .then(this.inject(recipe));
     };
 
@@ -126,7 +125,7 @@ angular.module('bruleeApp.services')
     };
 
     this.destroy = function (id) {
-      return recipeFacade.recipeDelete(id)
+      return Recipe.destroy(id)
         .then(this.eject(id));
     };
 

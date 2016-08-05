@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryService', function ($q, bruleeUtils, categoryFacade, ingredientService) {
+  .service('categoryService', function ($q, bruleeUtils, Category, ingredientService) {
 
     this.deferredCategories = null;
 
@@ -24,7 +24,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       $q.all([
-        categoryFacade.categories(),
+        Category.findAll(),
         ingredientService.findAll()
       ])
         .then(function (data) {
@@ -91,7 +91,7 @@ angular.module('bruleeApp.services')
       };
       var scope = this;
 
-      return categoryFacade.categoryCreate(category)
+      return Category.create(category)
         .then(function (category) {
           category.ingredients = [];
           scope.inject(category);
@@ -101,33 +101,22 @@ angular.module('bruleeApp.services')
 
     this.update = function (category) {
       var categoryUpdate = {
-        id: category.id,
         name: category.name,
         order: category.order,
         ingredient_ids: _(category.ingredients).map('id').uniq().value()
       };
 
-      return categoryFacade.categoryUpdate(categoryUpdate)
+      return Category.update(category.id, categoryUpdate)
         .then(this.inject(category));
     };
 
     this.updateAll = function (categories) {
-      var categoryUpdates = _.map(categories, function (category) {
-        return {
-          id: category.id,
-          name: category.name,
-          order: category.order,
-          ingredient_ids: _(category.ingredients).map('id').uniq().value()
-        };
-      });
       var scope = this;
-
-      return categoryFacade.categoryUpdateBulk(categoryUpdates)
-        .then(function () {
-          return $q.all(_.map(categories, function (category) {
-            return scope.inject(category);
-          }));
-        });
+      return $q.all(
+        _.map(categories, function (category) {
+          return scope.update(category);
+        })
+      );
     };
 
     this.eject = function (id) {
@@ -136,7 +125,7 @@ angular.module('bruleeApp.services')
     };
 
     this.destroy = function (id) {
-      return categoryFacade.categoryDelete(id)
+      return Category.destroy(id)
         .then(this.eject(id));
     };
 

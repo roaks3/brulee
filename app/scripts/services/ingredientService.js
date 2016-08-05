@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('ingredientService', function ($q, bruleeUtils, ingredientFacade) {
+  .service('ingredientService', function ($q, bruleeUtils, Ingredient) {
 
     this.deferredIngredients = null;
 
@@ -19,7 +19,7 @@ angular.module('bruleeApp.services')
       this.deferredIngredients = $q.defer();
       var scope = this;
 
-      ingredientFacade.ingredients()
+      Ingredient.findAll()
         .then(function (data) {
           bruleeUtils.replaceEach(scope._ingredients, data);
           bruleeUtils.replaceProperties(scope._ingredientsById, _.keyBy(scope._ingredients, 'id'));
@@ -64,12 +64,12 @@ angular.module('bruleeApp.services')
     };
 
     this.create = function (attrs) {
-      var ingredient = {
-        name: attrs.name
-      };
       var scope = this;
 
-      return ingredientFacade.ingredientCreate(ingredient)
+      return Ingredient
+        .create({
+          name: attrs.name
+        })
         .then(function (ingredient) {
           scope.inject(ingredient);
           return ingredient;
@@ -77,12 +77,10 @@ angular.module('bruleeApp.services')
     };
 
     this.update = function (ingredient) {
-      var ingredientUpdate = {
-        id: ingredient.id,
-        name: ingredient.name
-      };
-
-      return ingredientFacade.ingredientUpdate(ingredientUpdate)
+      return Ingredient
+        .update(ingredient.id, {
+          name: ingredient.name
+        })
         .then(this.inject(ingredient));
     };
 
@@ -92,7 +90,7 @@ angular.module('bruleeApp.services')
     };
 
     this.destroy = function (id) {
-      return ingredientFacade.ingredientDelete(id)
+      return Ingredient.destroy(id)
         .then(this.eject(id));
     };
 

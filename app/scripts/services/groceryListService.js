@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('groceryListService', function ($q, bruleeUtils, groceryListFacade, ingredientService, recipeService) {
+  .service('groceryListService', function ($q, bruleeUtils, GroceryList, ingredientService, recipeService) {
 
     this.deferredGroceryLists = null;
 
@@ -20,7 +20,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       $q.all([
-        groceryListFacade.groceryLists(),
+        GroceryList.findAll(),
         recipeService.findAll(),
         ingredientService.findAll()
       ])
@@ -92,7 +92,7 @@ angular.module('bruleeApp.services')
       };
       var scope = this;
 
-      return groceryListFacade.groceryListCreate(groceryList)
+      return GroceryList.create(groceryList)
         .then(function (groceryList) {
           scope.inject(groceryList);
           return groceryList;
@@ -101,7 +101,6 @@ angular.module('bruleeApp.services')
 
     this.update = function (groceryList) {
       var groceryListUpdate = {
-        id: groceryList.id,
         week_start: groceryList.week_start,
         recipe_days: _.map(groceryList.recipe_days, function (recipe_day) {
           return {
@@ -117,7 +116,7 @@ angular.module('bruleeApp.services')
         })
       };
 
-      return groceryListFacade.groceryListUpdate(groceryListUpdate)
+      return GroceryList.update(groceryList.id, groceryListUpdate)
         .then(this.inject(groceryList));
     };
 
