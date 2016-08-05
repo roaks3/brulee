@@ -70,8 +70,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       return ingredientFacade.ingredientCreate(ingredient)
-        .then(function (id) {
-          ingredient.id = id;
+        .then(function (ingredient) {
           scope.inject(ingredient);
           return ingredient;
         });

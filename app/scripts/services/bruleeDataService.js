@@ -2,58 +2,38 @@
 
 angular.module('bruleeApp.services')
 
-  .service('bruleeDataService', function ($http) {
+  .service('bruleeDataService', function ($q) {
 
-    let databaseName = 'heroku_r2q4kcbs';
-    let apiKey = 'VPQEa9jL2UFh3w24C6SWjqcWUoVYVDVB';
-    let baseUrl = `https://api.mlab.com/api/1/databases/${databaseName}/collections`;
-    let mongoConfig = {
-      headers: {
-        'Content-type': 'application/json'
-      },
-      params: {
-        apiKey: apiKey
-      }
-    };
-
-    var mongoId = function (object) {
+    let mongoId = function (object) {
       return _.isString(object._id) ? object._id : object._id.$oid;
     };
 
-    this.create = function (collectionName, fields) {
-      return $http
-        .post(`${baseUrl}/${collectionName}`, _.omit(fields, 'id'), mongoConfig)
-        .then(function (data) {
-          return mongoId(data.data);
-        });
+    let toBruleeId = function (object) {
+      if (object.id) {
+        return object;
+      }
+      return _.omit(_.set(object, 'id', mongoId(object)), '_id');
     };
 
-    this.search = function (collectionName) {
-      return $http
-        .get(`${baseUrl}/${collectionName}`, mongoConfig)
-        .then(function (data) {
-          return _.map(data.data, function (element) {
-            return _.omit(_.assign(element, {
-              id: mongoId(element)
-            }), '_id');
-          });
-        });
+    let toMongoId = function (object) {
+      if (object._id) {
+        return object;
+      }
+      return _.omit(_.set(object, '_id', object.id), 'id');
     };
 
-    this.update = function (collectionName, fields) {
-      return $http
-        .put(`${baseUrl}/${collectionName}/${fields.id}`, _.omit(fields, 'id'), mongoConfig)
-        .then(function (data) {
-          return data.data;
+    this.jsDataConfig = {
+      // afterFindAll: function (resource, data) {
+      //   return $q.when(_.map(data, toBruleeId));
+      // },
+      beforeCreate: function (resource, data) {
+        return $q.when(toMongoId(data));
+      },
+      beforeInject: function (resource, instances) {
+        _.forEach(_.flatten([instances]), function (instance) {
+          instance = toBruleeId(instance);
         });
-    };
-
-    this.delete = function (collectionName, id) {
-      return $http
-        .delete(`${baseUrl}/${collectionName}/${id}`, mongoConfig)
-        .then(function (data) {
-          return data.data;
-        });
+      }
     };
 
     return this;

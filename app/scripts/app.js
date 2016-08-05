@@ -13,10 +13,11 @@ angular.module('bruleeApp', [
     'ngRoute',
     'ui.bootstrap',
     'ngStorage',
-    'bruleeApp.services'
+    'bruleeApp.services',
+    'js-data'
   ])
 
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, DSHttpAdapterProvider) {
     $routeProvider
       .when('/createList', {
         templateUrl: 'views/createList.html',
@@ -57,6 +58,20 @@ angular.module('bruleeApp', [
       .otherwise({
         redirectTo: '/'
       });
+
+    var databaseName = 'heroku_r2q4kcbs';
+    _.assign(DSHttpAdapterProvider.defaults, {
+      log: false,
+      basePath: `https://api.mlab.com/api/1/databases/${databaseName}/collections`,
+      httpConfig: {
+        headers: {
+          'Content-type': 'application/json'
+        },
+        params: {
+          apiKey: 'VPQEa9jL2UFh3w24C6SWjqcWUoVYVDVB'
+        }
+      }
+    });
   });
 
 /**

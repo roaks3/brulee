@@ -2,24 +2,31 @@
 
 angular.module('bruleeApp.services')
 
-  .service('groceryListFacade', function (bruleeDataService) {
+  .factory('GroceryList', function (bruleeDataService, DS) {
+
+    return DS.defineResource(_.assign({
+      name: 'groceryList',
+      endpoint: 'groceryLists'
+    }, bruleeDataService.jsDataConfig));
+
+  })
+
+  .service('groceryListFacade', function (GroceryList) {
 
     this.groceryLists = function () {
-      return bruleeDataService.search('groceryLists');
+      return GroceryList.findAll();
     };
 
     this.groceryListCreate = function (groceryList) {
-      var groceryListFields = {
+      return GroceryList.create({
         week_start: groceryList.week_start,
         recipe_days: groceryList.recipe_days,
         additional_ingredients: groceryList.additional_ingredients
-      };
-
-      return bruleeDataService.create('groceryLists', groceryListFields);
+      });
     };
 
     this.groceryListUpdate = function (groceryList) {
-      return bruleeDataService.update('groceryLists', {
+      return GroceryList.update(groceryList.id, {
         recipe_days: groceryList.recipe_days,
         additional_ingredients: groceryList.additional_ingredients
       });

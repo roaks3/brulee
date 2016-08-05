@@ -2,27 +2,35 @@
 
 angular.module('bruleeApp.services')
 
-  .service('ingredientFacade', function (bruleeDataService) {
+  .factory('Ingredient', function (bruleeDataService, DS) {
+
+    return DS.defineResource(_.assign({
+      name: 'ingredient',
+      endpoint: 'ingredients'
+    }, bruleeDataService.jsDataConfig));
+
+  })
+
+  .service('ingredientFacade', function (Ingredient) {
 
     this.ingredients = function () {
-      return bruleeDataService.search('ingredients');
+      return Ingredient.findAll();
     };
 
     this.ingredientCreate = function (ingredient) {
-      var ingredientFields = {
+      return Ingredient.create({
         name: ingredient.name
-      };
-      return bruleeDataService.create('ingredients', ingredientFields);
+      });
     };
 
     this.ingredientUpdate = function (ingredient) {
-      return bruleeDataService.update('ingredients', {
+      return Ingredient.update(ingredient.id, {
         name: ingredient.name
       });
     };
 
     this.ingredientDelete = function (ingredientId) {
-      return bruleeDataService.delete('ingredients', ingredientId);
+      return Ingredient.destroy(ingredientId);
     };
 
     return this;

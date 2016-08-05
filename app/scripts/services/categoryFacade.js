@@ -2,22 +2,30 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryFacade', function ($q, bruleeDataService) {
+  .factory('Category', function (bruleeDataService, DS) {
+
+    return DS.defineResource(_.assign({
+      name: 'category',
+      endpoint: 'categories'
+    }, bruleeDataService.jsDataConfig));
+
+  })
+
+  .service('categoryFacade', function ($q, Category) {
 
     this.categories = function () {
-      return bruleeDataService.search('categories');
+      return Category.findAll();
     };
 
     this.categoryCreate = function (category) {
-      var categoryFields = {
+      return Category.create({
         name: category.name,
         order: category.order
-      };
-      return bruleeDataService.create('categories', categoryFields);
+      });
     };
 
     this.categoryUpdate = function (category) {
-      return bruleeDataService.update('categories', {
+      return Category.update(category.id, {
         ingredient_ids: category.ingredient_ids
       });
     };
@@ -32,7 +40,7 @@ angular.module('bruleeApp.services')
     };
 
     this.categoryDelete = function (categoryId) {
-      return bruleeDataService.delete('categories', categoryId);
+      return Category.destroy(categoryId);
     };
 
     return this;

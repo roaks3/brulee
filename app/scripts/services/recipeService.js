@@ -96,8 +96,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       return recipeFacade.recipeCreate(recipe)
-        .then(function (id) {
-          recipe.id = id;
+        .then(function (recipe) {
           scope.inject(recipe);
           return recipe;
         });

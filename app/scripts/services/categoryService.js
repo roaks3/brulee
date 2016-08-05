@@ -92,8 +92,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       return categoryFacade.categoryCreate(category)
-        .then(function (id) {
-          category.id = id;
+        .then(function (category) {
           category.ingredients = [];
           scope.inject(category);
           return category;

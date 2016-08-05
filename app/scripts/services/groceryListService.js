@@ -93,8 +93,7 @@ angular.module('bruleeApp.services')
       var scope = this;
 
       return groceryListFacade.groceryListCreate(groceryList)
-        .then(function (id) {
-          groceryList.id = id;
+        .then(function (groceryList) {
           scope.inject(groceryList);
           return groceryList;
         });
