@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, ingredientParseService, ingredientService, recipeService) {
+  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, Ingredient, ingredientParseService, ingredientService, recipeService) {
     $scope.recipe = {
       name: '',
       ingredients: [],
@@ -37,7 +37,7 @@ angular.module('bruleeApp')
         .value();
 
       return $q.all(_.map(ingredientsToCreate, function (ingredient) {
-        return ingredientService.create(ingredient);
+        return Ingredient.create({name: ingredient.name});
       }));
     };
 

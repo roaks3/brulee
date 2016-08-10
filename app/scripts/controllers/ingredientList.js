@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientListCtrl', function ($sessionStorage, $scope, ingredientService) {
+  .controller('IngredientListCtrl', function ($sessionStorage, $scope, Ingredient) {
 
     $sessionStorage.search = $sessionStorage.search || {str: ''};
     $scope.search = $sessionStorage.search;
@@ -11,7 +11,7 @@ angular.module('bruleeApp')
     $scope.successMessage = null;
 
     $scope.ingredients = [];
-    ingredientService.findAll()
+    Ingredient.refreshAll()
       .then(function (data) {
         $scope.ingredients = data;
         $scope.filterIngredients();
@@ -36,9 +36,10 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      ingredientService.create(ingredient)
+      Ingredient.create({name: ingredient.name})
         .then(function () {
           $scope.successMessage = 'Created ingredient';
+          $scope.ingredients = Ingredient.filter();
           $scope.filterIngredients();
         })
         .catch(function (error) {

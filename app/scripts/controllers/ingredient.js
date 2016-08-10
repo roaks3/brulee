@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($routeParams, $scope, categoryService, ingredientService, recipeService) {
+  .controller('IngredientCtrl', function ($routeParams, $scope, categoryService, Ingredient, recipeService) {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -19,10 +19,10 @@ angular.module('bruleeApp')
 
     $scope.ingredients = [];
     $scope.ingredient = {};
-    ingredientService.findAll()
+    Ingredient.refreshAll()
       .then(function (data) {
         $scope.ingredients = data;
-        $scope.ingredient = ingredientService.get($routeParams.id);
+        $scope.ingredient = Ingredient.get($routeParams.id);
         $scope.ingredientName = $scope.ingredient.name;
       })
       .catch(function (error) {
@@ -56,7 +56,7 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      ingredientService.destroy($scope.ingredient.id)
+      Ingredient.destroy($scope.ingredient.id)
         .then(function () {
           $scope.successMessage = 'Deleted ingredient';
           // TODO: Redirect back to ingredient page
@@ -80,8 +80,7 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      ingredientService.update({
-        id: $scope.ingredient.id,
+      Ingredient.update($scope.ingredient.id, {
         name: $scope.ingredientName
       })
         .then(function () {

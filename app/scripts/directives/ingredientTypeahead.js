@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('bruleeApp')
-  .controller('IngredientTypeaheadCtrl', function (ingredientService) {
+  .controller('IngredientTypeaheadCtrl', function (Ingredient) {
 
     var vm = this;
 
     vm.ingredients = [];
 
-    ingredientService.findAll()
+    Ingredient.refreshAll()
       .then(function (data) {
         vm.ingredients = data;
       });

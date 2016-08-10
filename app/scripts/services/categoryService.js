@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp.services')
 
-  .service('categoryService', function ($q, bruleeUtils, Category, ingredientService) {
+  .service('categoryService', function ($q, bruleeUtils, Category, Ingredient) {
 
     this.deferredCategories = null;
 
@@ -25,13 +25,13 @@ angular.module('bruleeApp.services')
 
       $q.all([
         Category.findAll(),
-        ingredientService.findAll()
+        Ingredient.findAll()
       ])
         .then(function (data) {
           var categories = _.map(data[0], function (category) {
             return _.assign(category, {
               ingredients: _.map(category.ingredient_ids, function (ingredientId) {
-                return ingredientService.get(ingredientId);
+                return Ingredient.get(ingredientId);
               })
             });
           });
