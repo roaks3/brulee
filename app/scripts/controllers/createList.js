@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, categoryService,
+  .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, Category,
     groceryListService, recipeService) {
     
     $scope.recipes = [];
@@ -14,16 +14,11 @@ angular.module('bruleeApp')
         });
     };
 
-    $scope.categories = [];
     $scope.refreshCategories = function () {
       $scope.errors = [];
       $scope.successMessage = null;
 
-      $scope.categories = [];
-      categoryService.findAll()
-        .then(function (data) {
-          $scope.categories = data;
-        })
+      Category.refreshAll()
         .catch(function (error) {
           $scope.errors.push(error);
         });

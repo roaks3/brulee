@@ -2,15 +2,13 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($routeParams, $scope, categoryService, Ingredient, recipeService) {
+  .controller('IngredientCtrl', function ($routeParams, $scope, Category, categoryService, Ingredient, recipeService) {
 
     $scope.errors = [];
     $scope.successMessage = null;
 
-    $scope.categories = [];
-    categoryService.findAll()
-      .then(function (data) {
-        $scope.categories = data;
+    Category.refreshAll()
+      .then(function () {
         $scope.category = categoryService.getByIngredientId($routeParams.id);
       })
       .catch(function (error) {

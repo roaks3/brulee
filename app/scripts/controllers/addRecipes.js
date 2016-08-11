@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, categoryService, Ingredient, ingredientParseService, ingredientService, recipeService) {
+  .controller('AddRecipesCtrl', function ($q, $scope, Category, categoryService, Ingredient, ingredientParseService, ingredientService, recipeService) {
     $scope.recipe = {
       name: '',
       ingredients: [],
@@ -16,13 +16,13 @@ angular.module('bruleeApp')
     $scope.errors = [];
     $scope.successMessage = null;
 
-    $scope.categoryMap = {};
+    $scope.categoriesByIngredientId = {};
 
-    categoryService.findAll()
+    Category.refreshAll()
       .then(function (data) {
         _.each(data, function (category) {
-          _.each(category.ingredients, function (ingredient) {
-            $scope.categoryMap[ingredient.name] = category;
+          _.each(category.ingredient_ids, function (ingredientId) {
+            $scope.categoriesByIngredientId[ingredientId] = category;
           });
         });
       })
@@ -48,9 +48,9 @@ angular.module('bruleeApp')
         if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
           var category = recipe_ingredient.selectedCategory;
           var ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
-          
-          $scope.categoryMap[recipe_ingredient.ingredient.name] = recipe_ingredient.selectedCategory;
-          category.ingredients.push(ingredient);
+
+          $scope.categoriesByIngredientId[recipe_ingredient.ingredient.id] = recipe_ingredient.selectedCategory;
+          category.ingredient_ids.push(ingredient.id);
           categoriesToUpdate.push(category);
         }
       });
@@ -99,8 +99,8 @@ angular.module('bruleeApp')
         }
 
         // TODO: This could be changed to look through the categories
-        // here, then the categoryMap would be unnecessary
-        recipe_ingredient.selectedCategory = $scope.categoryMap[recipe_ingredient.ingredient.name];
+        // here, then the categoriesByIngredientId would be unnecessary
+        recipe_ingredient.selectedCategory = $scope.categoriesByIngredientId[recipe_ingredient.ingredient.id];
       });
 
       $scope.isParsed = true;
@@ -116,7 +116,7 @@ angular.module('bruleeApp')
       // TODO: This should probably use some other field to reflect whether the
       // selected category needs to be saved
       if (recipe_ingredient && recipe_ingredient.ingredient) {
-        return !!$scope.categoryMap[recipe_ingredient.ingredient.name];
+        return !!$scope.categoriesByIngredientId[recipe_ingredient.ingredient.id];
       }
       return false;
     };

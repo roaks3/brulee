@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bruleeApp')
-  .controller('AddIngredientFormCtrl', function (categoryService) {
+  .controller('AddIngredientFormCtrl', function () {
 
     var vm = this;
 

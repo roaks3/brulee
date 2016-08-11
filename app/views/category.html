@@ -9,9 +9,9 @@
               Remove
             </button>
           </li>
-          <li class="list-group-item" ng-repeat="ingredient in category.ingredients">
-            {{ingredient.name}}
-            <button class="btn btn-primary" ng-click="removeIngredient(category, ingredient.id)">
+          <li class="list-group-item" ng-repeat="ingredientId in category.ingredient_ids">
+            {{getIngredient(ingredientId).name}}
+            <button class="btn btn-primary" ng-click="removeIngredient(category, ingredientId)">
               Remove Item
             </button>
           </li>

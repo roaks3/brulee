@@ -2,18 +2,13 @@
 
 angular.module('bruleeApp')
 
-  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams, $sessionStorage, $timeout, categoryService, groceryListService) {
+  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams, $sessionStorage, $timeout, Category, groceryListService) {
 
-    $scope.categories = [];
     $scope.refreshCategories = function () {
       $scope.errors = [];
       $scope.successMessage = null;
 
-      $scope.categories = [];
-      return categoryService.findAll()
-        .then(function (data) {
-          $scope.categories = data;
-        })
+      return Category.refreshAll()
         .catch(function (error) {
           $scope.errors.push(error);
         });

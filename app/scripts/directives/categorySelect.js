@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('bruleeApp')
-  .controller('CategorySelectCtrl', function (categoryService) {
+  .controller('CategorySelectCtrl', function (Category) {
 
     var vm = this;
 
     vm.categories = [];
 
-    categoryService.findAll()
+    Category.refreshAll()
       .then(function (data) {
         vm.categories = data;
       });

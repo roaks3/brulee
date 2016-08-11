@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('RecipeCtrl', ($q, $routeParams, $scope, categoryService, recipeService) => {
+  .controller('RecipeCtrl', ($q, $routeParams, $scope, Category, categoryService, recipeService) => {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -10,7 +10,7 @@ angular.module('bruleeApp')
     $scope.recipe = {};
     $q.all([
       recipeService.findAll(),
-      categoryService.findAll()
+      Category.refreshAll()
     ])
       .then(() => {
         $scope.recipe = recipeService.get($routeParams.id);

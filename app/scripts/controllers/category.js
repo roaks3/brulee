@@ -3,19 +3,25 @@
 
 angular.module('bruleeApp')
 
-  .controller('CategoryCtrl', function ($scope, categoryService) {
+  .controller('CategoryCtrl', function ($scope, Category, categoryService, Ingredient) {
 
     $scope.errors = [];
     $scope.successMessage = null;
 
     $scope.categories = [];
-    categoryService.findAll()
+    Category.refreshAll()
       .then(function (data) {
         $scope.categories = data;
       })
       .catch(function (error) {
         $scope.errors.push(error);
       });
+
+    Ingredient.refreshAll();
+
+    $scope.getIngredient = (id) => {
+      return Ingredient.get(id) || {};
+    };
 
     $scope.saveCategories = function () {
       $scope.errors = [];
@@ -38,10 +44,12 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      categoryService.create({
-        name: categoryName,
-        order: categoryService.size() + 1
-      })
+      Category
+        .create({
+          name: categoryName,
+          order: categoryService.size() + 1,
+          ingredient_ids: []
+        })
         .then(function () {
           $scope.successMessage = 'Created category';
         })
@@ -58,7 +66,7 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      categoryService.destroy(categoryId)
+      Category.destroy(categoryId)
         .then(function () {
           $scope.successMessage = 'Deleted category';
         })
@@ -73,14 +81,14 @@ angular.module('bruleeApp')
       }
 
       if (ingredient && ingredient.id) {
-        if (!_.find(category.ingredients, ['id', ingredient.id])) {
+        if (!_.find(category.ingredient_ids, ingredient.id)) {
           // Remove ingredient from all other categories
           _.each($scope.categories, function (otherCategory) {
-            _.remove(otherCategory.ingredients, ['id', ingredient.id]);
+            _.pull(otherCategory.ingredient_ids, ingredient.id);
           });
 
           // Add ingredient to this category
-          category.ingredients.push(ingredient);
+          category.ingredient_ids.push(ingredient.id);
 
           //TODO: Figure out how to actually clear the typeahead
           $scope.newIngredient = null;
@@ -93,7 +101,7 @@ angular.module('bruleeApp')
     };
 
     $scope.removeIngredient = function (category, ingredientId) {
-      _.remove(category.ingredients, ['id', ingredientId]);
+      _.pull(category.ingredient_ids, ingredientId);
     };
 
   });
