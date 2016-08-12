@@ -4,11 +4,11 @@
 angular.module('bruleeApp')
 
   .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, Category,
-    groceryListService, recipeService) {
+    groceryListService, Recipe) {
     
     $scope.recipes = [];
     $scope.refreshRecipes = function () {
-      return recipeService.findAll()
+      return Recipe.refreshAll()
         .then(function (data) {
           $scope.recipes = data;
         });

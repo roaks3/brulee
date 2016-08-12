@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, Category, categoryService, Ingredient, ingredientParseService, ingredientService, recipeService) {
+  .controller('AddRecipesCtrl', function ($q, $scope, Category, categoryService, Ingredient, ingredientParseService, ingredientService, Recipe) {
     $scope.recipe = {
       name: '',
       ingredients: [],
@@ -69,7 +69,18 @@ angular.module('bruleeApp')
           return $scope.updateRecipeIngredients($scope.recipe);
         })
         .then(function () {
-          return recipeService.create($scope.recipe)
+          return Recipe
+            .create({
+              name: $scope.recipe.name,
+              original_text: $scope.recipe.original_text,
+              url: $scope.recipe.url,
+              recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+                return {
+                  ingredient_id: recipe_ingredient.ingredient.id,
+                  amount: recipe_ingredient.amount
+                };
+              })
+            })
             .then(function () {
               $scope.isSaved = true;
             });

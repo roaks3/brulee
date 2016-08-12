@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($routeParams, $scope, Category, categoryService, Ingredient, recipeService) {
+  .controller('IngredientCtrl', function ($routeParams, $scope, Category, categoryService, Ingredient, Recipe, recipeService) {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -28,7 +28,7 @@ angular.module('bruleeApp')
       });
 
     $scope.recipes = [];
-    recipeService.findAll()
+    Recipe.refreshAll()
       .then(function () {
         $scope.recipes = recipeService.filterByIngredientId($routeParams.id);
       })

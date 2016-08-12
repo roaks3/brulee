@@ -2,22 +2,22 @@
 
 angular.module('bruleeApp')
 
-  .controller('RecipeCtrl', ($q, $routeParams, $scope, Category, categoryService, recipeService) => {
+  .controller('RecipeCtrl', ($q, $routeParams, $scope, Category, categoryService, Recipe) => {
 
     $scope.errors = [];
     $scope.successMessage = null;
 
     $scope.recipe = {};
     $q.all([
-      recipeService.findAll(),
+      Recipe.refreshAll(),
       Category.refreshAll()
     ])
       .then(() => {
-        $scope.recipe = recipeService.get($routeParams.id);
+        $scope.recipe = Recipe.get($routeParams.id);
 
         // Add category to each ingredient in the recipe
         _.each($scope.recipe.recipe_ingredients, (recipe_ingredient) => {
-          recipe_ingredient.selectedCategory = categoryService.getByIngredientId(recipe_ingredient.ingredient.id);
+          recipe_ingredient.selectedCategory = categoryService.getByIngredientId(recipe_ingredient.ingredient_id);
         });
 
         $scope.originalTextLines = $scope.recipe.original_text.split('\n');
@@ -36,7 +36,8 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      recipeService.destroy($scope.recipe.id)
+      Recipe
+        .destroy($scope.recipe.id)
         .then(() => {
           $scope.successMessage = 'Deleted recipe';
           // TODO: Redirect back to recipe page
@@ -50,11 +51,18 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      recipeService.update({
-        id: $scope.recipe.id,
-        name: $scope.recipeName,
-        url: $scope.recipeUrl
-      })
+      Recipe
+        .update($scope.recipe.id, {
+          name: $scope.recipeName,
+          original_text: $scope.recipe.original_text,
+          url: $scope.recipeUrl,
+          recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+            return {
+              ingredient_id: recipe_ingredient.ingredient_id,
+              amount: recipe_ingredient.amount
+            };
+          })
+        })
         .then(() => {
           $scope.successMessage = 'Saved recipe';
         })

@@ -2,20 +2,20 @@
 
 // NOTE: Requires ingredients, categories, and recipes to be loaded
 angular.module('bruleeApp')
-  .filter('groceryListFilter', (categoryService, Ingredient, recipeService) => {
+  .filter('groceryListFilter', (categoryService, Ingredient, Recipe) => {
 
     let UNCATEGORIZED_NAME = 'Leftovers';
 
     return (groceryList) => {
 
       let selectedRecipes = _.map(groceryList.recipe_days, (recipeDay) => {
-        return recipeService.get(recipeDay.recipe_id);
+        return Recipe.get(recipeDay.recipe_id);
       });
 
       let recipesByIngredientId = _.reduce(selectedRecipes, (memo, recipe) => {
         _.each(recipe.recipe_ingredients, (recipe_ingredient) => {
-          memo[recipe_ingredient.ingredient.id] = memo[recipe_ingredient.ingredient.id] || [];
-          memo[recipe_ingredient.ingredient.id].push(recipe);
+          memo[recipe_ingredient.ingredient_id] = memo[recipe_ingredient.ingredient_id] || [];
+          memo[recipe_ingredient.ingredient_id].push(recipe);
         });
         return memo;
       }, {});

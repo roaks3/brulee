@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('RecipeListCtrl', ($sessionStorage, $scope, recipeService) => {
+  .controller('RecipeListCtrl', ($sessionStorage, $scope, Recipe) => {
 
     $sessionStorage.recipeSearch = $sessionStorage.recipeSearch || {str: ''};
     $scope.recipeSearch = $sessionStorage.recipeSearch;
@@ -11,7 +11,7 @@ angular.module('bruleeApp')
     $scope.successMessage = null;
 
     $scope.recipes = [];
-    recipeService.findAll()
+    Recipe.refreshAll()
       .then((data) => {
         $scope.recipes = data;
         $scope.filterRecipes();
