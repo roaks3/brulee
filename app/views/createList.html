@@ -1,48 +1,74 @@
 <div class="container">
   <div class="row">
+
     <div class="col-md-4 col-md-offset-1 recipeList">
       <div class="panel panel-primary">
+
         <div class="panel-heading">
           Recipes
         </div>
+
         <div class="panel-body">
-          <div class="checkbox" ng-repeat="recipe in recipes">
+          <div class="checkbox"
+              ng-repeat="recipe in recipes">
+
             <label>
-              <input type="checkbox" ng-model="recipe._selected">
+              <input type="checkbox"
+                     ng-model="recipe._selected">
               {{recipe.name}}
-              <a ng-href="/#/recipe/{{recipe.id}}" target="_blank">View</a>
+              <a ng-href="/#/recipe/{{recipe.id}}"
+                 target="_blank">
+                View
+              </a>
             </label>
+
           </div>
         </div>
+
       </div>
     </div>
+
     <div class="col-md-5 shoppingListSection">
-      <button class="btn btn-primary" id="createListButton" ng-click="calculateShoppingList()">
+
+      <button class="btn btn-primary"
+              id="createListButton"
+              ng-click="calculateShoppingList()">
         Create Shopping List
       </button>
-      <div ng-show="selectedGroceryList" class="groceryList">
-        <ul class="list-group" ng-repeat="recipeDay in selectedGroceryList.recipe_days">
-          <li class="list-group-item">
-            {{recipeDay.recipe.name}}
-            <a ng-if="recipeDay.recipe.url" ng-href="{{recipeDay.recipe.url}}" target="_blank">Link</a>
-            <input type="text" ng-model="recipeDay.day_of_week" />
-          </li>
-        </ul>
-      </div>
-      <button ng-show="newGroceryList" class="btn btn-primary" id="createListButton" ng-click="saveGroceryList()">
+
+      <button ng-show="newGroceryList"
+              class="btn btn-primary"
+              id="createListButton"
+              ng-click="saveGroceryList()">
         Save Grocery List
       </button>
-      <div ng-show="newGroceryList" class="groceryList">
-        <ul class="list-group" ng-repeat="recipeDay in newGroceryList.recipe_days">
+
+      <div ng-show="newGroceryList"
+           class="groceryList">
+
+        <ul class="list-group"
+            ng-repeat="recipeDay in newGroceryList.recipe_days">
           <li class="list-group-item">
+
             {{recipeDay.recipe.name}}
-            <a ng-if="recipeDay.recipe.url" ng-href="{{recipeDay.recipe.url}}" target="_blank">Link</a>
-            <input type="text" ng-model="recipeDay.day_of_week" />
+            <a ng-if="recipeDay.recipe.url"
+               ng-href="{{recipeDay.recipe.url}}"
+               target="_blank">
+              Link
+            </a>
+            <input type="text"
+                   ng-model="recipeDay.day_of_week">
+
           </li>
         </ul>
+
       </div>
-      <grocery-ingredient-list grocery-ingredients="shoppingList">
+
+      <grocery-ingredient-list
+        grocery-ingredients="shoppingList">
       </grocery-ingredient-list>
+
     </div>
+
   </div>
 </div>
