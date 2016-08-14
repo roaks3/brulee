@@ -3,34 +3,28 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, Category,
-    GroceryList, Ingredient, Recipe) {
+  .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage,
+                                          Category, GroceryList, Ingredient,
+                                          Recipe) {
 
     $scope.recipes = [];
     $scope.init = function () {
+      $scope.errors = [];
+      $scope.successMessage = null;
+
       return Recipe
         .refreshAll()
         .then((data) => {
           $scope.recipes = data;
         })
-        .then(() => Ingredient.refreshAll());
-    };
-
-    $scope.refreshCategories = function () {
-      $scope.errors = [];
-      $scope.successMessage = null;
-
-      Category.refreshAll()
-        .catch(function (error) {
+        .then(() => Ingredient.refreshAll())
+        .then(() => Category.refreshAll())
+        .catch((error) => {
           $scope.errors.push(error);
         });
     };
 
     $scope.init();
-
-    $timeout(function () {
-      $scope.refreshCategories();
-    }, 1000);
 
     $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
     $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
