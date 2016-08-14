@@ -19,6 +19,10 @@ angular.module('bruleeApp')
         })
         .then(() => Ingredient.refreshAll())
         .then(() => Category.refreshAll())
+        .then(() => GroceryList.refreshAll())
+        .then(() => {
+          $scope.recipes = _.reverse(_.sortBy($scope.recipes, $scope.numUsed));
+        })
         .catch((error) => {
           $scope.errors.push(error);
         });
@@ -63,4 +67,13 @@ angular.module('bruleeApp')
         });
       }
     };
+
+    $scope.numUsed = (recipe) => {
+      return _(GroceryList.filter())
+        .filter((groceryList) => {
+          return _.some(groceryList.recipe_days, ['recipe_id', recipe.id]);
+        })
+        .size();
+    };
+
   });
