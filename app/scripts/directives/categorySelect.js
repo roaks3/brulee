@@ -12,7 +12,6 @@ angular.module('bruleeApp')
         vm.categories = data;
       });
 
-
     vm.displayName = function (category) {
       return category ? category.name : 'None';
     };

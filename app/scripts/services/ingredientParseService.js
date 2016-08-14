@@ -28,7 +28,9 @@ angular.module('bruleeApp.services')
       }
 
       // Parse out the ingredient units
-      var unit = item.match(/^[Cc]ups*|^[Tt]sps*|^[Tt]easpoons*|^[Tt]bsps*|^[Tt]ablespoons*|^[Ll]bs*|^[Pp]ounds*|^[Oo]z|^[Oo]unces*/);
+      var unit = item.match(
+        /^[Cc]ups*|^[Tt]sps*|^[Tt]easpoons*|^[Tt]bsps*|^[Tt]ablespoons*|^[Ll]bs*|^[Pp]ounds*|^[Oo]z|^[Oo]unces*/
+      );
       if (unit === null) {
         // Do nothing
       } else {

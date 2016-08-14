@@ -2,7 +2,9 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($routeParams, $scope, $window, Category, categoryService, Ingredient, Recipe, recipeService) {
+  .controller('IngredientCtrl', function ($routeParams, $scope, $window,
+                                          Category, categoryService, Ingredient,
+                                          Recipe, recipeService) {
 
     $scope.errors = [];
     $scope.successMessage = null;

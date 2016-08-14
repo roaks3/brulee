@@ -16,8 +16,8 @@ angular.module('bruleeApp')
         $scope.recipe = Recipe.get($routeParams.id);
 
         // Add category to each ingredient in the recipe
-        _.each($scope.recipe.recipe_ingredients, (recipe_ingredient) => {
-          recipe_ingredient.selectedCategory = categoryService.getByIngredientId(recipe_ingredient.ingredient_id);
+        _.each($scope.recipe.recipe_ingredients, (recipeIngredient) => {
+          recipeIngredient.selectedCategory = categoryService.getByIngredientId(recipeIngredient.ingredient_id);
         });
 
         $scope.originalTextLines = $scope.recipe.original_text.split('\n');
@@ -56,10 +56,10 @@ angular.module('bruleeApp')
           name: $scope.recipeName,
           original_text: $scope.recipe.original_text,
           url: $scope.recipeUrl,
-          recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+          recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
             return {
-              ingredient_id: recipe_ingredient.ingredient_id,
-              amount: recipe_ingredient.amount
+              ingredient_id: recipeIngredient.ingredient_id,
+              amount: recipeIngredient.amount
             };
           })
         })

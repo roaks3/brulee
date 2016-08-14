@@ -13,9 +13,9 @@ angular.module('bruleeApp')
       });
 
       let recipesByIngredientId = _.reduce(selectedRecipes, (memo, recipe) => {
-        _.each(recipe.recipe_ingredients, (recipe_ingredient) => {
-          memo[recipe_ingredient.ingredient_id] = memo[recipe_ingredient.ingredient_id] || [];
-          memo[recipe_ingredient.ingredient_id].push(recipe);
+        _.each(recipe.recipe_ingredients, (recipeIngredient) => {
+          memo[recipeIngredient.ingredient_id] = memo[recipeIngredient.ingredient_id] || [];
+          memo[recipeIngredient.ingredient_id].push(recipe);
         });
         return memo;
       }, {});
@@ -42,6 +42,6 @@ angular.module('bruleeApp')
         })
         .value();
 
-      };
+    };
 
   });

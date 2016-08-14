@@ -2,7 +2,9 @@
 
 angular.module('bruleeApp')
 
-  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams, $sessionStorage, Category, GroceryList, Ingredient, Recipe) {
+  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams,
+                                           $sessionStorage, Category, GroceryList,
+                                           Ingredient, Recipe) {
 
     $scope.init = function () {
       $scope.errors = [];

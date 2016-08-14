@@ -3,7 +3,10 @@
 
 angular.module('bruleeApp')
 
-  .controller('AddRecipesCtrl', function ($q, $scope, Category, categoryService, Ingredient, ingredientParseService, ingredientService, Recipe) {
+  .controller('AddRecipesCtrl', function ($q, $scope, Category, categoryService,
+                                          Ingredient, ingredientParseService,
+                                          ingredientService, Recipe) {
+
     $scope.recipe = {
       name: '',
       ingredients: [],
@@ -35,10 +38,10 @@ angular.module('bruleeApp')
     $scope.updateCategories = function (recipe) {
       var categoriesToUpdate = [];
 
-      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
-        if (recipe_ingredient.selectedCategory && !$scope.isCategorized(recipe_ingredient)) {
-          var category = recipe_ingredient.selectedCategory;
-          var ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
+      _.each(recipe.recipe_ingredients, function (recipeIngredient) {
+        if (recipeIngredient.selectedCategory && !$scope.isCategorized(recipeIngredient)) {
+          var category = recipeIngredient.selectedCategory;
+          var ingredient = ingredientService.getByName(recipeIngredient.ingredient.name);
 
           category.ingredient_ids.push(ingredient.id);
           categoriesToUpdate.push(category);
@@ -49,12 +52,12 @@ angular.module('bruleeApp')
     };
 
     $scope.updateRecipeIngredients = function (recipe) {
-      _.each(recipe.recipe_ingredients, function (recipe_ingredient) {
-        recipe_ingredient.ingredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
+      _.each(recipe.recipe_ingredients, function (recipeIngredient) {
+        recipeIngredient.ingredient = ingredientService.getByName(recipeIngredient.ingredient.name);
       });
     };
 
-    $scope.addRecipe = function() {
+    $scope.addRecipe = function () {
       // Make sure there is a recipe name present
       if (!$scope.recipe.name) {
         $scope.isNameInvalid = true;
@@ -74,10 +77,10 @@ angular.module('bruleeApp')
               name: $scope.recipe.name,
               original_text: $scope.recipe.original_text,
               url: $scope.recipe.url,
-              recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
+              recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
                 return {
-                  ingredient_id: recipe_ingredient.ingredient.id,
-                  amount: recipe_ingredient.amount
+                  ingredient_id: recipeIngredient.ingredient.id,
+                  amount: recipeIngredient.amount
                 };
               })
             })
@@ -90,32 +93,32 @@ angular.module('bruleeApp')
         });
     };
 
-    $scope.parseRecipeText = function() {
+    $scope.parseRecipeText = function () {
       $scope.recipe.recipe_ingredients = ingredientParseService.parseAll($scope.recipe.original_text);
 
-      _.each($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
-        var existingIngredient = ingredientService.getByName(recipe_ingredient.ingredient.name);
+      _.each($scope.recipe.recipe_ingredients, function (recipeIngredient) {
+        var existingIngredient = ingredientService.getByName(recipeIngredient.ingredient.name);
         if (existingIngredient) {
-          recipe_ingredient.ingredient = existingIngredient;
+          recipeIngredient.ingredient = existingIngredient;
         }
 
-        recipe_ingredient.selectedCategory = categoryService.getByIngredientId(recipe_ingredient.ingredient.id);
+        recipeIngredient.selectedCategory = categoryService.getByIngredientId(recipeIngredient.ingredient.id);
       });
 
       $scope.isParsed = true;
     };
 
     $scope.removeRecipeIngredient = function (recipeIngredient) {
-      _.remove($scope.recipe.recipe_ingredients, function (recipe_ingredient) {
-        return recipe_ingredient === recipeIngredient;
+      _.remove($scope.recipe.recipe_ingredients, function (existingRecipeIngredient) {
+        return existingRecipeIngredient === recipeIngredient;
       });
     };
 
-    $scope.isCategorized = function (recipe_ingredient) {
+    $scope.isCategorized = function (recipeIngredient) {
       // TODO: This should probably use some other field to reflect whether the
       // selected category needs to be saved
-      if (recipe_ingredient && recipe_ingredient.ingredient) {
-        return !!categoryService.getByIngredientId(recipe_ingredient.ingredient.id);
+      if (recipeIngredient && recipeIngredient.ingredient) {
+        return !!categoryService.getByIngredientId(recipeIngredient.ingredient.id);
       }
       return false;
     };

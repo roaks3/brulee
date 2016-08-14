@@ -5,7 +5,7 @@ angular.module('bruleeApp')
 
   .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, Category,
     GroceryList, Ingredient, Recipe) {
-    
+
     $scope.recipes = [];
     $scope.init = function () {
       return Recipe
@@ -60,10 +60,10 @@ angular.module('bruleeApp')
       } else {
         GroceryList.create({
           week_start: $scope.newGroceryList.week_start,
-          recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipe_day) {
+          recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipeDay) {
             return {
-              recipe_id: recipe_day.recipe_id,
-              day_of_week: recipe_day.day_of_week ? parseInt(recipe_day.day_of_week) : null
+              recipe_id: recipeDay.recipe_id,
+              day_of_week: recipeDay.day_of_week ? parseInt(recipeDay.day_of_week) : null
             };
           })
         });
