@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('RecipeCtrl', ($q, $routeParams, $scope, Category, categoryService, Recipe) => {
+  .controller('RecipeCtrl', ($q, $routeParams, $scope, $window, Category, categoryService, Recipe) => {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -29,7 +29,7 @@ angular.module('bruleeApp')
       });
 
     $scope.delete = () => {
-      if (!confirm('Remove \'' + $scope.recipe.name + '\'?')) {
+      if (!$window.confirm('Remove \'' + $scope.recipe.name + '\'?')) {
         return;
       }
 

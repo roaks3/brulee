@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bruleeApp')
-  .controller('GroceryIngredientListCtrl', function ($sessionStorage) {
+  .controller('GroceryIngredientListCtrl', function () {
 
     var vm = this;
 

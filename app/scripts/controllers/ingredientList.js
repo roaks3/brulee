@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientListCtrl', function ($sessionStorage, $scope, Ingredient) {
+  .controller('IngredientListCtrl', function ($sessionStorage, $scope, $window, Ingredient) {
 
     $sessionStorage.search = $sessionStorage.search || {str: ''};
     $scope.search = $sessionStorage.search;
@@ -29,7 +29,7 @@ angular.module('bruleeApp')
 
     $scope.addIngredient = function (ingredient) {
       if (_.includes(_.map($scope.ingredients, 'name'), ingredient.name)) {
-        alert('This ingredient already exists');
+        $window.alert('This ingredient already exists');
         return;
       }
 

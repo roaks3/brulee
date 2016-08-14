@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($routeParams, $scope, Category, categoryService, Ingredient, Recipe, recipeService) {
+  .controller('IngredientCtrl', function ($routeParams, $scope, $window, Category, categoryService, Ingredient, Recipe, recipeService) {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -38,16 +38,16 @@ angular.module('bruleeApp')
 
     $scope.delete = function () {
       if ($scope.recipes && $scope.recipes.length) {
-        alert('Cannot delete because ingredient is being used in recipes');
+        $window.alert('Cannot delete because ingredient is being used in recipes');
         return;
       }
 
       if ($scope.category) {
-        alert('Cannot delete because ingredient belongs to a category');
+        $window.alert('Cannot delete because ingredient belongs to a category');
         return;
       }
 
-      if (!confirm('Remove \'' + $scope.ingredient.name + '\'?')) {
+      if (!$window.confirm('Remove \'' + $scope.ingredient.name + '\'?')) {
         return;
       }
 
@@ -71,7 +71,7 @@ angular.module('bruleeApp')
         .value();
 
       if (_.includes(otherIngredientNames, $scope.ingredientName)) {
-        alert('This ingredient name already exists');
+        $window.alert('This ingredient name already exists');
         return;
       }
 

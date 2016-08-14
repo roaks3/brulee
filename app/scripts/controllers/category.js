@@ -3,7 +3,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('CategoryCtrl', function ($scope, Category, categoryService, Ingredient) {
+  .controller('CategoryCtrl', function ($scope, $window, Category, categoryService, Ingredient) {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -37,7 +37,7 @@ angular.module('bruleeApp')
     };
 
     $scope.addCategory = function (categoryName) {
-      if (!confirm('Add a new category named \'' + categoryName + '\'?')) {
+      if (!$window.confirm('Add a new category named \'' + categoryName + '\'?')) {
         return;
       }
 
@@ -59,7 +59,7 @@ angular.module('bruleeApp')
     };
 
     $scope.removeCategory = function (categoryId) {
-      if (!confirm('Remove this category?')) {
+      if (!$window.confirm('Remove this category?')) {
         return;
       }
 
@@ -76,7 +76,7 @@ angular.module('bruleeApp')
     };
 
     $scope.addIngredient = function (category, ingredient) {
-      if (!confirm('Add \'' + ingredient.name + '\' to \'' + category.name + '\'?')) {
+      if (!$window.confirm('Add \'' + ingredient.name + '\' to \'' + category.name + '\'?')) {
         return;
       }
 
@@ -93,10 +93,10 @@ angular.module('bruleeApp')
           //TODO: Figure out how to actually clear the typeahead
           $scope.newIngredient = null;
         } else {
-          alert('This ingredient already exists in this category');
+          $window.alert('This ingredient already exists in this category');
         }
       } else {
-        alert('This ingredient is invalid and cannot be added');
+        $window.alert('This ingredient is invalid and cannot be added');
       }
     };
 
