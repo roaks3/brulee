@@ -4,14 +4,16 @@
 angular.module('bruleeApp')
 
   .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage, $timeout, Category,
-    groceryListService, Recipe) {
+    GroceryList, Ingredient, Recipe) {
     
     $scope.recipes = [];
-    $scope.refreshRecipes = function () {
-      return Recipe.refreshAll()
-        .then(function (data) {
+    $scope.init = function () {
+      return Recipe
+        .refreshAll()
+        .then((data) => {
           $scope.recipes = data;
-        });
+        })
+        .then(() => Ingredient.refreshAll());
     };
 
     $scope.refreshCategories = function () {
@@ -24,7 +26,7 @@ angular.module('bruleeApp')
         });
     };
 
-    $scope.refreshRecipes();
+    $scope.init();
 
     $timeout(function () {
       $scope.refreshCategories();
@@ -54,9 +56,17 @@ angular.module('bruleeApp')
 
     $scope.saveGroceryList = function () {
       if ($scope.newGroceryList.id) {
-        //groceryListService.update($scope.newGroceryList);
+        //GroceryList.update($scope.newGroceryList);
       } else {
-        groceryListService.create($scope.newGroceryList);
+        GroceryList.create({
+          week_start: $scope.newGroceryList.week_start,
+          recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipe_day) {
+            return {
+              recipe_id: recipe_day.recipe_id,
+              day_of_week: recipe_day.day_of_week ? parseInt(recipe_day.day_of_week) : null
+            };
+          })
+        });
       }
     };
   });
