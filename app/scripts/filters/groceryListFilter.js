@@ -4,7 +4,7 @@
 angular.module('bruleeApp')
   .filter('groceryListFilter', (categoryService, Ingredient, Recipe) => {
 
-    let UNCATEGORIZED_NAME = 'Leftovers';
+    let UNCATEGORIZED_NAME = 'Uncategorized';
 
     return (groceryList) => {
 
