@@ -2,19 +2,15 @@
 
 angular.module('bruleeApp')
 
-  .controller('GroceryListCtrl', function ($filter, $scope, $routeParams,
-                                           $sessionStorage, Category, GroceryList,
-                                           Ingredient, Recipe) {
+  .controller('GroceryListCtrl', function ($scope, $routeParams, $sessionStorage,
+                                           GroceryList, groceryIngredientService) {
 
     $scope.init = function () {
       $scope.errors = [];
       $scope.successMessage = null;
 
-      return Category
-        .refreshAll()
-        .then(() => Recipe.refreshAll())
-        .then(() => Ingredient.refreshAll())
-        .then(() => $scope.refreshGroceryLists())
+      return $scope
+        .refreshGroceryLists()
         .catch((error) => {
           $scope.errors.push(error);
         });
@@ -48,7 +44,11 @@ angular.module('bruleeApp')
     $scope.selectGroceryList = function (id) {
       $scope.groceryList = _.find($scope.groceryLists, ['id', id]);
       if ($scope.groceryList) {
-        $scope.groceryList.groceryIngredients = $filter('groceryListFilter')($scope.groceryList);
+        groceryIngredientService
+          .generate($scope.groceryList)
+          .then((data) => {
+            $scope.groceryList.groceryIngredients = data;
+          });
       } else {
         $scope.groceryList = {};
       }

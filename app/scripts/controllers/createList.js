@@ -3,9 +3,8 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($filter, $q, $scope, $sessionStorage,
-                                          Category, GroceryList, Ingredient,
-                                          Recipe) {
+  .controller('CreateListCtrl', function ($q, $scope, $sessionStorage, GroceryList,
+                                          groceryIngredientService, Recipe) {
 
     $scope.recipes = [];
     $scope.groceryIngredients = [];
@@ -18,8 +17,6 @@ angular.module('bruleeApp')
         .then((data) => {
           $scope.recipes = data;
         })
-        .then(() => Ingredient.refreshAll())
-        .then(() => Category.refreshAll())
         .then(() => GroceryList.refreshAll())
         .then(() => {
           $scope.recipes = _.reverse(_.sortBy($scope.recipes, $scope.numUsed));
@@ -48,7 +45,11 @@ angular.module('bruleeApp')
         })
       };
 
-      $scope.groceryIngredients = $filter('groceryListFilter')($scope.newGroceryList);
+      groceryIngredientService
+        .generate($scope.newGroceryList)
+        .then((data) => {
+          $scope.groceryIngredients = data;
+        });
     };
 
     $scope.saveGroceryList = function () {
