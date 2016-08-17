@@ -11,6 +11,9 @@ angular.module('bruleeApp')
     $scope.errors = [];
     $scope.successMessage = null;
 
+    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
+    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
+
     $scope.init = function () {
       return Recipe
         .refreshAll()
@@ -27,9 +30,6 @@ angular.module('bruleeApp')
     };
 
     $scope.init();
-
-    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
-    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
 
     $scope.calculateShoppingList = function () {
       var selectedRecipes = _($scope.recipes)
@@ -56,15 +56,16 @@ angular.module('bruleeApp')
       if ($scope.newGroceryList.id) {
         //GroceryList.update($scope.newGroceryList);
       } else {
-        GroceryList.create({
-          week_start: $scope.newGroceryList.week_start,
-          recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipeDay) {
-            return {
-              recipe_id: recipeDay.recipe_id,
-              day_of_week: recipeDay.day_of_week ? parseInt(recipeDay.day_of_week) : null
-            };
-          })
-        });
+        GroceryList
+          .create({
+            week_start: $scope.newGroceryList.week_start,
+            recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipeDay) {
+              return {
+                recipe_id: recipeDay.recipe_id,
+                day_of_week: recipeDay.day_of_week ? parseInt(recipeDay.day_of_week) : null
+              };
+            })
+          });
       }
     };
 
