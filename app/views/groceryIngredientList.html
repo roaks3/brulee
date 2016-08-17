@@ -1,5 +1,6 @@
 <div class="shoppingList">
-  <ul class="list-group" ng-repeat="categoryIngredients in vm.groceryIngredients">
+  <ul class="list-group"
+      ng-repeat="categoryIngredients in vm.groceryIngredients">
     <li class="list-group-item list-group-item-info">
       {{categoryIngredients.name}}
     </li>
@@ -10,7 +11,7 @@
       <span class="badge"
             uib-tooltip="{{ingredient.recipeNames.join(', ')}}"
             tooltip-placement="right">
-      	{{ingredient.recipeNames.length}}
+        {{ingredient.recipeNames.length}}
       </span>
     </li>
   </ul>
