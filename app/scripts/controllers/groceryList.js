@@ -28,7 +28,7 @@ angular.module('bruleeApp')
       $scope.groceryLists = [];
       return GroceryList.refreshAll()
         .then(function (data) {
-          $scope.groceryLists = data;
+          $scope.groceryLists = _.sortBy(data, 'week_start');
 
           if ($routeParams.id) {
             $scope.selectGroceryList($routeParams.id);
