@@ -8,10 +8,11 @@ angular.module('bruleeApp')
                                           Recipe) {
 
     $scope.recipes = [];
-    $scope.init = function () {
-      $scope.errors = [];
-      $scope.successMessage = null;
+    $scope.groceryIngredients = [];
+    $scope.errors = [];
+    $scope.successMessage = null;
 
+    $scope.init = function () {
       return Recipe
         .refreshAll()
         .then((data) => {
@@ -33,8 +34,6 @@ angular.module('bruleeApp')
     $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
     $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
 
-    $scope.shoppingList = [];
-
     $scope.calculateShoppingList = function () {
       var selectedRecipes = _($scope.recipes)
         .filter('_selected')
@@ -49,7 +48,7 @@ angular.module('bruleeApp')
         })
       };
 
-      $scope.shoppingList = $filter('groceryListFilter')($scope.newGroceryList);
+      $scope.groceryIngredients = $filter('groceryListFilter')($scope.newGroceryList);
     };
 
     $scope.saveGroceryList = function () {
