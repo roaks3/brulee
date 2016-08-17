@@ -46,10 +46,11 @@ angular.module('bruleeApp')
         groceryIngredientService
           .generate($scope.groceryList)
           .then((data) => {
-            $scope.groceryList.groceryIngredients = data;
+            $scope.groceryIngredients = data;
           });
       } else {
         $scope.groceryList = {};
+        $scope.groceryIngredients = {};
       }
     };
 
