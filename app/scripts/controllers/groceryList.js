@@ -5,10 +5,14 @@ angular.module('bruleeApp')
   .controller('GroceryListCtrl', function ($scope, $routeParams, $sessionStorage,
                                            GroceryList, groceryIngredientService) {
 
-    $scope.init = function () {
-      $scope.errors = [];
-      $scope.successMessage = null;
+    $scope.groceryLists = [];
+    $scope.groceryList = {};
+    $scope.errors = [];
 
+    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
+    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
+
+    $scope.init = function () {
       return $scope
         .refreshGroceryLists()
         .catch((error) => {
@@ -16,13 +20,12 @@ angular.module('bruleeApp')
         });
     };
 
-    $scope.groceryLists = [];
     $scope.refreshGroceryLists = function () {
       $scope.errors = [];
-      $scope.successMessage = null;
-
       $scope.groceryLists = [];
-      return GroceryList.refreshAll()
+
+      return GroceryList
+        .refreshAll()
         .then(function (data) {
           $scope.groceryLists = _.sortBy(data, 'week_start');
 
@@ -37,10 +40,6 @@ angular.module('bruleeApp')
 
     $scope.init();
 
-    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
-    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
-
-    $scope.groceryList = {};
     $scope.selectGroceryList = function (id) {
       $scope.groceryList = _.find($scope.groceryLists, ['id', id]);
       if ($scope.groceryList) {
@@ -61,11 +60,12 @@ angular.module('bruleeApp')
         amount: 1
       });
 
-      GroceryList.update($scope.groceryList.id, {
-        week_start: $scope.groceryList.week_start,
-        recipe_days: $scope.groceryList.recipe_days,
-        additional_ingredients: $scope.groceryList.additional_ingredients
-      })
+      GroceryList
+        .update($scope.groceryList.id, {
+          week_start: $scope.groceryList.week_start,
+          recipe_days: $scope.groceryList.recipe_days,
+          additional_ingredients: $scope.groceryList.additional_ingredients
+        })
         .then(function () {
           // TODO: Can probably come up with a less naive solution
           $scope.refreshGroceryLists();
