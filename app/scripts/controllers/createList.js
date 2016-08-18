@@ -77,4 +77,8 @@ angular.module('bruleeApp')
         .size();
     };
 
+    $scope.getRecipe = (recipeId) => {
+      return Recipe.get(recipeId);
+    };
+
   });

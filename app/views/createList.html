@@ -59,9 +59,9 @@
             ng-repeat="recipeDay in newGroceryList.recipe_days">
           <li class="list-group-item">
 
-            {{recipeDay.recipe.name}}
-            <a ng-if="recipeDay.recipe.url"
-               ng-href="{{recipeDay.recipe.url}}"
+            {{getRecipe(recipeDay.recipe_id).name}}
+            <a ng-if="getRecipe(recipeDay.recipe_id).url"
+               ng-href="{{getRecipe(recipeDay.recipe_id).url}}"
                target="_blank">
               Link
             </a>
