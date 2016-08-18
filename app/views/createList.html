@@ -1,35 +1,43 @@
 <div class="container">
   <div class="row">
 
-    <div class="col-md-4 col-md-offset-1 recipeList">
-      <div class="panel panel-primary">
+    <div class="col-md-5">
+      <section class="cl-recipe-list-section">
 
-        <div class="panel-heading">
+        <header class="cl-recipe-list-header">
           Recipes
-        </div>
+        </header>
 
-        <div class="panel-body">
-          <div class="checkbox"
+        <ul class="cl-recipe-list">
+          <li class="checkbox cl-recipe"
               ng-repeat="recipe in recipes">
 
             <label>
-              <input type="checkbox"
-                     ng-model="recipe._selected">
-              {{recipe.name}}
-              <a ng-href="/#/recipe/{{recipe.id}}"
-                 target="_blank">
-                View
-              </a>
-              {{numUsed(recipe)}}
+              <div class="cl-recipe-select">
+                <input type="checkbox"
+                       ng-model="recipe._selected">
+                <div class="cl-recipe-title">
+                  {{recipe.name}}
+                </div>
+              </div>
+              <div class="cl-recipe-link">
+                <a ng-href="/#/recipe/{{recipe.id}}"
+                   target="_blank">
+                  View
+                </a>
+              </div>
+              <div class="cl-recipe-num-used">
+                {{numUsed(recipe)}}x
+              </div>
             </label>
 
-          </div>
-        </div>
+          </li>
+        </ul>
 
-      </div>
+      </section>
     </div>
 
-    <div class="col-md-5 shoppingListSection">
+    <div class="col-md-5 cl-ingredient-list-section">
 
       <button class="btn btn-primary"
               id="createListButton"

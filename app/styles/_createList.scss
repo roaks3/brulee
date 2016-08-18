@@ -19,3 +19,58 @@ body {
 .done {
   color: rgba(grey, .4);
 }
+
+.cl-recipe-list-section {
+  margin-top: 30px;
+}
+
+.cl-recipe-list-header {
+  background-color: rgba(#B1D08E, .3);
+  color: #51623f;
+  font-size: 12px;
+  letter-spacing: 1px;
+  line-height: 20px;
+  padding: 10px 40px;
+  text-transform: uppercase;
+}
+
+.cl-recipe-list {
+  padding: 0 10px 5px 10px;
+}
+
+.cl-recipe {
+  box-shadow: 1px 1px 3px 0 #cccccc;
+  margin-bottom: 10px;
+  padding: 10px;
+
+  label {
+    display: flex;
+    width: 100%;
+  }
+}
+
+.cl-recipe-title {
+  color: #555555;
+}
+
+.cl-recipe-select {
+  width: 80%;
+}
+
+.cl-recipe-link {
+  font-size: 12px;
+  line-height: 20px;
+  text-align: center;
+  width: 10%;
+}
+
+.cl-recipe-num-used {
+  color: #999999;
+  letter-spacing: 1px;
+  text-align: center;
+  width: 10%;
+}
+
+.cl-ingredient-list-section {
+  margin-top: 30px;
+}
