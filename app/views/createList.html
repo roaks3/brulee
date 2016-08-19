@@ -9,27 +9,25 @@
         </header>
 
         <ul class="cl-recipe-list">
-          <li class="checkbox cl-recipe"
+          <li class="cl-recipe"
               ng-repeat="recipe in recipes">
 
-            <label>
-              <div class="cl-recipe-select">
-                <input type="checkbox"
-                       ng-model="recipe._selected">
-                <div class="cl-recipe-title">
-                  {{recipe.name}}
-                </div>
-              </div>
-              <div class="cl-recipe-link">
-                <a ng-href="/#/recipe/{{recipe.id}}"
-                   target="_blank">
-                  View
-                </a>
-              </div>
-              <div class="cl-recipe-num-used">
-                {{numUsed(recipe)}}x
+            <label class="cl-recipe-select">
+              <input type="checkbox"
+                     ng-model="recipe._selected">
+              <div class="cl-recipe-title">
+                {{recipe.name}}
               </div>
             </label>
+            <div class="cl-recipe-link">
+              <a ng-href="/#/recipe/{{recipe.id}}"
+                 target="_blank">
+                View
+              </a>
+            </div>
+            <div class="cl-recipe-num-used">
+              {{numUsed(recipe)}}x
+            </div>
 
           </li>
         </ul>

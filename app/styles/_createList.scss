@@ -35,18 +35,15 @@ body {
 }
 
 .cl-recipe-list {
-  padding: 0 10px 5px 10px;
+  padding: 10px 10px 5px 10px;
 }
 
 .cl-recipe {
   box-shadow: 1px 1px 3px 0 #cccccc;
-  margin-bottom: 10px;
+  display: flex;
+  margin-bottom: 5px;
   padding: 10px;
-
-  label {
-    display: flex;
-    width: 100%;
-  }
+  width: 100%;
 }
 
 .cl-recipe-title {
@@ -54,7 +51,15 @@ body {
 }
 
 .cl-recipe-select {
+  cursor: pointer;
+  display: flex;
+  font-weight: 400;
+  margin: 0;
   width: 80%;
+
+  input[type="checkbox"] {
+    margin: 4px 7px 0 0;
+  }
 }
 
 .cl-recipe-link {
