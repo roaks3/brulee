@@ -7,7 +7,34 @@
   </div>
 </div>
 
-<input ng-change="filterRecipes()" ng-model="recipeSearch.str" />
-<h3 ng-repeat="recipe in filteredRecipes">
-  <a ng-href="#/recipe/{{recipe.id}}">{{recipe.name}}</a>
-</h3>
+<section class="col-md-5 rl-recipe-list-section">
+
+  <header class="rl-recipe-list-header">
+    Recipes
+  </header>
+
+  <input class="rl-recipe-filter"
+         placeholder="Filter recipes"
+         ng-change="filterRecipes()"
+         ng-model="recipeSearch.str">
+
+  <ul class="rl-recipe-list">
+    <li class="rl-recipe"
+        ng-repeat="recipe in filteredRecipes">
+
+      <div class="rl-recipe-select">
+        <div class="rl-recipe-title">
+          {{recipe.name}}
+        </div>
+      </div>
+      <div class="rl-recipe-link">
+        <a ng-href="/#/recipe/{{recipe.id}}"
+           target="_blank">
+          View
+        </a>
+      </div>
+
+    </li>
+  </ul>
+
+</section>
