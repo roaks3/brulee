@@ -11,14 +11,14 @@
 <button class="btn btn-primary" ng-click="save()">Save</button>
 
 <h1>
-  <input type="text" ng-model="recipeName" />
+  <input type="text" ng-model="recipe.name" />
 </h1>
 
-<a ng-href="{{recipeUrl}}"
-   ng-show="recipeUrl">
+<a ng-href="{{recipe.url}}"
+   ng-show="recipe.url">
   Link
 </a>
-<input ng-model="recipeUrl">
+<input ng-model="recipe.url">
 
 <div class="parsedIngredientSection">
   <recipe-ingredient-input

@@ -9,11 +9,11 @@ angular.module('bruleeApp')
 
     $scope.recipe = {};
     $q.all([
-      Recipe.refreshAll(),
+      Recipe.find($routeParams.id),
       Category.refreshAll()
     ])
-      .then(() => {
-        $scope.recipe = Recipe.get($routeParams.id);
+      .then((data) => {
+        $scope.recipe = _.cloneDeep(data[0]);
 
         // Add category to each ingredient in the recipe
         _.each($scope.recipe.recipe_ingredients, (recipeIngredient) => {
@@ -21,8 +21,6 @@ angular.module('bruleeApp')
         });
 
         $scope.originalTextLines = $scope.recipe.original_text.split('\n');
-        $scope.recipeName = $scope.recipe.name;
-        $scope.recipeUrl = $scope.recipe.url;
       })
       .catch((error) => {
         $scope.errors.push(error);
@@ -53,12 +51,15 @@ angular.module('bruleeApp')
 
       Recipe
         .update($scope.recipe.id, {
-          name: $scope.recipeName,
+          name: $scope.recipe.name,
           original_text: $scope.recipe.original_text,
-          url: $scope.recipeUrl,
+          url: $scope.recipe.url,
           recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
             return {
-              ingredient_id: recipeIngredient.ingredient_id,
+              // NOTE: It's weird that the ingredient.id is needed here and the
+              // ingredient_id remains unchanged. The input directive should
+              // update both or only use ingredient_id
+              ingredient_id: recipeIngredient.ingredient.id,
               amount: recipeIngredient.amount
             };
           })
