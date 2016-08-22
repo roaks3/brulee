@@ -72,4 +72,8 @@ angular.module('bruleeApp')
         });
     };
 
+    $scope.removeRecipeIngredient = (recipeIngredient) => {
+      _.pull($scope.recipe.recipe_ingredients, recipeIngredient);
+    };
+
   });

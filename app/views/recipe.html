@@ -23,7 +23,8 @@
 <div class="parsedIngredientSection">
   <recipe-ingredient-input
     ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
-    recipe-ingredient="recipe_ingredient">
+    recipe-ingredient="recipe_ingredient"
+    on-remove="removeRecipeIngredient(recipeIngredient)">
   </recipe-ingredient-input>
 </div>
 
