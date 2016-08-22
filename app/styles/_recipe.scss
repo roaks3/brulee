@@ -1,0 +1,55 @@
+.recipe-edit-section {
+  header {
+    background-color: rgba(#B1D08E, .3);
+    color: #51623f;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 20px;
+    padding: 10px 40px;
+    text-transform: uppercase;
+  }
+}
+
+.re-recipe-title {
+  font-size: 20px;
+  font-weight: normal;
+  width: 100%;
+
+  input {
+    padding: 5px 10px;
+    width: 100%;
+  }
+}
+
+.re-recipe-link {
+  width: 100%;
+
+  input {
+    padding: 5px 10px;
+    width: 100%;
+  }
+}
+
+.re-recipe-ingredient-title {
+  margin-top: 20px;
+}
+
+.re-recipe-ingredient-list {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.re-recipe-original-text-title {
+}
+
+.re-recipe-original-text {
+  box-shadow: 1px 1px 3px 0 #cccccc;
+  margin-bottom: 40px;
+  margin-top: 10px;
+  padding: 10px 20px;
+
+  p {
+    margin: 0;
+    padding: 0;
+  }
+}

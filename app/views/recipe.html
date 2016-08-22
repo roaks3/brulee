@@ -7,27 +7,50 @@
   </div>
 </div>
 
-<button class="btn btn-danger" ng-click="delete()">Delete</button>
-<button class="btn btn-primary" ng-click="save()">Save</button>
+<section class="col-md-7 recipe-edit-section">
 
-<h1>
-  <input type="text" ng-model="recipe.name" />
-</h1>
+  <button class="btn btn-danger" ng-click="delete()">
+    Delete
+  </button>
 
-<a ng-href="{{recipe.url}}"
-   ng-show="recipe.url">
-  Link
-</a>
-<input ng-model="recipe.url">
+  <button class="btn btn-primary" ng-click="save()">
+    Save
+  </button>
 
-<div class="parsedIngredientSection">
-  <recipe-ingredient-input
-    ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
-    recipe-ingredient="recipe_ingredient"
-    on-remove="removeRecipeIngredient(recipeIngredient)">
-  </recipe-ingredient-input>
-</div>
+  <a class="btn btn-success"
+     ng-href="{{recipe.url}}"
+     ng-show="recipe.url">
+    Link
+  </a>
 
-<p ng-repeat="originalTextLine in originalTextLines">
-  {{originalTextLine}}
-</p>
+  <h1 class="re-recipe-title">
+    <input type="text" ng-model="recipe.name">
+  </h1>
+
+  <div class="re-recipe-link">
+    <input ng-model="recipe.url">
+  </div>
+
+  <header class="re-recipe-ingredient-title">
+    Ingredients
+  </header>
+
+  <section class="re-recipe-ingredient-list">
+    <recipe-ingredient-input
+      ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
+      recipe-ingredient="recipe_ingredient"
+      on-remove="removeRecipeIngredient(recipeIngredient)">
+    </recipe-ingredient-input>
+  </section>
+
+  <header class="re-recipe-original-text-title">
+    Original Recipe
+  </header>
+
+  <section class="re-recipe-original-text">
+    <p ng-repeat="originalTextLine in originalTextLines">
+      {{originalTextLine}}
+    </p>
+  </section>
+
+</section>
