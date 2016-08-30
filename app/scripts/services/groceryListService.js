@@ -37,6 +37,21 @@ angular.module('bruleeApp.services')
       });
     };
 
+    this.findAllIngredientsById = (ids) => {
+      return Ingredient
+        .findAll({
+          q: {
+            _id: {
+              '$in': _.map(ids, (id) => {
+                return {
+                  $oid: id
+                };
+              })
+            }
+          }
+        });
+    };
+
     this.findAllIngredients = (groceryList) => {
       let ingredientIds = [];
       return this
@@ -52,7 +67,7 @@ angular.module('bruleeApp.services')
             _.map(groceryList.additional_ingredients, 'ingredient_id')
           );
         })
-        .then(() => Ingredient.findAll({q: {_id: {'$in': ingredientIds}}}));
+        .then(() => this.findAllIngredientsById(ingredientIds));
     };
 
     return this;
