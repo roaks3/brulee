@@ -4,11 +4,23 @@ angular.module('bruleeApp.services')
 
   .service('groceryListService', function (Ingredient, Recipe) {
 
-    this.findAllRecipes = (groceryList) => {
+    this.findAllRecipesById = (ids) => {
       return Recipe
         .findAll({
-          q: {_id: {'$in': _.map(groceryList.recipe_days, 'recipe_id')}}
+          q: {
+            _id: {
+              '$in': _.map(ids, (id) => {
+                return {
+                  $oid: id
+                };
+              })
+            }
+          }
         });
+    };
+
+    this.findAllRecipes = (groceryList) => {
+      return this.findAllRecipesById(_.map(groceryList.recipe_days, 'recipe_id'));
     };
 
     this.getAllRecipesForIngredient = (groceryList, ingredientId) => {
