@@ -1,33 +1,31 @@
 'use strict';
 
-angular.module('bruleeApp')
-  .controller('AddIngredientFormCtrl', function () {
+class AddIngredientFormCtrl {
 
-    var vm = this;
+  isNewIngredient () {
+    return !(this.ingredient && this.ingredient.id);
+  }
 
-    vm.isNewIngredient = function () {
-      return !(vm.ingredient && vm.ingredient.id);
-    };
+  addIngredient () {
+    if (this.isNewIngredient()) {
+      // TODO: Show some sort of error because ingredient could not be added
+    } else {
+      this.onAdd({ingredient: this.ingredient});
+    }
+  }
 
-    vm.addIngredient = function () {
-      if (vm.isNewIngredient()) {
-        // TODO: Show some sort of error because ingredient could not be added
-      } else {
-        vm.onAdd({ingredient: vm.ingredient});
-      }
-    };
+  updateIngredient (ingredient) {
+    this.ingredient = ingredient;
+  }
 
-    vm.updateIngredient = (ingredient) => {
-      vm.ingredient = ingredient;
-    };
-
-  });
+}
 
 angular.module('bruleeApp')
   .component('addIngredientForm', {
     bindings: {
       onAdd: '&'
     },
-    controller: 'AddIngredientFormCtrl as vm',
+    controller: AddIngredientFormCtrl,
+    controllerAs: 'vm',
     templateUrl: 'views/addIngredientForm.html'
   });

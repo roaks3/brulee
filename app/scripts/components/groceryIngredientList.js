@@ -1,25 +1,22 @@
 'use strict';
 
-angular.module('bruleeApp')
-  .controller('GroceryIngredientListCtrl', function () {
+class GroceryIngredientListCtrl {
 
-    var vm = this;
+  crossOut (ingredient) {
+    if (this.crossedOut(ingredient)) {
+      _.remove(this.crossedOutIngredients, (crossedOutIngredient) => {
+        return crossedOutIngredient === ingredient.id;
+      });
+    } else {
+      this.crossedOutIngredients.push(ingredient.id);
+    }
+  }
 
-    vm.crossOut = function (ingredient) {
-      if (vm.crossedOut(ingredient)) {
-        _.remove(vm.crossedOutIngredients, function (crossedOutIngredient) {
-          return crossedOutIngredient === ingredient.id;
-        });
-      } else {
-        vm.crossedOutIngredients.push(ingredient.id);
-      }
-    };
+  crossedOut (ingredient) {
+    return _.includes(this.crossedOutIngredients, ingredient.id);
+  }
 
-    vm.crossedOut = function (ingredient) {
-      return _.includes(vm.crossedOutIngredients, ingredient.id);
-    };
-
-  });
+}
 
 angular.module('bruleeApp')
   .component('groceryIngredientList', {
@@ -27,6 +24,7 @@ angular.module('bruleeApp')
       groceryIngredients: '=',
       crossedOutIngredients: '='
     },
-    controller: 'GroceryIngredientListCtrl as vm',
+    controller: GroceryIngredientListCtrl,
+    controllerAs: 'vm',
     templateUrl: 'views/groceryIngredientList.html'
   });
