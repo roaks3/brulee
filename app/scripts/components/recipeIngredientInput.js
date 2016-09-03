@@ -1,35 +1,39 @@
 'use strict';
 
-angular.module('bruleeApp')
-  .controller('RecipeIngredientInputCtrl', function (categoryService, Ingredient) {
+class RecipeIngredientInputCtrl {
 
-    var vm = this;
+  constructor (categoryService, Ingredient) {
+    this.categoryService = categoryService;
+    this.Ingredient = Ingredient;
+  }
 
-    if (vm.recipeIngredient && vm.recipeIngredient.ingredient_id && !vm.recipeIngredient.ingredient) {
-      Ingredient
-        .find(vm.recipeIngredient.ingredient_id)
+  $onInit () {
+    if (this.recipeIngredient && this.recipeIngredient.ingredient_id && !this.recipeIngredient.ingredient) {
+      this.Ingredient
+        .find(this.recipeIngredient.ingredient_id)
         .then((ingredient) => {
-          vm.recipeIngredient.ingredient = ingredient;
+          this.recipeIngredient.ingredient = ingredient;
         });
     }
+  }
 
-    vm.isNewIngredient = function () {
-      return !(vm.recipeIngredient &&
-        vm.recipeIngredient.ingredient &&
-        vm.recipeIngredient.ingredient.id);
-    };
+  isNewIngredient () {
+    return !(this.recipeIngredient &&
+      this.recipeIngredient.ingredient &&
+      this.recipeIngredient.ingredient.id);
+  };
 
-    vm.onIngredientChange = function (ingredient) {
-      vm.recipeIngredient.ingredient = ingredient;
-      vm.recipeIngredient.selectedCategory =
-        categoryService.getByIngredientId(ingredient.id);
-    };
+  onIngredientChange (ingredient) {
+    this.recipeIngredient.ingredient = ingredient;
+    this.recipeIngredient.selectedCategory =
+      this.categoryService.getByIngredientId(ingredient.id);
+  };
 
-    vm.updateCategory = (category) => {
-      vm.recipeIngredient.selectedCategory = category;
-    };
+  updateCategory (category) {
+    this.recipeIngredient.selectedCategory = category;
+  };
 
-  });
+}
 
 angular.module('bruleeApp')
   .component('recipeIngredientInput', {
@@ -37,6 +41,7 @@ angular.module('bruleeApp')
       recipeIngredient: '=',
       onRemove: '&'
     },
-    controller: 'RecipeIngredientInputCtrl as vm',
+    controller: RecipeIngredientInputCtrl,
+    controllerAs: 'vm',
     templateUrl: 'views/recipeIngredientInput.html'
   });
