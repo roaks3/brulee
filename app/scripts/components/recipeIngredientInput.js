@@ -24,6 +24,10 @@ angular.module('bruleeApp')
         categoryService.getByIngredientId(ingredient.id);
     };
 
+    vm.updateCategory = (category) => {
+      vm.recipeIngredient.selectedCategory = category;
+    };
+
   });
 
 angular.module('bruleeApp')

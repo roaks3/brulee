@@ -13,6 +13,7 @@
   <category-select
     class="input-group-btn"
     selected-category="vm.recipeIngredient.selectedCategory"
-    input-disabled="!vm.isNewIngredient()" >
+    on-category-change="vm.updateCategory(category)"
+    input-disabled="!vm.isNewIngredient()">
   </category-select>
 </div>

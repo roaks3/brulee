@@ -1,15 +1,19 @@
 <span>
-  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" ng-disabled="vm.inputDisabled">
+  <button type="button"
+          class="btn btn-warning dropdown-toggle"
+          data-toggle="dropdown"
+          ng-disabled="vm.inputDisabled">
     {{vm.displayName(vm.selectedCategory)}}
     <span class="caret" ng-show="!vm.inputDisabled"></span>
   </button>
   <ul class="dropdown-menu" role="menu">
-    <li ng-click="vm.selectCategory(null)">
+    <li ng-click="vm.onCategoryChange({category: null})">
       <a href>
         None
       </a>
     </li>
-    <li ng-repeat="category in vm.categories" ng-click="vm.selectCategory(category)">
+    <li ng-repeat="category in vm.categories"
+        ng-click="vm.onCategoryChange({category: category})">
       <a href>
         {{category.name}}
       </a>

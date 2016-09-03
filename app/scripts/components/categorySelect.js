@@ -7,7 +7,8 @@ angular.module('bruleeApp')
 
     vm.categories = [];
 
-    Category.refreshAll()
+    Category
+      .refreshAll()
       .then(function (data) {
         vm.categories = data;
       });
@@ -16,17 +17,14 @@ angular.module('bruleeApp')
       return category ? category.name : 'None';
     };
 
-    vm.selectCategory = function (category) {
-      vm.selectedCategory = category;
-    };
-
   });
 
 angular.module('bruleeApp')
   .component('categorySelect', {
     bindings: {
-      inputDisabled: '=',
-      selectedCategory: '='
+      inputDisabled: '<',
+      selectedCategory: '<',
+      onCategoryChange: '&'
     },
     controller: 'CategorySelectCtrl as vm',
     templateUrl: 'views/categorySelect.html'
