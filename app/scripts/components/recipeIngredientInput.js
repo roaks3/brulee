@@ -21,17 +21,17 @@ class RecipeIngredientInputCtrl {
     return !(this.recipeIngredient &&
       this.recipeIngredient.ingredient &&
       this.recipeIngredient.ingredient.id);
-  };
+  }
 
   onIngredientChange (ingredient) {
     this.recipeIngredient.ingredient = ingredient;
     this.recipeIngredient.selectedCategory =
       this.categoryService.getByIngredientId(ingredient.id);
-  };
+  }
 
   updateCategory (category) {
     this.recipeIngredient.selectedCategory = category;
-  };
+  }
 
 }
 
