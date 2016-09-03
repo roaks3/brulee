@@ -1,23 +1,25 @@
 'use strict';
 
-angular.module('bruleeApp')
-  .controller('CategorySelectCtrl', function (Category) {
+class CategorySelectCtrl {
 
-    var vm = this;
+  constructor (Category) {
+    this.Category = Category;
+    this.categories = [];
+  }
 
-    vm.categories = [];
-
-    Category
+  $onInit () {
+    this.Category
       .refreshAll()
-      .then(function (data) {
-        vm.categories = data;
+      .then((data) => {
+        this.categories = data;
       });
+  }
 
-    vm.displayName = function (category) {
-      return category ? category.name : 'None';
-    };
+  displayName (category) {
+    return category ? category.name : 'None';
+  }
 
-  });
+}
 
 angular.module('bruleeApp')
   .component('categorySelect', {
@@ -26,6 +28,7 @@ angular.module('bruleeApp')
       selectedCategory: '<',
       onCategoryChange: '&'
     },
-    controller: 'CategorySelectCtrl as vm',
+    controller: CategorySelectCtrl,
+    controllerAs: 'vm',
     templateUrl: 'views/categorySelect.html'
   });
