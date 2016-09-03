@@ -1,9 +1,9 @@
 <input
   class="form-control"
   type="text"
-  ng-model="vm.selectedIngredient"
+  ng-model="vm._selectedIngredient"
   uib-typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"
   typeahead-select-on-exact="true"
-  typeahead-on-select="vm.onSelect({ingredient: vm.selectedIngredient})"
-  ng-change="vm.onChange(vm.selectedIngredient)"
+  typeahead-on-select="vm.onSelect({ingredient: vm._selectedIngredient})"
+  ng-change="vm.onChange(vm._selectedIngredient)"
   ng-disabled="vm.inputDisabled">

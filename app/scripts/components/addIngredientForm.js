@@ -17,6 +17,10 @@ angular.module('bruleeApp')
       }
     };
 
+    vm.updateIngredient = (ingredient) => {
+      vm.ingredient = ingredient;
+    };
+
   });
 
 angular.module('bruleeApp')

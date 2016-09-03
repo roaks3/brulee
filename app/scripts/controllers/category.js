@@ -104,4 +104,8 @@ angular.module('bruleeApp')
       _.pull(category.ingredient_ids, ingredientId);
     };
 
+    $scope.updateNewIngredient = (ingredient) => {
+      $scope.newIngredient = ingredient;
+    };
+
   });

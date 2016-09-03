@@ -1,6 +1,7 @@
 <div class="ingredient input-group">
   <ingredient-typeahead
-    selected-ingredient="vm.ingredient" >
+    selected-ingredient="vm.ingredient"
+    on-select="vm.updateIngredient(ingredient)">
   </ingredient-typeahead>
   <button ng-click="vm.addIngredient()">
     Add

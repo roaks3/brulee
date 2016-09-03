@@ -5,9 +5,11 @@ class IngredientTypeaheadCtrl {
   constructor (Ingredient) {
     this.Ingredient = Ingredient;
     this.ingredients = [];
+    this._selectedIngredient = {};
   }
 
   $onInit () {
+    this._selectedIngredient = _.cloneDeep(this.selectedIngredient);
     this.Ingredient
       .refreshAll()
       .then((data) => {
@@ -15,11 +17,18 @@ class IngredientTypeaheadCtrl {
       });
   }
 
+  $onChanges (changesObj) {
+    if (changesObj.selectedIngredient) {
+      console.log('got here');
+      this._selectedIngredient = _.cloneDeep(changesObj.selectedIngredient.currentValue);
+    }
+  }
+
   onChange (ingredient) {
     if (_.isString(ingredient)) {
-      this.selectedIngredient = {name: ingredient};
+      this._selectedIngredient = {name: ingredient};
     }
-    this.onSelect({ingredient: this.selectedIngredient});
+    this.onSelect({ingredient: this._selectedIngredient});
   }
 
 }
@@ -27,8 +36,8 @@ class IngredientTypeaheadCtrl {
 angular.module('bruleeApp')
   .component('ingredientTypeahead', {
     bindings: {
-      inputDisabled: '=',
-      selectedIngredient: '=',
+      inputDisabled: '<',
+      selectedIngredient: '<',
       onSelect: '&'
     },
     controller: IngredientTypeaheadCtrl,
