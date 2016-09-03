@@ -22,16 +22,12 @@ angular.module('bruleeApp')
   });
 
 angular.module('bruleeApp')
-  .directive('ingredientTypeahead', function () {
-    return {
-      scope: {},
-      bindToController: {
-        inputDisabled: '=',
-        selectedIngredient: '=',
-        onSelect: '&'
-      },
-      controller: 'IngredientTypeaheadCtrl',
-      controllerAs: 'vm',
-      templateUrl: 'views/ingredientTypeahead.html'
-    };
+  .component('ingredientTypeahead', {
+    bindings: {
+      inputDisabled: '=',
+      selectedIngredient: '=',
+      onSelect: '&'
+    },
+    controller: 'IngredientTypeaheadCtrl as vm',
+    templateUrl: 'views/ingredientTypeahead.html'
   });

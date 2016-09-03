@@ -27,15 +27,11 @@ angular.module('bruleeApp')
   });
 
 angular.module('bruleeApp')
-  .directive('recipeIngredientInput', function () {
-    return {
-      scope: {},
-      bindToController: {
-        recipeIngredient: '=',
-        onRemove: '&'
-      },
-      controller: 'RecipeIngredientInputCtrl',
-      controllerAs: 'vm',
-      templateUrl: 'views/recipeIngredientInput.html'
-    };
+  .component('recipeIngredientInput', {
+    bindings: {
+      recipeIngredient: '=',
+      onRemove: '&'
+    },
+    controller: 'RecipeIngredientInputCtrl as vm',
+    templateUrl: 'views/recipeIngredientInput.html'
   });

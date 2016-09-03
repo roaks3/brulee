@@ -22,15 +22,11 @@ angular.module('bruleeApp')
   });
 
 angular.module('bruleeApp')
-  .directive('groceryIngredientList', function () {
-    return {
-      scope: {},
-      bindToController: {
-        groceryIngredients: '=',
-        crossedOutIngredients: '='
-      },
-      controller: 'GroceryIngredientListCtrl',
-      controllerAs: 'vm',
-      templateUrl: 'views/groceryIngredientList.html'
-    };
+  .component('groceryIngredientList', {
+    bindings: {
+      groceryIngredients: '=',
+      crossedOutIngredients: '='
+    },
+    controller: 'GroceryIngredientListCtrl as vm',
+    templateUrl: 'views/groceryIngredientList.html'
   });

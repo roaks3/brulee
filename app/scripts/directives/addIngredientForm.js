@@ -20,14 +20,10 @@ angular.module('bruleeApp')
   });
 
 angular.module('bruleeApp')
-  .directive('addIngredientForm', function () {
-    return {
-      scope: {},
-      bindToController: {
-        onAdd: '&'
-      },
-      controller: 'AddIngredientFormCtrl',
-      controllerAs: 'vm',
-      templateUrl: 'views/addIngredientForm.html'
-    };
+  .component('addIngredientForm', {
+    bindings: {
+      onAdd: '&'
+    },
+    controller: 'AddIngredientFormCtrl as vm',
+    templateUrl: 'views/addIngredientForm.html'
   });

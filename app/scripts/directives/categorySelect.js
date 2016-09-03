@@ -23,15 +23,11 @@ angular.module('bruleeApp')
   });
 
 angular.module('bruleeApp')
-  .directive('categorySelect', function () {
-    return {
-      scope: {},
-      bindToController: {
-        inputDisabled: '=',
-        selectedCategory: '='
-      },
-      controller: 'CategorySelectCtrl',
-      controllerAs: 'vm',
-      templateUrl: 'views/categorySelect.html'
-    };
+  .component('categorySelect', {
+    bindings: {
+      inputDisabled: '=',
+      selectedCategory: '='
+    },
+    controller: 'CategorySelectCtrl as vm',
+    templateUrl: 'views/categorySelect.html'
   });
