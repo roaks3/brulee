@@ -1,25 +1,28 @@
 'use strict';
 
-angular.module('bruleeApp')
-  .controller('IngredientTypeaheadCtrl', function (Ingredient) {
+class IngredientTypeaheadCtrl {
 
-    var vm = this;
+  constructor (Ingredient) {
+    this.Ingredient = Ingredient;
+    this.ingredients = [];
+  }
 
-    vm.ingredients = [];
-
-    Ingredient.refreshAll()
-      .then(function (data) {
-        vm.ingredients = data;
+  $onInit () {
+    this.Ingredient
+      .refreshAll()
+      .then((data) => {
+        this.ingredients = data;
       });
+  }
 
-    vm.onChange = function (ingredient) {
-      if (_.isString(ingredient)) {
-        vm.selectedIngredient = {name: ingredient};
-      }
-      vm.onSelect({ingredient: vm.selectedIngredient});
-    };
+  onChange (ingredient) {
+    if (_.isString(ingredient)) {
+      this.selectedIngredient = {name: ingredient};
+    }
+    this.onSelect({ingredient: this.selectedIngredient});
+  }
 
-  });
+}
 
 angular.module('bruleeApp')
   .component('ingredientTypeahead', {
@@ -28,6 +31,7 @@ angular.module('bruleeApp')
       selectedIngredient: '=',
       onSelect: '&'
     },
-    controller: 'IngredientTypeaheadCtrl as vm',
+    controller: IngredientTypeaheadCtrl,
+    controllerAs: 'vm',
     templateUrl: 'views/ingredientTypeahead.html'
   });
