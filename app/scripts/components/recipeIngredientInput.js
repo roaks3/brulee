@@ -8,29 +8,18 @@ class RecipeIngredientInputCtrl {
   }
 
   $onInit () {
-    if (this.recipeIngredient && this.recipeIngredient.ingredient_id && !this.recipeIngredient.ingredient) {
-      this.Ingredient
-        .find(this.recipeIngredient.ingredient_id)
-        .then((ingredient) => {
-          this.recipeIngredient.ingredient = ingredient;
-        });
-    }
+    this.Ingredient
+      .find(this.recipeIngredient.ingredient_id)
+      .then((ingredient) => {
+        this.ingredient = ingredient;
+        this.category = this.categoryService.getByIngredientId(ingredient.id);
+      });
   }
 
-  isNewIngredient () {
-    return !(this.recipeIngredient &&
-      this.recipeIngredient.ingredient &&
-      this.recipeIngredient.ingredient.id);
-  }
-
-  onIngredientChange (ingredient) {
-    this.recipeIngredient.ingredient = ingredient;
-    this.recipeIngredient.selectedCategory =
-      this.categoryService.getByIngredientId(ingredient.id);
-  }
-
-  updateCategory (category) {
-    this.recipeIngredient.selectedCategory = category;
+  changeIngredient (ingredient) {
+    this.ingredient = ingredient;
+    this.category = this.categoryService.getByIngredientId(ingredient.id);
+    this.onIngredientChange({ingredientId: this.ingredient.id});
   }
 
 }
@@ -38,8 +27,10 @@ class RecipeIngredientInputCtrl {
 angular.module('bruleeApp')
   .component('recipeIngredientInput', {
     bindings: {
-      recipeIngredient: '=',
-      onRemove: '&'
+      recipeIngredient: '<',
+      onRemove: '&',
+      onIngredientChange: '&',
+      inputDisabled: '<'
     },
     controller: RecipeIngredientInputCtrl,
     controllerAs: 'vm',

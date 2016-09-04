@@ -1,4 +1,5 @@
 <div class="ingredient input-group">
+
   <span class="input-group-btn">
     <button class="btn btn-default ingredientDelete"
             type="button"
@@ -6,14 +7,17 @@
       &times;
     </button>
   </span>
+
   <ingredient-typeahead
-    selected-ingredient="vm.recipeIngredient.ingredient"
-    on-select="vm.onIngredientChange(ingredient)" >
+    selected-ingredient="vm.ingredient"
+    on-select="vm.changeIngredient(ingredient)"
+    input-disabled="vm.inputDisabled">
   </ingredient-typeahead>
+
   <category-select
     class="input-group-btn"
-    selected-category="vm.recipeIngredient.selectedCategory"
-    on-category-change="vm.updateCategory(category)"
-    input-disabled="!vm.isNewIngredient()">
+    selected-category="vm.category"
+    input-disabled="true">
   </category-select>
+
 </div>

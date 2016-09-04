@@ -39,7 +39,8 @@
     <recipe-ingredient-input
       ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
       recipe-ingredient="recipe_ingredient"
-      on-remove="removeRecipeIngredient(recipeIngredient)">
+      on-remove="removeRecipeIngredient(recipeIngredient)"
+      on-ingredient-change="updateRecipeIngredient(recipe_ingredient, ingredientId)">
     </recipe-ingredient-input>
   </section>
 

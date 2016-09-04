@@ -10,16 +10,11 @@ angular.module('bruleeApp')
     $scope.recipe = {};
     $q.all([
       Recipe.find($routeParams.id),
+      // HACK: This should be fixed by using a category id field directly on the ingredient
       Category.refreshAll()
     ])
       .then((data) => {
         $scope.recipe = _.cloneDeep(data[0]);
-
-        // Add category to each ingredient in the recipe
-        _.each($scope.recipe.recipe_ingredients, (recipeIngredient) => {
-          recipeIngredient.selectedCategory = categoryService.getByIngredientId(recipeIngredient.ingredient_id);
-        });
-
         $scope.originalTextLines = $scope.recipe.original_text.split('\n');
       })
       .catch((error) => {
@@ -49,21 +44,19 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
+      if (!_.every($scope.recipe.recipe_ingredients, 'ingredient_id')) {
+        $window.alert('Recipe cannot be saved with invalid ingredients');
+        return;
+      }
+
+      let recipeIngredients = _.map($scope.recipe.recipe_ingredients,
+        (ri) => _.pick(ri, ['ingredient_id', 'amount']));
+
       Recipe
-        .update($scope.recipe.id, {
-          name: $scope.recipe.name,
-          original_text: $scope.recipe.original_text,
-          url: $scope.recipe.url,
-          recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
-            return {
-              // NOTE: It's weird that the ingredient.id is needed here and the
-              // ingredient_id remains unchanged. The input directive should
-              // update both or only use ingredient_id
-              ingredient_id: recipeIngredient.ingredient.id,
-              amount: recipeIngredient.amount
-            };
-          })
-        })
+        .update($scope.recipe.id, _.assign(
+          _.pick($scope.recipe, ['name', 'original_text', 'url']),
+          {recipe_ingredients: recipeIngredients}
+        ))
         .then(() => {
           $scope.successMessage = 'Saved recipe';
         })
@@ -74,6 +67,10 @@ angular.module('bruleeApp')
 
     $scope.removeRecipeIngredient = (recipeIngredient) => {
       _.pull($scope.recipe.recipe_ingredients, recipeIngredient);
+    };
+
+    $scope.updateRecipeIngredient = (recipeIngredient, ingredientId) => {
+      recipeIngredient.ingredient_id = ingredientId || null;
     };
 
   });
