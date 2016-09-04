@@ -79,6 +79,12 @@ gulp.task('lint:scripts', function () {
     .pipe(lintScripts());
 });
 
+gulp.task('jscs', function () {
+  return gulp.src(paths.scripts)
+    .pipe($.jscs())
+    .pipe($.jscs.reporter());
+});
+
 gulp.task('clean:tmp', function (cb) {
   rimraf('./.tmp', cb);
 });
