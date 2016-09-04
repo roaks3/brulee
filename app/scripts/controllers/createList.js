@@ -40,7 +40,8 @@ angular.module('bruleeApp')
         week_start: moment().day(0).format('MM/DD'),
         recipe_days: _.map(selectedRecipes, function (recipe) {
           return {
-            recipe_id: recipe.id
+            recipe_id: recipe.id,
+            day_of_week: 0
           };
         })
       };
@@ -62,7 +63,7 @@ angular.module('bruleeApp')
             recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipeDay) {
               return {
                 recipe_id: recipeDay.recipe_id,
-                day_of_week: recipeDay.day_of_week ? parseInt(recipeDay.day_of_week) : null
+                day_of_week: recipeDay.day_of_week
               };
             })
           });
@@ -79,6 +80,10 @@ angular.module('bruleeApp')
 
     $scope.getRecipe = (recipeId) => {
       return Recipe.get(recipeId);
+    };
+
+    $scope.updateDayOfWeek = (recipeDay, day) => {
+      recipeDay.day_of_week = day;
     };
 
   });

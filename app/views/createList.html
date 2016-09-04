@@ -57,14 +57,18 @@
             ng-repeat="recipeDay in newGroceryList.recipe_days">
           <li class="list-group-item">
 
+            <day-of-week-select
+              selected-day="recipeDay.day_of_week"
+              on-change="updateDayOfWeek(recipeDay, day)">
+            </day-of-week-select>
+
             {{getRecipe(recipeDay.recipe_id).name}}
+
             <a ng-if="getRecipe(recipeDay.recipe_id).url"
                ng-href="{{getRecipe(recipeDay.recipe_id).url}}"
                target="_blank">
               Link
             </a>
-            <input type="text"
-                   ng-model="recipeDay.day_of_week">
 
           </li>
         </ul>

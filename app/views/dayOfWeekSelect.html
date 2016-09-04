@@ -1,0 +1,17 @@
+<span>
+  <button type="button"
+          class="btn btn-warning dropdown-toggle"
+          data-toggle="dropdown"
+          ng-disabled="vm.inputDisabled">
+    {{vm.dayName(vm.selectedDay)}}
+    <span class="caret" ng-show="!vm.inputDisabled"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu">
+    <li ng-repeat="day in vm.days"
+        ng-click="vm.onChange({day: day.num})">
+      <a href>
+        {{day.name}}
+      </a>
+    </li>
+  </ul>
+</span>
