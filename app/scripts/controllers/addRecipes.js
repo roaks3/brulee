@@ -7,11 +7,7 @@ angular.module('bruleeApp')
                                           Ingredient, ingredientParseService,
                                           ingredientService, Recipe) {
 
-    $scope.recipe = {
-      name: '',
-      ingredients: [],
-      originalText: ''
-    };
+    $scope.recipe = {};
     $scope.isParsed = false;
     $scope.isSaved = false;
     $scope.isNameInvalid = false;
@@ -94,24 +90,32 @@ angular.module('bruleeApp')
     };
 
     $scope.parseRecipeText = function () {
-      $scope.recipe.recipe_ingredients = ingredientParseService.parseAll($scope.recipe.original_text);
+      let recipeIngredients = ingredientParseService.parseAll($scope.recipe.original_text);
 
-      _.each($scope.recipe.recipe_ingredients, function (recipeIngredient) {
-        var existingIngredient = ingredientService.getByName(recipeIngredient.ingredient.name);
-        if (existingIngredient) {
-          recipeIngredient.ingredient = existingIngredient;
-        }
+      let ingredientNames = _(recipeIngredients)
+        .map('ingredient.name')
+        .uniq()
+        .value();
 
-        recipeIngredient.selectedCategory = categoryService.getByIngredientId(recipeIngredient.ingredient.id);
-      });
+      ingredientService
+        .findAllIngredientsByName(ingredientNames)
+        .then(() => {
+          _.each(recipeIngredients, function (recipeIngredient) {
+            var existingIngredient = ingredientService.getByName(recipeIngredient.ingredient.name);
+            if (existingIngredient) {
+              recipeIngredient.ingredient = existingIngredient;
+            }
 
-      $scope.isParsed = true;
+            recipeIngredient.selectedCategory = categoryService.getByIngredientId(recipeIngredient.ingredient.id);
+          });
+
+          $scope.recipe.recipe_ingredients = recipeIngredients;
+          $scope.isParsed = true;
+        });
     };
 
-    $scope.removeRecipeIngredient = function (recipeIngredient) {
-      _.remove($scope.recipe.recipe_ingredients, function (existingRecipeIngredient) {
-        return existingRecipeIngredient === recipeIngredient;
-      });
+    $scope.removeRecipeIngredient = (recipeIngredient) => {
+      _.pull($scope.recipe.recipe_ingredients, recipeIngredient);
     };
 
     $scope.isCategorized = function (recipeIngredient) {
@@ -121,6 +125,14 @@ angular.module('bruleeApp')
         return !!categoryService.getByIngredientId(recipeIngredient.ingredient.id);
       }
       return false;
+    };
+
+    $scope.updateRecipeIngredient = (recipeIngredient, ingredient) => {
+      recipeIngredient.ingredient = ingredient || null;
+    };
+
+    $scope.updateRecipeIngredientCategory = (recipeIngredient, category) => {
+      recipeIngredient.selectedCategory = category || null;
     };
 
   });

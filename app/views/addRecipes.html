@@ -32,8 +32,11 @@
       <div class="parsedIngredientSection">
         <new-recipe-ingredient-input
           ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
-          recipe-ingredient="recipe_ingredient"
-          on-remove="removeRecipeIngredient(recipeIngredient)" >
+          ingredient="recipe_ingredient.ingredient"
+          category="recipe_ingredient.selectedCategory"
+          on-remove="removeRecipeIngredient(recipe_ingredient)"
+          on-ingredient-change="updateRecipeIngredient(recipe_ingredient, ingredient)"
+          on-category-change="updateRecipeIngredientCategory(recipe_ingredient, category)">
         </new-recipe-ingredient-input>
       </div>
       <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">

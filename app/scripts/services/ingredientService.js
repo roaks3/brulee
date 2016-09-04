@@ -8,6 +8,17 @@ angular.module('bruleeApp.services')
       return _.head(Ingredient.filter({name}));
     };
 
+    this.findAllIngredientsByName = (names) => {
+      return Ingredient
+        .findAll({
+          q: {
+            name: {
+              '$in': names
+            }
+          }
+        });
+    };
+
     return this;
 
   });
