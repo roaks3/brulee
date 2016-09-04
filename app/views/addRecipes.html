@@ -30,11 +30,11 @@
         <input class="form-control" ng-model="recipe.url" type="text" name="recipeUrl" />
       </div>
       <div class="parsedIngredientSection">
-        <recipe-ingredient-input
+        <new-recipe-ingredient-input
           ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
           recipe-ingredient="recipe_ingredient"
           on-remove="removeRecipeIngredient(recipeIngredient)" >
-        </recipe-ingredient-input>
+        </new-recipe-ingredient-input>
       </div>
       <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
         Add Recipe
