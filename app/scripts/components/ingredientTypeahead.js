@@ -19,7 +19,6 @@ class IngredientTypeaheadCtrl {
 
   $onChanges (changesObj) {
     if (changesObj.selectedIngredient) {
-      console.log('got here');
       this._selectedIngredient = _.cloneDeep(changesObj.selectedIngredient.currentValue);
     }
   }
