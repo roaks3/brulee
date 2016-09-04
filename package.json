@@ -78,7 +78,7 @@
     "npm": "^3.3.12"
   },
   "scripts": {
-    "test": "grunt test",
-    "postinstall": "bower install && grunt build"
+    "test": "gulp test",
+    "postinstall": "bower install && gulp build"
   }
 }
