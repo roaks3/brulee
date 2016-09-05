@@ -3,8 +3,7 @@
 angular.module('bruleeApp')
 
   .controller('GroceryListCtrl', function ($scope, $routeParams, $sessionStorage,
-                                           GroceryList, groceryIngredientService,
-                                           Recipe) {
+                                           GroceryList, groceryIngredientService) {
 
     $scope.groceryLists = [];
     $scope.groceryList = {};
@@ -73,10 +72,6 @@ angular.module('bruleeApp')
           // TODO: Can probably come up with a less naive solution
           $scope.refreshGroceryLists();
         });
-    };
-
-    $scope.getRecipe = (recipeId) => {
-      return Recipe.get(recipeId);
     };
 
   });

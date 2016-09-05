@@ -1,0 +1,13 @@
+<day-of-week-select
+  selected-day="vm.recipeDay.day_of_week"
+  on-change="vm.onDayChange({day: day})"
+  input-disabled="vm.inputDisabled">
+</day-of-week-select>
+
+{{vm.recipe.name}}
+
+<a ng-if="vm.recipe.url"
+   ng-href="{{vm.recipe.url}}"
+   target="_blank">
+  Link
+</a>

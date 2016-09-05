@@ -78,10 +78,6 @@ angular.module('bruleeApp')
         .size();
     };
 
-    $scope.getRecipe = (recipeId) => {
-      return Recipe.get(recipeId);
-    };
-
     $scope.updateDayOfWeek = (recipeDay, day) => {
       recipeDay.day_of_week = day;
     };

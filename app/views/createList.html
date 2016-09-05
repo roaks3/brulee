@@ -53,22 +53,14 @@
       <div ng-show="newGroceryList"
            class="groceryList">
 
-        <ul class="list-group"
-            ng-repeat="recipeDay in newGroceryList.recipe_days">
-          <li class="list-group-item">
+        <ul class="list-group">
+          <li class="list-group-item"
+              ng-repeat="recipeDay in newGroceryList.recipe_days">
 
-            <day-of-week-select
-              selected-day="recipeDay.day_of_week"
-              on-change="updateDayOfWeek(recipeDay, day)">
-            </day-of-week-select>
-
-            {{getRecipe(recipeDay.recipe_id).name}}
-
-            <a ng-if="getRecipe(recipeDay.recipe_id).url"
-               ng-href="{{getRecipe(recipeDay.recipe_id).url}}"
-               target="_blank">
-              Link
-            </a>
+            <recipe-day-input
+              recipe-day="recipeDay"
+              on-day-change="updateDayOfWeek(recipeDay, day)">
+            </recipe-day-input>
 
           </li>
         </ul>
