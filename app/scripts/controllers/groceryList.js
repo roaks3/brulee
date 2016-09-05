@@ -3,7 +3,8 @@
 angular.module('bruleeApp')
 
   .controller('GroceryListCtrl', function ($scope, $routeParams, $sessionStorage,
-                                           GroceryList, groceryIngredientService) {
+                                           GroceryList, groceryIngredientService,
+                                           Recipe) {
 
     $scope.groceryLists = [];
     $scope.groceryList = {};
@@ -43,6 +44,7 @@ angular.module('bruleeApp')
     $scope.selectGroceryList = function (id) {
       $scope.groceryList = _.find($scope.groceryLists, ['id', id]);
       if ($scope.groceryList) {
+        $scope.groceryList.recipe_days = _.sortBy($scope.groceryList.recipe_days, 'day_of_week');
         groceryIngredientService
           .generate($scope.groceryList)
           .then((data) => {
@@ -71,6 +73,10 @@ angular.module('bruleeApp')
           // TODO: Can probably come up with a less naive solution
           $scope.refreshGroceryLists();
         });
+    };
+
+    $scope.getRecipe = (recipeId) => {
+      return Recipe.get(recipeId);
     };
 
   });

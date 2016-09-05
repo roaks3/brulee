@@ -3,11 +3,30 @@
     <div class="col-md-5 shoppingListSection">
 
       <a class="btn btn-primary"
-         id="createListButton"
          ng-href="#/grocery/{{groceryList.id}}"
          ng-repeat="groceryList in groceryLists">
         {{groceryList.week_start}}
       </a>
+
+      <ul class="list-group"
+          ng-repeat="recipeDay in groceryList.recipe_days">
+        <li class="list-group-item">
+
+          <day-of-week-select
+            selected-day="recipeDay.day_of_week"
+            input-disabled="true">
+          </day-of-week-select>
+
+          {{getRecipe(recipeDay.recipe_id).name}}
+
+          <a ng-if="getRecipe(recipeDay.recipe_id).url"
+             ng-href="{{getRecipe(recipeDay.recipe_id).url}}"
+             target="_blank">
+            Link
+          </a>
+
+        </li>
+      </ul>
 
       <add-ingredient-form on-add="addIngredient(ingredient)">
       </add-ingredient-form>
