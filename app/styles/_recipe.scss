@@ -34,6 +34,11 @@
   margin-top: 20px;
 }
 
+.re-add-ingredient-button {
+  @extend .boot-btn-primary;
+  margin-top: 10px;
+}
+
 .re-recipe-ingredient-list {
   padding-top: 10px;
   padding-bottom: 20px;

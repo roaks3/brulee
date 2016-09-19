@@ -35,6 +35,10 @@
     Ingredients
   </header>
 
+  <button class="re-add-ingredient-button" ng-click="addRecipeIngredient()">
+    Add Ingredient
+  </button>
+
   <section class="re-recipe-ingredient-list">
     <recipe-ingredient-input
       ng-repeat="recipe_ingredient in recipe.recipe_ingredients"

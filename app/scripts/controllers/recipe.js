@@ -65,6 +65,13 @@ angular.module('bruleeApp')
         });
     };
 
+    $scope.addRecipeIngredient = () => {
+      $scope.recipe.recipe_ingredients.push({
+        ingreident_id: null,
+        amount: 1
+      });
+    };
+
     $scope.removeRecipeIngredient = (recipeIngredient) => {
       _.pull($scope.recipe.recipe_ingredients, recipeIngredient);
     };
