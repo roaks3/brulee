@@ -3,16 +3,13 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($q, $scope, $sessionStorage, GroceryList,
+  .controller('CreateListCtrl', function ($q, $scope, GroceryList,
                                           groceryIngredientService, Recipe) {
 
     $scope.recipes = [];
     $scope.groceryIngredients = [];
     $scope.errors = [];
     $scope.successMessage = null;
-
-    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
-    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
 
     $scope.init = function () {
       return Recipe
