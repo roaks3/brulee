@@ -2,15 +2,15 @@
 
 angular.module('bruleeApp')
 
-  .controller('GroceryListCtrl', function ($scope, $routeParams, $sessionStorage,
+  .controller('GroceryListCtrl', function ($scope, $routeParams, $localStorage,
                                            GroceryList, groceryIngredientService) {
 
     $scope.groceryLists = [];
     $scope.groceryList = {};
     $scope.errors = [];
 
-    $sessionStorage.crossedOutIngredients = $sessionStorage.crossedOutIngredients || [];
-    $scope.crossedOutIngredients = $sessionStorage.crossedOutIngredients;
+    $localStorage.crossedOutIngredients = $localStorage.crossedOutIngredients || [];
+    $scope.crossedOutIngredients = $localStorage.crossedOutIngredients;
 
     $scope.init = function () {
       return $scope
@@ -72,6 +72,11 @@ angular.module('bruleeApp')
           // TODO: Can probably come up with a less naive solution
           $scope.refreshGroceryLists();
         });
+    };
+
+    $scope.clearCrossedOutIngredients = function () {
+      $localStorage.crossedOutIngredients = [];
+      $scope.crossedOutIngredients = $localStorage.crossedOutIngredients;
     };
 
   });

@@ -23,6 +23,10 @@
       <add-ingredient-form on-add="addIngredient(ingredient)">
       </add-ingredient-form>
 
+      <button class="btn btn-primary" ng-click="clearCrossedOutIngredients()">
+        Clear Cross-outs
+      </button>
+
       <grocery-ingredient-list
         grocery-ingredients="groceryIngredients"
         crossed-out-ingredients="crossedOutIngredients">
