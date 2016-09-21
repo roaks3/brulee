@@ -1,11 +1,7 @@
-<div class="bg-success" ng-show="successMessage">
-  {{successMessage}}
-</div>
-<div class="bg-danger" ng-show="errors && error.length">
-  <div ng-repeat="error in errors">
-    {{error}}
-  </div>
-</div>
+<status-bar
+  errors="errors"
+  success-message="successMessage">
+</status-bar>
 
 <section class="recipe-edit-section">
 

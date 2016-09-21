@@ -1,0 +1,13 @@
+<section class="sb-section">
+  <p class="sb-success"
+     ng-if="$ctrl.successMessage">
+    {{$ctrl.successMessage}}
+  </p>
+  <section class="sb-error-list"
+           ng-if="$ctrl.errors && $ctrl.errors.length">
+    <p class="sb-error"
+       ng-repeat="error in $ctrl.errors">
+      {{error}}
+    </p>
+  </section>
+</section>

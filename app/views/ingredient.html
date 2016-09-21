@@ -1,11 +1,7 @@
-<div class="bg-success" ng-show="successMessage">
-  {{successMessage}}
-</div>
-<div class="bg-danger" ng-show="errors && error.length">
-  <div ng-repeat="error in errors">
-    {{error}}
-  </div>
-</div>
+<status-bar
+  errors="errors"
+  success-message="successMessage">
+</status-bar>
 
 <button class="btn-delete" ng-click="delete()">Delete</button>
 <button class="btn-save" ng-click="save()">Save</button>
