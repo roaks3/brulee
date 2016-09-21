@@ -1,37 +1,35 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-5 shoppingListSection">
+<section class="grocery-list-section">
 
-      <a class="btn btn-primary"
-         ng-href="#/grocery/{{groceryList.id}}"
-         ng-repeat="groceryList in groceryLists">
-        {{groceryList.week_start}}
-      </a>
+  <a class="btn-save"
+     ng-href="#/grocery/{{groceryList.id}}"
+     ng-repeat="groceryList in groceryLists">
+    {{groceryList.week_start}}
+  </a>
 
-      <ul class="list-group">
-        <li class="list-group-item"
-            ng-repeat="recipeDay in groceryList.recipe_days">
+  <ul class="gl-recipe-days">
+    <li class="gl-recipe-day"
+        ng-repeat="recipeDay in groceryList.recipe_days">
 
-          <recipe-day-input
-            recipe-day="recipeDay"
-            input-disabled="true">
-          </recipe-day-input>
+      <recipe-day-input
+        recipe-day="recipeDay"
+        input-disabled="true">
+      </recipe-day-input>
 
-        </li>
-      </ul>
+    </li>
+  </ul>
 
-      <add-ingredient-form on-add="addIngredient(ingredient)">
-      </add-ingredient-form>
+  <add-ingredient-form
+    on-add="addIngredient(ingredient)">
+  </add-ingredient-form>
 
-      <button class="btn btn-primary" ng-click="clearCrossedOutIngredients()">
-        Clear Cross-outs
-      </button>
+  <button class="btn-save"
+          ng-click="clearCrossedOutIngredients()">
+    Clear Cross-outs
+  </button>
 
-      <grocery-ingredient-list
-        grocery-ingredients="groceryIngredients"
-        crossed-out-ingredients="crossedOutIngredients">
-      </grocery-ingredient-list>
+  <grocery-ingredient-list
+    grocery-ingredients="groceryIngredients"
+    crossed-out-ingredients="crossedOutIngredients">
+  </grocery-ingredient-list>
 
-    </div>
-  </div>
-</div>
+</section>

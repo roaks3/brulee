@@ -1,0 +1,20 @@
+.grocery-list-section {
+  width: 40%;
+}
+
+.gl-recipe-days {
+  border: 1px solid #ddd;
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.gl-recipe-day {
+  padding: 10px 15px;
+}
+
+@media screen and (max-width: 992px) {
+  .grocery-list-section {
+    width: 100%;
+  }
+}
