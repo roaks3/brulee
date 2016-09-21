@@ -3,14 +3,20 @@
   success-message="successMessage">
 </status-bar>
 
-<div class="actionsSection">
-  <input type="text" ng-model="newIngredientName" />
-  <button class="btn btn-primary" ng-click="addIngredient({name: newIngredientName})">
+<div>
+  <input type="text"
+         ng-model="newIngredientName">
+  <button class="btn-save"
+          ng-click="addIngredient({name: newIngredientName})">
     New Ingredient
   </button>
 </div>
 
-<input ng-change="filterIngredients()" ng-model="search.str" />
+<input ng-change="filterIngredients()"
+       ng-model="search.str">
+
 <h3 ng-repeat="ingredient in filteredIngredients">
-  <a ng-href="#/ingredient/{{ingredient.id}}">{{ingredient.name}}</a>
+  <a ng-href="#/ingredient/{{ingredient.id}}">
+    {{ingredient.name}}
+  </a>
 </h3>
