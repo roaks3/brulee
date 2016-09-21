@@ -2,15 +2,20 @@
 
 class AddIngredientFormCtrl {
 
+  constructor ($window) {
+    this.$window = $window;
+  }
+
   isNewIngredient () {
     return !(this.ingredient && this.ingredient.id);
   }
 
   addIngredient () {
     if (this.isNewIngredient()) {
-      // TODO: Show some sort of error because ingredient could not be added
+      this.$window.alert('This ingredient is invalid and cannot be added');
     } else {
       this.onAdd({ingredient: this.ingredient});
+      this.ingredient = null;
     }
   }
 

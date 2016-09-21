@@ -16,13 +16,9 @@
             </button>
           </li>
           <li class="list-group-item">
-            <ingredient-typeahead
-              selected-ingredient="newIngredient"
-              on-select="updateNewIngredient(ingredient)">
-            </ingredient-typeahead>
-            <button class="btn btn-primary" ng-click="addIngredient(category, newIngredient)">
-              Add Item
-            </button>
+            <add-ingredient-form
+              on-add="addIngredient(category, ingredient)">
+            <add-ingredient-form>
           </li>
         </ul>
       </div>

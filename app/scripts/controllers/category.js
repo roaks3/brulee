@@ -80,32 +80,21 @@ angular.module('bruleeApp')
         return;
       }
 
-      if (ingredient && ingredient.id) {
-        if (!_.find(category.ingredient_ids, ingredient.id)) {
-          // Remove ingredient from all other categories
-          _.each($scope.categories, function (otherCategory) {
-            _.pull(otherCategory.ingredient_ids, ingredient.id);
-          });
+      if (!_.find(category.ingredient_ids, ingredient.id)) {
+        // Remove ingredient from all other categories
+        _.each($scope.categories, function (otherCategory) {
+          _.pull(otherCategory.ingredient_ids, ingredient.id);
+        });
 
-          // Add ingredient to this category
-          category.ingredient_ids.push(ingredient.id);
-
-          //TODO: Figure out how to actually clear the typeahead
-          $scope.newIngredient = null;
-        } else {
-          $window.alert('This ingredient already exists in this category');
-        }
+        // Add ingredient to this category
+        category.ingredient_ids.push(ingredient.id);
       } else {
-        $window.alert('This ingredient is invalid and cannot be added');
+        $window.alert('This ingredient already exists in this category');
       }
     };
 
     $scope.removeIngredient = function (category, ingredientId) {
       _.pull(category.ingredient_ids, ingredientId);
-    };
-
-    $scope.updateNewIngredient = (ingredient) => {
-      $scope.newIngredient = ingredient;
     };
 
   });
