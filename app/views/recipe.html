@@ -9,15 +9,15 @@
 
 <section class="col-md-7 recipe-edit-section">
 
-  <button class="btn btn-danger" ng-click="delete()">
+  <button class="btn-delete" ng-click="delete()">
     Delete
   </button>
 
-  <button class="btn btn-primary" ng-click="save()">
+  <button class="btn-save" ng-click="save()">
     Save
   </button>
 
-  <a class="btn btn-success"
+  <a class="btn-external-link"
      ng-href="{{recipe.url}}"
      ng-show="recipe.url">
     Link

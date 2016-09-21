@@ -13,5 +13,33 @@
   &:hover {
     background-color: #3071a9;
     border-color: #285e8e;
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.btn-delete {
+  @extend .boot-btn-primary;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+
+  &:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+  }
+}
+
+.btn-save {
+  @extend .boot-btn-primary;
+}
+
+.btn-external-link {
+  @extend .boot-btn-primary;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+
+  &:hover {
+    background-color: #449d44;
+    border-color: #398439;
   }
 }

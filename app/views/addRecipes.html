@@ -39,7 +39,7 @@
           on-category-change="updateRecipeIngredientCategory(recipe_ingredient, category)">
         </new-recipe-ingredient-input>
       </div>
-      <button class="btn btn-primary" id="addRecipesButton" ng-click="addRecipe()">
+      <button class="btn-save" id="addRecipesButton" ng-click="addRecipe()">
         Add Recipe
       </button>
       <span ng-if="!recipe.name && isNameInvalid" class="text-danger"><strong>Name is required</strong></span>
