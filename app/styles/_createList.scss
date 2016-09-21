@@ -20,8 +20,14 @@ body {
   color: rgba(grey, .4);
 }
 
+.cl-main-section {
+  display: flex;
+  width: 100%;
+}
+
 .cl-recipe-list-section {
   margin-top: 30px;
+  width: 40%;
 }
 
 .cl-recipe-list-header {
@@ -77,5 +83,33 @@ body {
 }
 
 .cl-ingredient-list-section {
+  margin-left: 20px;
   margin-top: 30px;
+  width: 40%;
+}
+
+.cl-recipe-days {
+  border: 1px solid #ddd;
+  list-style: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.cl-recipe-day {
+  padding: 10px 15px;
+}
+
+@media screen and (max-width: 992px) {
+  .cl-main-section {
+    display: block;
+  }
+
+  .cl-recipe-list-section {
+    width: 100%;
+  }
+
+  .cl-ingredient-list-section {
+    margin-left: 0;
+    width: 100%;
+  }
 }

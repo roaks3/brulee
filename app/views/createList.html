@@ -1,77 +1,70 @@
-<div class="container">
-  <div class="row">
+<section class="cl-main-section">
 
-    <div class="col-md-5">
-      <section class="cl-recipe-list-section">
+  <section class="cl-recipe-list-section">
 
-        <header class="cl-recipe-list-header">
-          Recipes
-        </header>
+    <header class="cl-recipe-list-header">
+      Recipes
+    </header>
 
-        <ul class="cl-recipe-list">
-          <li class="cl-recipe"
-              ng-repeat="recipe in recipes">
+    <ul class="cl-recipe-list">
+      <li class="cl-recipe"
+          ng-repeat="recipe in recipes">
 
-            <label class="cl-recipe-select">
-              <input type="checkbox"
-                     ng-model="recipe._selected">
-              <div class="cl-recipe-title">
-                {{recipe.name}}
-              </div>
-            </label>
-            <div class="cl-recipe-link">
-              <a ng-href="/#/recipe/{{recipe.id}}"
-                 target="_blank">
-                View
-              </a>
-            </div>
-            <div class="cl-recipe-num-used">
-              {{numUsed(recipe)}}x
-            </div>
+        <label class="cl-recipe-select">
+          <input type="checkbox"
+                 ng-model="recipe._selected">
+          <div class="cl-recipe-title">
+            {{recipe.name}}
+          </div>
+        </label>
+        <div class="cl-recipe-link">
+          <a ng-href="/#/recipe/{{recipe.id}}"
+             target="_blank">
+            View
+          </a>
+        </div>
+        <div class="cl-recipe-num-used">
+          {{numUsed(recipe)}}x
+        </div>
 
-          </li>
-        </ul>
+      </li>
+    </ul>
 
-      </section>
-    </div>
+  </section>
 
-    <div class="col-md-5 cl-ingredient-list-section">
+  <section class="cl-ingredient-list-section">
 
-      <button class="btn btn-primary"
-              id="createListButton"
-              ng-click="calculateShoppingList()">
-        Create Shopping List
-      </button>
+    <button class="btn-save"
+            ng-click="calculateShoppingList()">
+      Generate List
+    </button>
 
-      <button ng-show="newGroceryList"
-              class="btn-save"
-              id="createListButton"
-              ng-click="saveGroceryList()">
-        Save Grocery List
-      </button>
+    <button ng-show="newGroceryList"
+            class="btn-save"
+            ng-click="saveGroceryList()">
+      Save Grocery List
+    </button>
 
-      <div ng-show="newGroceryList"
-           class="groceryList">
+    <div ng-show="newGroceryList">
 
-        <ul class="list-group">
-          <li class="list-group-item"
-              ng-repeat="recipeDay in newGroceryList.recipe_days">
+      <ul class="cl-recipe-days">
+        <li class="cl-recipe-day"
+            ng-repeat="recipeDay in newGroceryList.recipe_days">
 
-            <recipe-day-input
-              recipe-day="recipeDay"
-              on-day-change="updateDayOfWeek(recipeDay, day)">
-            </recipe-day-input>
+          <recipe-day-input
+            recipe-day="recipeDay"
+            on-day-change="updateDayOfWeek(recipeDay, day)">
+          </recipe-day-input>
 
-          </li>
-        </ul>
-
-      </div>
-
-      <grocery-ingredient-list
-        grocery-ingredients="groceryIngredients">
-      </grocery-ingredient-list>
+        </li>
+      </ul>
 
     </div>
 
-  </div>
-</div>
+    <grocery-ingredient-list
+      grocery-ingredients="groceryIngredients">
+    </grocery-ingredient-list>
+
+  </section>
+
+</section>
