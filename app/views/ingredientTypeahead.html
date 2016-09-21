@@ -1,5 +1,5 @@
 <input
-  class="form-control"
+  class="ingredient-typeahead"
   type="text"
   ng-model="vm._selectedIngredient"
   uib-typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"

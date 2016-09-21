@@ -1,0 +1,31 @@
+.boot-input {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  color: #555;
+  display: block;
+  font-size: 14px;
+  height: 34px;
+  line-height: 1.42857143;
+  margin-bottom: 0;
+  padding: 6px 12px;
+  width: 100%;
+}
+
+.boot-dropdown-wrapper {
+  position: relative;
+}
+
+.ingredient-typeahead {
+  @extend .boot-input;
+}
+
+.ingredient-form {
+  display: flex;
+  padding: 20px 0;
+
+  button {
+    @extend .boot-btn-primary;
+  }
+}
