@@ -60,3 +60,9 @@
     padding: 0;
   }
 }
+
+@media screen and (max-width: 992px) {
+  .recipe-edit-section {
+    width: 100%;
+  }
+}

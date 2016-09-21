@@ -54,3 +54,9 @@
   text-align: center;
   width: 10%;
 }
+
+@media screen and (max-width: 992px) {
+  .rl-recipe-list-section {
+    width: 100%;
+  }
+}
