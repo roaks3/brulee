@@ -1,20 +1,18 @@
-<div class="ingredient input-group">
+<div class="recipe-ingredient-input">
 
-  <span class="input-group-btn">
-    <button class="btn btn-default ingredientDelete"
-            type="button"
-            ng-click="vm.onRemove()" >
-      &times;
-    </button>
-  </span>
+  <button class="btn-weak"
+          ng-click="vm.onRemove()" >
+    &times;
+  </button>
 
   <ingredient-typeahead
+    class="rii-typeahead"
     selected-ingredient="vm.ingredient"
     on-select="vm.changeIngredient(ingredient)" >
   </ingredient-typeahead>
 
   <category-select
-    class="input-group-btn"
+    class="boot-dropdown-wrapper"
     selected-category="vm.category"
     on-category-change="vm.onCategoryChange({category: category})"
     input-disabled="!vm.isNewIngredient()">
