@@ -1,38 +1,56 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-5 categoryListSection">
-      <div class="categoryList">
-        <ul class="list-group" ng-repeat="category in categories">
-          <li class="list-group-item list-group-item-info">
-            <input class="form-control" ng-model="category.name" type="text" />
-            <button class="btn btn-primary" ng-click="removeCategory(category.id)">
-              Remove
-            </button>
-          </li>
-          <li class="list-group-item" ng-repeat="ingredientId in category.ingredient_ids">
-            {{getIngredient(ingredientId).name}}
-            <button class="btn btn-primary" ng-click="removeIngredient(category, ingredientId)">
-              Remove Item
-            </button>
-          </li>
-          <li class="list-group-item">
-            <add-ingredient-form
-              on-add="addIngredient(category, ingredient)">
-            <add-ingredient-form>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-5 actionsSection">
-      <button class="btn btn-primary" id="saveButton" ng-click="saveCategories()">
-        Save
-      </button>
-    </div>
-    <div class="col-md-5 actionsSection">
-      <input type="text" ng-model="newCategory" />
-      <button class="btn btn-primary" ng-click="addCategory(newCategory)">
+<section class="cat-main-section">
+
+  <section class="cat-list-section">
+
+    <ul class="list-group"
+        ng-repeat="category in categories">
+
+      <li class="cat-category-edit">
+        <input class="boot-input"
+               type="text"
+               ng-model="category.name">
+        <button class="btn-delete"
+                ng-click="removeCategory(category.id)">
+          Remove
+        </button>
+      </li>
+
+      <li class="cat-category-ingredient"
+          ng-repeat="ingredientId in category.ingredient_ids">
+        {{getIngredient(ingredientId).name}}
+        <button class="btn-delete"
+                ng-click="removeIngredient(category, ingredientId)">
+          Remove
+        </button>
+      </li>
+
+      <li class="cat-category-add-ingredient">
+        <add-ingredient-form
+          on-add="addIngredient(category, ingredient)">
+        <add-ingredient-form>
+      </li>
+
+    </ul>
+
+  </section>
+
+  <section class="cat-action-section">
+
+    <button class="btn-save"
+            ng-click="saveCategories()">
+      Save All
+    </button>
+
+    <div class="cat-new-category-form">
+      <input class="boot-input"
+             type="text"
+             ng-model="newCategory">
+      <button class="btn-save"
+              ng-click="addCategory(newCategory)">
         Add Category
       </button>
     </div>
-  </div>
-</div>
+
+  </section>
+
+</section>
