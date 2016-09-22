@@ -1,48 +1,68 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12 savedMessageSection" ng-show="isSaved">
-      <div class="savedMessage bg-success">
-        Recipe saved!
-      </div>
+<status-bar
+  errors="errors"
+  success-message="successMessage">
+</status-bar>
+
+<section class="ar-main-section">
+
+  <section class="ar-original-text-section">
+    <textarea ng-model="recipe.original_text"
+              rows="20">
+    </textarea>
+  </section>
+
+  <section class="ar-parse-btn-section">
+    <button class="btn-save"
+            ng-click="parseRecipeText()">
+      ==>
+    </button>
+  </section>
+
+  <section class="ar-save-recipe-section"
+           ng-show="isParsed">
+
+    <fieldset ng-class="{'has-error': !recipe.name && isNameInvalid}">
+      <label for="recipeName">
+        Name
+      </label>
+      <input class="boot-input"
+             type="text"
+             ng-model="recipe.name"
+             name="recipeName"
+             required>
+    </fieldset>
+
+    <fieldset>
+      <label for="recipeUrl">
+        Url
+      </label>
+      <input class="boot-input"
+             type="text"
+             ng-model="recipe.url"
+             name="recipeUrl">
+    </fieldset>
+
+    <div class="ar-parsed-ingredients">
+      <new-recipe-ingredient-input
+        ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
+        ingredient="recipe_ingredient.ingredient"
+        category="recipe_ingredient.selectedCategory"
+        on-remove="removeRecipeIngredient(recipe_ingredient)"
+        on-ingredient-change="updateRecipeIngredient(recipe_ingredient, ingredient)"
+        on-category-change="updateRecipeIngredientCategory(recipe_ingredient, category)">
+      </new-recipe-ingredient-input>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-5 originalTextSection">
-      <textarea class="form-control" ng-model="recipe.original_text" rows="20">
-      </textarea>
-    </div>
-    <div class="col-md-2 parseButtonSection">
-      <button class="parseButton btn btn-primary center-block" id="parseButton" ng-click="parseRecipeText()">
-        ==>
-      </button>
-    </div>
-    <div class="col-md-5 saveRecipeSection" ng-show="isParsed">
-      <div class="form-group" ng-class="{'has-error': !recipe.name && isNameInvalid}">
-        <label class="control-label" for="recipeName">
-          Name
-        </label>
-        <input class="form-control" ng-model="recipe.name" type="text" name="recipeName" required />
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="recipeUrl">
-          Url
-        </label>
-        <input class="form-control" ng-model="recipe.url" type="text" name="recipeUrl" />
-      </div>
-      <div class="parsedIngredientSection">
-        <new-recipe-ingredient-input
-          ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
-          ingredient="recipe_ingredient.ingredient"
-          category="recipe_ingredient.selectedCategory"
-          on-remove="removeRecipeIngredient(recipe_ingredient)"
-          on-ingredient-change="updateRecipeIngredient(recipe_ingredient, ingredient)"
-          on-category-change="updateRecipeIngredientCategory(recipe_ingredient, category)">
-        </new-recipe-ingredient-input>
-      </div>
-      <button class="btn-save" id="addRecipesButton" ng-click="addRecipe()">
-        Add Recipe
-      </button>
-      <span ng-if="!recipe.name && isNameInvalid" class="text-danger"><strong>Name is required</strong></span>
-    </div>
-  </div>
-</div>
+
+    <button class="btn-save"
+            ng-click="addRecipe()">
+      Add Recipe
+    </button>
+
+    <span class="error"
+          ng-if="!recipe.name && isNameInvalid">
+      Name is required
+    </span>
+
+  </section>
+
+</section>

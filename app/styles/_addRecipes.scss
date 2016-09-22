@@ -1,31 +1,59 @@
+.ar-main-section {
+  display: flex;
+  margin-top: 30px;
+}
 
-body {
+.ar-original-text-section {
+  width: 40%;
+
+  textarea {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #555;
+    display: block;
+    font-size: 14px;
+    height: auto;
+    line-height: 1.42857143;
+    padding: 6px 12px;
+    width: 100%;
+  }
+}
+
+.ar-parse-btn-section {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+
+  .btn-save {
+    margin-top: 100px;
+  }
+}
+
+.ar-save-recipe-section {
+  width: 40%;
+
+  fieldset {
+    margin-bottom: 15px;
+  }
+
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .error {
+    font-weight: bold;
+    color: red;
+  }
+}
+
+.ar-parsed-ingredients {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.savedMessageSection {
-  padding-bottom: 20px;
-}
-
-.savedMessage {
-  padding: 15px;
-  text-align: center;
-}
-
-.parseButtonSection {
-  height: 100%;
-}
-
-.parseButton {
-  margin-top: 100px;
-}
-
-.parsedIngredientSection {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
+// TODO: Clean these up
 .text-input-group-addon {
   padding: 5px 12px;
 }
@@ -41,4 +69,16 @@ body {
 
 .ingredientDelete:hover {
   color: #777;
+}
+
+@media screen and (max-width: 992px) {
+  .ar-main-section {
+    display: block;
+  }
+
+  .ar-original-text-section,
+  .ar-parse-btn-section,
+  .ar-save-recipe-section {
+    width: 100%;
+  }
 }

@@ -9,7 +9,6 @@ angular.module('bruleeApp')
 
     $scope.recipe = {};
     $scope.isParsed = false;
-    $scope.isSaved = false;
     $scope.isNameInvalid = false;
 
     $scope.errors = [];
@@ -81,11 +80,11 @@ angular.module('bruleeApp')
               })
             })
             .then(function () {
-              $scope.isSaved = true;
+              $scope.successMessage = 'Recipe saved!';
             });
         })
         .catch(function (error) {
-          console.log(error);
+          $scope.errors.push(error);
         });
     };
 
