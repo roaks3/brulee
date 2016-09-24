@@ -1,18 +1,20 @@
-<div class="shoppingList">
-  <ul class="list-group"
-      ng-repeat="categoryIngredients in vm.groceryIngredients">
-    <li class="list-group-item list-group-item-info">
-      {{categoryIngredients.name}}
-    </li>
-    <li ng-class="{'list-group-item': true, done: vm.crossedOut(ingredient)}"
-        ng-repeat="ingredient in categoryIngredients.ingredients track by $index"
-        ng-click="vm.crossOut(ingredient)">
-      {{ingredient.name}}
-      <span class="badge"
-            uib-tooltip="{{ingredient.recipeNames.join(', ')}}"
-            tooltip-placement="right">
-        {{ingredient.recipeNames.length}}
-      </span>
-    </li>
-  </ul>
-</div>
+<ul class="grocery-ingredient-list"
+    ng-repeat="categoryIngredients in vm.groceryIngredients">
+
+  <li class="gil-category-header">
+    {{categoryIngredients.name}}
+  </li>
+
+  <li class="gil-ingredient"
+      ng-class="{done: vm.crossedOut(ingredient)}"
+      ng-repeat="ingredient in categoryIngredients.ingredients track by $index"
+      ng-click="vm.crossOut(ingredient)">
+    {{ingredient.name}}
+    <span class="badge"
+          uib-tooltip="{{ingredient.recipeNames.join(', ')}}"
+          tooltip-placement="right">
+      {{ingredient.recipeNames.length}}
+    </span>
+  </li>
+
+</ul>
