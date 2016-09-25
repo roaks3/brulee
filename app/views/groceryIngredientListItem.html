@@ -1,0 +1,24 @@
+<li class="grocery-ingredient-list-item">
+
+  <header class="grocery-ingredient-list-item-header">
+    <div class="name"
+         ng-class="{done: $ctrl.isCrossedOut}"
+         ng-click="$ctrl.onCrossOut()">
+      {{$ctrl.groceryIngredient.name}}
+    </div>
+
+    <div class="recipe-count"
+         ng-click="$ctrl.toggle()">
+      {{$ctrl.groceryIngredient.recipeNames.length}}
+    </div>
+  </header>
+
+  <div ng-show="$ctrl.isExpanded"
+       class="grocery-ingredient-list-item-recipe-list">
+    <div class="recipe"
+         ng-repeat="recipeName in $ctrl.groceryIngredient.recipeNames">
+      {{recipeName}}
+    </div>
+  </div>
+
+</li>

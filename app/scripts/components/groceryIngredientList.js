@@ -21,7 +21,7 @@ class GroceryIngredientListCtrl {
 angular.module('bruleeApp')
   .component('groceryIngredientList', {
     bindings: {
-      groceryIngredients: '=',
+      groceryIngredients: '<',
       crossedOutIngredients: '='
     },
     controller: GroceryIngredientListCtrl,

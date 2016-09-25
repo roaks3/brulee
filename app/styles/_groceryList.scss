@@ -17,20 +17,9 @@
   padding-bottom: 20px;
   padding-left: 0;
   padding-top: 20px;
-
-  .done {
-    color: rgba(grey, .4);
-  }
-
-  .tooltip-inner {
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
-.gil-category-header {
+.grocery-ingredient-list-category-header {
   background-color: #d9edf7;
   border: 1px solid #ddd;
   color: #31708f;
@@ -39,11 +28,46 @@
   padding: 10px 15px;
 }
 
-.gil-ingredient {
+.grocery-ingredient-list-item {
   border: 1px solid #ddd;
   list-style: none;
   margin-bottom: -1px;
   padding: 10px 15px;
+}
+
+.grocery-ingredient-list-item-header {
+  display: flex;
+
+  .name {
+    flex-grow: 1;
+  }
+
+  .done {
+    color: rgba(grey, .4);
+  }
+
+  .recipe-count {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    vertical-align: baseline;
+    background-color: #777;
+    border-radius: 10px;
+  }
+}
+
+.grocery-ingredient-list-item-recipe-list {
+  padding: 10px;
+
+  .recipe {
+    color: #888888;
+    font-size: 12px;
+  }
 }
 
 @media screen and (max-width: 992px) {
