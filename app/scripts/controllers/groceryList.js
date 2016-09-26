@@ -74,6 +74,14 @@ angular.module('bruleeApp')
         });
     };
 
+    $scope.crossOut = function (ingredient) {
+      if (_.includes($scope.crossedOutIngredients, ingredient.id)) {
+        _.pull($scope.crossedOutIngredients, ingredient.id);
+      } else {
+        $scope.crossedOutIngredients.push(ingredient.id);
+      }
+    };
+
     $scope.clearCrossedOutIngredients = function () {
       $localStorage.crossedOutIngredients = [];
       $scope.crossedOutIngredients = $localStorage.crossedOutIngredients;

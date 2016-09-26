@@ -2,16 +2,6 @@
 
 class GroceryIngredientListCtrl {
 
-  crossOut (ingredient) {
-    if (this.crossedOut(ingredient)) {
-      _.remove(this.crossedOutIngredients, (crossedOutIngredient) => {
-        return crossedOutIngredient === ingredient.id;
-      });
-    } else {
-      this.crossedOutIngredients.push(ingredient.id);
-    }
-  }
-
   crossedOut (ingredient) {
     return _.includes(this.crossedOutIngredients, ingredient.id);
   }
@@ -22,7 +12,8 @@ angular.module('bruleeApp')
   .component('groceryIngredientList', {
     bindings: {
       groceryIngredients: '<',
-      crossedOutIngredients: '='
+      crossedOutIngredients: '<',
+      onCrossOut: '&'
     },
     controller: GroceryIngredientListCtrl,
     controllerAs: 'vm',

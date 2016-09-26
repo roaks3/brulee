@@ -9,7 +9,7 @@
     ng-repeat="ingredient in categoryIngredients.ingredients track by $index"
     grocery-ingredient="ingredient"
     is-crossed-out="vm.crossedOut(ingredient)"
-    on-cross-out="vm.crossOut(ingredient)">
+    on-cross-out="vm.onCrossOut({ingredient: ingredient})">
   </grocery-ingredient-list-item>
 
 </ul>
