@@ -1,0 +1,49 @@
+$navbar-primary-color: rgb(136, 152, 170);
+$navbar-secondary-color: rgb(246, 249, 252);
+
+.navbar-container {
+  background-color: $navbar-secondary-color;
+  color: $navbar-primary-color;
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding: 0 40px;
+
+  a {
+    color: $navbar-primary-color;
+    display: block;
+    line-height: 1;
+    text-decoration: none;
+
+    &:hover {
+      color: rgb(93, 100, 131);
+    }
+  }
+
+  .navbar-header,
+  .navbar-main {
+    display: flex;
+  }
+
+  .navbar-main {
+    a {
+      padding: 20px 10px;
+    }
+  }
+
+  .navbar-logo {
+    font-size: 18px;
+    padding: 17px 10px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .navbar-container {
+    display: block;
+
+    .navbar-main {
+      flex-wrap: wrap;
+    }
+  }
+}

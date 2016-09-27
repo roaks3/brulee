@@ -5,6 +5,7 @@
 @import 'typography';
 @import 'buttons';
 @import 'forms';
+@import 'nav';
 
 @import 'statusBar';
 @import 'recipeIngredientInput';
@@ -16,6 +17,5 @@
 @import 'groceryList';
 
 body {
-  padding-top: 20px;
   padding-bottom: 20px;
 }

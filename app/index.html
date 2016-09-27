@@ -16,9 +16,14 @@
   </head>
   <body ng-app="bruleeApp">
     <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a ng-href="#">Home</a></li>
+
+      <nav class="navbar-container">
+        <div class="navbar-header">
+          <a ng-href="#" class="navbar-logo">
+            brulee
+          </a>
+        </div>
+        <ul class="navbar-main">
           <li><a ng-href="#/createList">Create List</a></li>
           <li><a ng-href="#/grocery">Grocery Lists</a></li>
           <li><a ng-href="#/addRecipes">Add Recipes</a></li>
@@ -26,10 +31,10 @@
           <li><a ng-href="#/ingredient">Ingredients</a></li>
           <li><a ng-href="#/recipe">Recipes</a></li>
         </ul>
-        <h3 class="text-muted">brulee</h3>
-      </div>
+      </nav>
 
       <div ng-view></div>
+
     </div>
 
 
