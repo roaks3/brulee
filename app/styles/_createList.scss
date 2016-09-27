@@ -27,14 +27,12 @@
   display: flex;
   margin-bottom: 5px;
   padding: 10px;
-  width: 100%;
 }
 
 .cl-recipe-select {
   cursor: pointer;
   display: flex;
   font-weight: 400;
-  margin: 0;
   width: 80%;
 
   input[type="checkbox"] {
@@ -68,9 +66,7 @@
 
 .cl-recipe-days {
   border: 1px solid #ddd;
-  list-style: none;
   margin: 20px 0;
-  padding: 0;
 }
 
 .cl-recipe-day {

@@ -6,10 +6,6 @@
 .cat-list-section {
   margin-top: 30px;
   width: 40%;
-
-  ul {
-    padding-left: 0;
-  }
 }
 
 .cat-category-edit {
@@ -28,14 +24,12 @@
 
 .cat-category-ingredient {
   border: 1px solid #ddd;
-  list-style: none;
   margin-bottom: -1px;
   padding: 10px 15px;
 }
 
 .cat-category-add-ingredient {
   border: 1px solid #ddd;
-  list-style: none;
   margin-bottom: -1px;
   padding: 0 15px;
 }
