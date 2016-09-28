@@ -17,7 +17,9 @@ angular.module('bruleeApp', [
     'ui.router'
   ])
 
-  .config(function ($stateProvider, $urlRouterProvider, DSHttpAdapterProvider) {
+  .config(function ($locationProvider, $stateProvider, $urlRouterProvider, DSHttpAdapterProvider) {
+
+    $locationProvider.html5Mode(true);
 
     $urlRouterProvider
       .otherwise('/createList');
