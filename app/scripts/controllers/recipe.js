@@ -2,14 +2,14 @@
 
 angular.module('bruleeApp')
 
-  .controller('RecipeCtrl', ($q, $routeParams, $scope, $window, Category, categoryService, Recipe) => {
+  .controller('RecipeCtrl', ($q, $stateParams, $scope, $window, Category, categoryService, Recipe) => {
 
     $scope.errors = [];
     $scope.successMessage = null;
 
     $scope.recipe = {};
     $q.all([
-      Recipe.find($routeParams.id),
+      Recipe.find($stateParams.id),
       // HACK: This should be fixed by using a category id field directly on the ingredient
       Category.refreshAll()
     ])

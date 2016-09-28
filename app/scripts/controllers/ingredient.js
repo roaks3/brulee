@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($routeParams, $scope, $window,
+  .controller('IngredientCtrl', function ($stateParams, $scope, $window,
                                           Category, categoryService, Ingredient,
                                           Recipe, recipeService) {
 
@@ -11,7 +11,7 @@ angular.module('bruleeApp')
 
     Category.refreshAll()
       .then(function () {
-        $scope.category = categoryService.getByIngredientId($routeParams.id);
+        $scope.category = categoryService.getByIngredientId($stateParams.id);
       })
       .catch(function (error) {
         $scope.errors.push(error);
@@ -22,7 +22,7 @@ angular.module('bruleeApp')
     Ingredient.refreshAll()
       .then(function (data) {
         $scope.ingredients = data;
-        $scope.ingredient = Ingredient.get($routeParams.id);
+        $scope.ingredient = Ingredient.get($stateParams.id);
         $scope.ingredientName = $scope.ingredient.name;
       })
       .catch(function (error) {
@@ -32,7 +32,7 @@ angular.module('bruleeApp')
     $scope.recipes = [];
     Recipe.refreshAll()
       .then(function () {
-        $scope.recipes = recipeService.filterByIngredientId($routeParams.id);
+        $scope.recipes = recipeService.filterByIngredientId($stateParams.id);
       })
       .catch(function (error) {
         $scope.errors.push(error);

@@ -10,53 +10,63 @@
  * Main module of the application.
  */
 angular.module('bruleeApp', [
-    'ngRoute',
     'ui.bootstrap',
     'ngStorage',
     'bruleeApp.services',
-    'js-data'
+    'js-data',
+    'ui.router'
   ])
 
-  .config(function ($routeProvider, DSHttpAdapterProvider) {
-    $routeProvider
-      .when('/createList', {
+  .config(function ($stateProvider, $urlRouterProvider, DSHttpAdapterProvider) {
+
+    $urlRouterProvider
+      .otherwise('/createList');
+
+    $stateProvider
+      .state('createList', {
+        url: '/createList',
         templateUrl: 'views/createList.html',
         controller: 'CreateListCtrl'
       })
-      .when('/addRecipes', {
+      .state('addRecipes', {
+        url: '/addRecipes',
         templateUrl: 'views/addRecipes.html',
         controller: 'AddRecipesCtrl'
       })
-      .when('/categories', {
+      .state('categories', {
+        url: '/categories',
         templateUrl: 'views/category.html',
         controller: 'CategoryCtrl'
       })
-      .when('/grocery', {
+      .state('groceries', {
+        url: '/grocery',
         templateUrl: 'views/groceryList.html',
         controller: 'GroceryListCtrl'
       })
-      .when('/grocery/:id', {
+      .state('grocery', {
+        url: '/grocery/:id',
         templateUrl: 'views/groceryList.html',
         controller: 'GroceryListCtrl'
       })
-      .when('/ingredient', {
+      .state('ingredients', {
+        url: '/ingredient',
         templateUrl: 'views/ingredientList.html',
         controller: 'IngredientListCtrl'
       })
-      .when('/ingredient/:id', {
+      .state('ingredient', {
+        url: '/ingredient/:id',
         templateUrl: 'views/ingredient.html',
         controller: 'IngredientCtrl'
       })
-      .when('/recipe', {
+      .state('recipes', {
+        url: '/recipe',
         templateUrl: 'views/recipeList.html',
         controller: 'RecipeListCtrl'
       })
-      .when('/recipe/:id', {
+      .state('recipe', {
+        url: '/recipe/:id',
         templateUrl: 'views/recipe.html',
         controller: 'RecipeCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
 
     var databaseName = 'heroku_r2q4kcbs';

@@ -4,7 +4,6 @@
     "angular": "^1.5.7",
     "bootstrap": "3.2.0",
     "angular-animate": "^1.5.7",
-    "angular-route": "^1.5.7",
     "angular-sanitize": "^1.5.7",
     "angular-touch": "^1.5.7",
     "elasticsearch": "3.0.0",
@@ -13,7 +12,8 @@
     "angular-bootstrap": "^0.14.3",
     "ngstorage": "^0.3.10",
     "js-data-angular": "^3.2.1",
-    "js-data": "^2.9.0"
+    "js-data": "^2.9.0",
+    "angular-ui-router": "ui-router#^0.3.1"
   },
   "devDependencies": {
     "angular-mocks": "^1.5.7"

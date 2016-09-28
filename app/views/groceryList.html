@@ -1,7 +1,7 @@
 <section class="grocery-list-section">
 
   <a class="btn-save"
-     ng-href="#/grocery/{{groceryList.id}}"
+     ui-sref="grocery({id: groceryList.id})"
      ng-repeat="groceryList in groceryLists">
     {{groceryList.week_start}}
   </a>

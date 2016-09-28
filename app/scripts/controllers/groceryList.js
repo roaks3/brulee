@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('GroceryListCtrl', function ($scope, $routeParams, $localStorage,
+  .controller('GroceryListCtrl', function ($scope, $stateParams, $localStorage,
                                            GroceryList, groceryIngredientService) {
 
     $scope.groceryLists = [];
@@ -29,8 +29,8 @@ angular.module('bruleeApp')
         .then(function (data) {
           $scope.groceryLists = _.sortBy(data, 'week_start');
 
-          if ($routeParams.id) {
-            $scope.selectGroceryList($routeParams.id);
+          if ($stateParams.id) {
+            $scope.selectGroceryList($stateParams.id);
           }
         })
         .catch(function (error) {
