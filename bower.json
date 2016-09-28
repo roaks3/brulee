@@ -6,7 +6,6 @@
     "angular-animate": "^1.5.7",
     "angular-sanitize": "^1.5.7",
     "angular-touch": "^1.5.7",
-    "elasticsearch": "3.0.0",
     "moment": "^2.10.6",
     "lodash": "^4.2.1",
     "angular-bootstrap": "^0.14.3",

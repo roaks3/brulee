@@ -92,6 +92,4 @@ angular.module('bruleeApp', [
  *
  * Main services module of the application.
  */
-angular.module('bruleeApp.services', [
-    'elasticsearch'
-  ]);
+angular.module('bruleeApp.services', []);
