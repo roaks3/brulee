@@ -12,7 +12,8 @@
   </button>
 </div>
 
-<input ng-change="filterIngredients()"
+<input type="text"
+       ng-change="filterIngredients()"
        ng-model="search.str">
 
 <h3 ng-repeat="ingredient in filteredIngredients">

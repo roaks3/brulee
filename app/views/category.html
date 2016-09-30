@@ -5,8 +5,7 @@
     <ul ng-repeat="category in categories">
 
       <li class="cat-category-edit">
-        <input class="boot-input"
-               type="text"
+        <input type="text"
                ng-model="category.name">
         <button class="btn-delete"
                 ng-click="removeCategory(category.id)">
@@ -41,8 +40,7 @@
     </button>
 
     <div class="cat-new-category-form">
-      <input class="boot-input"
-             type="text"
+      <input type="text"
              ng-model="newCategory">
       <button class="btn-primary"
               ng-click="addCategory(newCategory)">
