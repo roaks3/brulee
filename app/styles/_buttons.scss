@@ -3,17 +3,21 @@
   border: 1px solid #357ebd;
   border-radius: 4px;
   color: #fff;
-  cursor: pointer;
   display: inline-block;
   font-size: 14px;
   padding: 6px 12px;
   text-align: center;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #3071a9;
     border-color: #285e8e;
     color: #fff;
+    cursor: pointer;
     text-decoration: none;
+  }
+
+  &:disabled {
+    opacity: .65;
   }
 }
 
@@ -22,7 +26,7 @@
   background-color: #d9534f;
   border-color: #d43f3a;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #c9302c;
     border-color: #ac2925;
   }
@@ -37,7 +41,7 @@
   background-color: #5cb85c;
   border-color: #4cae4c;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #449d44;
     border-color: #398439;
   }
@@ -48,7 +52,7 @@
   background-color: #f0ad4e;
   border-color: #eea236;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #ec971f;
     border-color: #d58512;
   }
@@ -60,7 +64,7 @@
   border-color: #ccc;
   color: #333;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #e6e6e6;
     border-color: #adadad;
     color: #333;
