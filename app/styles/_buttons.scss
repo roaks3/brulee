@@ -43,6 +43,17 @@
   }
 }
 
+.btn-select {
+  @extend .boot-btn-primary;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+
+  &:hover {
+    background-color: #ec971f;
+    border-color: #d58512;
+  }
+}
+
 .btn-weak {
   @extend .boot-btn-primary;
   background-color: #fff;
