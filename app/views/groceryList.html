@@ -1,6 +1,6 @@
 <section class="grocery-list-section">
 
-  <a class="btn-save"
+  <a class="btn-primary"
      ui-sref="grocery({id: groceryList.id})"
      ng-repeat="groceryList in groceryLists">
     {{groceryList.week_start}}
@@ -22,7 +22,7 @@
     on-add="addIngredient(ingredient)">
   </add-ingredient-form>
 
-  <button class="btn-save"
+  <button class="btn-primary"
           ng-click="clearCrossedOutIngredients()">
     Clear Cross-outs
   </button>

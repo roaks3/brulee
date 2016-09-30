@@ -1,19 +1,13 @@
-.boot-btn-primary {
-  background-color: #428bca;
-  border: 1px solid #357ebd;
+.btn-base {
   border-radius: 4px;
-  color: #fff;
   display: inline-block;
   font-size: 14px;
   padding: 6px 12px;
   text-align: center;
+  text-decoration: none;
 
   &:not(:disabled):hover {
-    background-color: #3071a9;
-    border-color: #285e8e;
-    color: #fff;
     cursor: pointer;
-    text-decoration: none;
   }
 
   &:disabled {
@@ -21,10 +15,23 @@
   }
 }
 
+.btn-primary {
+  @extend .btn-base;
+  background-color: #428bca;
+  border: 1px solid #357ebd;
+  color: #fff;
+
+  &:not(:disabled):hover {
+    background-color: #3071a9;
+    border-color: #285e8e;
+  }
+}
+
 .btn-delete {
-  @extend .boot-btn-primary;
+  @extend .btn-base;
   background-color: #d9534f;
-  border-color: #d43f3a;
+  border: 1px solid #d43f3a;
+  color: #fff;
 
   &:not(:disabled):hover {
     background-color: #c9302c;
@@ -32,14 +39,11 @@
   }
 }
 
-.btn-save {
-  @extend .boot-btn-primary;
-}
-
 .btn-external-link {
-  @extend .boot-btn-primary;
+  @extend .btn-base;
   background-color: #5cb85c;
-  border-color: #4cae4c;
+  border: 1px solid #4cae4c;
+  color: #fff;
 
   &:not(:disabled):hover {
     background-color: #449d44;
@@ -48,9 +52,10 @@
 }
 
 .btn-select {
-  @extend .boot-btn-primary;
+  @extend .btn-base;
   background-color: #f0ad4e;
-  border-color: #eea236;
+  border: 1px solid #eea236;
+  color: #fff;
 
   &:not(:disabled):hover {
     background-color: #ec971f;
@@ -59,14 +64,13 @@
 }
 
 .btn-weak {
-  @extend .boot-btn-primary;
+  @extend .btn-base;
   background-color: #fff;
-  border-color: #ccc;
+  border: 1px solid #ccc;
   color: #333;
 
   &:not(:disabled):hover {
     background-color: #e6e6e6;
     border-color: #adadad;
-    color: #333;
   }
 }
