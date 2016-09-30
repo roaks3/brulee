@@ -99,10 +99,10 @@ gulp.task('start:server', function() {
     livereload: true,
     // Change this to '0.0.0.0' to access the server from outside.
     port: 9000,
+    fallback: yeoman.app + '/index.html',
     middleware: function (connect) {
       return [
-        connect().use('/bower_components',connect.static('./bower_components')),
-        connect().use('/app/scripts/custom-lodash-migrate.js',connect.static('./app/scripts/custom-lodash-migrate.js'))
+        connect().use('/bower_components',connect.static('./bower_components'))
       ];
     }
   });
