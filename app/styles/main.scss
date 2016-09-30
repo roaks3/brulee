@@ -4,6 +4,7 @@
 @import 'reset';
 @import 'typography';
 @import 'buttons';
+@import 'links';
 @import 'dropdowns';
 @import 'forms';
 @import 'nav';
@@ -19,4 +20,30 @@
 
 body {
   padding-bottom: 20px;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 1170px;
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 970px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: auto;
+  }
 }
