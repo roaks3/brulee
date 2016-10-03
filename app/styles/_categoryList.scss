@@ -9,9 +9,9 @@
 }
 
 .cat-category-edit {
-  background-color: #d9edf7;
-  border: 1px solid #ddd;
-  color: #31708f;
+  background-color: $brulee-teal-light;
+  border: 1px solid $brulee-grey-lightest;
+  color: $brulee-teal-dark;
   display: flex;
   margin-bottom: -1px;
   padding: 10px 15px;
@@ -22,13 +22,13 @@
 }
 
 .cat-category-ingredient {
-  border: 1px solid #ddd;
+  border: 1px solid $brulee-grey-lightest;
   margin-bottom: -1px;
   padding: 10px 15px;
 }
 
 .cat-category-add-ingredient {
-  border: 1px solid #ddd;
+  border: 1px solid $brulee-grey-lightest;
   margin-bottom: -1px;
   padding: 0 15px;
 }

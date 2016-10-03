@@ -1,5 +1,5 @@
-$navbar-primary-color: rgb(136, 152, 170);
-$navbar-secondary-color: rgb(246, 249, 252);
+$navbar-primary-color: $brulee-blue-grey-medium;
+$navbar-secondary-color: $brulee-blue-grey-light;
 
 .navbar-container {
   background-color: $navbar-secondary-color;
@@ -17,7 +17,7 @@ $navbar-secondary-color: rgb(246, 249, 252);
     text-decoration: none;
 
     &:hover {
-      color: rgb(93, 100, 131);
+      color: $brulee-blue-grey-dark;
     }
   }
 

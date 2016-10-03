@@ -4,7 +4,7 @@
 }
 
 .gl-recipe-days {
-  border: 1px solid #ddd;
+  border: 1px solid $brulee-grey-lightest;
   margin: 20px 0;
 }
 
@@ -18,15 +18,15 @@
 }
 
 .grocery-ingredient-list-category-header {
-  background-color: #d9edf7;
-  border: 1px solid #ddd;
-  color: #31708f;
+  background-color: $brulee-teal-light;
+  border: 1px solid $brulee-grey-lightest;
+  color: $brulee-teal-dark;
   margin-bottom: -1px;
   padding: 10px 15px;
 }
 
 .grocery-ingredient-list-item {
-  border: 1px solid #ddd;
+  border: 1px solid $brulee-grey-lightest;
   margin-bottom: -1px;
   padding: 10px 15px;
 }
@@ -39,7 +39,7 @@
   }
 
   .done {
-    color: rgba(grey, .4);
+    color: rgba($brulee-grey-dark, .4);
   }
 
   .recipe-count {
@@ -49,10 +49,10 @@
     font-size: 12px;
     font-weight: bold;
     line-height: 1;
-    color: #fff;
+    color: $brulee-white;
     text-align: center;
     vertical-align: baseline;
-    background-color: #777;
+    background-color: $brulee-grey-darkest;
     border-radius: 10px;
   }
 }
@@ -61,7 +61,7 @@
   padding: 10px;
 
   .recipe {
-    color: #888888;
+    color: $brulee-grey-dark;
     font-size: 12px;
   }
 }

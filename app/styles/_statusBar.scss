@@ -1,13 +1,13 @@
 .sb-success {
-  background-color: #dff0d8;
-  color: green;
+  background-color: $success-green-light;
+  color: $success-green-dark;
   margin: 0 0 10px 0;
   padding: 10px 20px;
 }
 
 .sb-error-list {
-  background-color: #f2dede;
-  color: red;
+  background-color: $error-red-light;
+  color: $error-red-dark;
   margin: 0 0 10px 0;
   padding: 10px 20px;
 }

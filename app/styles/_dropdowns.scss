@@ -15,7 +15,7 @@
 }
 
 .dropdown-menu {
-  background-color: #fff;
+  background-color: $brulee-white;
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 4px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
@@ -28,7 +28,7 @@
   z-index: 1000;
 
   & > li > a {
-    color: #333;
+    color: $brulee-black-medium;
     display: block;
     padding: 3px 20px;
     text-decoration: none;
@@ -38,8 +38,8 @@
     &,
     &:hover,
     &:focus {
-      background-color: #428bca;
-      color: #fff;
+      background-color: $brulee-blue;
+      color: $brulee-white;
       text-decoration: none;
     }
   }

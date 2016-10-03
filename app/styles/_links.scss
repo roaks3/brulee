@@ -1,10 +1,10 @@
 a {
-  color: #428bca;
+  color: $brulee-blue;
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: #2a6496;
+    color: darken($brulee-blue, 15%);
     text-decoration: underline;
   }
 }

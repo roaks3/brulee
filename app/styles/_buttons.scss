@@ -18,60 +18,60 @@
 
 .btn-primary {
   @extend .btn-base;
-  background-color: #428bca;
-  border: 1px solid #357ebd;
-  color: #fff;
+  background-color: $brulee-blue;
+  border: 1px solid darken($brulee-blue, 5%);
+  color: $brulee-white;
 
   &:not(:disabled):hover {
-    background-color: #3071a9;
-    border-color: #285e8e;
+    background-color: darken($brulee-blue, 10%);
+    border-color: darken($brulee-blue, 17%);
   }
 }
 
 .btn-delete {
   @extend .btn-base;
-  background-color: #d9534f;
-  border: 1px solid #d43f3a;
-  color: #fff;
+  background-color: $brulee-red;
+  border: 1px solid darken($brulee-red, 5%);
+  color: $brulee-white;
 
   &:not(:disabled):hover {
-    background-color: #c9302c;
-    border-color: #ac2925;
+    background-color: darken($brulee-red, 10%);
+    border-color: darken($brulee-red, 17%);
   }
 }
 
 .btn-external-link {
   @extend .btn-base;
-  background-color: #5cb85c;
-  border: 1px solid #4cae4c;
-  color: #fff;
+  background-color: $brulee-green;
+  border: 1px solid darken($brulee-green, 5%);
+  color: $brulee-white;
 
   &:not(:disabled):hover {
-    background-color: #449d44;
-    border-color: #398439;
+    background-color: darken($brulee-green, 10%);
+    border-color: darken($brulee-green, 17%);
   }
 }
 
 .btn-select {
   @extend .btn-base;
-  background-color: #f0ad4e;
-  border: 1px solid #eea236;
-  color: #fff;
+  background-color: $brulee-orange;
+  border: 1px solid darken($brulee-orange, 5%);
+  color: $brulee-white;
 
   &:not(:disabled):hover {
-    background-color: #ec971f;
-    border-color: #d58512;
+    background-color: darken($brulee-orange, 10%);
+    border-color: darken($brulee-orange, 17%);
   }
 }
 
 .btn-weak {
   @extend .btn-base;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  color: #333;
+  background-color: $brulee-white;
+  border: 1px solid $brulee-grey-light;
+  color: $brulee-black-medium;
 
   &:not(:disabled):hover {
-    background-color: #e6e6e6;
-    border-color: #adadad;
+    background-color: $brulee-grey-lightestest;
+    border-color: $brulee-grey-medium-light;
   }
 }
