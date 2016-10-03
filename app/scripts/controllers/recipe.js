@@ -54,7 +54,7 @@ angular.module('bruleeApp')
 
       Recipe
         .update($scope.recipe.id, _.assign(
-          _.pick($scope.recipe, ['name', 'original_text', 'url']),
+          _.pick($scope.recipe, ['name', 'original_text', 'url', 'tags']),
           {recipe_ingredients: recipeIngredients}
         ))
         .then(() => {

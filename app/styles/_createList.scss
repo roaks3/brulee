@@ -24,9 +24,24 @@
 
 .cl-recipe {
   box-shadow: 1px 1px 3px 0 $brulee-grey-light;
-  display: flex;
   margin-bottom: 5px;
   padding: 10px;
+}
+
+.cl-recipe-top {
+  display: flex;
+}
+
+.cl-recipe-bottom {
+  font-size: 12px;
+  padding: 5px 20px;
+
+  span {
+    border-radius: 4px;
+    background-color: purple;
+    color: white;
+    padding: 2px 4px;
+  }
 }
 
 .cl-recipe-select {
