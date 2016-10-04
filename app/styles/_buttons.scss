@@ -9,6 +9,7 @@
 
   &:not(:disabled):hover {
     cursor: pointer;
+    text-decoration: none;
   }
 
   &:disabled {
@@ -25,6 +26,7 @@
   &:not(:disabled):hover {
     background-color: darken($brulee-blue, 10%);
     border-color: darken($brulee-blue, 17%);
+    color: $brulee-white;
   }
 }
 
@@ -37,6 +39,7 @@
   &:not(:disabled):hover {
     background-color: darken($brulee-red, 10%);
     border-color: darken($brulee-red, 17%);
+    color: $brulee-white;
   }
 }
 
@@ -61,6 +64,7 @@
   &:not(:disabled):hover {
     background-color: darken($brulee-orange, 10%);
     border-color: darken($brulee-orange, 17%);
+    color: $brulee-white;
   }
 }
 
@@ -73,5 +77,6 @@
   &:not(:disabled):hover {
     background-color: $brulee-grey-lightestest;
     border-color: $brulee-grey-medium-light;
+    color: $brulee-black-medium;
   }
 }
