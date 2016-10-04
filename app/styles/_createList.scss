@@ -5,7 +5,8 @@
 }
 
 .cl-recipe-list-section {
-  width: 40%;
+  padding-right: 10px;
+  width: 50%;
 }
 
 .cl-recipe-list-header {
@@ -74,8 +75,8 @@
 }
 
 .cl-ingredient-list-section {
-  margin-left: 20px;
-  width: 40%;
+  padding-left: 10px;
+  width: 50%;
 }
 
 .cl-recipe-days {
@@ -93,11 +94,12 @@
   }
 
   .cl-recipe-list-section {
+    padding-right: 0;
     width: 100%;
   }
 
   .cl-ingredient-list-section {
-    margin-left: 0;
+    padding-left: 0;
     width: 100%;
   }
 }
