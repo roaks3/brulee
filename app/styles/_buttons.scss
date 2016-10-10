@@ -45,25 +45,25 @@
 
 .btn-external-link {
   @extend .btn-base;
-  background-color: $brulee-green;
-  border: 1px solid darken($brulee-green, 5%);
+  background-color: $brulee-purple-medium;
+  border: 1px solid darken($brulee-purple-medium, 5%);
   color: $brulee-white;
 
   &:not(:disabled):hover {
-    background-color: darken($brulee-green, 10%);
-    border-color: darken($brulee-green, 17%);
+    background-color: darken($brulee-purple-medium, 10%);
+    border-color: darken($brulee-purple-medium, 17%);
   }
 }
 
 .btn-select {
   @extend .btn-base;
-  background-color: $brulee-orange;
-  border: 1px solid darken($brulee-orange, 5%);
+  background-color: $brulee-green-dark;
+  border: 1px solid darken($brulee-green-dark, 5%);
   color: $brulee-white;
 
   &:not(:disabled):hover {
-    background-color: darken($brulee-orange, 10%);
-    border-color: darken($brulee-orange, 17%);
+    background-color: darken($brulee-green-dark, 10%);
+    border-color: darken($brulee-green-dark, 17%);
     color: $brulee-white;
   }
 }
@@ -72,11 +72,11 @@
   @extend .btn-base;
   background-color: $brulee-white;
   border: 1px solid $brulee-grey-light;
-  color: $brulee-black-medium;
+  color: $brulee-steel-medium-dark;
 
   &:not(:disabled):hover {
-    background-color: $brulee-grey-lightestest;
-    border-color: $brulee-grey-medium-light;
-    color: $brulee-black-medium;
+    background-color: darken($brulee-white, 12%);
+    border-color: darken($brulee-grey-light, 12%);
+    color: $brulee-steel-medium-dark;
   }
 }

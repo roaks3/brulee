@@ -1,36 +1,27 @@
-$brulee-black-medium: #333;
-$brulee-black-light: #555;
+$brulee-blue: #3297d3;
 
-$brulee-blue: #428bca;
+$brulee-green-light: #b9f4bc;
+$brulee-green-medium: #6ed69a;
+$brulee-green-dark: #24b47e;
 
-$brulee-blue-grey-light: #f6f9fc;
-$brulee-blue-grey-medium: #8898aa;
-$brulee-blue-grey-dark: #5d6483;
-
-$brulee-green: #5cb85c;
-
-$brulee-olive-light: #b1d08e;
-$brulee-olive-dark: #51623f;
-
-$brulee-orange: #f0ad4e;
-
-$brulee-red: #d9534f;
-
-$brulee-grey-darkest: #777;
-$brulee-grey-dark: #888;
-$brulee-grey-medium-dark: #999;
-$brulee-grey-medium-light: #adadad;
 $brulee-grey-light: #ccc;
 $brulee-grey-lightest: #ddd;
-$brulee-grey-lightestest: #eee;
 
-$brulee-teal-light: #d9edf7;
-$brulee-teal-dark: #31708f;
+$brulee-purple-medium: #6772e5;
+$brulee-purple-dark: #32325d;
+
+$brulee-red: #d33141;
+
+$brulee-steel-light: #f6f9fc;
+$brulee-steel-medium-light: #8898aa;
+$brulee-steel-medium-dark: #6b7c93;
+$brulee-steel-dark: #5d6483;
 
 $brulee-white: #fff;
 
 $error-red-light: #f2dede;
-$error-red-dark: red;
+$error-red-dark: $brulee-red;
 
-$success-green-light: #dff0d8;
-$success-green-dark: green;
+$success-green-light: $brulee-green-light;
+$success-green-dark: $brulee-green-dark;
+

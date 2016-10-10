@@ -18,9 +18,9 @@
 }
 
 .grocery-ingredient-list-category-header {
-  background-color: $brulee-teal-light;
+  background-color: $brulee-steel-light;
   border: 1px solid $brulee-grey-lightest;
-  color: $brulee-teal-dark;
+  color: $brulee-purple-medium;
   margin-bottom: -1px;
   padding: 10px 15px;
 }
@@ -35,11 +35,12 @@
   display: flex;
 
   .name {
+    color: $brulee-steel-medium-dark;
     flex-grow: 1;
   }
 
   .done {
-    color: rgba($brulee-grey-dark, .4);
+    color: $brulee-grey-light;
   }
 
   .recipe-count {
@@ -52,7 +53,7 @@
     color: $brulee-white;
     text-align: center;
     vertical-align: baseline;
-    background-color: $brulee-grey-darkest;
+    background-color: $brulee-steel-medium-dark;
     border-radius: 10px;
   }
 }
@@ -61,7 +62,7 @@
   padding: 10px;
 
   .recipe {
-    color: $brulee-grey-dark;
+    color: $brulee-steel-medium-light;
     font-size: 12px;
   }
 }

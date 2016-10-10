@@ -3,16 +3,12 @@ input[type=text] {
   border: 1px solid $brulee-grey-light;
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  color: $brulee-black-light;
+  color: $brulee-steel-medium-dark;
   display: block;
   font-family: $source-sans-pro;
   font-size: 14px;
   height: 34px;
   padding: 6px 12px;
-
-  &::placeholder {
-    color: $brulee-grey-medium-dark;
-  }
 }
 
 .ingredient-form {

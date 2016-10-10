@@ -3,8 +3,8 @@
   width: 60%;
 
   header {
-    background-color: rgba($brulee-olive-light, .3);
-    color: $brulee-olive-dark;
+    background-color: rgba($brulee-green-light, .3);
+    color: $brulee-green-dark;
     font-size: 12px;
     letter-spacing: 1px;
     line-height: 20px;
@@ -54,6 +54,7 @@
 
 .re-recipe-original-text {
   box-shadow: 1px 1px 3px 0 $brulee-grey-light;
+  color: $brulee-steel-medium-dark;
   margin-bottom: 40px;
   margin-top: 10px;
   padding: 10px 20px;

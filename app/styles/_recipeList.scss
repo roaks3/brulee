@@ -4,8 +4,8 @@
 }
 
 .rl-recipe-list-header {
-  background-color: rgba($brulee-olive-light, .3);
-  color: $brulee-olive-dark;
+  background-color: rgba($brulee-green-light, .3);
+  color: $brulee-green-dark;
   font-size: 12px;
   letter-spacing: 1px;
   line-height: 20px;
@@ -14,7 +14,7 @@
 }
 
 .rl-recipe-filter[type=text] {
-  border: 1px solid $brulee-grey-lightestest;
+  border: 1px solid $brulee-grey-lightest;
   margin: 10px 10px 0 10px;
   padding: 5px 30px;
   width: calc(100% - 20px);
@@ -38,7 +38,7 @@
 }
 
 .rl-recipe-title {
-  color: $brulee-black-light;
+  color: $brulee-steel-medium-dark;
   padding-left: 20px;
 }
 
