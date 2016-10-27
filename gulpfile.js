@@ -241,7 +241,7 @@ gulp.task('copy:fonts', function () {
     .pipe(gulp.dest(yeoman.dist + '/fonts'));
 });
 
-gulp.task('build', ['clean:dist'], function () {
+gulp.task('build', ['clean:dist', 'bower'], function () {
   runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build']);
 });
 
