@@ -1,10 +1,7 @@
 <section class="grocery-list-section">
 
-  <a class="btn-primary"
-     ui-sref="grocery({id: groceryList.id})"
-     ng-repeat="groceryList in groceryLists">
-    {{groceryList.week_start}}
-  </a>
+  <grocery-list-select>
+  </grocery-list-select>
 
   <ul class="gl-recipe-days">
     <li class="gl-recipe-day"
