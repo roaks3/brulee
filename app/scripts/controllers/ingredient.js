@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('IngredientCtrl', function ($stateParams, $scope, $window,
+  .controller('IngredientCtrl', function ($state, $stateParams, $scope, $window,
                                           Category, categoryService, Ingredient,
                                           Recipe, recipeService) {
 
@@ -58,8 +58,7 @@ angular.module('bruleeApp')
 
       Ingredient.destroy($scope.ingredient.id)
         .then(function () {
-          $scope.successMessage = 'Deleted ingredient';
-          // TODO: Redirect back to ingredient page
+          $state.go('ingredients');
         })
         .catch(function (error) {
           $scope.errors.push(error);

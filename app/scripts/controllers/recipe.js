@@ -2,7 +2,7 @@
 
 angular.module('bruleeApp')
 
-  .controller('RecipeCtrl', ($q, $stateParams, $scope, $window, Category, categoryService, Recipe) => {
+  .controller('RecipeCtrl', ($q, $state, $stateParams, $scope, $window, Category, categoryService, Recipe) => {
 
     $scope.errors = [];
     $scope.successMessage = null;
@@ -32,8 +32,7 @@ angular.module('bruleeApp')
       Recipe
         .destroy($scope.recipe.id)
         .then(() => {
-          $scope.successMessage = 'Deleted recipe';
-          // TODO: Redirect back to recipe page
+          $state.go('recipes');
         })
         .catch((error) => {
           $scope.errors.push(error);
