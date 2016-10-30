@@ -16,27 +16,23 @@ angular.module('bruleeApp')
         .find(id)
         .then((data) => {
           $scope.groceryList = data;
-          if ($scope.groceryList) {
-            $scope.groceryList.recipe_days = _.sortBy($scope.groceryList.recipe_days, 'day_of_week');
-            groceryIngredientService
-              .generate($scope.groceryList)
-              .then((data) => {
-                $scope.groceryIngredients = data;
-              });
-          } else {
-            $scope.groceryList = {};
-            $scope.groceryIngredients = {};
-          }
+          $scope.groceryList.recipe_days = _.sortBy($scope.groceryList.recipe_days, 'day_of_week');
+          return groceryIngredientService
+            .generate($scope.groceryList)
+            .then((data) => {
+              $scope.groceryIngredients = data;
+            });
+        })
+        .catch((error) => {
+          $scope.errors.push(error);
+          $scope.groceryList = {};
+          $scope.groceryIngredients = {};
         });
     };
 
     $scope.init = function () {
       if ($stateParams.id) {
-        $scope
-          .selectGroceryList($stateParams.id)
-          .catch((error) => {
-            $scope.errors.push(error);
-          });
+        $scope.selectGroceryList($stateParams.id);
       }
     };
 
