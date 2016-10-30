@@ -34,7 +34,7 @@ angular.module('bruleeApp')
         .value();
 
       $scope.newGroceryList = {
-        week_start: moment().day(0).format('MM/DD'),
+        week_start: moment().day(0).format('YYYY-MM-DD'),
         recipe_days: _.map(selectedRecipes, function (recipe) {
           return {
             recipe_id: recipe.id,
