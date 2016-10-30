@@ -18,4 +18,9 @@ input[type=text] {
   button {
     @extend .btn-primary;
   }
+
+  .ingredient-typeahead.valid {
+    background-color: rgba($brulee-green-light, .3);
+    border-color: $brulee-green-medium;
+  }
 }

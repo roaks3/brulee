@@ -30,6 +30,10 @@ class IngredientTypeaheadCtrl {
     this.onSelect({ingredient: this._selectedIngredient});
   }
 
+  isValid () {
+    return this._selectedIngredient && this._selectedIngredient.id;
+  }
+
 }
 
 angular.module('bruleeApp')
