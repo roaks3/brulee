@@ -1,5 +1,7 @@
-<a class="btn-primary"
-   ui-sref="grocery({id: groceryList.id})"
-   ng-repeat="groceryList in vm.groceryLists">
-  {{groceryList.week_start}}
-</a>
+<div class="grocery-list-select-container">
+  <a class="btn-primary"
+     ui-sref="grocery({id: groceryList.id})"
+     ng-repeat="groceryList in vm.groceryLists">
+    {{vm.displayName(groceryList)}}
+  </a>
+</div>
