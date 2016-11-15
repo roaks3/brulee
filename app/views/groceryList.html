@@ -3,17 +3,9 @@
   <grocery-list-select>
   </grocery-list-select>
 
-  <ul class="gl-recipe-days">
-    <li class="gl-recipe-day"
-        ng-repeat="recipeDay in groceryList.recipe_days">
-
-      <recipe-day-input
-        recipe-day="recipeDay"
-        input-disabled="true">
-      </recipe-day-input>
-
-    </li>
-  </ul>
+  <recipe-schedule
+    recipe-days="groceryList.recipe_days">
+  </recipe-schedule>
 
   <add-ingredient-form
     on-add="addIngredient(ingredient)">
