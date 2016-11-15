@@ -51,8 +51,12 @@ angular.module('bruleeApp')
     };
 
     $scope.saveGroceryList = function () {
+      $scope.errors = [];
+      $scope.successMessage = null;
+
       if ($scope.newGroceryList.id) {
         //GroceryList.update($scope.newGroceryList);
+        $scope.errors.push('Cannot update the grocery list in this view');
       } else {
         GroceryList
           .create({
@@ -63,6 +67,12 @@ angular.module('bruleeApp')
                 day_of_week: recipeDay.day_of_week
               };
             })
+          })
+          .then(() => {
+            $scope.successMessage = 'Grocery list saved';
+          })
+          .catch((error) => {
+            $scope.errors.push(error);
           });
       }
     };
