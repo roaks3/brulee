@@ -1,11 +1,9 @@
-<ul class="gl-recipe-days">
-  <li class="gl-recipe-day"
-      ng-repeat="recipeDay in vm.recipeDays">
+<ul class="recipe-schedule-days">
 
-    <recipe-day-input
-      recipe-day="recipeDay"
-      input-disabled="true">
-    </recipe-day-input>
+  <recipe-schedule-day
+    ng-repeat="day in vm.days"
+    day-of-week="day"
+    recipes="vm.recipesByDay[day]">
+  </recipe-schedule-day>
 
-  </li>
 </ul>

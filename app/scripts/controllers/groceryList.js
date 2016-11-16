@@ -16,7 +16,6 @@ angular.module('bruleeApp')
         .find(id)
         .then((data) => {
           $scope.groceryList = data;
-          $scope.groceryList.recipe_days = _.sortBy($scope.groceryList.recipe_days, 'day_of_week');
           return groceryIngredientService
             .generate($scope.groceryList)
             .then((data) => {

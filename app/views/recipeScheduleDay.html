@@ -1,0 +1,20 @@
+<li class="recipe-schedule-day">
+
+  <h1 ng-class="{today: vm.isToday}">
+    {{vm.dayName}}
+  </h1>
+
+  <ul class="recipe-schedule-day-recipes">
+    <li ng-repeat="recipe in vm.recipes">
+      <a ui-sref="recipe({id: recipe.id})">
+        {{recipe.name}}
+      </a>
+      <a ng-if="recipe.url"
+         ng-href="{{recipe.url}}"
+         target="blank">
+        [Link]
+      </a>
+    </li>
+  </ul>
+
+</li>
