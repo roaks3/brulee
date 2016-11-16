@@ -4,23 +4,32 @@
     selected-grocery-list-id="groceryList.id">
   </grocery-list-select>
 
-  <recipe-schedule
-    recipe-days="groceryList.recipe_days">
-  </recipe-schedule>
+  <section class="grocery-list-view-section">
 
-  <add-ingredient-form
-    on-add="addIngredient(ingredient)">
-  </add-ingredient-form>
+    <section class="grocery-list-ingredient-section">
 
-  <button class="btn-primary"
-          ng-click="clearCrossedOutIngredients()">
-    Clear Cross-outs
-  </button>
+      <add-ingredient-form
+        on-add="addIngredient(ingredient)">
+      </add-ingredient-form>
 
-  <grocery-ingredient-list
-    grocery-ingredients="groceryIngredients"
-    crossed-out-ingredients="crossedOutIngredients"
-    on-cross-out="crossOut(ingredient)">
-  </grocery-ingredient-list>
+      <button class="btn-primary"
+              ng-click="clearCrossedOutIngredients()">
+        Clear Cross-outs
+      </button>
+
+      <grocery-ingredient-list
+        grocery-ingredients="groceryIngredients"
+        crossed-out-ingredients="crossedOutIngredients"
+        on-cross-out="crossOut(ingredient)">
+      </grocery-ingredient-list>
+
+    </section>
+
+    <recipe-schedule
+      ng-if="groceryList.recipe_days"
+      class="grocery-list-schedule-section"
+      recipe-days="groceryList.recipe_days">
+    </recipe-schedule>
+  </section>
 
 </section>
