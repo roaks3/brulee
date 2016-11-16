@@ -1,0 +1,13 @@
+.grocery-list-select-container {
+  height: 34px;
+}
+
+.grocery-list-select-collapsed {
+}
+
+.grocery-list-select-expanded {
+  .btn-primary,
+  .btn-select {
+    margin-right: 10px;
+  }
+}

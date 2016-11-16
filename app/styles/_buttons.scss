@@ -7,7 +7,8 @@
   text-align: center;
   text-decoration: none;
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     cursor: pointer;
     text-decoration: none;
   }
@@ -23,7 +24,8 @@
   border: 1px solid darken($brulee-blue, 5%);
   color: $brulee-white;
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: darken($brulee-blue, 10%);
     border-color: darken($brulee-blue, 17%);
     color: $brulee-white;
@@ -36,7 +38,8 @@
   border: 1px solid darken($brulee-red, 5%);
   color: $brulee-white;
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: darken($brulee-red, 10%);
     border-color: darken($brulee-red, 17%);
     color: $brulee-white;
@@ -49,7 +52,8 @@
   border: 1px solid darken($brulee-purple-medium, 5%);
   color: $brulee-white;
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: darken($brulee-purple-medium, 10%);
     border-color: darken($brulee-purple-medium, 17%);
   }
@@ -61,7 +65,8 @@
   border: 1px solid darken($brulee-green-dark, 5%);
   color: $brulee-white;
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: darken($brulee-green-dark, 10%);
     border-color: darken($brulee-green-dark, 17%);
     color: $brulee-white;
@@ -74,9 +79,26 @@
   border: 1px solid $brulee-grey-light;
   color: $brulee-steel-medium-dark;
 
-  &:not(:disabled):hover {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: darken($brulee-white, 12%);
     border-color: darken($brulee-grey-light, 12%);
     color: $brulee-steel-medium-dark;
+  }
+}
+
+.btn-link {
+  background-color: transparent;
+  border: none;
+  color: $brulee-blue;
+  font-family: $source-sans-pro;
+  font-size: 12px;
+  padding: 5px;
+
+  &:hover,
+  &:focus {
+    color: darken($brulee-blue, 15%);
+    cursor: pointer;
+    text-decoration: underline;
   }
 }

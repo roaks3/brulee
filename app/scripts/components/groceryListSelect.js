@@ -12,12 +12,17 @@ class GroceryListSelectCtrl {
       .refreshAll()
       .then((data) => {
         this.groceryLists = _.takeRight(_.sortBy(data, 'week_start'), 4);
+        this.selectedGroceryList = this.GroceryList.get(this.selectedGroceryListId);
       });
+  }
+
+  openOptions () {
+    this.showOptions = true;
   }
 
   displayName (groceryList) {
     if (!groceryList || !groceryList.week_start) {
-      return '';
+      return 'Unknown';
     }
 
     let weekStartMoment = moment(groceryList.week_start, 'YYYY-MM-DD');
@@ -32,10 +37,17 @@ class GroceryListSelectCtrl {
     }
   }
 
+  isSelected (groceryList) {
+    return this.selectedGroceryListId === groceryList.id;
+  }
+
 }
 
 angular.module('bruleeApp')
   .component('groceryListSelect', {
+    bindings: {
+      selectedGroceryListId: '<'
+    },
     controller: GroceryListSelectCtrl,
     controllerAs: 'vm',
     templateUrl: 'views/groceryListSelect.html'
