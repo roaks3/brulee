@@ -1,0 +1,19 @@
+<section>
+
+  <add-ingredient-form
+    on-add="addIngredient(ingredient)">
+  </add-ingredient-form>
+
+  <button class="btn-primary"
+          ng-click="clearCrossedOutIngredients()">
+    Clear Cross-outs
+  </button>
+
+  <grocery-ingredient-list
+    ng-if="vm.groceryIngredients"
+    grocery-ingredients="vm.groceryIngredients"
+    crossed-out-ingredients="vm.crossedOutIngredients"
+    on-cross-out="vm.crossOut(ingredient)">
+  </grocery-ingredient-list>
+
+</section>

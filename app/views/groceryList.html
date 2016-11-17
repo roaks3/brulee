@@ -1,3 +1,7 @@
+<status-bar
+  errors="errors">
+</status-bar>
+
 <section class="grocery-list-section">
 
   <grocery-list-select
@@ -6,24 +10,12 @@
 
   <section class="grocery-list-view-section">
 
-    <section class="grocery-list-ingredient-section">
-
-      <add-ingredient-form
-        on-add="addIngredient(ingredient)">
-      </add-ingredient-form>
-
-      <button class="btn-primary"
-              ng-click="clearCrossedOutIngredients()">
-        Clear Cross-outs
-      </button>
-
-      <grocery-ingredient-list
-        grocery-ingredients="groceryIngredients"
-        crossed-out-ingredients="crossedOutIngredients"
-        on-cross-out="crossOut(ingredient)">
-      </grocery-ingredient-list>
-
-    </section>
+    <grocery-ingredient-panel
+      ng-if="groceryList"
+      class="grocery-list-ingredient-section"
+      grocery-list="groceryList"
+      on-error="setError(error)">
+    </grocery-ingredient-panel>
 
     <recipe-schedule
       ng-if="groceryList.recipe_days"
