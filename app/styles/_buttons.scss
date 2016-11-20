@@ -76,13 +76,13 @@
 .btn-weak {
   @extend .btn-base;
   background-color: $brulee-white;
-  border: 1px solid $brulee-grey-light;
+  border: 1px solid lighten($brulee-steel-medium-dark, 30%);
   color: $brulee-steel-medium-dark;
 
   &:not(:disabled):hover,
   &:not(:disabled):focus {
-    background-color: darken($brulee-white, 12%);
-    border-color: darken($brulee-grey-light, 12%);
+    background-color: lighten($brulee-steel-medium-dark, 45%);
+    border-color: lighten($brulee-steel-medium-dark, 13%);
     color: $brulee-steel-medium-dark;
   }
 }

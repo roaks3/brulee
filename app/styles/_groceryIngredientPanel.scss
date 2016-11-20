@@ -1,0 +1,25 @@
+.grocery-ingredient-panel {
+  .ingredient-form {
+    padding: 0;
+
+    .ingredient-typeahead {
+      width: 230px;
+    }
+  }
+}
+
+.grocery-ingredient-panel-menu {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  .btn-weak {
+    margin-right: 10px;
+    padding: 5px 10px;
+  }
+
+  .fa-undo,
+  .fa-plus {
+    margin-right: 6px;
+  }
+}

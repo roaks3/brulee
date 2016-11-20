@@ -22,6 +22,10 @@ class GroceryIngredientPanelCtrl {
       });
   }
 
+  openAddIngredient () {
+    this.showAddIngredient = true;
+  }
+
   addIngredient (ingredient) {
     this.groceryList.additional_ingredients = this.groceryList.additional_ingredients || [];
     this.groceryList.additional_ingredients.push({
