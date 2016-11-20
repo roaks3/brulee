@@ -150,7 +150,7 @@ gulp.task('watch', function () {
     .pipe($.plumber())
     .pipe(lintScripts());
 
-  gulp.watch('bower.json', ['bower']);
+  gulp.watch('bower.json', ['bower', 'bower:sass']);
 });
 
 gulp.task('serve', function (cb) {
@@ -185,6 +185,12 @@ gulp.task('bower', function () {
       ignorePath: '../'
     }))
     .pipe(gulp.dest(yeoman.app));
+});
+
+gulp.task('bower:sass', function () {
+  return gulp.src(yeoman.app + '/styles/main.scss')
+    .pipe(wiredep())
+    .pipe(gulp.dest(yeoman.app + '/styles'));
 });
 
 ///////////
@@ -241,7 +247,7 @@ gulp.task('copy:fonts', function () {
     .pipe(gulp.dest(yeoman.dist + '/fonts'));
 });
 
-gulp.task('build', ['clean:dist', 'bower'], function () {
+gulp.task('build', ['clean:dist', 'bower', 'bower:sass'], function () {
   runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build']);
 });
 
