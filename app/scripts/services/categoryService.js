@@ -21,11 +21,7 @@ angular.module('bruleeApp.services')
     this.updateAll = function (categories) {
       return $q.all(
         _.map(categories, function (category) {
-          return Category.update(category.id, {
-            name: category.name,
-            order: category.order,
-            ingredient_ids: category.ingredient_ids
-          });
+          return Category.update(category.id, _.pick(category, ['name', 'order', 'ingredient_ids']));
         })
       );
     };

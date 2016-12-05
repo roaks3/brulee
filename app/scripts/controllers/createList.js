@@ -62,10 +62,7 @@ angular.module('bruleeApp')
           .create({
             week_start: $scope.newGroceryList.week_start,
             recipe_days: _.map($scope.newGroceryList.recipe_days, function (recipeDay) {
-              return {
-                recipe_id: recipeDay.recipe_id,
-                day_of_week: recipeDay.day_of_week
-              };
+              return _.pick(recipeDay, ['recipe_id', 'day_of_week']);
             })
           })
           .then(() => {

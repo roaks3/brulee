@@ -34,11 +34,11 @@ class GroceryIngredientPanelCtrl {
     });
 
     this.GroceryList
-      .update(this.groceryList.id, {
-        week_start: this.groceryList.week_start,
-        recipe_days: this.groceryList.recipe_days,
-        additional_ingredients: this.groceryList.additional_ingredients
-      })
+      .update(this.groceryList.id, _.pick(this.groceryList, [
+        'week_start',
+        'recipe_days',
+        'additional_ingredients'
+      ]))
       .catch((error) => {
         this.onError({error});
       });

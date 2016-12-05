@@ -68,17 +68,17 @@ angular.module('bruleeApp')
         })
         .then(function () {
           return Recipe
-            .create({
-              name: $scope.recipe.name,
-              original_text: $scope.recipe.original_text,
-              url: $scope.recipe.url,
-              recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
-                return {
-                  ingredient_id: recipeIngredient.ingredient.id,
-                  amount: recipeIngredient.amount
-                };
-              })
-            })
+            .create(_.assign(
+              _.pick($scope.recipe, ['name', 'original_text', 'url']),
+              {
+                recipe_ingredients: _.map($scope.recipe.recipe_ingredients, function (recipeIngredient) {
+                  return {
+                    ingredient_id: recipeIngredient.ingredient.id,
+                    amount: recipeIngredient.amount
+                  };
+                })
+              }
+            ))
             .then(function () {
               $scope.successMessage = 'Recipe saved!';
             });
