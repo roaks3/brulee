@@ -42,13 +42,11 @@ angular.module('bruleeApp', [
       })
       .state('groceries', {
         url: '/grocery',
-        templateUrl: 'views/groceryList.html',
-        controller: 'GroceryListCtrl'
+        template: '<grocery-list-page></grocery-list-page>'
       })
       .state('grocery', {
         url: '/grocery/:id',
-        templateUrl: 'views/groceryList.html',
-        controller: 'GroceryListCtrl'
+        template: '<grocery-list-page></grocery-list-page>'
       })
       .state('ingredients', {
         url: '/ingredient',

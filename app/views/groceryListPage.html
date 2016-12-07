@@ -1,26 +1,26 @@
 <status-bar
-  errors="errors">
+  errors="vm.errors">
 </status-bar>
 
 <section class="grocery-list-section">
 
   <grocery-list-select
-    selected-grocery-list-id="groceryList.id">
+    selected-grocery-list-id="vm.groceryList.id">
   </grocery-list-select>
 
   <section class="grocery-list-view-section">
 
     <grocery-ingredient-panel
-      ng-if="groceryList"
+      ng-if="vm.groceryList"
       class="grocery-list-ingredient-section"
-      grocery-list="groceryList"
-      on-error="setError(error)">
+      grocery-list="vm.groceryList"
+      on-error="vm.setError(error)">
     </grocery-ingredient-panel>
 
     <recipe-schedule
-      ng-if="groceryList.recipe_days"
+      ng-if="vm.groceryList.recipe_days"
       class="grocery-list-schedule-section"
-      recipe-days="groceryList.recipe_days">
+      recipe-days="vm.groceryList.recipe_days">
     </recipe-schedule>
   </section>
 
