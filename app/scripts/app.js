@@ -60,8 +60,7 @@ angular.module('bruleeApp', [
       })
       .state('recipes', {
         url: '/recipe',
-        templateUrl: 'views/recipeList.html',
-        controller: 'RecipeListCtrl'
+        template: '<recipe-list-page></recipe-list-page>'
       })
       .state('recipe', {
         url: '/recipe/:id',

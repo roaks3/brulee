@@ -1,6 +1,5 @@
 <status-bar
-  errors="errors"
-  success-message="successMessage">
+  errors="vm.errors">
 </status-bar>
 
 <section class="rl-recipe-list-section">
@@ -12,12 +11,12 @@
   <input type="text"
          class="rl-recipe-filter"
          placeholder="Filter recipes"
-         ng-change="filterRecipes()"
-         ng-model="recipeSearch.str">
+         ng-change="vm.filterRecipes()"
+         ng-model="vm.recipeSearch.str">
 
   <ul class="rl-recipe-list">
     <li class="rl-recipe"
-        ng-repeat="recipe in filteredRecipes">
+        ng-repeat="recipe in vm.filteredRecipes">
 
       <div class="rl-recipe-select">
         <div class="rl-recipe-title">
