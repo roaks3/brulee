@@ -50,8 +50,7 @@ angular.module('bruleeApp', [
       })
       .state('ingredients', {
         url: '/ingredient',
-        templateUrl: 'views/ingredientList.html',
-        controller: 'IngredientListCtrl'
+        template: '<ingredient-list-page></ingredient-list-page>'
       })
       .state('ingredient', {
         url: '/ingredient/:id',
