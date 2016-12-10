@@ -1,50 +1,50 @@
 <status-bar
-  errors="errors"
-  success-message="successMessage">
+  errors="vm.errors"
+  success-message="vm.successMessage">
 </status-bar>
 
 <section class="recipe-edit-section">
 
-  <button class="btn-delete" ng-click="delete()">
+  <button class="btn-delete" ng-click="vm.delete()">
     Delete
   </button>
 
-  <button class="btn-primary" ng-click="save()">
+  <button class="btn-primary" ng-click="vm.save()">
     Save
   </button>
 
   <a class="btn-external-link"
-     ng-href="{{recipe.url}}"
-     ng-show="recipe.url">
+     ng-href="{{vm.recipe.url}}"
+     ng-show="vm.recipe.url">
     Link
   </a>
 
   <div class="re-recipe-title">
-    <input type="text" ng-model="recipe.name">
+    <input type="text" ng-model="vm.recipe.name">
   </div>
 
   <div class="re-recipe-link">
-    <input type="text" ng-model="recipe.url">
+    <input type="text" ng-model="vm.recipe.url">
   </div>
 
   <div class="re-recipe-tags">
-    <input type="text" ng-model="recipe.tags">
+    <input type="text" ng-model="vm.recipe.tags">
   </div>
 
   <header class="re-recipe-ingredient-title">
     Ingredients
   </header>
 
-  <button class="re-add-ingredient-button" ng-click="addRecipeIngredient()">
+  <button class="re-add-ingredient-button" ng-click="vm.addRecipeIngredient()">
     Add Ingredient
   </button>
 
   <section class="re-recipe-ingredient-list">
     <recipe-ingredient-input
-      ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
+      ng-repeat="recipe_ingredient in vm.recipe.recipe_ingredients"
       recipe-ingredient="recipe_ingredient"
-      on-remove="removeRecipeIngredient(recipe_ingredient)"
-      on-ingredient-change="updateRecipeIngredient(recipe_ingredient, ingredientId)">
+      on-remove="vm.removeRecipeIngredient(recipe_ingredient)"
+      on-ingredient-change="vm.updateRecipeIngredient(recipe_ingredient, ingredientId)">
     </recipe-ingredient-input>
   </section>
 
@@ -53,7 +53,7 @@
   </header>
 
   <section class="re-recipe-original-text">
-    <p ng-repeat="originalTextLine in originalTextLines">
+    <p ng-repeat="originalTextLine in vm.originalTextLines">
       {{originalTextLine}}
     </p>
   </section>

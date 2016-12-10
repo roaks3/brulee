@@ -63,8 +63,7 @@ angular.module('bruleeApp', [
       })
       .state('recipe', {
         url: '/recipe/:id',
-        templateUrl: 'views/recipe.html',
-        controller: 'RecipeCtrl'
+        template: '<recipe-page></recipe-page>'
       });
 
     var databaseName = 'heroku_r2q4kcbs';
