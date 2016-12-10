@@ -1,0 +1,27 @@
+<status-bar
+  errors="vm.errors"
+  success-message="vm.successMessage">
+</status-bar>
+
+<button class="btn-delete" ng-click="vm.delete()">
+  Delete
+</button>
+
+<button class="btn-primary" ng-click="vm.save()">
+  Save
+</button>
+
+<h1>
+  <input type="text" ng-model="vm.ingredientName">
+</h1>
+
+<div>
+  <category-select
+    selected-category="vm.category"
+    input-disabled="true">
+  </category-select>
+</div>
+
+<h4 ng-repeat="recipe in vm.recipes">
+  {{recipe.name}}
+</h4>
