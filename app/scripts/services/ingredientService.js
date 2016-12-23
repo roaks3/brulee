@@ -19,6 +19,17 @@ angular.module('bruleeApp.services')
         });
     };
 
+    this.findAllIngredientsById = ids => {
+      return Ingredient
+        .findAll({
+          q: {
+            _id: {
+              $in: _.map(ids, id => ({ $oid: id }))
+            }
+          }
+        });
+    };
+
     return this;
 
   });
