@@ -3,40 +3,42 @@
 
 angular.module('bruleeApp')
 
-  .controller('CategoryCtrl', function ($scope, $window, Category, categoryService, Ingredient) {
+  .controller('CategoryCtrl', function ($q, $scope, $window, categoryPageStore) {
 
     $scope.errors = [];
     $scope.successMessage = null;
 
     $scope.categories = [];
-    Category.refreshAll()
-      .then(function (data) {
-        $scope.categories = data;
+    $q.all([
+      categoryPageStore.fetchAllCategories(),
+      categoryPageStore.fetchAllIngredients()
+    ])
+      .then(() => {
+        $scope.categories = categoryPageStore.categories;
       })
-      .catch(function (error) {
+      .catch(error => {
         $scope.errors.push(error);
       });
 
-    Ingredient.refreshAll();
-
-    $scope.getIngredient = (id) => {
-      return Ingredient.get(id) || {};
+    $scope.getIngredient = id => {
+      return categoryPageStore.getIngredient(id);
     };
 
-    $scope.saveCategories = function () {
+    $scope.saveCategories = () => {
       $scope.errors = [];
       $scope.successMessage = null;
 
-      categoryService.updateAll($scope.categories)
-        .then(function () {
+      categoryPageStore
+        .saveAllCategories()
+        .then(() => {
           $scope.successMessage = 'Saved all categories';
         })
-        .catch(function (error) {
+        .catch(error => {
           $scope.errors.push(error);
         });
     };
 
-    $scope.addCategory = function (categoryName) {
+    $scope.addCategory = categoryName => {
       if (!$window.confirm('Add a new category named \'' + categoryName + '\'?')) {
         return;
       }
@@ -44,21 +46,18 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      Category
-        .create({
-          name: categoryName,
-          order: categoryService.size() + 1,
-          ingredient_ids: []
-        })
-        .then(function () {
+      categoryPageStore
+        .createCategory(categoryName)
+        .then(() => {
+          $scope.categories = categoryPageStore.categories;
           $scope.successMessage = 'Created category';
         })
-        .catch(function (error) {
+        .catch(error => {
           $scope.errors.push(error);
         });
     };
 
-    $scope.removeCategory = function (categoryId) {
+    $scope.removeCategory = categoryId => {
       if (!$window.confirm('Remove this category?')) {
         return;
       }
@@ -66,35 +65,23 @@ angular.module('bruleeApp')
       $scope.errors = [];
       $scope.successMessage = null;
 
-      Category.destroy(categoryId)
-        .then(function () {
+      categoryPageStore
+        .destroyCategory(categoryId)
+        .then(() => {
+          $scope.categories = categoryPageStore.categories;
           $scope.successMessage = 'Deleted category';
         })
-        .catch(function (error) {
+        .catch(error => {
           $scope.errors.push(error);
         });
     };
 
-    $scope.addIngredient = function (category, ingredient) {
-      if (!$window.confirm('Add \'' + ingredient.name + '\' to \'' + category.name + '\'?')) {
-        return;
-      }
-
-      if (!_.find(category.ingredient_ids, ingredient.id)) {
-        // Remove ingredient from all other categories
-        _.each($scope.categories, function (otherCategory) {
-          _.pull(otherCategory.ingredient_ids, ingredient.id);
-        });
-
-        // Add ingredient to this category
-        category.ingredient_ids.push(ingredient.id);
-      } else {
-        $window.alert('This ingredient already exists in this category');
-      }
+    $scope.addIngredient = (category, ingredient) => {
+      categoryPageStore.addIngredientToCategory(ingredient.id, category);
     };
 
-    $scope.removeIngredient = function (category, ingredientId) {
-      _.pull(category.ingredient_ids, ingredientId);
+    $scope.removeIngredient = (category, ingredientId) => {
+      categoryPageStore.removeIngredientFromCategory(ingredientId, category);
     };
 
   });
