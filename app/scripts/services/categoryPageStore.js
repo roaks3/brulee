@@ -52,28 +52,29 @@ class CategoryPageStore {
       });
   }
 
-  addIngredientToCategory (ingredientId, category) {
+  addIngredientToCategory (ingredientId, categoryId) {
     // Remove ingredient from all other categories
     _.each(this.categories, otherCategory => {
       this.removeIngredientFromCategory(ingredientId, otherCategory);
     });
 
     // Add ingredient to this category
-    const categoryIndex = this.categories.findIndex(c => c.id === category.id);
+    const categoryIndex = this.categories.findIndex(c => c.id === categoryId);
     this.categories[categoryIndex] = Object.assign({}, this.categories[categoryIndex], {
       ingredient_ids: [...this.categories[categoryIndex].ingredient_ids, ingredientId]
     });
   }
 
-  removeIngredientFromCategory (ingredientId, category) {
-    const categoryIndex = this.categories.findIndex(c => c.id === category.id);
+  removeIngredientFromCategory (ingredientId, categoryId) {
+    const categoryIndex = this.categories.findIndex(c => c.id === categoryId);
     this.categories[categoryIndex] = Object.assign({}, this.categories[categoryIndex], {
       ingredient_ids: this.categories[categoryIndex].ingredient_ids.filter(id => id !== ingredientId)
     });
   }
 
-  getIngredient (id) {
-    return this.Ingredient.get(id) || {};
+  getIngredientsForCategory (categoryId) {
+    const category = this.categories.find(category => category.id === categoryId);
+    return this.ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id));
   }
 
 }

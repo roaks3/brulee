@@ -20,10 +20,6 @@ angular.module('bruleeApp')
         $scope.errors.push(error);
       });
 
-    $scope.getIngredient = id => {
-      return categoryPageStore.getIngredient(id);
-    };
-
     $scope.saveCategories = () => {
       $scope.errors = [];
       $scope.successMessage = null;
@@ -74,14 +70,6 @@ angular.module('bruleeApp')
         .catch(error => {
           $scope.errors.push(error);
         });
-    };
-
-    $scope.addIngredient = (category, ingredient) => {
-      categoryPageStore.addIngredientToCategory(ingredient.id, category);
-    };
-
-    $scope.removeIngredient = (category, ingredientId) => {
-      categoryPageStore.removeIngredientFromCategory(ingredientId, category);
     };
 
   });

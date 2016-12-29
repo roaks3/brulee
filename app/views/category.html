@@ -5,38 +5,6 @@
 
 <section class="cat-main-section">
 
-  <section class="cat-list-section">
-
-    <ul ng-repeat="category in categories">
-
-      <li class="cat-category-edit">
-        <input type="text"
-               ng-model="category.name">
-        <button class="btn-delete"
-                ng-click="removeCategory(category.id)">
-          Remove
-        </button>
-      </li>
-
-      <li class="cat-category-ingredient"
-          ng-repeat="ingredientId in category.ingredient_ids">
-        {{getIngredient(ingredientId).name}}
-        <button class="btn-delete"
-                ng-click="removeIngredient(category, ingredientId)">
-          Remove
-        </button>
-      </li>
-
-      <li class="cat-category-add-ingredient">
-        <add-ingredient-form
-          on-add="addIngredient(category, ingredient)">
-        <add-ingredient-form>
-      </li>
-
-    </ul>
-
-  </section>
-
   <section class="cat-action-section">
 
     <button class="btn-primary"
@@ -52,6 +20,19 @@
         Add Category
       </button>
     </div>
+
+  </section>
+
+  <section class="cat-list-section">
+
+    <ul class="cat-category" ng-repeat="category in categories">
+
+      <category-edit-list-item
+        category="category"
+        on-remove="removeCategory(category.id)">
+      </category-edit-list-item>
+
+    </ul>
 
   </section>
 
