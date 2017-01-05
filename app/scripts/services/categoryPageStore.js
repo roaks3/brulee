@@ -55,7 +55,7 @@ class CategoryPageStore {
   addIngredientToCategory (ingredientId, categoryId) {
     // Remove ingredient from all other categories
     _.each(this.categories, otherCategory => {
-      this.removeIngredientFromCategory(ingredientId, otherCategory);
+      this.removeIngredientFromCategory(ingredientId, otherCategory.id);
     });
 
     // Add ingredient to this category
