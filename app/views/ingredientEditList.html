@@ -1,0 +1,12 @@
+<ul class="bru-ingredientEditList-ingredientList">
+  <li class="bru-ingredientEditList-ingredient"
+      ng-repeat="ingredient in vm.ingredients">
+    <button class="btn-weak"
+            ng-click="vm.onRemove({ingredient})">
+      <span class="fa fa-close"></span>
+    </button>
+    <a ui-sref="ingredient({id: ingredient.id})">
+      {{ingredient.name}}
+    </a>
+  </li>
+</ul>

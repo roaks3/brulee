@@ -52,7 +52,9 @@
     border-bottom: 1px solid $brulee-grey-lightest;
     padding: 0 15px;
   }
+}
 
+.bru-ingredientEditList {
   &-ingredientList {
     display: flex;
     flex-wrap: wrap;
@@ -71,7 +73,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .bru-categoryEditListItem-ingredient {
+  .bru-ingredientEditList-ingredient {
     width: 50%;
   }
 }
@@ -95,7 +97,7 @@
     margin-top: 10px;
   }
 
-  .bru-categoryEditListItem-ingredient {
+  .bru-ingredientEditList-ingredient {
     width: 100%;
   }
 }
