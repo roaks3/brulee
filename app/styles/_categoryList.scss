@@ -1,42 +1,16 @@
 .cat-main-section {
-  display: flex;
   margin-top: 30px;
   width: 100%;
 }
 
 .cat-list-section {
-  padding-right: 10px;
-  width: 50%;
 }
 
-.cat-category-edit {
-  background-color: $brulee-steel-light;
-  border: 1px solid $brulee-grey-lightest;
-  color: $brulee-purple-medium;
-  display: flex;
-  margin-bottom: -1px;
-  padding: 10px 15px;
-
-  input {
-    flex-grow: 1;
-  }
-}
-
-.cat-category-ingredient {
-  border: 1px solid $brulee-grey-lightest;
-  margin-bottom: -1px;
-  padding: 10px 15px;
-}
-
-.cat-category-add-ingredient {
-  border: 1px solid $brulee-grey-lightest;
-  margin-bottom: -1px;
-  padding: 0 15px;
+.cat-category {
+  margin-top: 40px;
 }
 
 .cat-action-section {
-  padding-left: 10px;
-  width: 50%;
 }
 
 .cat-new-category-form {
@@ -44,7 +18,61 @@
   margin-top: 20px;
 
   input {
+    width: 300px;
+  }
+}
+
+.bru-categoryEditListItem {
+  &-header {
+    display: flex;
+    width: 100%;
+  }
+
+  &-titleEdit[type="text"] {
+    background-color: transparent;
+    border: 1px solid $brulee-grey-lightest;
+    border-radius: 0;
+    color: $brulee-purple-medium;
     flex-grow: 1;
+    font-size: 14px;
+    height: auto;
+    padding: 10px 15px;
+  }
+
+  &-actions {
+    align-items: center;
+    display: flex;
+
+    .btn-weak {
+      margin-left: 10px;
+    }
+  }
+
+  &-addIngredientForm {
+    border-bottom: 1px solid $brulee-grey-lightest;
+    padding: 0 15px;
+  }
+
+  &-ingredientList {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  &-ingredient {
+    padding: 5px 15px;
+    width: 25%;
+
+    .btn-weak {
+      border: none;
+      padding: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .bru-categoryEditListItem-ingredient {
+    width: 50%;
   }
 }
 
@@ -52,14 +80,22 @@
   .cat-main-section {
     display: block;
   }
+}
 
-  .cat-list-section {
-    padding-right: 0;
+@media screen and (max-width: 700px) {
+  .bru-categoryEditListItem-header {
+    display: block;
+  }
+
+  .bru-categoryEditListItem-titleEdit {
     width: 100%;
   }
 
-  .cat-action-section {
-    padding-left: 0;
+  .bru-categoryEditListItem-actions {
+    margin-top: 10px;
+  }
+
+  .bru-categoryEditListItem-ingredient {
     width: 100%;
   }
 }
