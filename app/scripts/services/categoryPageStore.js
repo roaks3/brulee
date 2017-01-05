@@ -74,7 +74,10 @@ class CategoryPageStore {
 
   getIngredientsForCategory (categoryId) {
     const category = this.categories.find(category => category.id === categoryId);
-    return this.ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id));
+    return _.sortBy(
+      this.ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id)),
+      'name'
+    );
   }
 
 }
