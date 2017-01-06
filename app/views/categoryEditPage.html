@@ -1,0 +1,40 @@
+<status-bar
+  errors="vm.errors"
+  success-message="vm.successMessage">
+</status-bar>
+
+<section class="bru-categoryEditPage-main">
+
+  <section class="bru-categoryEditPage-actions">
+
+    <button class="btn-primary"
+            ng-click="vm.saveCategories()">
+      Save All
+    </button>
+
+    <div class="bru-categoryEditPage-addCategory">
+      <input type="text"
+             ng-model="newCategory">
+      <button class="btn-primary"
+              ng-click="vm.addCategory(newCategory)">
+        Add Category
+      </button>
+    </div>
+
+  </section>
+
+  <section class="bru-categoryEditPage-categoryList">
+
+    <ul class="bru-categoryEditPage-categoryListItem"
+        ng-repeat="category in vm.categories">
+
+      <category-edit-list-item
+        category="category"
+        on-remove="vm.removeCategory(category.id)">
+      </category-edit-list-item>
+
+    </ul>
+
+  </section>
+
+</section>

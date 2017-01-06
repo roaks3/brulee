@@ -37,8 +37,7 @@ angular.module('bruleeApp', [
       })
       .state('categories', {
         url: '/categories',
-        templateUrl: 'views/category.html',
-        controller: 'CategoryCtrl'
+        template: '<category-edit-page></category-edit-page>'
       })
       .state('groceries', {
         url: '/grocery',

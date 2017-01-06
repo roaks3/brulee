@@ -1,24 +1,26 @@
-.cat-main-section {
-  margin-top: 30px;
-  width: 100%;
-}
+.bru-categoryEditPage {
+  &-main {
+    margin-top: 30px;
+    width: 100%;
+  }
 
-.cat-list-section {
-}
+  &-actions {
+  }
 
-.cat-category {
-  margin-top: 40px;
-}
+  &-addCategory {
+    display: flex;
+    margin-top: 20px;
 
-.cat-action-section {
-}
+    input {
+      width: 300px;
+    }
+  }
 
-.cat-new-category-form {
-  display: flex;
-  margin-top: 20px;
+  &-categoryList {
+  }
 
-  input {
-    width: 300px;
+  &-categoryListItem {
+    margin-top: 40px;
   }
 }
 
@@ -84,7 +86,7 @@
 }
 
 @media screen and (max-width: 992px) {
-  .cat-main-section {
+  .bru-categoryEditPage-main {
     display: block;
   }
 }
