@@ -9,6 +9,7 @@ class CategoryEditListItemCtrl {
 
   $onInit () {
     this.ingredients = this.categoryPageStore.getIngredientsForCategory(this.category.id);
+    this.isEditing = false;
   }
 
   $onChanges (changesObj) {
@@ -34,6 +35,10 @@ class CategoryEditListItemCtrl {
       return;
     }
     this.categoryPageStore.removeIngredientFromCategory(ingredient.id, this.category.id);
+  }
+
+  toggleEditing () {
+    this.isEditing = true;
   }
 
 }

@@ -2,14 +2,20 @@
 
   <header class="bru-categoryEditListItem-header">
 
+    <h1 class="bru-categoryEditListItem-title"
+        ng-if="!vm.isEditing">
+      {{vm.category.name}}
+    </h1>
+
     <input
       type="text"
       class="bru-categoryEditListItem-titleEdit"
+      ng-if="vm.isEditing"
       ng-model="vm.category.name">
 
     <fieldset class="bru-categoryEditListItem-actions">
       <button class="btn-weak"
-              ng-click="vm.onRemove()">
+              ng-click="vm.toggleEditing()">
         <span class="fa fa-edit"></span>
         Edit
       </button>
@@ -22,7 +28,8 @@
 
   </header>
 
-  <div class="bru-categoryEditListItem-addIngredientForm">
+  <div class="bru-categoryEditListItem-addIngredientForm"
+       ng-if="vm.isEditing">
     <add-ingredient-form
       on-add="vm.addIngredient(ingredient)">
     </add-ingredient-form>
@@ -30,6 +37,7 @@
 
   <ingredient-edit-list
     ingredients="vm.ingredients"
+    input-disabled="!vm.isEditing"
     on-remove="vm.removeIngredient(ingredient)">
   </ingredient-edit-list>
 

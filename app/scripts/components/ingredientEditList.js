@@ -7,6 +7,7 @@ angular.module('bruleeApp')
   .component('ingredientEditList', {
     bindings: {
       ingredients: '<',
+      inputDisabled: '<',
       onRemove: '&'
     },
     controller: IngredientEditListCtrl,

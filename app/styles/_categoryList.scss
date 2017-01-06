@@ -28,15 +28,20 @@
     width: 100%;
   }
 
+  &-title,
   &-titleEdit[type="text"] {
-    background-color: transparent;
+    background-color: $brulee-steel-light;
     border: 1px solid $brulee-grey-lightest;
-    border-radius: 0;
     color: $brulee-purple-medium;
     flex-grow: 1;
     font-size: 14px;
-    height: auto;
     padding: 10px 15px;
+  }
+
+  &-titleEdit[type="text"] {
+    background-color: transparent;
+    border-radius: 0;
+    height: auto;
   }
 
   &-actions {
@@ -89,6 +94,10 @@
     display: block;
   }
 
+  .bru-categoryEditListItem-titleEdit {
+    width: 100%;
+  }
+  .bru-categoryEditListItem-title,
   .bru-categoryEditListItem-titleEdit {
     width: 100%;
   }
