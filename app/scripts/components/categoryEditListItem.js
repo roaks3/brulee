@@ -8,13 +8,13 @@ class CategoryEditListItemCtrl {
   }
 
   $onInit () {
-    this.ingredients = this.categoryPageStore.getIngredientsForCategory(this.category.id);
+    this.ingredients = this.categoryPageStore.selectIngredientsForCategory(this.category.id);
     this.isEditing = false;
   }
 
   $onChanges (changesObj) {
     if (changesObj.category) {
-      this.ingredients = this.categoryPageStore.getIngredientsForCategory(this.category.id);
+      this.ingredients = this.categoryPageStore.selectIngredientsForCategory(this.category.id);
     }
   }
 

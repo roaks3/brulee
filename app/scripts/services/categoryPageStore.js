@@ -72,7 +72,7 @@ class CategoryPageStore {
     });
   }
 
-  getIngredientsForCategory (categoryId) {
+  selectIngredientsForCategory (categoryId) {
     const category = this.categories.find(category => category.id === categoryId);
     return _.sortBy(
       this.ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id)),
