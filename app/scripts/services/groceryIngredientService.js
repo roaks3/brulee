@@ -26,16 +26,7 @@ angular.module('bruleeApp.services')
               return {
                 name: category ? category.name : UNCATEGORIZED_NAME,
                 order: category ? category.order : UNCATEGORIZED_ORDER,
-                ingredients: _.map(ingredients, (ingredient) => {
-                  return {
-                    id: ingredient.id,
-                    name: ingredient.name,
-                    recipeNames: _.map(
-                      groceryListService.getAllRecipesForIngredient(groceryList, ingredient.id),
-                      'name'
-                    )
-                  };
-                })
+                ingredients
               };
             })
             .sortBy('order')

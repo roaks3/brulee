@@ -2,6 +2,15 @@
 
 class GroceryIngredientListItemCtrl {
 
+  constructor (groceryListPageStore) {
+    this.groceryListPageStore = groceryListPageStore;
+    this.recipes = [];
+  }
+
+  $onInit () {
+    this.recipes = this.groceryListPageStore.selectRecipesForIngredient(this.ingredient.id);
+  }
+
   toggle () {
     this.isExpanded = !this.isExpanded;
   }
@@ -11,7 +20,7 @@ class GroceryIngredientListItemCtrl {
 angular.module('bruleeApp')
   .component('groceryIngredientListItem', {
     bindings: {
-      groceryIngredient: '<',
+      ingredient: '<',
       isCrossedOut: '<',
       onCrossOut: '&'
     },

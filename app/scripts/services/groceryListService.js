@@ -23,20 +23,6 @@ angular.module('bruleeApp.services')
       return this.findAllRecipesById(_.map(groceryList.recipe_days, 'recipe_id'));
     };
 
-    this.getAllRecipesForIngredient = (groceryList, ingredientId) => {
-      let recipes = Recipe.filter({
-        where: {
-          id: {
-            'in': _.map(groceryList.recipe_days, 'recipe_id')
-          }
-        }
-      });
-
-      return _.filter(recipes, (recipe) => {
-        return _.includes(_.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
-      });
-    };
-
     this.findAllIngredients = (groceryList) => {
       let ingredientIds = [];
       return this

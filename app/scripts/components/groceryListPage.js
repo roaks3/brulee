@@ -2,9 +2,10 @@
 
 class GroceryListPageCtrl {
 
-  constructor ($stateParams, GroceryList) {
+  constructor ($stateParams, GroceryList, groceryListPageStore) {
     this.$stateParams = $stateParams;
     this.GroceryList = GroceryList;
+    this.groceryListPageStore = groceryListPageStore;
     this.errors = [];
   }
 
@@ -16,10 +17,15 @@ class GroceryListPageCtrl {
   }
 
   selectGroceryList (id) {
+    let groceryList = null;
     return this.GroceryList
       .find(id)
       .then(data => {
-        this.groceryList = data;
+        groceryList = data;
+        return this.groceryListPageStore.fetchAllRecipesForGroceryList(groceryList);
+      })
+      .then(() => {
+        this.groceryList = groceryList;
       })
       .catch(error => {
         this.errors.push(error);

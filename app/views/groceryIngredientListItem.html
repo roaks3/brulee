@@ -4,20 +4,20 @@
     <div class="name"
          ng-class="{done: $ctrl.isCrossedOut}"
          ng-click="$ctrl.onCrossOut()">
-      {{$ctrl.groceryIngredient.name}}
+      {{$ctrl.ingredient.name}}
     </div>
 
     <div class="recipe-count"
          ng-click="$ctrl.toggle()">
-      {{$ctrl.groceryIngredient.recipeNames.length}}
+      {{$ctrl.recipes.length}}
     </div>
   </header>
 
   <div ng-show="$ctrl.isExpanded"
        class="grocery-ingredient-list-item-recipe-list">
     <div class="recipe"
-         ng-repeat="recipeName in $ctrl.groceryIngredient.recipeNames">
-      {{recipeName}}
+         ng-repeat="recipe in $ctrl.recipes">
+      {{recipe.name}}
     </div>
   </div>
 
