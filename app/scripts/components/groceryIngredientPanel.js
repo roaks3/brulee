@@ -2,15 +2,15 @@
 
 class GroceryIngredientPanelCtrl {
 
-  constructor ($localStorage, GroceryList, groceryIngredientService) {
-    this.$localStorage = $localStorage;
+  constructor (GroceryList, groceryListPageStore, groceryIngredientService) {
     this.GroceryList = GroceryList;
+    this.groceryListPageStore = groceryListPageStore;
     this.groceryIngredientService = groceryIngredientService;
   }
 
   $onInit () {
-    this.$localStorage.crossedOutIngredients = this.$localStorage.crossedOutIngredients || [];
-    this.crossedOutIngredients = this.$localStorage.crossedOutIngredients;
+    this.groceryListPageStore.fetchCrossedOutIngredients();
+    this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
 
     return this.groceryIngredientService
       .generate(this.groceryList)
@@ -45,16 +45,13 @@ class GroceryIngredientPanelCtrl {
   }
 
   crossOut (ingredient) {
-    if (_.includes(this.crossedOutIngredients, ingredient.id)) {
-      _.pull(this.crossedOutIngredients, ingredient.id);
-    } else {
-      this.crossedOutIngredients.push(ingredient.id);
-    }
+    this.groceryListPageStore.toggleCrossedOutIngredient(ingredient.id);
+    this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
   }
 
   clearCrossedOutIngredients () {
-    this.$localStorage.crossedOutIngredients = [];
-    this.crossedOutIngredients = this.$localStorage.crossedOutIngredients;
+    this.groceryListPageStore.clearCrossedOutIngredients();
+    this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
   }
 
 }

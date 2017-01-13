@@ -2,7 +2,8 @@
 
 class GroceryListPageStore {
 
-  constructor (GroceryList, groceryListService) {
+  constructor ($window, GroceryList, groceryListService) {
+    this.$window = $window;
     this.GroceryList = GroceryList;
     this.groceryListService = groceryListService;
   }
@@ -21,6 +22,25 @@ class GroceryListPageStore {
       .then(recipes => {
         this.recipes = recipes;
       });
+  }
+
+  fetchCrossedOutIngredients () {
+    this.crossedOutIngredientIds = JSON.parse(this.$window.localStorage.getItem('crossedOutIngredientIds')) || [];
+  }
+
+  toggleCrossedOutIngredient (ingredientId) {
+    if (this.crossedOutIngredientIds.includes(ingredientId)) {
+      this.crossedOutIngredientIds =
+        this.crossedOutIngredientIds.filter(crossedOutIngredientId => crossedOutIngredientId !== ingredientId);
+    } else {
+      this.crossedOutIngredientIds = [...this.crossedOutIngredientIds, ingredientId];
+    }
+    this.$window.localStorage.setItem('crossedOutIngredientIds', JSON.stringify(this.crossedOutIngredientIds));
+  }
+
+  clearCrossedOutIngredients () {
+    this.crossedOutIngredientIds = [];
+    this.$window.localStorage.setItem('crossedOutIngredientIds', JSON.stringify(this.crossedOutIngredientIds));
   }
 
   selectRecipesForIngredient (ingredientId) {
