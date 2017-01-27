@@ -19,11 +19,11 @@
     on-add="vm.addIngredient(ingredient)">
   </add-ingredient-form>
 
-  <grocery-ingredient-list
+  <grocery-category-list
     ng-if="vm.groceryIngredients"
     grocery-ingredients="vm.groceryIngredients"
     crossed-out-ingredients="vm.crossedOutIngredients"
     on-cross-out="vm.crossOut(ingredient)">
-  </grocery-ingredient-list>
+  </grocery-category-list>
 
 </section>

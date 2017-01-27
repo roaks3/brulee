@@ -11,11 +11,10 @@ class GroceryIngredientListCtrl {
 angular.module('bruleeApp')
   .component('groceryIngredientList', {
     bindings: {
-      groceryIngredients: '<',
+      ingredients: '<',
       crossedOutIngredients: '<',
       onCrossOut: '&'
     },
     controller: GroceryIngredientListCtrl,
-    controllerAs: 'vm',
     templateUrl: 'views/groceryIngredientList.html'
   });

@@ -1,15 +1,10 @@
-<ul class="grocery-ingredient-list"
-    ng-repeat="categoryIngredients in vm.groceryIngredients">
-
-  <li class="grocery-ingredient-list-category-header">
-    {{categoryIngredients.name}}
-  </li>
+<ul>
 
   <grocery-ingredient-list-item
-    ng-repeat="ingredient in categoryIngredients.ingredients track by $index"
+    ng-repeat="ingredient in $ctrl.ingredients track by $index"
     ingredient="ingredient"
-    is-crossed-out="vm.crossedOut(ingredient)"
-    on-cross-out="vm.onCrossOut({ingredient: ingredient})">
+    is-crossed-out="$ctrl.crossedOut(ingredient)"
+    on-cross-out="$ctrl.onCrossOut({ingredient})">
   </grocery-ingredient-list-item>
 
 </ul>

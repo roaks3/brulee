@@ -1,0 +1,13 @@
+<li class="grocery-ingredient-list">
+
+  <header class="grocery-ingredient-list-category-header">
+    {{$ctrl.categoryIngredients.name}}
+  </header>
+
+  <grocery-ingredient-list
+    ingredients="$ctrl.categoryIngredients.ingredients"
+    crossed-out-ingredients="$ctrl.crossedOutIngredients"
+    on-cross-out="$ctrl.onCrossOut({ingredient})">
+  </grocery-ingredient-list>
+
+</li>
