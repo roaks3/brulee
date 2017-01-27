@@ -18,11 +18,9 @@ class GroceryListPageCtrl {
   selectGroceryList (id) {
     return this.groceryListPageStore
       .fetchGroceryList(id)
+      .then(() => this.groceryListPageStore.fetchAllRecipesForGroceryList())
       .then(() => {
-        return this.groceryListPageStore.fetchAllRecipesForGroceryList();
-      })
-      .then(() => {
-        this.groceryList = this.groceryListPageStore.groceryList;
+        this.groceryList = this.groceryListPageStore.selectedGroceryList;
       })
       .catch(error => {
         this.errors.push(error);

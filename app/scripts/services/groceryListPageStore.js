@@ -12,20 +12,20 @@ class GroceryListPageStore {
     return this.GroceryList
       .find(id)
       .then(groceryList => {
-        this.groceryList = groceryList;
+        this.selectedGroceryList = groceryList;
       });
   }
 
   fetchAllRecipesForGroceryList () {
     return this.groceryListService
-      .findAllRecipesById(_.map(this.groceryList.recipe_days, 'recipe_id'))
+      .findAllRecipesById(_.map(this.selectedGroceryList.recipe_days, 'recipe_id'))
       .then(recipes => {
-        this.recipes = recipes;
+        this.selectedRecipes = recipes;
       });
   }
 
   setSelectedGroceryList (groceryList) {
-    this.groceryList = groceryList;
+    this.selectedGroceryList = groceryList;
   }
 
   fetchCrossedOutIngredients () {
@@ -48,17 +48,17 @@ class GroceryListPageStore {
   }
 
   selectRecipesForIngredient (ingredientId) {
-    return _.filter(this.recipes, recipe => {
-      return _.includes(_.map(recipe.recipe_ingredients, 'ingredient_id'), ingredientId);
+    return this.selectedRecipes.filter(recipe => {
+      return _.map(recipe.recipe_ingredients, 'ingredient_id').includes(ingredientId);
     });
   }
 
   selectRecipesForDayOfWeek (dayOfWeek) {
-    const recipeIds = this.groceryList.recipe_days
+    const recipeIds = this.selectedGroceryList.recipe_days
       .filter(recipeDay => recipeDay.day_of_week === dayOfWeek)
       .map(recipeDay => recipeDay.recipe_id);
 
-    return this.recipes.filter(recipe => recipeIds.includes(recipe.id));
+    return this.selectedRecipes.filter(recipe => recipeIds.includes(recipe.id));
   }
 
 }
