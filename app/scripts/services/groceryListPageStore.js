@@ -24,6 +24,10 @@ class GroceryListPageStore {
       });
   }
 
+  setSelectedGroceryList (groceryList) {
+    this.groceryList = groceryList;
+  }
+
   fetchCrossedOutIngredients () {
     this.crossedOutIngredientIds = JSON.parse(this.$window.localStorage.getItem('crossedOutIngredientIds')) || [];
   }
