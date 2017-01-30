@@ -19,26 +19,17 @@ angular.module('bruleeApp.services')
         });
     };
 
-    this.findAllRecipes = (groceryList) => {
-      return this.findAllRecipesById(_.map(groceryList.recipe_days, 'recipe_id'));
-    };
+    this.findAllIngredientsForGroceryList = (groceryList, prefetchedRecipes) => {
+      const ingredientIds = _(prefetchedRecipes)
+        .compact()
+        .map('recipe_ingredients')
+        .flatten()
+        .map('ingredient_id')
+        .concat(_.map(groceryList.additional_ingredients, 'ingredient_id'))
+        .uniq()
+        .value();
 
-    this.findAllIngredients = (groceryList) => {
-      let ingredientIds = [];
-      return this
-        .findAllRecipes(groceryList)
-        .then((data) => {
-          ingredientIds = _.concat(
-            _(data)
-              .map('recipe_ingredients')
-              .flatten()
-              .map('ingredient_id')
-              .uniq()
-              .value(),
-            _.map(groceryList.additional_ingredients, 'ingredient_id')
-          );
-        })
-        .then(() => ingredientService.findAllIngredientsById(ingredientIds));
+      return ingredientService.findAllIngredientsById(ingredientIds);
     };
 
     return this;

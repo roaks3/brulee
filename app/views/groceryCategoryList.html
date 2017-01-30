@@ -1,8 +1,8 @@
 <ul>
 
   <grocery-category-list-item
-    ng-repeat="categoryIngredients in $ctrl.groceryIngredients"
-    category-ingredients="categoryIngredients"
+    ng-repeat="category in $ctrl.categories"
+    category="category"
     crossed-out-ingredients="$ctrl.crossedOutIngredients"
     on-cross-out="$ctrl.onCrossOut({ingredient})">
   </grocery-category-list-item>

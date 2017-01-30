@@ -6,7 +6,7 @@ class GroceryCategoryListCtrl {
 angular.module('bruleeApp')
   .component('groceryCategoryList', {
     bindings: {
-      groceryIngredients: '<',
+      categories: '<',
       crossedOutIngredients: '<',
       onCrossOut: '&'
     },

@@ -14,6 +14,7 @@
       ng-if="vm.groceryList"
       class="grocery-list-ingredient-section"
       grocery-list="vm.groceryList"
+      on-add-ingredient="vm.addIngredient(ingredient)"
       on-error="vm.setError(error)">
     </grocery-ingredient-panel>
 

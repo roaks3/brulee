@@ -2,46 +2,20 @@
 
 class GroceryIngredientPanelCtrl {
 
-  constructor (GroceryList, groceryListPageStore, groceryIngredientService) {
+  constructor (GroceryList, groceryListPageStore) {
     this.GroceryList = GroceryList;
     this.groceryListPageStore = groceryListPageStore;
-    this.groceryIngredientService = groceryIngredientService;
   }
 
   $onInit () {
     this.groceryListPageStore.fetchCrossedOutIngredients();
     this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
 
-    return this.groceryIngredientService
-      .generate(this.groceryList)
-      .then((data) => {
-        this.groceryIngredients = data;
-      })
-      .catch((error) => {
-        this.onError({error});
-      });
+    this.categories = this.groceryListPageStore.selectCategoriesForIngredients();
   }
 
   openAddIngredient () {
     this.showAddIngredient = true;
-  }
-
-  addIngredient (ingredient) {
-    this.groceryList.additional_ingredients = this.groceryList.additional_ingredients || [];
-    this.groceryList.additional_ingredients.push({
-      ingredient_id: ingredient.id,
-      amount: 1
-    });
-
-    this.GroceryList
-      .update(this.groceryList.id, _.pick(this.groceryList, [
-        'week_start',
-        'recipe_days',
-        'additional_ingredients'
-      ]))
-      .catch((error) => {
-        this.onError({error});
-      });
   }
 
   crossOut (ingredient) {
@@ -60,6 +34,7 @@ angular.module('bruleeApp')
   .component('groceryIngredientPanel', {
     bindings: {
       groceryList: '<',
+      onAddIngredient: '&',
       onError: '&'
     },
     controller: GroceryIngredientPanelCtrl,

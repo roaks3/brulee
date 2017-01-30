@@ -1,11 +1,18 @@
 'use strict';
 
+const UNCATEGORIZED = {
+  name: 'Uncategorized',
+  order: 0
+};
+
 class GroceryListPageStore {
 
-  constructor ($window, GroceryList, groceryListService) {
+  constructor ($window, Category, GroceryList, groceryListService, Recipe) {
     this.$window = $window;
+    this.Category = Category;
     this.GroceryList = GroceryList;
     this.groceryListService = groceryListService;
+    this.Recipe = Recipe;
   }
 
   fetchGroceryList (id) {
@@ -16,11 +23,35 @@ class GroceryListPageStore {
       });
   }
 
+  fetchAllRecipes () {
+    return this.Recipe
+      .findAll()
+      .then(recipes => {
+        this.recipes = recipes;
+      });
+  }
+
   fetchAllRecipesForGroceryList () {
     return this.groceryListService
       .findAllRecipesById(_.map(this.selectedGroceryList.recipe_days, 'recipe_id'))
       .then(recipes => {
         this.selectedRecipes = recipes;
+      });
+  }
+
+  fetchAllIngredientsForGroceryList () {
+    return this.groceryListService
+      .findAllIngredientsForGroceryList(this.selectedGroceryList, this.selectedRecipes)
+      .then(ingredients => {
+        this.selectedIngredients = ingredients;
+      });
+  }
+
+  fetchAllCategories () {
+    return this.Category
+      .findAll()
+      .then(categories => {
+        this.categories = categories;
       });
   }
 
@@ -45,6 +76,54 @@ class GroceryListPageStore {
   clearCrossedOutIngredients () {
     this.crossedOutIngredientIds = [];
     this.$window.localStorage.setItem('crossedOutIngredientIds', JSON.stringify(this.crossedOutIngredientIds));
+  }
+
+  addIngredientToGroceryList (ingredient) {
+    const groceryList = Object.assign({}, this.selectedGroceryList, {
+      additional_ingredients: [
+        ...this.selectedGroceryList.additional_ingredients || [],
+        {
+          ingredient_id: ingredient.id,
+          amount: 1
+        }
+      ]
+    });
+
+    return this.GroceryList
+      .update(groceryList.id, _.pick(groceryList, [
+        'week_start',
+        'recipe_days',
+        'additional_ingredients'
+      ]))
+      .then(() => {
+        this.selectedIngredients = [...this.selectedIngredients, ingredient];
+        this.selectedGroceryList = groceryList;
+      });
+  }
+
+  selectCategoriesForIngredients () {
+    const ingredientIds = this.selectedIngredients.map(ingredient => ingredient.id);
+    let categories = this.categories.filter(category => {
+      return category.ingredient_ids.some(ingredientId => ingredientIds.includes(ingredientId));
+    });
+
+    // Add Uncategorized if there are ingredients with no category
+    const categorizedIngredientIds = _(this.categories).map('ingredient_ids').flatten().uniq().value();
+    const uncategorized = this.selectedIngredients.some(ingredient => !categorizedIngredientIds.includes(ingredient.id));
+    if (uncategorized) {
+      categories = [...categories, UNCATEGORIZED];
+    }
+
+    return _.sortBy(categories, 'order');
+  }
+
+  selectIngredientsForCategory (categoryId) {
+    const category = this.categories.find(category => category.id === categoryId);
+    if (!category) {
+      const categorizedIngredientIds = _(this.categories).map('ingredient_ids').flatten().uniq().value();
+      return this.selectedIngredients.filter(ingredient => !categorizedIngredientIds.includes(ingredient.id));
+    }
+    return this.selectedIngredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id));
   }
 
   selectRecipesForIngredient (ingredientId) {

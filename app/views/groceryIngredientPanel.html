@@ -16,12 +16,12 @@
 
   <add-ingredient-form
     ng-if="vm.showAddIngredient"
-    on-add="vm.addIngredient(ingredient)">
+    on-add="vm.onAddIngredient({ingredient})">
   </add-ingredient-form>
 
   <grocery-category-list
-    ng-if="vm.groceryIngredients"
-    grocery-ingredients="vm.groceryIngredients"
+    ng-if="vm.categories"
+    categories="vm.categories"
     crossed-out-ingredients="vm.crossedOutIngredients"
     on-cross-out="vm.crossOut(ingredient)">
   </grocery-category-list>

@@ -19,11 +19,22 @@ class GroceryListPageCtrl {
     return this.groceryListPageStore
       .fetchGroceryList(id)
       .then(() => this.groceryListPageStore.fetchAllRecipesForGroceryList())
+      .then(() => this.groceryListPageStore.fetchAllIngredientsForGroceryList())
+      .then(() => this.groceryListPageStore.fetchAllCategories())
       .then(() => {
         this.groceryList = this.groceryListPageStore.selectedGroceryList;
       })
       .catch(error => {
         this.errors.push(error);
+      });
+  }
+
+  addIngredient (ingredient) {
+    this.groceryList = null;
+    this.groceryListPageStore
+      .addIngredientToGroceryList(ingredient)
+      .then(() => {
+        this.groceryList = this.groceryListPageStore.selectedGroceryList;
       });
   }
 

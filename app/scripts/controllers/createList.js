@@ -3,25 +3,20 @@
 
 angular.module('bruleeApp')
 
-  .controller('CreateListCtrl', function ($scope, GroceryList, groceryListPageStore,
-                                          groceryIngredientService, Recipe) {
+  .controller('CreateListCtrl', function ($scope, GroceryList, groceryListPageStore) {
 
     $scope.recipes = [];
-    $scope.groceryIngredients = [];
     $scope.errors = [];
     $scope.successMessage = null;
 
     $scope.init = function () {
-      return Recipe
-        .refreshAll()
-        .then((data) => {
-          $scope.recipes = data;
-        })
-        .then(() => GroceryList.refreshAll())
+      return groceryListPageStore
+        .fetchAllRecipes()
+        .then(() => groceryListPageStore.fetchAllCategories())
         .then(() => {
-          $scope.recipes = _.reverse(_.sortBy($scope.recipes, $scope.numUsed));
+          $scope.recipes = _.reverse(_.sortBy(groceryListPageStore.recipes, $scope.numUsed));
         })
-        .catch((error) => {
+        .catch(error => {
           $scope.errors.push(error);
         });
     };
@@ -46,12 +41,9 @@ angular.module('bruleeApp')
       groceryListPageStore.setSelectedGroceryList($scope.newGroceryList);
       groceryListPageStore
         .fetchAllRecipesForGroceryList()
+        .then(() => groceryListPageStore.fetchAllIngredientsForGroceryList())
         .then(() => {
-          return groceryIngredientService
-            .generate($scope.newGroceryList)
-            .then((data) => {
-              $scope.groceryIngredients = data;
-          });
+          $scope.categories = groceryListPageStore.selectCategoriesForIngredients();
         });
     };
 
