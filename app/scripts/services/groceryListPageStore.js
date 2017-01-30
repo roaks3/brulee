@@ -27,7 +27,11 @@ class GroceryListPageStore {
     return this.Recipe
       .findAll()
       .then(recipes => {
-        this.recipes = recipes;
+        if (this.recipeUseCountsByRecipeId) {
+          this.recipes = _.sortBy(recipes, recipe => this.recipeUseCountsByRecipeId[recipe.id] || 0).reverse();
+        } else {
+          this.recipes = recipes;
+        }
       });
   }
 
@@ -52,6 +56,20 @@ class GroceryListPageStore {
       .findAll()
       .then(categories => {
         this.categories = categories;
+      });
+  }
+
+  fetchRecipeUseCounts () {
+    return this.GroceryList
+      .findAll()
+      .then(groceryLists => {
+        this.recipeUseCountsByRecipeId = groceryLists.reduce((memo, groceryList) => {
+          const recipeIds = groceryList.recipe_days.map(recipeDay => recipeDay.recipe_id);
+          recipeIds.forEach(recipeId => {
+            memo[recipeId] = (memo[recipeId] || 0) + 1;
+          });
+          return memo;
+        }, {});
       });
   }
 

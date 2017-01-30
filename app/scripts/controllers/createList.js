@@ -11,10 +11,12 @@ angular.module('bruleeApp')
 
     $scope.init = function () {
       return groceryListPageStore
-        .fetchAllRecipes()
+        .fetchRecipeUseCounts()
+        .then(() => groceryListPageStore.fetchAllRecipes())
         .then(() => groceryListPageStore.fetchAllCategories())
         .then(() => {
-          $scope.recipes = _.reverse(_.sortBy(groceryListPageStore.recipes, $scope.numUsed));
+          $scope.recipeUseCountsByRecipeId = groceryListPageStore.recipeUseCountsByRecipeId;
+          $scope.recipes = groceryListPageStore.recipes;
         })
         .catch(error => {
           $scope.errors.push(error);
@@ -69,14 +71,6 @@ angular.module('bruleeApp')
             $scope.errors.push(error);
           });
       }
-    };
-
-    $scope.numUsed = (recipe) => {
-      return _(GroceryList.filter())
-        .filter((groceryList) => {
-          return _.some(groceryList.recipe_days, ['recipe_id', recipe.id]);
-        })
-        .size();
     };
 
     $scope.updateDayOfWeek = (recipeDay, day) => {
