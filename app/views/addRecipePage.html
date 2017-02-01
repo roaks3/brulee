@@ -1,32 +1,32 @@
 <status-bar
-  errors="errors"
-  success-message="successMessage">
+  errors="$ctrl.errors"
+  success-message="$ctrl.successMessage">
 </status-bar>
 
 <section class="ar-main-section">
 
   <section class="ar-original-text-section">
-    <textarea ng-model="recipe.original_text"
+    <textarea ng-model="$ctrl.recipe.original_text"
               rows="20">
     </textarea>
   </section>
 
   <section class="ar-parse-btn-section">
     <button class="btn-primary"
-            ng-click="parseRecipeText()">
+            ng-click="$ctrl.parseRecipeText()">
       ==>
     </button>
   </section>
 
   <section class="ar-save-recipe-section"
-           ng-show="isParsed">
+           ng-show="$ctrl.isParsed">
 
-    <fieldset ng-class="{'has-error': !recipe.name && isNameInvalid}">
+    <fieldset ng-class="{'has-error': !$ctrl.recipe.name && $ctrl.isNameInvalid}">
       <label for="recipeName">
         Name
       </label>
       <input type="text"
-             ng-model="recipe.name"
+             ng-model="$ctrl.recipe.name"
              name="recipeName"
              required>
     </fieldset>
@@ -36,28 +36,28 @@
         Url
       </label>
       <input type="text"
-             ng-model="recipe.url"
+             ng-model="$ctrl.recipe.url"
              name="recipeUrl">
     </fieldset>
 
     <div class="ar-parsed-ingredients">
       <new-recipe-ingredient-input
-        ng-repeat="recipe_ingredient in recipe.recipe_ingredients"
+        ng-repeat="recipe_ingredient in $ctrl.recipe.recipe_ingredients"
         ingredient="recipe_ingredient.ingredient"
         category="recipe_ingredient.selectedCategory"
-        on-remove="removeRecipeIngredient(recipe_ingredient)"
-        on-ingredient-change="updateRecipeIngredient(recipe_ingredient, ingredient)"
-        on-category-change="updateRecipeIngredientCategory(recipe_ingredient, category)">
+        on-remove="$ctrl.removeRecipeIngredient(recipe_ingredient)"
+        on-ingredient-change="$ctrl.updateRecipeIngredient(recipe_ingredient, ingredient)"
+        on-category-change="$ctrl.updateRecipeIngredientCategory(recipe_ingredient, category)">
       </new-recipe-ingredient-input>
     </div>
 
     <button class="btn-primary"
-            ng-click="addRecipe()">
+            ng-click="$ctrl.addRecipe()">
       Add Recipe
     </button>
 
     <span class="error"
-          ng-if="!recipe.name && isNameInvalid">
+          ng-if="!$ctrl.recipe.name && $ctrl.isNameInvalid">
       Name is required
     </span>
 

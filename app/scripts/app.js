@@ -31,8 +31,7 @@ angular.module('bruleeApp', [
       })
       .state('addRecipes', {
         url: '/addRecipes',
-        templateUrl: 'views/addRecipes.html',
-        controller: 'AddRecipesCtrl'
+        template: '<add-recipe-page></add-recipe-page>'
       })
       .state('categories', {
         url: '/categories',
