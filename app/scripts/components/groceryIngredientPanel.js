@@ -2,8 +2,7 @@
 
 class GroceryIngredientPanelCtrl {
 
-  constructor (GroceryList, groceryListPageStore) {
-    this.GroceryList = GroceryList;
+  constructor (groceryListPageStore) {
     this.groceryListPageStore = groceryListPageStore;
   }
 
