@@ -1,6 +1,6 @@
 'use strict';
 
-class IngredientPageCtrl {
+class IngredientScreenCtrl {
 
   constructor ($state, $stateParams, $window, Category, categoryService, Ingredient, Recipe, recipeService) {
     this.$state = $state;
@@ -102,8 +102,8 @@ class IngredientPageCtrl {
 }
 
 angular.module('bruleeApp')
-  .component('ingredientPage', {
-    controller: IngredientPageCtrl,
+  .component('ingredientScreen', {
+    controller: IngredientScreenCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/ingredientPage.html'
+    templateUrl: 'screens/ingredientScreen/ingredientScreen.html'
   });

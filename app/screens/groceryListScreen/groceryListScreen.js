@@ -1,6 +1,6 @@
 'use strict';
 
-class GroceryListPageCtrl {
+class GroceryListScreenCtrl {
 
   constructor ($stateParams, groceryListPageStore) {
     this.$stateParams = $stateParams;
@@ -45,8 +45,8 @@ class GroceryListPageCtrl {
 }
 
 angular.module('bruleeApp')
-  .component('groceryListPage', {
-    controller: GroceryListPageCtrl,
+  .component('groceryListScreen', {
+    controller: GroceryListScreenCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/groceryListPage.html'
+    templateUrl: 'screens/groceryListScreen/groceryListScreen.html'
   });

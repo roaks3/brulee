@@ -1,6 +1,6 @@
 'use strict';
 
-class CreateListPageCtrl {
+class CreateListScreenCtrl {
 
   constructor (GroceryList, groceryListPageStore) {
     this.GroceryList = GroceryList;
@@ -77,7 +77,7 @@ class CreateListPageCtrl {
 }
 
 angular.module('bruleeApp')
-  .component('createListPage', {
-    controller: CreateListPageCtrl,
-    templateUrl: 'views/createListPage.html'
+  .component('createListScreen', {
+    controller: CreateListScreenCtrl,
+    templateUrl: 'screens/createListScreen/createListScreen.html'
   });

@@ -1,6 +1,6 @@
 'use strict';
 
-class CategoryEditPageCtrl {
+class CategoryEditScreenCtrl {
 
   constructor ($q, $window, categoryPageStore) {
     this.$q = $q;
@@ -80,8 +80,8 @@ class CategoryEditPageCtrl {
 }
 
 angular.module('bruleeApp')
-  .component('categoryEditPage', {
-    controller: CategoryEditPageCtrl,
+  .component('categoryEditScreen', {
+    controller: CategoryEditScreenCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/categoryEditPage.html'
+    templateUrl: 'screens/categoryEditScreen/categoryEditScreen.html'
   });
