@@ -37,6 +37,5 @@ angular.module('bruleeApp')
       onError: '&'
     },
     controller: GroceryIngredientPanelCtrl,
-    controllerAs: 'vm',
     templateUrl: 'views/groceryIngredientPanel.html'
   });

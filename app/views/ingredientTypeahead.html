@@ -1,10 +1,10 @@
 <input
   class="ingredient-typeahead"
-  ng-class="{valid: vm.isValid()}"
+  ng-class="{valid: $ctrl.isValid()}"
   type="text"
-  ng-model="vm._selectedIngredient"
-  uib-typeahead="ingredient as ingredient.name for ingredient in vm.ingredients | filter:$viewValue | limitTo:8"
+  ng-model="$ctrl._selectedIngredient"
+  uib-typeahead="ingredient as ingredient.name for ingredient in $ctrl.ingredients | filter:$viewValue | limitTo:8"
   typeahead-select-on-exact="true"
-  typeahead-on-select="vm.onSelect({ingredient: vm._selectedIngredient})"
-  ng-change="vm.onChange(vm._selectedIngredient)"
-  ng-disabled="vm.inputDisabled">
+  typeahead-on-select="$ctrl.onSelect({ingredient: $ctrl._selectedIngredient})"
+  ng-change="$ctrl.onChange($ctrl._selectedIngredient)"
+  ng-disabled="$ctrl.inputDisabled">

@@ -28,6 +28,5 @@ angular.module('bruleeApp')
       onChange: '&'
     },
     controller: DayOfWeekSelectCtrl,
-    controllerAs: 'vm',
     templateUrl: 'views/dayOfWeekSelect.html'
   });

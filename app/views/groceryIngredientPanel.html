@@ -2,28 +2,28 @@
 
   <header class="grocery-ingredient-panel-menu">
     <button class="btn-weak"
-            ng-click="vm.clearCrossedOutIngredients()">
+            ng-click="$ctrl.clearCrossedOutIngredients()">
       <span class="fa fa-undo"></span>
       Clear Cross-outs
     </button>
 
     <button class="btn-weak"
-            ng-click="vm.openAddIngredient()">
+            ng-click="$ctrl.openAddIngredient()">
       <span class="fa fa-plus"></span>
       Add Ingredient
     </button>
   </header>
 
   <add-ingredient-form
-    ng-if="vm.showAddIngredient"
-    on-add="vm.onAddIngredient({ingredient})">
+    ng-if="$ctrl.showAddIngredient"
+    on-add="$ctrl.onAddIngredient({ingredient})">
   </add-ingredient-form>
 
   <grocery-category-list
-    ng-if="vm.categories"
-    categories="vm.categories"
-    crossed-out-ingredients="vm.crossedOutIngredients"
-    on-cross-out="vm.crossOut(ingredient)">
+    ng-if="$ctrl.categories"
+    categories="$ctrl.categories"
+    crossed-out-ingredients="$ctrl.crossedOutIngredients"
+    on-cross-out="$ctrl.crossOut(ingredient)">
   </grocery-category-list>
 
 </section>
