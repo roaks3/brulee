@@ -10,9 +10,10 @@ class GroceryListSelectCtrl {
   $onInit () {
     this.GroceryList
       .refreshAll()
-      .then((data) => {
-        this.groceryLists = _.takeRight(_.sortBy(data, 'week_start'), 4);
-        this.selectedGroceryList = this.GroceryList.get(this.selectedGroceryListId);
+      .then(groceryLists => {
+        this.groceryLists = _.takeRight(_.sortBy(groceryLists, 'week_start'), 4);
+        this.selectedGroceryList =
+          this.selectedGroceryListId && this.GroceryList.get(this.selectedGroceryListId);
       });
   }
 
