@@ -14,8 +14,8 @@ var yeoman = {
 };
 
 var paths = {
-  scripts: [yeoman.app + '/scripts/**/*.js'],
-  styles: [yeoman.app + '/styles/**/*.scss'],
+  scripts: [yeoman.app + '/**/*.js'],
+  styles: [yeoman.app + '/**/*.scss'],
   test: ['test/spec/**/*.js'],
   testRequire: [
     yeoman.app + '/bower_components/angular/angular.js',
@@ -30,7 +30,7 @@ var paths = {
   karma: 'test/karma.conf.js',
   views: {
     main: yeoman.app + '/index.html',
-    files: [yeoman.app + '/views/**/*.html']
+    files: [yeoman.app + '/**/*.html', '!' + yeoman.app + '/index.html']
   }
 };
 
@@ -48,7 +48,7 @@ var styles = lazypipe()
     precision: 10
   })
   .pipe($.autoprefixer, 'last 1 version')
-  .pipe(gulp.dest, '.tmp/styles');
+  .pipe(gulp.dest, '.tmp');
 
 var transpile = lazypipe()
   .pipe($.sourcemaps.init)
@@ -71,7 +71,7 @@ gulp.task('styles', function () {
 gulp.task('transpile', function () {
   return gulp.src(paths.scripts)
     .pipe(transpile())
-    .pipe(gulp.dest('.tmp/scripts'));
+    .pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('lint:scripts', function () {
@@ -134,7 +134,7 @@ gulp.task('watch', function () {
   $.watch(paths.scripts)
     .pipe($.plumber())
     .pipe(transpile())
-    .pipe(gulp.dest('.tmp/scripts'))
+    .pipe(gulp.dest('.tmp'))
     .pipe($.connect.reload());
 
   $.watch(paths.scripts)
@@ -223,8 +223,8 @@ gulp.task('client:build', ['transpile', 'html', 'styles'], function () {
 });
 
 gulp.task('html', function () {
-  return gulp.src(yeoman.app + '/views/**/*')
-    .pipe(gulp.dest(yeoman.dist + '/views'));
+  return gulp.src(paths.views.files)
+    .pipe(gulp.dest(yeoman.dist));
 });
 
 gulp.task('images', function () {
