@@ -27,8 +27,7 @@ angular.module('bruleeApp', [
     $stateProvider
       .state('createList', {
         url: '/createList',
-        templateUrl: 'views/createList.html',
-        controller: 'CreateListCtrl'
+        template: '<create-list-page></create-list-page>'
       })
       .state('addRecipes', {
         url: '/addRecipes',

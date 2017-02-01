@@ -1,6 +1,6 @@
 <status-bar
-  errors="errors"
-  success-message="successMessage">
+  errors="$ctrl.errors"
+  success-message="$ctrl.successMessage">
 </status-bar>
 
 <section class="cl-main-section">
@@ -13,7 +13,7 @@
 
     <ul class="cl-recipe-list">
       <li class="cl-recipe"
-          ng-repeat="recipe in recipes">
+          ng-repeat="recipe in $ctrl.recipes">
 
         <div class="cl-recipe-top">
           <label class="cl-recipe-select">
@@ -29,7 +29,7 @@
             </a>
           </div>
           <div class="cl-recipe-num-used">
-            {{recipeUseCountsByRecipeId[recipe.id] || 0}}x
+            {{$ctrl.recipeUseCountsByRecipeId[recipe.id] || 0}}x
           </div>
         </div>
 
@@ -47,25 +47,25 @@
   <section class="cl-ingredient-list-section">
 
     <button class="btn-primary"
-            ng-click="calculateShoppingList()">
+            ng-click="$ctrl.calculateShoppingList()">
       Generate List
     </button>
 
-    <button ng-show="newGroceryList"
+    <button ng-show="$ctrl.newGroceryList"
             class="btn-primary"
-            ng-click="saveGroceryList()">
+            ng-click="$ctrl.saveGroceryList()">
       Save Grocery List
     </button>
 
-    <div ng-show="newGroceryList">
+    <div ng-show="$ctrl.newGroceryList">
 
       <ul class="cl-recipe-days">
         <li class="cl-recipe-day"
-            ng-repeat="recipeDay in newGroceryList.recipe_days">
+            ng-repeat="recipeDay in $ctrl.newGroceryList.recipe_days">
 
           <recipe-day-input
             recipe-day="recipeDay"
-            on-day-change="updateDayOfWeek(recipeDay, day)">
+            on-day-change="$ctrl.updateDayOfWeek(recipeDay, day)">
           </recipe-day-input>
 
         </li>
@@ -74,8 +74,8 @@
     </div>
 
     <grocery-category-list
-      ng-if="categories"
-      categories="categories">
+      ng-if="$ctrl.categories"
+      categories="$ctrl.categories">
     </grocery-category-list>
 
   </section>
