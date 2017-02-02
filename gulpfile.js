@@ -39,8 +39,8 @@ var paths = {
 ////////////////////////
 
 var lintScripts = lazypipe()
-  .pipe($.jshint, '.jshintrc')
-  .pipe($.jshint.reporter, 'jshint-stylish');
+  .pipe($.eslint, './.eslintrc.js')
+  .pipe($.eslint.format);
 
 var styles = lazypipe()
   .pipe($.sass, {
@@ -74,15 +74,21 @@ gulp.task('transpile', function () {
     .pipe(gulp.dest('.tmp'));
 });
 
-gulp.task('lint:scripts', function () {
+gulp.task('jshint', function () {
   return gulp.src(paths.scripts)
-    .pipe(lintScripts());
+    .pipe($.jshint('.jshintrc'))
+    .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('jscs', function () {
   return gulp.src(paths.scripts)
     .pipe($.jscs())
     .pipe($.jscs.reporter());
+});
+
+gulp.task('lint', ['jshint', 'jscs'], function () {
+  return gulp.src(paths.scripts)
+    .pipe(lintScripts());
 });
 
 gulp.task('clean:tmp', function (cb) {
@@ -155,7 +161,7 @@ gulp.task('watch', function () {
 
 gulp.task('serve', function (cb) {
   runSequence('clean:tmp',
-    ['lint:scripts'],
+    ['lint'],
     ['transpile'],
     ['start:client'],
     'watch', cb);
