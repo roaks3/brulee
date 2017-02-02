@@ -2,17 +2,17 @@
 
 class RecipeListScreenCtrl {
 
-  constructor ($sessionStorage, Recipe) {
+  constructor ($window, Recipe) {
+    this.$window = $window;
     this.Recipe = Recipe;
     this.recipes = [];
     this.filteredRecipes = [];
     this.errors = [];
-
-    $sessionStorage.recipeSearch = $sessionStorage.recipeSearch || {str: ''};
-    this.recipeSearch = $sessionStorage.recipeSearch;
   }
 
   $onInit () {
+    this.recipeSearch = { str: this.$window.sessionStorage.getItem('recipeFilterQuery') || '' };
+
     this.Recipe.refreshAll()
       .then(data => {
         this.recipes = data;
@@ -24,6 +24,7 @@ class RecipeListScreenCtrl {
   }
 
   filterRecipes () {
+    this.$window.sessionStorage.setItem('recipeFilterQuery', this.recipeSearch.str);
     this.filteredRecipes = this.recipes.filter(recipe => {
       return recipe.name && recipe.name.toLowerCase().indexOf(this.recipeSearch.str.toLowerCase()) !== -1;
     });

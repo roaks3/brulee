@@ -2,18 +2,18 @@
 
 class IngredientListScreenCtrl {
 
-  constructor ($sessionStorage, $window, Ingredient) {
+  constructor ($window, Ingredient) {
+    this.$window = $window;
     this.Ingredient = Ingredient;
     this.ingredients = [];
     this.filteredIngredients = [];
     this.errors = [];
     this.successMessage = null;
-
-    $sessionStorage.search = $sessionStorage.search || {str: ''};
-    this.search = $sessionStorage.search;
   }
 
   $onInit () {
+    this.search = { str: this.$window.sessionStorage.getItem('ingredientFilterQuery') || '' };
+
     this.Ingredient.refreshAll()
       .then(data => {
         this.ingredients = data;
@@ -25,6 +25,7 @@ class IngredientListScreenCtrl {
   }
 
   filterIngredients () {
+    this.$window.sessionStorage.setItem('ingredientFilterQuery', this.search.str);
     this.filteredIngredients = this.ingredients.filter(ingredient => {
       return ingredient.name && ingredient.name.toLowerCase().indexOf(this.search.str.toLowerCase()) !== -1;
     });
