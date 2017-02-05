@@ -10,7 +10,6 @@ class RecipeScreenCtrl {
     this.Category = Category;
     this.Recipe = Recipe;
     this.recipe = {};
-    this.originalTextLines = [];
     this.errors = [];
     this.successMessage = null;
   }
@@ -23,7 +22,6 @@ class RecipeScreenCtrl {
     ])
       .then(([recipe]) => {
         this.recipe = _.cloneDeep(recipe);
-        this.originalTextLines = this.recipe.original_text.split('\n');
       })
       .catch(error => {
         this.errors.push(error);
@@ -57,12 +55,22 @@ class RecipeScreenCtrl {
       return;
     }
 
-    let recipeIngredients = _.map(this.recipe.recipe_ingredients,
+    const recipeIngredients = _.map(this.recipe.recipe_ingredients,
       ri => _.pick(ri, ['ingredient_id', 'amount']));
 
     this.Recipe
       .update(this.recipe.id, _.assign(
-        _.pick(this.recipe, ['name', 'original_text', 'url', 'tags']),
+        _.pick(this.recipe, [
+          'name',
+          'url',
+          'tags',
+          'prepare_time_in_minutes',
+          'cook_time_in_minutes',
+          'original_text',
+          'instructions',
+          'modifications',
+          'nutrition_facts'
+        ]),
         {recipe_ingredients: recipeIngredients}
       ))
       .then(() => {

@@ -9,6 +9,7 @@
 @import 'links';
 @import 'dropdowns';
 @import 'forms';
+@import '../components/listTextArea/listTextArea';
 @import 'nav';
 
 @import 'statusBar';
@@ -20,7 +21,7 @@
 @import 'addRecipes';
 @import 'createList';
 @import 'recipeList';
-@import 'recipe';
+@import '../screens/recipeScreen/recipeScreen';
 @import 'groceryList';
 
 body {

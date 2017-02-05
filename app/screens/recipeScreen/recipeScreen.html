@@ -3,69 +3,133 @@
   success-message="vm.successMessage">
 </status-bar>
 
-<section class="recipe-edit-section">
+<section class="bru-recipeScreen-main">
 
-  <button class="btn-delete" ng-click="vm.delete()">
-    Delete
-  </button>
+  <section class="bru-recipeScreen-actions">
 
-  <button class="btn-primary" ng-click="vm.save()">
-    Save
-  </button>
+    <button class="btn-delete" ng-click="vm.delete()">
+      <span class="fa fa-trash-o"></span>
+      Delete
+    </button>
 
-  <a class="btn-external-link"
-     ng-href="{{vm.recipe.url}}"
-     ng-show="vm.recipe.url">
-    Link
-  </a>
+    <button class="btn-primary" ng-click="vm.save()">
+      <span class="fa fa-save"></span>
+      Save
+    </button>
 
-  <div class="re-recipe-title">
-    <input type="text" ng-model="vm.recipe.name">
+    <a class="btn-link"
+       ng-href="{{vm.recipe.url}}"
+       ng-show="vm.recipe.url">
+      Link to Original
+    </a>
+
+  </section>
+
+  <div class="bru-recipeScreen-form">
+
+    <fieldset class="bru-recipeScreen-fieldset">
+      <label class="bru-recipeScreen-label">
+        Name
+      </label>
+      <input
+        class="bru-recipeScreen-nameInput"
+        type="text"
+        ng-model="vm.recipe.name">
+    </fieldset>
+
+    <fieldset class="bru-recipeScreen-fieldset">
+      <label class="bru-recipeScreen-label">
+        Link
+      </label>
+      <input
+        class="bru-recipeScreen-input"
+        type="text"
+        ng-model="vm.recipe.url">
+    </fieldset>
+
+    <fieldset class="bru-recipeScreen-fieldset">
+      <label class="bru-recipeScreen-label">
+        Tags
+      </label>
+      <input
+        class="bru-recipeScreen-input"
+        type="text"
+        ng-model="vm.recipe.tags">
+    </fieldset>
+
+    <fieldset class="bru-recipeScreen-fieldset">
+      <label class="bru-recipeScreen-label">
+        Prep Time
+      </label>
+      <input
+        class="bru-recipeScreen-input"
+        type="text"
+        ng-model="vm.recipe.prepare_time_in_minutes">
+    </fieldset>
+
+    <fieldset class="bru-recipeScreen-fieldset">
+      <label class="bru-recipeScreen-label">
+        Cook Time
+      </label>
+      <input
+        class="bru-recipeScreen-input"
+        type="text"
+        ng-model="vm.recipe.cook_time_in_minutes">
+    </fieldset>
+
   </div>
 
-  <div class="re-recipe-link">
-    <input type="text" ng-model="vm.recipe.url">
-  </div>
-
-  <div class="re-recipe-tags">
-    <input type="text" ng-model="vm.recipe.tags">
-  </div>
-
-  <header class="re-recipe-ingredient-title">
+  <header class="bru-recipeScreen-header">
     Ingredients
   </header>
 
-  <button class="re-add-ingredient-button" ng-click="vm.addRecipeIngredient()">
+  <button class="bru-recipeScreen-addIngredientButton" ng-click="vm.addRecipeIngredient()">
     Add Ingredient
   </button>
 
-  <section class="re-recipe-ingredient-list">
+  <ul class="bru-recipeScreen-ingredientList">
     <recipe-ingredient-input
       ng-repeat="recipe_ingredient in vm.recipe.recipe_ingredients"
       recipe-ingredient="recipe_ingredient"
       on-remove="vm.removeRecipeIngredient(recipe_ingredient)"
       on-ingredient-change="vm.updateRecipeIngredient(recipe_ingredient, ingredientId)">
     </recipe-ingredient-input>
-  </section>
+  </ul>
 
-  <header class="re-recipe-original-text-title">
+  <header class="bru-recipeScreen-header">
     Original Recipe
   </header>
 
-  <section class="re-recipe-original-text">
-    <p ng-repeat="originalTextLine in vm.originalTextLines">
-      {{originalTextLine}}
-    </p>
-  </section>
+  <list-text-area
+    ng-if="vm.recipe.id"
+    raw-text="vm.recipe.original_text">
+  </list-text-area>
 
-  <header class="re-recipe-original-text-title">
-    Notes
+  <header class="bru-recipeScreen-header">
+    Instructions
   </header>
 
-  <section class="re-recipe-original-text">
-    <p ng-repeat="originalTextLine in vm.originalTextLines">
-      {{vm.recipe.notes}}
-    </p>
-  </section>
+  <list-text-area
+    ng-if="vm.recipe.id"
+    raw-text="vm.recipe.instructions">
+  </list-text-area>
+
+  <header class="bru-recipeScreen-header">
+    Modifications
+  </header>
+
+  <list-text-area
+    ng-if="vm.recipe.id"
+    raw-text="vm.recipe.modifications">
+  </list-text-area>
+
+  <header class="bru-recipeScreen-header">
+    Nutrition Facts
+  </header>
+
+  <list-text-area
+    ng-if="vm.recipe.id"
+    raw-text="vm.recipe.nutrition_facts">
+  </list-text-area>
 
 </section>
