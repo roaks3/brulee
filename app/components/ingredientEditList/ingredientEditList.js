@@ -12,5 +12,5 @@ angular.module('bruleeApp')
     },
     controller: IngredientEditListCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/ingredientEditList.html'
+    templateUrl: 'components/ingredientEditList/ingredientEditList.html'
   });

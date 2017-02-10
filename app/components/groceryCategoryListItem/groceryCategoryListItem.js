@@ -20,5 +20,5 @@ angular.module('bruleeApp')
       onCrossOut: '&'
     },
     controller: GroceryCategoryListItemCtrl,
-    templateUrl: 'views/groceryCategoryListItem.html'
+    templateUrl: 'components/groceryCategoryListItem/groceryCategoryListItem.html'
   });

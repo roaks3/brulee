@@ -51,5 +51,5 @@ angular.module('bruleeApp')
     },
     controller: CategoryEditListItemCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/categoryEditListItem.html'
+    templateUrl: 'components/categoryEditListItem/categoryEditListItem.html'
   });

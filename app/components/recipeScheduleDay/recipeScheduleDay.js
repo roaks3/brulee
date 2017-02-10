@@ -21,5 +21,5 @@ angular.module('bruleeApp')
     },
     controller: RecipeScheduleDayCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/recipeScheduleDay.html'
+    templateUrl: 'components/recipeScheduleDay/recipeScheduleDay.html'
   });
