@@ -28,5 +28,5 @@ angular.module('bruleeApp')
     },
     controller: NewRecipeIngredientInputCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/newRecipeIngredientInput.html'
+    templateUrl: 'components/newRecipeIngredientInput/newRecipeIngredientInput.html'
   });

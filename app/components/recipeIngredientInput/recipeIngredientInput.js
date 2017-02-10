@@ -34,5 +34,5 @@ angular.module('bruleeApp')
     },
     controller: RecipeIngredientInputCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/recipeIngredientInput.html'
+    templateUrl: 'components/recipeIngredientInput/recipeIngredientInput.html'
   });

@@ -51,5 +51,5 @@ angular.module('bruleeApp')
     },
     controller: GroceryListSelectCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/groceryListSelect.html'
+    templateUrl: 'components/groceryListSelect/groceryListSelect.html'
   });

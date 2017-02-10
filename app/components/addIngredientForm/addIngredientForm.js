@@ -31,5 +31,5 @@ angular.module('bruleeApp')
       onAdd: '&'
     },
     controller: AddIngredientFormCtrl,
-    templateUrl: 'views/addIngredientForm.html'
+    templateUrl: 'components/addIngredientForm/addIngredientForm.html'
   });

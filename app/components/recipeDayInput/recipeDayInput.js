@@ -26,5 +26,5 @@ angular.module('bruleeApp')
     },
     controller: RecipeDayInputCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/recipeDayInput.html'
+    templateUrl: 'components/recipeDayInput/recipeDayInput.html'
   });
