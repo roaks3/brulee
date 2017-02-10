@@ -44,5 +44,5 @@ angular.module('bruleeApp')
       onSelect: '&'
     },
     controller: IngredientTypeaheadCtrl,
-    templateUrl: 'views/ingredientTypeahead.html'
+    templateUrl: 'components/ingredientTypeahead/ingredientTypeahead.html'
   });

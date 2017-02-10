@@ -6,5 +6,5 @@ angular.module('bruleeApp')
       errors: '<',
       successMessage: '<'
     },
-    templateUrl: 'views/statusBar.html'
+    templateUrl: 'components/statusBar/statusBar.html'
   });

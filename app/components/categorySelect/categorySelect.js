@@ -30,5 +30,5 @@ angular.module('bruleeApp')
     },
     controller: CategorySelectCtrl,
     controllerAs: 'vm',
-    templateUrl: 'views/categorySelect.html'
+    templateUrl: 'components/categorySelect/categorySelect.html'
   });

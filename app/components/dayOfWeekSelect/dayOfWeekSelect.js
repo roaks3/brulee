@@ -28,5 +28,5 @@ angular.module('bruleeApp')
       onChange: '&'
     },
     controller: DayOfWeekSelectCtrl,
-    templateUrl: 'views/dayOfWeekSelect.html'
+    templateUrl: 'components/dayOfWeekSelect/dayOfWeekSelect.html'
   });
