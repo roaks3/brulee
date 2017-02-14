@@ -19,6 +19,13 @@
   text-transform: uppercase;
 }
 
+.cl-recipe-filter[type=text] {
+  border: 1px solid $brulee-grey-lightest;
+  margin: 10px 10px 0 10px;
+  padding: 5px 30px;
+  width: calc(100% - 20px);
+}
+
 .cl-recipe-list {
   padding: 10px 10px 5px 10px;
 }

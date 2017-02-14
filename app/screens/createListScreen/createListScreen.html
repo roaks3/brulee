@@ -11,9 +11,15 @@
       Recipes
     </header>
 
+    <input type="text"
+           class="cl-recipe-filter"
+           placeholder="Filter recipes"
+           ng-change="$ctrl.filterRecipes()"
+           ng-model="$ctrl.recipeSearch.str">
+
     <ul class="cl-recipe-list">
       <li class="cl-recipe"
-          ng-repeat="recipe in $ctrl.recipes">
+          ng-repeat="recipe in $ctrl.filteredRecipes">
 
         <div class="cl-recipe-top">
           <label class="cl-recipe-select">

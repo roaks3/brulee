@@ -2,7 +2,9 @@
 
 class CreateListScreenCtrl {
 
-  constructor (GroceryList, groceryListPageStore) {
+  constructor ($window, createListScreenStore, GroceryList, groceryListPageStore) {
+    this.$window = $window;
+    this.createListScreenStore = createListScreenStore;
     this.GroceryList = GroceryList;
     this.groceryListPageStore = groceryListPageStore;
   }
@@ -10,18 +12,24 @@ class CreateListScreenCtrl {
   $onInit () {
     this.recipes = [];
     this.errors = [];
+    this.recipeSearch = { str: this.$window.sessionStorage.getItem('recipeFilterQuery') || '' };
 
-    this.groceryListPageStore
-      .fetchRecipeUseCounts()
-      .then(() => this.groceryListPageStore.fetchAllRecipes())
+    this.createListScreenStore
+      .fetchAll()
       .then(() => this.groceryListPageStore.fetchAllCategories())
       .then(() => {
-        this.recipeUseCountsByRecipeId = this.groceryListPageStore.recipeUseCountsByRecipeId;
-        this.recipes = this.groceryListPageStore.recipes;
+        this.recipeUseCountsByRecipeId = this.createListScreenStore.recipeUseCountsByRecipeId;
+        this.recipes = this.createListScreenStore.recipes;
+        this.filterRecipes();
       })
       .catch(error => {
         this.errors.push(error);
       });
+  }
+
+  filterRecipes () {
+    this.$window.sessionStorage.setItem('recipeFilterQuery', this.recipeSearch.str);
+    this.filteredRecipes = this.createListScreenStore.selectSortedRecipesBySearchTerm(this.recipeSearch.str);
   }
 
   calculateShoppingList () {
