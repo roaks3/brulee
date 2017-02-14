@@ -1,0 +1,33 @@
+.grocery-list-section {
+  margin-top: 30px;
+}
+
+.grocery-list-view-section {
+  display: flex;
+}
+
+.grocery-list-ingredient-section {
+  padding-right: 20px;
+  width: 50%;
+}
+
+.grocery-list-schedule-section {
+  padding-left: 40px;
+  width: 50%;
+}
+
+@media screen and (max-width: 992px) {
+  .grocery-list-view-section {
+    display: block;
+  }
+
+  .grocery-list-ingredient-section {
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .grocery-list-schedule-section {
+    padding-left: 0;
+    width: 100%;
+  }
+}

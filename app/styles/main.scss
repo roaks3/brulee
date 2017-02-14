@@ -14,16 +14,20 @@
 
 @import 'statusBar';
 @import 'recipeIngredientInput';
-@import 'groceryListSelect';
-@import 'groceryIngredientPanel';
-@import 'recipeSchedule';
+@import '../components/groceryIngredientListItem/groceryIngredientListItem';
+@import '../components/groceryCategoryListItem/groceryCategoryListItem';
+@import '../components/groceryListSelect/groceryListSelect';
+@import '../components/groceryIngredientPanel/groceryIngredientPanel';
+@import '../components/recipeScheduleDay/recipeScheduleDay';
+@import '../components/recipeSchedule/recipeSchedule';
 @import '../components/ingredientEditList/ingredientEditList';
 @import '../components/categoryEditListItem/categoryEditListItem';
+
 @import '../screens/categoryEditScreen/categoryEditScreen';
 @import 'addRecipes';
 @import '../screens/createListScreen/createListScreen';
 @import '../screens/recipeScreen/recipeScreen';
-@import 'groceryList';
+@import '../screens/groceryListScreen/groceryListScreen';
 
 body {
   padding-bottom: 20px;

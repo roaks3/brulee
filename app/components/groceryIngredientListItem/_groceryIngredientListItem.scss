@@ -1,0 +1,42 @@
+.grocery-ingredient-list-item {
+  border: 1px solid $brulee-grey-lightest;
+  margin-bottom: -1px;
+  padding: 10px 15px;
+}
+
+.grocery-ingredient-list-item-header {
+  display: flex;
+
+  .name {
+    color: $brulee-steel-medium-dark;
+    flex-grow: 1;
+  }
+
+  .done {
+    color: $brulee-grey-light;
+  }
+
+  .recipe-count {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    color: $brulee-white;
+    text-align: center;
+    vertical-align: baseline;
+    background-color: $brulee-steel-medium-dark;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
+
+.grocery-ingredient-list-item-recipe-list {
+  padding: 10px;
+
+  .recipe {
+    color: $brulee-steel-medium-light;
+    font-size: 12px;
+  }
+}
