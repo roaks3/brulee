@@ -17,7 +17,9 @@
 @import 'groceryListSelect';
 @import 'groceryIngredientPanel';
 @import 'recipeSchedule';
-@import 'categoryList';
+@import '../components/ingredientEditList/ingredientEditList';
+@import '../components/categoryEditListItem/categoryEditListItem';
+@import '../screens/categoryEditScreen/categoryEditScreen';
 @import 'addRecipes';
 @import '../screens/createListScreen/createListScreen';
 @import '../screens/recipeScreen/recipeScreen';

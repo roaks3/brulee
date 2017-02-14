@@ -1,0 +1,29 @@
+.bru-ingredientEditList {
+  &-ingredientList {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  &-ingredient {
+    padding: 5px 15px;
+    width: 25%;
+
+    .btn-weak {
+      border: none;
+      padding: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .bru-ingredientEditList-ingredient {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .bru-ingredientEditList-ingredient {
+    width: 100%;
+  }
+}

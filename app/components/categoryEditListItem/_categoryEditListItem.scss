@@ -1,29 +1,3 @@
-.bru-categoryEditPage {
-  &-main {
-    margin-top: 30px;
-    width: 100%;
-  }
-
-  &-actions {
-  }
-
-  &-addCategory {
-    display: flex;
-    margin-top: 20px;
-
-    input {
-      width: 300px;
-    }
-  }
-
-  &-categoryList {
-  }
-
-  &-categoryListItem {
-    margin-top: 40px;
-  }
-}
-
 .bru-categoryEditListItem {
   &-header {
     display: flex;
@@ -61,36 +35,6 @@
   }
 }
 
-.bru-ingredientEditList {
-  &-ingredientList {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-  }
-
-  &-ingredient {
-    padding: 5px 15px;
-    width: 25%;
-
-    .btn-weak {
-      border: none;
-      padding: 5px;
-    }
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .bru-ingredientEditList-ingredient {
-    width: 50%;
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .bru-categoryEditPage-main {
-    display: block;
-  }
-}
-
 @media screen and (max-width: 700px) {
   .bru-categoryEditListItem-header {
     display: block;
@@ -106,9 +50,5 @@
 
   .bru-categoryEditListItem-actions {
     margin-top: 10px;
-  }
-
-  .bru-ingredientEditList-ingredient {
-    width: 100%;
   }
 }

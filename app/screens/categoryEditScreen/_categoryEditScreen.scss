@@ -1,0 +1,31 @@
+.bru-categoryEditPage {
+  &-main {
+    margin-top: 30px;
+    width: 100%;
+  }
+
+  &-actions {
+  }
+
+  &-addCategory {
+    display: flex;
+    margin-top: 20px;
+
+    input {
+      width: 300px;
+    }
+  }
+
+  &-categoryList {
+  }
+
+  &-categoryListItem {
+    margin-top: 40px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .bru-categoryEditPage-main {
+    display: block;
+  }
+}
