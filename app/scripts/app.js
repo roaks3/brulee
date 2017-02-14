@@ -52,10 +52,6 @@ angular.module('bruleeApp', [
         url: '/ingredient/:id',
         template: '<ingredient-screen></ingredient-screen>'
       })
-      .state('recipes', {
-        url: '/recipe',
-        template: '<recipe-list-screen></recipe-list-screen>'
-      })
       .state('recipe', {
         url: '/recipe/:id',
         template: '<recipe-screen></recipe-screen>'
