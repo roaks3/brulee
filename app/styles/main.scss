@@ -12,7 +12,7 @@
 @import '../components/listTextArea/listTextArea';
 @import 'nav';
 
-@import 'statusBar';
+@import '../components/statusBar/statusBar';
 @import 'recipeIngredientInput';
 @import '../components/groceryIngredientListItem/groceryIngredientListItem';
 @import '../components/groceryCategoryListItem/groceryCategoryListItem';
@@ -24,7 +24,7 @@
 @import '../components/categoryEditListItem/categoryEditListItem';
 
 @import '../screens/categoryEditScreen/categoryEditScreen';
-@import 'addRecipes';
+@import '../screens/addRecipeScreen/addRecipeScreen';
 @import '../screens/createListScreen/createListScreen';
 @import '../screens/recipeScreen/recipeScreen';
 @import '../screens/groceryListScreen/groceryListScreen';
