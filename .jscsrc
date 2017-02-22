@@ -2,6 +2,7 @@
   "preset": "grunt",
 
   // Reverse this rule coming from the google preset
+  "disallowSpacesInsideObjectBrackets": null,
   "disallowSpacesInAnonymousFunctionExpression": null,
   "disallowSpacesInFunctionExpression": null,
   "jsDoc": null,
