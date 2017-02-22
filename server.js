@@ -1,4 +1,4 @@
-var express = require('express')
+var express = require('express');
 var app = express();
 var path = require('path');
 
@@ -10,4 +10,4 @@ app.route('/*')
     res.sendFile(path.resolve(path.normalize(__dirname) + '/dist/index.html'));
   });
 
-app.listen(process.env.PORT || 3001);
+app.listen(process.env.PORT || 9000);
