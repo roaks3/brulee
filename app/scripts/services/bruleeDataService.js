@@ -1,8 +1,9 @@
-'use strict';
+import angular from 'angular';
 
-angular.module('bruleeApp.services')
+export default angular.module('services.bruleeDataService', [])
 
   .service('bruleeDataService', function ($q) {
+    'ngInject';
 
     let mongoId = function (object) {
       return _.isString(object._id) ? object._id : object._id.$oid;
@@ -38,4 +39,5 @@ angular.module('bruleeApp.services')
 
     return this;
 
-  });
+  })
+  .name;

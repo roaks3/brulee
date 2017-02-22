@@ -1,8 +1,11 @@
-'use strict';
+import angular from 'angular';
 
-angular.module('bruleeApp.services')
+import Ingredient from '../datastores/Ingredient';
+
+export default angular.module('services.ingredientService', [Ingredient])
 
   .service('ingredientService', function (Ingredient) {
+    'ngInject';
 
     this.getByName = function (name) {
       return _.head(Ingredient.filter({name}));
@@ -32,4 +35,5 @@ angular.module('bruleeApp.services')
 
     return this;
 
-  });
+  })
+  .name;

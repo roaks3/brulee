@@ -1,8 +1,12 @@
-'use strict';
+import angular from 'angular';
+
+import Recipe from '../datastores/Recipe';
 
 class RecipeStore {
 
   constructor (Recipe) {
+    'ngInject';
+
     this.Recipe = Recipe;
   }
 
@@ -24,5 +28,6 @@ class RecipeStore {
 
 }
 
-angular.module('bruleeApp.services')
-  .service('recipeStore', RecipeStore);
+export default angular.module('services.recipeStore', [Recipe])
+  .service('recipeStore', RecipeStore)
+  .name;

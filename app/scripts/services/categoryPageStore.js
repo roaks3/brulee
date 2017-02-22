@@ -1,8 +1,14 @@
-'use strict';
+import angular from 'angular';
+
+import Category from '../datastores/Category';
+import Ingredient from '../datastores/Ingredient';
+import categoryService from './categoryService';
 
 class CategoryPageStore {
 
   constructor (Category, categoryService, Ingredient) {
+    'ngInject';
+
     this.Category = Category;
     this.categoryService = categoryService;
     this.Ingredient = Ingredient;
@@ -82,5 +88,11 @@ class CategoryPageStore {
 
 }
 
-angular.module('bruleeApp.services')
-  .service('categoryPageStore', CategoryPageStore);
+export default angular
+  .module('services.categoryPageStore', [
+    Category,
+    categoryService,
+    Ingredient
+  ])
+  .service('categoryPageStore', CategoryPageStore)
+  .name;

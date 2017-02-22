@@ -1,4 +1,8 @@
-'use strict';
+import moment from 'moment';
+import angular from 'angular';
+import uiBootstrap from 'angular-ui-bootstrap';
+
+import template from './dayOfWeekSelect.html';
 
 class DayOfWeekSelectCtrl {
 
@@ -20,13 +24,14 @@ class DayOfWeekSelectCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.dayOfWeekSelect', [uiBootstrap])
   .component('dayOfWeekSelect', {
+    template,
     bindings: {
       selectedDay: '<',
       inputDisabled: '<',
       onChange: '&'
     },
-    controller: DayOfWeekSelectCtrl,
-    templateUrl: 'components/dayOfWeekSelect/dayOfWeekSelect.html'
-  });
+    controller: DayOfWeekSelectCtrl
+  })
+  .name;

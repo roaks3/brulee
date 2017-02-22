@@ -1,4 +1,7 @@
-'use strict';
+import angular from 'angular';
+
+import template from './listTextArea.html';
+import './listTextArea.scss';
 
 class ListTextAreaCtrl {
 
@@ -12,11 +15,12 @@ class ListTextAreaCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.listTextArea', [])
   .component('listTextArea', {
+    template,
     bindings: {
       rawText: '='
     },
-    controller: ListTextAreaCtrl,
-    templateUrl: 'components/listTextArea/listTextArea.html'
-  });
+    controller: ListTextAreaCtrl
+  })
+  .name;

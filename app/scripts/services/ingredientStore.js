@@ -1,8 +1,12 @@
-'use strict';
+import angular from 'angular';
+
+import Ingredient from '../datastores/Ingredient';
 
 class IngredientStore {
 
   constructor (Ingredient) {
+    'ngInject';
+
     this.Ingredient = Ingredient;
   }
 
@@ -20,5 +24,6 @@ class IngredientStore {
 
 }
 
-angular.module('bruleeApp.services')
-  .service('ingredientStore', IngredientStore);
+export default angular.module('services.ingredientStore', [Ingredient])
+  .service('ingredientStore', IngredientStore)
+  .name;

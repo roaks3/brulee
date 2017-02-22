@@ -1,4 +1,9 @@
-'use strict';
+import angular from 'angular';
+
+import Category from '../datastores/Category';
+import GroceryList from '../datastores/GroceryList';
+import Recipe from '../datastores/Recipe';
+import groceryListService from './groceryListService';
 
 const UNCATEGORIZED = {
   name: 'Uncategorized',
@@ -8,6 +13,8 @@ const UNCATEGORIZED = {
 class GroceryListPageStore {
 
   constructor ($window, Category, GroceryList, groceryListService, Recipe) {
+    'ngInject';
+
     this.$window = $window;
     this.Category = Category;
     this.GroceryList = GroceryList;
@@ -160,5 +167,12 @@ class GroceryListPageStore {
 
 }
 
-angular.module('bruleeApp.services')
-  .service('groceryListPageStore', GroceryListPageStore);
+export default angular
+  .module('services.groceryListPageStore', [
+    groceryListService,
+    Category,
+    GroceryList,
+    Recipe
+  ])
+  .service('groceryListPageStore', GroceryListPageStore)
+  .name;

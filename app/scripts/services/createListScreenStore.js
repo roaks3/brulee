@@ -1,8 +1,14 @@
-'use strict';
+import angular from 'angular';
+
+import GroceryList from '../datastores/GroceryList';
+import ingredientStore from './ingredientStore';
+import recipeStore from './recipeStore';
 
 class CreateListScreenStore {
 
   constructor (GroceryList, ingredientStore, recipeStore) {
+    'ngInject';
+
     this.GroceryList = GroceryList;
     this.ingredientStore = ingredientStore;
     this.recipeStore = recipeStore;
@@ -39,5 +45,11 @@ class CreateListScreenStore {
 
 }
 
-angular.module('bruleeApp.services')
-  .service('createListScreenStore', CreateListScreenStore);
+export default angular
+  .module('services.createListScreenStore', [
+    GroceryList,
+    ingredientStore,
+    recipeStore
+  ])
+  .service('createListScreenStore', CreateListScreenStore)
+  .name;

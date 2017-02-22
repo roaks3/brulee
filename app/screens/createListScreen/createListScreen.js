@@ -1,8 +1,21 @@
-'use strict';
+import moment from 'moment';
+import angular from 'angular';
+
+import GroceryList from '../../scripts/datastores/GroceryList';
+import createListScreenStore from '../../scripts/services/createListScreenStore';
+import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import statusBar from '../../components/statusBar/statusBar';
+import recipeDayInput from '../../components/recipeDayInput/recipeDayInput';
+import groceryCategoryList from '../../components/groceryCategoryList/groceryCategoryList';
+
+import template from './createListScreen.html';
+import './createListScreen.scss';
 
 class CreateListScreenCtrl {
 
   constructor ($window, createListScreenStore, GroceryList, groceryListPageStore) {
+    'ngInject';
+
     this.$window = $window;
     this.createListScreenStore = createListScreenStore;
     this.GroceryList = GroceryList;
@@ -84,8 +97,17 @@ class CreateListScreenCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('screens.createListScreen', [
+    GroceryList,
+    createListScreenStore,
+    groceryListPageStore,
+    statusBar,
+    recipeDayInput,
+    groceryCategoryList
+  ])
   .component('createListScreen', {
-    controller: CreateListScreenCtrl,
-    templateUrl: 'screens/createListScreen/createListScreen.html'
-  });
+    template,
+    controller: CreateListScreenCtrl
+  })
+  .name;

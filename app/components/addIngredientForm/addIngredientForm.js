@@ -1,8 +1,14 @@
-'use strict';
+import angular from 'angular';
+
+import ingredientTypeahead from '../ingredientTypeahead/ingredientTypeahead';
+
+import template from './addIngredientForm.html';
 
 class AddIngredientFormCtrl {
 
   constructor ($window) {
+    'ngInject';
+
     this.$window = $window;
   }
 
@@ -25,11 +31,12 @@ class AddIngredientFormCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.addIngredientForm', [ingredientTypeahead])
   .component('addIngredientForm', {
+    template,
     bindings: {
       onAdd: '&'
     },
-    controller: AddIngredientFormCtrl,
-    templateUrl: 'components/addIngredientForm/addIngredientForm.html'
-  });
+    controller: AddIngredientFormCtrl
+  })
+  .name;

@@ -1,6 +1,10 @@
-'use strict';
+import angular from 'angular';
 
-angular.module('bruleeApp')
+import template from './navBar.html';
+import './navBar.scss';
+
+export default angular.module('components.navBar', [])
   .component('navBar', {
-    templateUrl: 'components/navBar/navBar.html'
-  });
+    template
+  })
+  .name;

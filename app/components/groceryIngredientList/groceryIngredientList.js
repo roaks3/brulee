@@ -1,4 +1,8 @@
-'use strict';
+import angular from 'angular';
+
+import groceryIngredientListItem from '../groceryIngredientListItem/groceryIngredientListItem';
+
+import template from './groceryIngredientList.html';
 
 class GroceryIngredientListCtrl {
 
@@ -8,13 +12,14 @@ class GroceryIngredientListCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.groceryIngredientList', [groceryIngredientListItem])
   .component('groceryIngredientList', {
+    template,
     bindings: {
       ingredients: '<',
       crossedOutIngredients: '<',
       onCrossOut: '&'
     },
-    controller: GroceryIngredientListCtrl,
-    templateUrl: 'components/groceryIngredientList/groceryIngredientList.html'
-  });
+    controller: GroceryIngredientListCtrl
+  })
+  .name;

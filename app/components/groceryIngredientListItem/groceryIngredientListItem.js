@@ -1,8 +1,15 @@
-'use strict';
+import angular from 'angular';
+
+import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+
+import template from './groceryIngredientListItem.html';
+import './groceryIngredientListItem.scss';
 
 class GroceryIngredientListItemCtrl {
 
   constructor (groceryListPageStore) {
+    'ngInject';
+
     this.groceryListPageStore = groceryListPageStore;
     this.recipes = [];
   }
@@ -17,13 +24,14 @@ class GroceryIngredientListItemCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.groceryIngredientListItem', [groceryListPageStore])
   .component('groceryIngredientListItem', {
+    template,
     bindings: {
       ingredient: '<',
       isCrossedOut: '<',
       onCrossOut: '&'
     },
-    controller: GroceryIngredientListItemCtrl,
-    templateUrl: 'components/groceryIngredientListItem/groceryIngredientListItem.html'
-  });
+    controller: GroceryIngredientListItemCtrl
+  })
+  .name;

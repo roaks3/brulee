@@ -1,8 +1,22 @@
-'use strict';
+import angular from 'angular';
+
+import Category from '../../scripts/datastores/Category';
+import Ingredient from '../../scripts/datastores/Ingredient';
+import Recipe from '../../scripts/datastores/Recipe';
+import categoryService from '../../scripts/services/categoryService';
+import ingredientParseService from '../../scripts/services/ingredientParseService';
+import ingredientService from '../../scripts/services/ingredientService';
+import statusBar from '../../components/statusBar/statusBar';
+import newRecipeIngredientInput from '../../components/newRecipeIngredientInput/newRecipeIngredientInput';
+
+import template from './addRecipeScreen.html';
+import './addRecipeScreen.scss';
 
 class AddRecipeScreenCtrl {
 
   constructor ($q, Category, categoryService, Ingredient, ingredientParseService, ingredientService, Recipe) {
+    'ngInject';
+
     this.$q = $q;
     this.Category = Category;
     this.categoryService = categoryService;
@@ -134,8 +148,19 @@ class AddRecipeScreenCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('screens.addRecipeScreen', [
+    Category,
+    Ingredient,
+    Recipe,
+    categoryService,
+    ingredientParseService,
+    ingredientService,
+    statusBar,
+    newRecipeIngredientInput
+  ])
   .component('addRecipeScreen', {
-    controller: AddRecipeScreenCtrl,
-    templateUrl: 'screens/addRecipeScreen/addRecipeScreen.html'
-  });
+    template,
+    controller: AddRecipeScreenCtrl
+  })
+  .name;

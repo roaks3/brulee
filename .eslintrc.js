@@ -4,16 +4,9 @@ module.exports = {
         "es6": true
     },
     "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        }
-    },
+    "parser": "babel-eslint",
     "globals": {
-      "_": true,
-      "angular": true,
-      "moment": true
+        "_": true
     },
     "rules": {
         "accessor-pairs": "error",
@@ -266,7 +259,6 @@ module.exports = {
                 "before": false
             }
         ],
-        "sort-imports": "error",
         "sort-keys": "off",
         "sort-vars": "error",
         "space-before-blocks": "error",

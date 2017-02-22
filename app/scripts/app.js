@@ -1,22 +1,34 @@
+import angular from 'angular';
+import uiRouter from 'angular-ui-router';
+import jsData from 'js-data-angular';
 
-'use strict';
+import '../styles/main.scss';
 
-/**
- * @ngdoc overview
- * @name bruleeApp
- * @description
- * # bruleeApp
- *
- * Main module of the application.
- */
+import navBar from '../components/navBar/navBar';
+import groceryListScreen from '../screens/groceryListScreen/groceryListScreen';
+import recipeScreen from '../screens/recipeScreen/recipeScreen';
+import ingredientListScreen from '../screens/ingredientListScreen/ingredientListScreen';
+import ingredientScreen from '../screens/ingredientScreen/ingredientScreen';
+import categoryEditScreen from '../screens/categoryEditScreen/categoryEditScreen';
+import createListScreen from '../screens/createListScreen/createListScreen';
+import addRecipeScreen from '../screens/addRecipeScreen/addRecipeScreen';
+
 angular.module('bruleeApp', [
-    'ui.bootstrap',
-    'bruleeApp.services',
-    'js-data',
-    'ui.router'
+    jsData,
+    uiRouter,
+
+    navBar,
+    groceryListScreen,
+    recipeScreen,
+    ingredientListScreen,
+    ingredientScreen,
+    categoryEditScreen,
+    createListScreen,
+    addRecipeScreen
   ])
 
   .config(function ($locationProvider, $stateProvider, $urlRouterProvider, DSHttpAdapterProvider) {
+    'ngInject';
 
     $locationProvider.html5Mode(true);
 
@@ -72,12 +84,9 @@ angular.module('bruleeApp', [
     });
   });
 
-/**
- * @ngdoc overview
- * @name bruleeApp.services
- * @description
- * # bruleeApp.services
- *
- * Main services module of the application.
- */
-angular.module('bruleeApp.services', []);
+angular.element(document)
+  .ready(() => {
+    angular.bootstrap(document, ['bruleeApp'], {
+      strictDi: true
+    });
+  });

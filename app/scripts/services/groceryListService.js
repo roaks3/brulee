@@ -1,8 +1,13 @@
-'use strict';
+import angular from 'angular';
 
-angular.module('bruleeApp.services')
+import Ingredient from '../datastores/Ingredient';
+import Recipe from '../datastores/Recipe';
+import ingredientService from './ingredientService';
+
+export default angular.module('services.groceryListService', [ingredientService, Ingredient, Recipe])
 
   .service('groceryListService', function (Ingredient, ingredientService, Recipe) {
+    'ngInject';
 
     this.findAllRecipesById = (ids) => {
       return Recipe
@@ -34,4 +39,5 @@ angular.module('bruleeApp.services')
 
     return this;
 
-  });
+  })
+  .name;

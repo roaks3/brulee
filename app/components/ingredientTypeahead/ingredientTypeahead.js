@@ -1,8 +1,15 @@
-'use strict';
+import angular from 'angular';
+import uiBootstrap from 'angular-ui-bootstrap';
+
+import Ingredient from '../../scripts/datastores/Ingredient';
+
+import template from './ingredientTypeahead.html';
 
 class IngredientTypeaheadCtrl {
 
   constructor (Ingredient) {
+    'ngInject';
+
     this.Ingredient = Ingredient;
     this.ingredients = [];
     this._selectedIngredient = {};
@@ -36,13 +43,14 @@ class IngredientTypeaheadCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.ingredientTypeahead', [uiBootstrap, Ingredient])
   .component('ingredientTypeahead', {
+    template,
     bindings: {
       inputDisabled: '<',
       selectedIngredient: '<',
       onSelect: '&'
     },
-    controller: IngredientTypeaheadCtrl,
-    templateUrl: 'components/ingredientTypeahead/ingredientTypeahead.html'
-  });
+    controller: IngredientTypeaheadCtrl
+  })
+  .name;

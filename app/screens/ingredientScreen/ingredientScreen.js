@@ -1,8 +1,21 @@
-'use strict';
+import angular from 'angular';
+import uiRouter from 'angular-ui-router';
+
+import Category from '../../scripts/datastores/Category';
+import Ingredient from '../../scripts/datastores/Ingredient';
+import Recipe from '../../scripts/datastores/Recipe';
+import categoryService from '../../scripts/services/categoryService';
+import recipeService from '../../scripts/services/recipeService';
+import statusBar from '../../components/statusBar/statusBar';
+import categorySelect from '../../components/categorySelect/categorySelect';
+
+import template from './ingredientScreen.html';
 
 class IngredientScreenCtrl {
 
   constructor ($state, $stateParams, $window, Category, categoryService, Ingredient, Recipe, recipeService) {
+    'ngInject';
+
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$window = $window;
@@ -101,9 +114,20 @@ class IngredientScreenCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('screens.ingredientScreen', [
+    uiRouter,
+    Category,
+    Ingredient,
+    Recipe,
+    categoryService,
+    recipeService,
+    statusBar,
+    categorySelect
+  ])
   .component('ingredientScreen', {
+    template,
     controller: IngredientScreenCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'screens/ingredientScreen/ingredientScreen.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

@@ -1,8 +1,11 @@
-'use strict';
+import angular from 'angular';
 
-angular.module('bruleeApp.services')
+import Category from '../datastores/Category';
+
+export default angular.module('services.categoryService', [Category])
 
   .service('categoryService', function ($q, Category) {
+    'ngInject';
 
     this.size = function () {
       return Category.filter().length;
@@ -28,4 +31,5 @@ angular.module('bruleeApp.services')
 
     return this;
 
-  });
+  })
+  .name;

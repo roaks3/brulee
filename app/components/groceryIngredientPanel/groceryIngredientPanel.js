@@ -1,8 +1,17 @@
-'use strict';
+import angular from 'angular';
+
+import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import addIngredientForm from '../addIngredientForm/addIngredientForm';
+import groceryCategoryList from '../groceryCategoryList/groceryCategoryList';
+
+import template from './groceryIngredientPanel.html';
+import './groceryIngredientPanel.scss';
 
 class GroceryIngredientPanelCtrl {
 
   constructor (groceryListPageStore) {
+    'ngInject';
+
     this.groceryListPageStore = groceryListPageStore;
   }
 
@@ -29,13 +38,19 @@ class GroceryIngredientPanelCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('components.groceryIngredientPanel', [
+    groceryListPageStore,
+    addIngredientForm,
+    groceryCategoryList
+  ])
   .component('groceryIngredientPanel', {
+    template,
     bindings: {
       groceryList: '<',
       onAddIngredient: '&',
       onError: '&'
     },
-    controller: GroceryIngredientPanelCtrl,
-    templateUrl: 'components/groceryIngredientPanel/groceryIngredientPanel.html'
-  });
+    controller: GroceryIngredientPanelCtrl
+  })
+  .name;

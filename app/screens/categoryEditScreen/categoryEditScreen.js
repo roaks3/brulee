@@ -1,8 +1,17 @@
-'use strict';
+import angular from 'angular';
+
+import categoryPageStore from '../../scripts/services/categoryPageStore';
+import statusBar from '../../components/statusBar/statusBar';
+import categoryEditListItem from '../../components/categoryEditListItem/categoryEditListItem';
+
+import template from './categoryEditScreen.html';
+import './categoryEditScreen.scss';
 
 class CategoryEditScreenCtrl {
 
   constructor ($q, $window, categoryPageStore) {
+    'ngInject';
+
     this.$q = $q;
     this.$window = $window;
     this.categoryPageStore = categoryPageStore;
@@ -79,9 +88,15 @@ class CategoryEditScreenCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('screens.categoryEditScreen', [
+    categoryPageStore,
+    statusBar,
+    categoryEditListItem
+  ])
   .component('categoryEditScreen', {
+    template,
     controller: CategoryEditScreenCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'screens/categoryEditScreen/categoryEditScreen.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

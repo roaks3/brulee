@@ -1,8 +1,16 @@
-'use strict';
+import moment from 'moment';
+import angular from 'angular';
+
+import GroceryList from '../../scripts/datastores/GroceryList';
+
+import template from './groceryListSelect.html';
+import './groceryListSelect.scss';
 
 class GroceryListSelectCtrl {
 
   constructor (GroceryList) {
+    'ngInject';
+
     this.GroceryList = GroceryList;
     this.groceryLists = [];
   }
@@ -44,12 +52,13 @@ class GroceryListSelectCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.groceryListSelect', [GroceryList])
   .component('groceryListSelect', {
+    template,
     bindings: {
       selectedGroceryListId: '<'
     },
     controller: GroceryListSelectCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'components/groceryListSelect/groceryListSelect.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

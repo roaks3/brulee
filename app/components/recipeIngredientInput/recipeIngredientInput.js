@@ -1,8 +1,17 @@
-'use strict';
+import angular from 'angular';
+
+import Ingredient from '../../scripts/datastores/Ingredient';
+import categoryService from '../../scripts/services/categoryService';
+import ingredientTypeahead from '../ingredientTypeahead/ingredientTypeahead';
+import categorySelect from '../categorySelect/categorySelect';
+
+import template from './recipeIngredientInput.html';
 
 class RecipeIngredientInputCtrl {
 
   constructor (categoryService, Ingredient) {
+    'ngInject';
+
     this.categoryService = categoryService;
     this.Ingredient = Ingredient;
   }
@@ -24,8 +33,15 @@ class RecipeIngredientInputCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('components.recipeIngredientInput', [
+    Ingredient,
+    categoryService,
+    ingredientTypeahead,
+    categorySelect
+  ])
   .component('recipeIngredientInput', {
+    template,
     bindings: {
       recipeIngredient: '<',
       onRemove: '&',
@@ -33,6 +49,6 @@ angular.module('bruleeApp')
       inputDisabled: '<'
     },
     controller: RecipeIngredientInputCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'components/recipeIngredientInput/recipeIngredientInput.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

@@ -1,6 +1,6 @@
-'use strict';
+import angular from 'angular';
 
-angular.module('bruleeApp.services')
+export default angular.module('services.ingredientParseService', [])
 
   .service('ingredientParseService', function () {
 
@@ -67,4 +67,5 @@ angular.module('bruleeApp.services')
 
     return this;
 
-  });
+  })
+  .name;

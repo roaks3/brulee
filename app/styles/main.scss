@@ -1,6 +1,4 @@
-// bower:scss
-@import "../../bower_components/font-awesome/scss/font-awesome.scss";
-// endbower
+@import '~font-awesome/css/font-awesome.css';
 
 @import 'reset';
 @import 'colors';
@@ -10,24 +8,7 @@
 @import 'dropdowns';
 @import 'forms';
 
-@import '../components/listTextArea/listTextArea';
-@import '../components/navBar/navBar';
-@import '../components/statusBar/statusBar';
 @import 'recipeIngredientInput';
-@import '../components/groceryIngredientListItem/groceryIngredientListItem';
-@import '../components/groceryCategoryListItem/groceryCategoryListItem';
-@import '../components/groceryListSelect/groceryListSelect';
-@import '../components/groceryIngredientPanel/groceryIngredientPanel';
-@import '../components/recipeScheduleDay/recipeScheduleDay';
-@import '../components/recipeSchedule/recipeSchedule';
-@import '../components/ingredientEditList/ingredientEditList';
-@import '../components/categoryEditListItem/categoryEditListItem';
-
-@import '../screens/categoryEditScreen/categoryEditScreen';
-@import '../screens/addRecipeScreen/addRecipeScreen';
-@import '../screens/createListScreen/createListScreen';
-@import '../screens/recipeScreen/recipeScreen';
-@import '../screens/groceryListScreen/groceryListScreen';
 
 body {
   padding-bottom: 20px;

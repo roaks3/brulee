@@ -1,8 +1,20 @@
-'use strict';
+import angular from 'angular';
+import uiRouter from 'angular-ui-router';
+
+import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import statusBar from '../../components/statusBar/statusBar';
+import groceryListSelect from '../../components/groceryListSelect/groceryListSelect';
+import groceryIngredientPanel from '../../components/groceryIngredientPanel/groceryIngredientPanel';
+import recipeSchedule from '../../components/recipeSchedule/recipeSchedule';
+
+import template from './groceryListScreen.html';
+import './groceryListScreen.scss';
 
 class GroceryListScreenCtrl {
 
   constructor ($stateParams, groceryListPageStore) {
+    'ngInject';
+
     this.$stateParams = $stateParams;
     this.groceryListPageStore = groceryListPageStore;
     this.errors = [];
@@ -44,9 +56,18 @@ class GroceryListScreenCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('screens.groceryListScreen', [
+    uiRouter,
+    groceryListPageStore,
+    statusBar,
+    groceryListSelect,
+    groceryIngredientPanel,
+    recipeSchedule
+  ])
   .component('groceryListScreen', {
+    template,
     controller: GroceryListScreenCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'screens/groceryListScreen/groceryListScreen.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

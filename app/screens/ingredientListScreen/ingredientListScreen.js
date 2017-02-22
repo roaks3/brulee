@@ -1,8 +1,15 @@
-'use strict';
+import angular from 'angular';
+
+import Ingredient from '../../scripts/datastores/Ingredient';
+import statusBar from '../../components/statusBar/statusBar';
+
+import template from './ingredientListScreen.html';
 
 class IngredientListScreenCtrl {
 
   constructor ($window, Ingredient) {
+    'ngInject';
+
     this.$window = $window;
     this.Ingredient = Ingredient;
     this.ingredients = [];
@@ -54,9 +61,10 @@ class IngredientListScreenCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('screens.ingredientListScreen', [Ingredient, statusBar])
   .component('ingredientListScreen', {
+    template,
     controller: IngredientListScreenCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'screens/ingredientListScreen/ingredientListScreen.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

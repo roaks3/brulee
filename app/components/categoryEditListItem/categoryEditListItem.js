@@ -1,8 +1,17 @@
-'use strict';
+import angular from 'angular';
+
+import categoryPageStore from '../../scripts/services/categoryPageStore';
+import addIngredientForm from '../addIngredientForm/addIngredientForm';
+import ingredientEditList from '../ingredientEditList/ingredientEditList';
+
+import template from './categoryEditListItem.html';
+import './categoryEditListItem.scss';
 
 class CategoryEditListItemCtrl {
 
   constructor ($window, categoryPageStore) {
+    'ngInject';
+
     this.$window = $window;
     this.categoryPageStore = categoryPageStore;
   }
@@ -43,13 +52,19 @@ class CategoryEditListItemCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular
+  .module('components.categoryEditListItem', [
+    categoryPageStore,
+    addIngredientForm,
+    ingredientEditList
+  ])
   .component('categoryEditListItem', {
+    template,
     bindings: {
       category: '<',
       onRemove: '&'
     },
     controller: CategoryEditListItemCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'components/categoryEditListItem/categoryEditListItem.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;

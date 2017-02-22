@@ -1,4 +1,9 @@
-'use strict';
+import angular from 'angular';
+
+import recipeScheduleDay from '../recipeScheduleDay/recipeScheduleDay';
+
+import template from './recipeSchedule.html';
+import './recipeSchedule.scss';
 
 class RecipeScheduleCtrl {
 
@@ -8,9 +13,10 @@ class RecipeScheduleCtrl {
 
 }
 
-angular.module('bruleeApp')
+export default angular.module('components.recipeSchedule', [recipeScheduleDay])
   .component('recipeSchedule', {
+    template,
     controller: RecipeScheduleCtrl,
-    controllerAs: 'vm',
-    templateUrl: 'components/recipeSchedule/recipeSchedule.html'
-  });
+    controllerAs: 'vm'
+  })
+  .name;
