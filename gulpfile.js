@@ -56,19 +56,7 @@ gulp.task('webpack:dist', function () {
     .pipe(gulp.dest(yeoman.dist));
 });
 
-gulp.task('jshint', function () {
-  return gulp.src(paths.scripts)
-    .pipe($.jshint('.jshintrc'))
-    .pipe($.jshint.reporter('jshint-stylish'));
-});
-
-gulp.task('jscs', function () {
-  return gulp.src(paths.scripts)
-    .pipe($.jscs())
-    .pipe($.jscs.reporter());
-});
-
-gulp.task('lint', ['jshint', 'jscs'], function () {
+gulp.task('lint', function () {
   return gulp.src(paths.scripts)
     .pipe(lintScripts());
 });
