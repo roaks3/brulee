@@ -108,7 +108,12 @@ module.exports = {
         "lines-around-comment": "error",
         "lines-around-directive": "error",
         "max-depth": "error",
-        "max-len": "off",
+        "max-len": [
+            "error",
+            {
+                "code": 120
+            }
+        ],
         "max-nested-callbacks": "error",
         "max-params": "off",
         "max-statements": "off",

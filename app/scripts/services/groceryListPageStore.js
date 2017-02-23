@@ -134,7 +134,8 @@ class GroceryListPageStore {
 
     // Add Uncategorized if there are ingredients with no category
     const categorizedIngredientIds = _(this.categories).map('ingredient_ids').flatten().uniq().value();
-    const uncategorized = this.selectedIngredients.some(ingredient => !categorizedIngredientIds.includes(ingredient.id));
+    const uncategorized =
+      this.selectedIngredients.some(ingredient => !categorizedIngredientIds.includes(ingredient.id));
     if (uncategorized) {
       categories = [...categories, UNCATEGORIZED];
     }
