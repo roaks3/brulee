@@ -42,14 +42,14 @@ gulp.task('webpack:dev', function () {
   var webpackDevConfig = makeWebpackConfig({ DEV: true });
   return gulp.src(webpackDevConfig.entry.app)
     .pipe($.plumber())
-    .pipe(webpackStream(webpackDevConfig))
+    .pipe(webpackStream(webpackDevConfig, webpack))
     .pipe(gulp.dest('.tmp'));
 });
 
 gulp.task('webpack:dist', function () {
   var webpackDistConfig = makeWebpackConfig({ BUILD: true });
   return gulp.src(webpackDistConfig.entry.app)
-    .pipe(webpackStream(webpackDistConfig))
+    .pipe(webpackStream(webpackDistConfig, webpack))
     .on('error', () => {
       this.emit('end'); // Recover from errors
     })

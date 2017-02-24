@@ -78,10 +78,10 @@ module.exports = function (options) {
 
     if (TEST) {
         config.resolve = {
-            modulesDirectories: [
+            modules: [
                 'node_modules'
             ],
-            extensions: ['', '.js', '.ts']
+            extensions: ['', '.js']
         };
     }
 
@@ -105,22 +105,15 @@ module.exports = function (options) {
      * This handles most of the magic responsible for converting modules
      */
 
-    config.sassLoader = {
-        outputStyle: 'compressed',
-        precision: 10,
-        sourceComments: false
-    };
-
     // Initialize module
     config.module = {
-        preLoaders: [],
-        loaders: [{
+        rules: [{
             // JS LOADER
             // Reference: https://github.com/babel/babel-loader
             // Transpile .js files using babel-loader
             // Compiles ES6 and ES7 into ES5 code
             test: /\.js$/,
-            loader: 'babel',
+            loader: 'babel-loader',
             include: [
                 path.resolve(__dirname, './app')
             ]
@@ -132,14 +125,14 @@ module.exports = function (options) {
             // Pass along the updated reference to your code
             // You can add here any file extension you want to get copied to your output
             test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)([\?]?.*)$/,
-            loader: 'file'
+            loader: 'file-loader'
         }, {
 
             // HTML LOADER
             // Reference: https://github.com/webpack/raw-loader
             // Allow loading html through js
             test: /\.html$/,
-            loader: 'raw'
+            loader: 'raw-loader'
         }, {
             // CSS LOADER
             // Reference: https://github.com/webpack/css-loader
@@ -148,40 +141,59 @@ module.exports = function (options) {
             // Reference: https://github.com/postcss/postcss-loader
             // Postprocess your css with PostCSS plugins
             test: /\.css$/,
-            loader: !TEST
+            use: !TEST
                 // Reference: https://github.com/webpack/extract-text-webpack-plugin
                 // Extract css files in production builds
                 //
                 // Reference: https://github.com/webpack/style-loader
                 // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+                ? ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                plugins: [
+                                    autoprefixer({
+                                        browsers: ['last 2 version']
+                                    })
+                                ]
+                            }
+                        }
+                    ]
+                })
                 // Reference: https://github.com/webpack/null-loader
                 // Skip loading css in test mode
-                : 'null'
+                : 'null-loader'
         }, {
             // SASS LOADER
             // Reference: https://github.com/jtangelder/sass-loader
             test: /\.(scss|sass)$/,
-            loaders: ['style', 'css', 'sass']
+            use: [
+                'style-loader',
+                'css-loader',
+                {
+                    loader: 'sass-loader',
+                    options: {
+                        outputStyle: 'compressed',
+                        precision: 10,
+                        sourceComments: false
+                    }
+                }
+            ]
+        }, {
+            enforce: 'post',
+            test: /\.js$/,
+            loader: 'ng-annotate-loader?single_quotes'
         }]
     };
 
-    config.module.postLoaders = [{
-        test: /\.js$/,
-        loader: 'ng-annotate?single_quotes'
-    }];
-
-
-    /**
-     * PostCSS
-     * Reference: https://github.com/postcss/autoprefixer-core
-     * Add vendor prefixes to your css
-     */
-    config.postcss = [
-        autoprefixer({
-            browsers: ['last 2 version']
-        })
-    ];
 
     /**
      * Plugins
@@ -192,7 +204,8 @@ module.exports = function (options) {
         // Reference: https://github.com/webpack/extract-text-webpack-plugin
         // Extract css files
         // Disabled when in test mode or not in build mode
-        new ExtractTextPlugin('[name].[hash].css', {
+        new ExtractTextPlugin({
+            filename: '[name].[hash].css',
             disable: !BUILD || TEST
         })
     ];
@@ -227,15 +240,12 @@ module.exports = function (options) {
         config.plugins.push(
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
             // Only emit files when there are no errors
-            new webpack.NoErrorsPlugin(),
-
-            // Reference: http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
-            // Dedupe modules in the output
-            new webpack.optimize.DedupePlugin(),
+            new webpack.NoEmitOnErrorsPlugin(),
 
             // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
             // Minify all javascript, switch loaders to minimizing mode
             new webpack.optimize.UglifyJsPlugin({
+                sourceMap: true,
                 mangle: false,
                 output: {
                     comments: false
@@ -276,7 +286,6 @@ module.exports = function (options) {
             colors: true,
             reasons: true
         };
-        config.debug = false;
     }
 
     /**
@@ -296,7 +305,7 @@ module.exports = function (options) {
     };
 
     config.node = {
-        global: 'window',
+        global: true,
         process: true,
         crypto: 'empty',
         clearImmediate: false,
