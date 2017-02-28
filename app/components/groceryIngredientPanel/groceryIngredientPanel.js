@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 import addIngredientForm from '../addIngredientForm/addIngredientForm';
 import groceryCategoryList from '../groceryCategoryList/groceryCategoryList';
 
@@ -9,20 +9,20 @@ import './groceryIngredientPanel.scss';
 
 class GroceryIngredientPanelCtrl {
 
-  constructor (groceryListPageStore) {
+  constructor (selectedGroceryListStore) {
     'ngInject';
 
-    this.groceryListPageStore = groceryListPageStore;
+    this.selectedGroceryListStore = selectedGroceryListStore;
   }
 
   $onInit () {
-    this.groceryListPageStore.fetchCrossedOutIngredients();
-    this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
+    this.selectedGroceryListStore.fetchCrossedOutIngredients();
+    this.crossedOutIngredients = this.selectedGroceryListStore.crossedOutIngredientIds;
   }
 
   $onChanges (changesObj) {
     if (changesObj.groceryList) {
-      this.categories = this.groceryListPageStore
+      this.categories = this.selectedGroceryListStore
         .selectCategoriesForGroceryList(this.groceryList);
     }
   }
@@ -32,20 +32,20 @@ class GroceryIngredientPanelCtrl {
   }
 
   crossOut (ingredient) {
-    this.groceryListPageStore.toggleCrossedOutIngredient(ingredient.id);
-    this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
+    this.selectedGroceryListStore.toggleCrossedOutIngredient(ingredient.id);
+    this.crossedOutIngredients = this.selectedGroceryListStore.crossedOutIngredientIds;
   }
 
   clearCrossedOutIngredients () {
-    this.groceryListPageStore.clearCrossedOutIngredients();
-    this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
+    this.selectedGroceryListStore.clearCrossedOutIngredients();
+    this.crossedOutIngredients = this.selectedGroceryListStore.crossedOutIngredientIds;
   }
 
 }
 
 export default angular
   .module('components.groceryIngredientPanel', [
-    groceryListPageStore,
+    selectedGroceryListStore,
     addIngredientForm,
     groceryCategoryList
   ])

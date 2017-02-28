@@ -1,22 +1,22 @@
 import angular from 'angular';
 
-import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 
 import template from './groceryIngredientListItem.html';
 import './groceryIngredientListItem.scss';
 
 class GroceryIngredientListItemCtrl {
 
-  constructor (groceryListPageStore) {
+  constructor (selectedGroceryListStore) {
     'ngInject';
 
-    this.groceryListPageStore = groceryListPageStore;
+    this.selectedGroceryListStore = selectedGroceryListStore;
     this.recipes = [];
   }
 
   $onChanges (changesObj) {
     if (changesObj.groceryList) {
-      this.recipes = this.groceryListPageStore
+      this.recipes = this.selectedGroceryListStore
         .selectRecipesForIngredient(this.groceryList, this.ingredient.id);
     }
   }
@@ -27,7 +27,7 @@ class GroceryIngredientListItemCtrl {
 
 }
 
-export default angular.module('components.groceryIngredientListItem', [groceryListPageStore])
+export default angular.module('components.groceryIngredientListItem', [selectedGroceryListStore])
   .component('groceryIngredientListItem', {
     template,
     bindings: {

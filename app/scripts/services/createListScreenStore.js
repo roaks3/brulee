@@ -1,8 +1,8 @@
 import angular from 'angular';
 
 import GroceryList from '../datastores/GroceryList';
-import ingredientStore from './ingredientStore';
-import recipeStore from './recipeStore';
+import ingredientStore from '../../store/ingredientStore';
+import recipeStore from '../../store/recipeStore';
 
 class CreateListScreenStore {
 

@@ -3,7 +3,7 @@ import angular from 'angular';
 
 import GroceryList from '../../scripts/datastores/GroceryList';
 import createListScreenStore from '../../scripts/services/createListScreenStore';
-import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 import statusBar from '../../components/statusBar/statusBar';
 import recipeDayInput from '../../components/recipeDayInput/recipeDayInput';
 import groceryCategoryList from '../../components/groceryCategoryList/groceryCategoryList';
@@ -13,13 +13,13 @@ import './createListScreen.scss';
 
 class CreateListScreenCtrl {
 
-  constructor ($window, createListScreenStore, GroceryList, groceryListPageStore) {
+  constructor ($window, createListScreenStore, GroceryList, selectedGroceryListStore) {
     'ngInject';
 
     this.$window = $window;
     this.createListScreenStore = createListScreenStore;
     this.GroceryList = GroceryList;
-    this.groceryListPageStore = groceryListPageStore;
+    this.selectedGroceryListStore = selectedGroceryListStore;
   }
 
   $onInit () {
@@ -57,11 +57,11 @@ class CreateListScreenCtrl {
       }))
     };
 
-    this.groceryListPageStore.setSelectedGroceryList(this.newGroceryList);
-    this.groceryListPageStore
+    this.selectedGroceryListStore.setSelectedGroceryList(this.newGroceryList);
+    this.selectedGroceryListStore
       .fetchAllForGroceryList(this.newGroceryList)
       .then(() => {
-        this.categories = this.groceryListPageStore.selectCategoriesForGroceryList(this.newGroceryList);
+        this.categories = this.selectedGroceryListStore.selectCategoriesForGroceryList(this.newGroceryList);
       });
   }
 
@@ -99,7 +99,7 @@ export default angular
   .module('screens.createListScreen', [
     GroceryList,
     createListScreenStore,
-    groceryListPageStore,
+    selectedGroceryListStore,
     statusBar,
     recipeDayInput,
     groceryCategoryList

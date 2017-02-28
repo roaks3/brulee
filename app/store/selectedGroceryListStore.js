@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import GroceryList from '../datastores/GroceryList';
+import GroceryList from '../scripts/datastores/GroceryList';
 import categoryStore from './categoryStore';
 import ingredientStore from './ingredientStore';
 import recipeStore from './recipeStore';
@@ -10,7 +10,7 @@ const UNCATEGORIZED = {
   order: 0
 };
 
-class GroceryListPageStore {
+class SelectedGroceryListStore {
 
   constructor ($q, $window, categoryStore, GroceryList, ingredientStore, recipeStore) {
     'ngInject';
@@ -141,11 +141,11 @@ class GroceryListPageStore {
 }
 
 export default angular
-  .module('services.groceryListPageStore', [
+  .module('services.selectedGroceryListStore', [
     GroceryList,
     categoryStore,
     ingredientStore,
     recipeStore
   ])
-  .service('groceryListPageStore', GroceryListPageStore)
+  .service('selectedGroceryListStore', SelectedGroceryListStore)
   .name;

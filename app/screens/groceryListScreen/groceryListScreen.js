@@ -1,7 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 
-import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 import statusBar from '../../components/statusBar/statusBar';
 import groceryListSelect from '../../components/groceryListSelect/groceryListSelect';
 import groceryIngredientPanel from '../../components/groceryIngredientPanel/groceryIngredientPanel';
@@ -12,11 +12,11 @@ import './groceryListScreen.scss';
 
 class GroceryListScreenCtrl {
 
-  constructor ($stateParams, groceryListPageStore) {
+  constructor ($stateParams, selectedGroceryListStore) {
     'ngInject';
 
     this.$stateParams = $stateParams;
-    this.groceryListPageStore = groceryListPageStore;
+    this.selectedGroceryListStore = selectedGroceryListStore;
     this.errors = [];
   }
 
@@ -28,11 +28,11 @@ class GroceryListScreenCtrl {
   }
 
   selectGroceryList (id) {
-    return this.groceryListPageStore
+    return this.selectedGroceryListStore
       .fetchGroceryList(id)
-      .then(() => this.groceryListPageStore.fetchAllForGroceryList(this.groceryListPageStore.selectedGroceryList))
+      .then(() => this.selectedGroceryListStore.fetchAllForGroceryList(this.selectedGroceryListStore.selectedGroceryList))
       .then(() => {
-        this.groceryList = this.groceryListPageStore.selectedGroceryList;
+        this.groceryList = this.selectedGroceryListStore.selectedGroceryList;
       })
       .catch(error => {
         this.errors.push(error);
@@ -41,10 +41,10 @@ class GroceryListScreenCtrl {
 
   addIngredient (ingredient) {
     this.groceryList = null;
-    this.groceryListPageStore
+    this.selectedGroceryListStore
       .addIngredientToGroceryList(ingredient)
       .then(() => {
-        this.groceryList = this.groceryListPageStore.selectedGroceryList;
+        this.groceryList = this.selectedGroceryListStore.selectedGroceryList;
       });
   }
 
@@ -57,7 +57,7 @@ class GroceryListScreenCtrl {
 export default angular
   .module('screens.groceryListScreen', [
     uiRouter,
-    groceryListPageStore,
+    selectedGroceryListStore,
     statusBar,
     groceryListSelect,
     groceryIngredientPanel,

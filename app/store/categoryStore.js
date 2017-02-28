@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import Category from '../datastores/Category';
+import Category from '../scripts/datastores/Category';
 
 class CategoryStore {
 

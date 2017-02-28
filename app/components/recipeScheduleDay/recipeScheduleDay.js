@@ -1,17 +1,17 @@
 import moment from 'moment';
 import angular from 'angular';
 
-import groceryListPageStore from '../../scripts/services/groceryListPageStore';
+import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 
 import template from './recipeScheduleDay.html';
 import './recipeScheduleDay.scss';
 
 class RecipeScheduleDayCtrl {
 
-  constructor (groceryListPageStore) {
+  constructor (selectedGroceryListStore) {
     'ngInject';
 
-    this.groceryListPageStore = groceryListPageStore;
+    this.selectedGroceryListStore = selectedGroceryListStore;
   }
 
   $onInit () {
@@ -21,14 +21,14 @@ class RecipeScheduleDayCtrl {
 
   $onChanges (changesObj) {
     if (changesObj.groceryList) {
-      this.recipes = this.groceryListPageStore
+      this.recipes = this.selectedGroceryListStore
         .selectRecipesForDayOfWeek(this.groceryList, this.dayOfWeek);
     }
   }
 
 }
 
-export default angular.module('components.recipeScheduleDay', [groceryListPageStore])
+export default angular.module('components.recipeScheduleDay', [selectedGroceryListStore])
   .component('recipeScheduleDay', {
     template,
     bindings: {

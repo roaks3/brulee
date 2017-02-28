@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import Recipe from '../datastores/Recipe';
+import Recipe from '../scripts/datastores/Recipe';
 
 class RecipeStore {
 

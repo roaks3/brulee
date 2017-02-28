@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import Ingredient from '../datastores/Ingredient';
+import Ingredient from '../scripts/datastores/Ingredient';
 
 class IngredientStore {
 
