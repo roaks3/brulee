@@ -14,8 +14,11 @@ class GroceryCategoryListItemCtrl {
     this.groceryListPageStore = groceryListPageStore;
   }
 
-  $onInit () {
-    this.ingredients = this.groceryListPageStore.selectIngredientsForCategory(this.category.id);
+  $onChanges (changesObj) {
+    if (changesObj.groceryList) {
+      this.ingredients = this.groceryListPageStore
+        .selectIngredientsForCategory(this.groceryList, this.category.id);
+    }
   }
 
 }
@@ -30,6 +33,7 @@ export default angular
     bindings: {
       category: '<',
       crossedOutIngredients: '<',
+      groceryList: '<',
       onCrossOut: '&'
     },
     controller: GroceryCategoryListItemCtrl

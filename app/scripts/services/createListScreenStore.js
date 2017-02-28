@@ -19,7 +19,7 @@ class CreateListScreenStore {
       .then(() => this.ingredientStore.fetchAllIngredients())
       .then(() => this.recipeStore.fetchAllRecipes())
       .then(() => {
-        this.recipes = this.recipeStore.allRecipes;
+        this.recipes = this.recipeStore.recipes;
       });
   }
 

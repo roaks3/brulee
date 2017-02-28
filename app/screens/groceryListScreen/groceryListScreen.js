@@ -30,9 +30,7 @@ class GroceryListScreenCtrl {
   selectGroceryList (id) {
     return this.groceryListPageStore
       .fetchGroceryList(id)
-      .then(() => this.groceryListPageStore.fetchAllRecipesForGroceryList())
-      .then(() => this.groceryListPageStore.fetchAllIngredientsForGroceryList())
-      .then(() => this.groceryListPageStore.fetchAllCategories())
+      .then(() => this.groceryListPageStore.fetchAllForGroceryList(this.groceryListPageStore.selectedGroceryList))
       .then(() => {
         this.groceryList = this.groceryListPageStore.selectedGroceryList;
       })

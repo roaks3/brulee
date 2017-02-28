@@ -29,7 +29,6 @@ class CreateListScreenCtrl {
 
     this.createListScreenStore
       .fetchAll()
-      .then(() => this.groceryListPageStore.fetchAllCategories())
       .then(() => {
         this.recipeUseCountsByRecipeId = this.createListScreenStore.recipeUseCountsByRecipeId;
         this.recipes = this.createListScreenStore.recipes;
@@ -60,10 +59,9 @@ class CreateListScreenCtrl {
 
     this.groceryListPageStore.setSelectedGroceryList(this.newGroceryList);
     this.groceryListPageStore
-      .fetchAllRecipesForGroceryList()
-      .then(() => this.groceryListPageStore.fetchAllIngredientsForGroceryList())
+      .fetchAllForGroceryList(this.newGroceryList)
       .then(() => {
-        this.categories = this.groceryListPageStore.selectCategoriesForIngredients();
+        this.categories = this.groceryListPageStore.selectCategoriesForGroceryList(this.newGroceryList);
       });
   }
 

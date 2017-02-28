@@ -14,16 +14,44 @@ class RecipeStore {
     return this.Recipe
       .findAll()
       .then(recipes => {
-        this.allRecipes = recipes;
+        this.recipes = recipes;
       });
   }
 
+  fetchRecipesById (ids) {
+    return this.Recipe
+      .findAll({
+        q: {
+          _id: {
+            $in: ids.map(id => ({$oid: id}))
+          }
+        }
+      })
+      .then(() => {
+        this.recipes = this.Recipe.getAll();
+      });
+  }
+
+  fetchRecipesForGroceryList (groceryList) {
+    const recipeIds = groceryList.recipe_days.map(rd => rd.recipe_id);
+    return this.fetchRecipesById(recipeIds);
+  }
+
   selectRecipesBySearchTerm (searchTerm, ingredientIds) {
-    return this.allRecipes.filter(recipe => {
+    return this.recipes.filter(recipe => {
       return (recipe.name && recipe.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (recipe.tags && recipe.tags.includes(searchTerm.toLowerCase())) ||
         (recipe.recipe_ingredients && recipe.recipe_ingredients.some(ri => ingredientIds.includes(ri.ingredient_id)));
     });
+  }
+
+  selectRecipesById (ids) {
+    return this.recipes.filter(r => ids.includes(r.id));
+  }
+
+  selectRecipesForGroceryList (groceryList) {
+    const recipeIds = groceryList.recipe_days.map(rd => rd.recipe_id);
+    return this.selectRecipesById(recipeIds);
   }
 
 }

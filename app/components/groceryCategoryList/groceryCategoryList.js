@@ -13,6 +13,7 @@ export default angular.module('components.groceryCategoryList', [groceryCategory
     bindings: {
       categories: '<',
       crossedOutIngredients: '<',
+      groceryList: '<',
       onCrossOut: '&'
     },
     controller: GroceryCategoryListCtrl

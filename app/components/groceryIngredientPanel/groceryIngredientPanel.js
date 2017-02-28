@@ -18,8 +18,13 @@ class GroceryIngredientPanelCtrl {
   $onInit () {
     this.groceryListPageStore.fetchCrossedOutIngredients();
     this.crossedOutIngredients = this.groceryListPageStore.crossedOutIngredientIds;
+  }
 
-    this.categories = this.groceryListPageStore.selectCategoriesForIngredients();
+  $onChanges (changesObj) {
+    if (changesObj.groceryList) {
+      this.categories = this.groceryListPageStore
+        .selectCategoriesForGroceryList(this.groceryList);
+    }
   }
 
   openAddIngredient () {

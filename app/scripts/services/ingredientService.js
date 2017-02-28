@@ -22,17 +22,6 @@ export default angular.module('services.ingredientService', [Ingredient])
         });
     };
 
-    this.findAllIngredientsById = ids => {
-      return Ingredient
-        .findAll({
-          q: {
-            _id: {
-              $in: _.map(ids, id => ({ $oid: id }))
-            }
-          }
-        });
-    };
-
     return this;
 
   })

@@ -1,8 +1,9 @@
 <ul>
 
   <grocery-ingredient-list-item
-    ng-repeat="ingredient in $ctrl.ingredients track by $index"
+    ng-repeat="ingredient in $ctrl.ingredients track by ingredient.id"
     ingredient="ingredient"
+    grocery-list="$ctrl.groceryList"
     is-crossed-out="$ctrl.crossedOut(ingredient)"
     on-cross-out="$ctrl.onCrossOut({ingredient})">
   </grocery-ingredient-list-item>

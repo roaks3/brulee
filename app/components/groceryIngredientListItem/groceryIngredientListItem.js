@@ -14,8 +14,11 @@ class GroceryIngredientListItemCtrl {
     this.recipes = [];
   }
 
-  $onInit () {
-    this.recipes = this.groceryListPageStore.selectRecipesForIngredient(this.ingredient.id);
+  $onChanges (changesObj) {
+    if (changesObj.groceryList) {
+      this.recipes = this.groceryListPageStore
+        .selectRecipesForIngredient(this.groceryList, this.ingredient.id);
+    }
   }
 
   toggle () {
@@ -29,6 +32,7 @@ export default angular.module('components.groceryIngredientListItem', [groceryLi
     template,
     bindings: {
       ingredient: '<',
+      groceryList: '<',
       isCrossedOut: '<',
       onCrossOut: '&'
     },

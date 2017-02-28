@@ -16,6 +16,9 @@ class RecipeScheduleCtrl {
 export default angular.module('components.recipeSchedule', [recipeScheduleDay])
   .component('recipeSchedule', {
     template,
+    bindings: {
+      groceryList: '<'
+    },
     controller: RecipeScheduleCtrl,
     controllerAs: 'vm'
   })

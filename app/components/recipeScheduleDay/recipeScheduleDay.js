@@ -17,7 +17,13 @@ class RecipeScheduleDayCtrl {
   $onInit () {
     this.dayName = moment().day(this.dayOfWeek).format('dddd');
     this.isToday = moment().day() === this.dayOfWeek;
-    this.recipes = this.groceryListPageStore.selectRecipesForDayOfWeek(this.dayOfWeek);
+  }
+
+  $onChanges (changesObj) {
+    if (changesObj.groceryList) {
+      this.recipes = this.groceryListPageStore
+        .selectRecipesForDayOfWeek(this.groceryList, this.dayOfWeek);
+    }
   }
 
 }
@@ -26,6 +32,7 @@ export default angular.module('components.recipeScheduleDay', [groceryListPageSt
   .component('recipeScheduleDay', {
     template,
     bindings: {
+      groceryList: '<',
       dayOfWeek: '<'
     },
     controller: RecipeScheduleDayCtrl,

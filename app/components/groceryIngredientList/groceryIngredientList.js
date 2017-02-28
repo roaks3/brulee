@@ -18,6 +18,7 @@ export default angular.module('components.groceryIngredientList', [groceryIngred
     bindings: {
       ingredients: '<',
       crossedOutIngredients: '<',
+      groceryList: '<',
       onCrossOut: '&'
     },
     controller: GroceryIngredientListCtrl
