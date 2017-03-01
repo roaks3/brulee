@@ -1,5 +1,6 @@
 import angular from 'angular';
 
+import crossedOutIngredientsStore from '../../store/crossedOutIngredientsStore';
 import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 import addIngredientForm from '../addIngredientForm/addIngredientForm';
 import groceryCategoryList from '../groceryCategoryList/groceryCategoryList';
@@ -9,15 +10,16 @@ import './groceryIngredientPanel.scss';
 
 class GroceryIngredientPanelCtrl {
 
-  constructor (selectedGroceryListStore) {
+  constructor (crossedOutIngredientsStore, selectedGroceryListStore) {
     'ngInject';
 
+    this.crossedOutIngredientsStore = crossedOutIngredientsStore;
     this.selectedGroceryListStore = selectedGroceryListStore;
   }
 
   $onInit () {
-    this.selectedGroceryListStore.fetchCrossedOutIngredients();
-    this.crossedOutIngredients = this.selectedGroceryListStore.crossedOutIngredientIds;
+    this.crossedOutIngredientsStore.fetchCrossedOutIngredients();
+    this.crossedOutIngredients = this.crossedOutIngredientsStore.selectAllCrossedOutIngredientIds();
   }
 
   $onChanges (changesObj) {
@@ -32,19 +34,20 @@ class GroceryIngredientPanelCtrl {
   }
 
   crossOut (ingredient) {
-    this.selectedGroceryListStore.toggleCrossedOutIngredient(ingredient.id);
-    this.crossedOutIngredients = this.selectedGroceryListStore.crossedOutIngredientIds;
+    this.crossedOutIngredientsStore.toggleCrossedOutIngredient(ingredient.id);
+    this.crossedOutIngredients = this.crossedOutIngredientsStore.selectAllCrossedOutIngredientIds();
   }
 
   clearCrossedOutIngredients () {
-    this.selectedGroceryListStore.clearCrossedOutIngredients();
-    this.crossedOutIngredients = this.selectedGroceryListStore.crossedOutIngredientIds;
+    this.crossedOutIngredientsStore.clearCrossedOutIngredients();
+    this.crossedOutIngredients = this.crossedOutIngredientsStore.selectAllCrossedOutIngredientIds();
   }
 
 }
 
 export default angular
   .module('components.groceryIngredientPanel', [
+    crossedOutIngredientsStore,
     selectedGroceryListStore,
     addIngredientForm,
     groceryCategoryList

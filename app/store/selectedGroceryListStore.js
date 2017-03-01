@@ -12,11 +12,10 @@ const UNCATEGORIZED = {
 
 class SelectedGroceryListStore {
 
-  constructor ($q, $window, categoryStore, GroceryList, ingredientStore, recipeStore) {
+  constructor ($q, categoryStore, GroceryList, ingredientStore, recipeStore) {
     'ngInject';
 
     this.$q = $q;
-    this.$window = $window;
     this.categoryStore = categoryStore;
     this.GroceryList = GroceryList;
     this.ingredientStore = ingredientStore;
@@ -46,25 +45,6 @@ class SelectedGroceryListStore {
 
   setSelectedGroceryList (groceryList) {
     this.selectedGroceryList = groceryList;
-  }
-
-  fetchCrossedOutIngredients () {
-    this.crossedOutIngredientIds = JSON.parse(this.$window.localStorage.getItem('crossedOutIngredientIds')) || [];
-  }
-
-  toggleCrossedOutIngredient (ingredientId) {
-    if (this.crossedOutIngredientIds.includes(ingredientId)) {
-      this.crossedOutIngredientIds =
-        this.crossedOutIngredientIds.filter(crossedOutIngredientId => crossedOutIngredientId !== ingredientId);
-    } else {
-      this.crossedOutIngredientIds = [...this.crossedOutIngredientIds, ingredientId];
-    }
-    this.$window.localStorage.setItem('crossedOutIngredientIds', JSON.stringify(this.crossedOutIngredientIds));
-  }
-
-  clearCrossedOutIngredients () {
-    this.crossedOutIngredientIds = [];
-    this.$window.localStorage.setItem('crossedOutIngredientIds', JSON.stringify(this.crossedOutIngredientIds));
   }
 
   addIngredientToGroceryList (ingredient) {
