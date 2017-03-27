@@ -24,8 +24,7 @@ class GroceryIngredientPanelCtrl {
 
   $onChanges (changesObj) {
     if (changesObj.groceryList) {
-      this.categories = this.selectedGroceryListStore
-        .selectCategoriesForGroceryList(this.groceryList);
+      this.categories = this.selectedGroceryListStore.selectCategories();
     }
   }
 

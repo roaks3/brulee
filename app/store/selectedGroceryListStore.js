@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import GroceryList from '../scripts/datastores/GroceryList';
 import categoryStore from './categoryStore';
+import groceryListStore from './groceryListStore';
 import ingredientStore from './ingredientStore';
 import recipeStore from './recipeStore';
 
@@ -12,35 +12,35 @@ const UNCATEGORIZED = {
 
 class SelectedGroceryListStore {
 
-  constructor ($q, categoryStore, GroceryList, ingredientStore, recipeStore) {
+  constructor ($q, categoryStore, groceryListStore, ingredientStore, recipeStore) {
     'ngInject';
 
     this.$q = $q;
     this.categoryStore = categoryStore;
-    this.GroceryList = GroceryList;
+    this.groceryListStore = groceryListStore;
     this.ingredientStore = ingredientStore;
     this.recipeStore = recipeStore;
   }
 
-  fetchAllForGroceryList (groceryList) {
+  fetchSelectedGroceryList (id) {
+    return this.groceryListStore
+      .fetchGroceryListById(id)
+      .then(() => {
+        this.selectedGroceryList = this.groceryListStore.selectGroceryListById(id);
+      });
+  }
+
+  fetchAllForSelectedGroceryList () {
     let recipes = [];
     return this.$q
       .all([
-        this.recipeStore.fetchRecipesForGroceryList(groceryList),
+        this.recipeStore.fetchRecipesForGroceryList(this.selectedGroceryList),
         this.categoryStore.fetchAllCategories()
       ])
       .then(() => {
-        recipes = this.recipeStore.selectRecipesForGroceryList(groceryList);
+        recipes = this.recipeStore.selectRecipesForGroceryList(this.selectedGroceryList);
       })
-      .then(() => this.ingredientStore.fetchIngredientsForGroceryList(groceryList, recipes));
-  }
-
-  fetchGroceryList (id) {
-    return this.GroceryList
-      .find(id)
-      .then(groceryList => {
-        this.selectedGroceryList = groceryList;
-      });
+      .then(() => this.ingredientStore.fetchIngredientsForGroceryList(this.selectedGroceryList, recipes));
   }
 
   setSelectedGroceryList (groceryList) {
@@ -58,20 +58,16 @@ class SelectedGroceryListStore {
       ]
     });
 
-    return this.GroceryList
-      .update(groceryList.id, _.pick(groceryList, [
-        'week_start',
-        'recipe_days',
-        'additional_ingredients'
-      ]))
+    return this.groceryListStore
+      .updateGroceryList(groceryList)
       .then(() => {
         this.ingredientStore.addIngredient(ingredient);
-        this.selectedGroceryList = groceryList;
+        this.selectedGroceryList = this.groceryListStore.selectGroceryListById(groceryList.id);
       });
   }
 
-  selectCategoriesForGroceryList (groceryList) {
-    const ingredients = this.selectIngredientsForGroceryList(groceryList);
+  selectCategories () {
+    const ingredients = this.selectIngredients();
     const ingredientIds = ingredients.map(ingredient => ingredient.id);
     let categories = this.categoryStore.selectCategoriesForIngredients(ingredientIds);
 
@@ -86,13 +82,13 @@ class SelectedGroceryListStore {
     return _.sortBy(categories, 'order');
   }
 
-  selectIngredientsForGroceryList (groceryList) {
-    const recipes = this.recipeStore.selectRecipesForGroceryList(groceryList);
-    return this.ingredientStore.selectIngredientsForGroceryList(groceryList, recipes);
+  selectIngredients () {
+    const recipes = this.recipeStore.selectRecipesForGroceryList(this.selectedGroceryList);
+    return this.ingredientStore.selectIngredientsForGroceryList(this.selectedGroceryList, recipes);
   }
 
-  selectIngredientsForCategory (groceryList, categoryId) {
-    const ingredients = this.selectIngredientsForGroceryList(groceryList);
+  selectIngredientsForCategory (categoryId) {
+    const ingredients = this.selectIngredients();
     const category = this.categoryStore.selectCategoryById(categoryId);
     if (!category) {
       const categories = this.categoryStore.selectAllCategories();
@@ -102,16 +98,16 @@ class SelectedGroceryListStore {
     return ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id));
   }
 
-  selectRecipesForIngredient (groceryList, ingredientId) {
-    const recipes = this.recipeStore.selectRecipesForGroceryList(groceryList);
+  selectRecipesForIngredient (ingredientId) {
+    const recipes = this.recipeStore.selectRecipesForGroceryList(this.selectedGroceryList);
     return recipes.filter(recipe => {
       return _.map(recipe.recipe_ingredients, 'ingredient_id').includes(ingredientId);
     });
   }
 
-  selectRecipesForDayOfWeek (groceryList, dayOfWeek) {
-    const recipes = this.recipeStore.selectRecipesForGroceryList(groceryList);
-    const recipeIds = groceryList.recipe_days
+  selectRecipesForDayOfWeek (dayOfWeek) {
+    const recipes = this.recipeStore.selectRecipesForGroceryList(this.selectedGroceryList);
+    const recipeIds = this.selectedGroceryList.recipe_days
       .filter(recipeDay => recipeDay.day_of_week === dayOfWeek)
       .map(recipeDay => recipeDay.recipe_id);
 
@@ -122,8 +118,8 @@ class SelectedGroceryListStore {
 
 export default angular
   .module('services.selectedGroceryListStore', [
-    GroceryList,
     categoryStore,
+    groceryListStore,
     ingredientStore,
     recipeStore
   ])

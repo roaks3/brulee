@@ -17,7 +17,7 @@ class GroceryCategoryListItemCtrl {
   $onChanges (changesObj) {
     if (changesObj.groceryList) {
       this.ingredients = this.selectedGroceryListStore
-        .selectIngredientsForCategory(this.groceryList, this.category.id);
+        .selectIngredientsForCategory(this.category.id);
     }
   }
 

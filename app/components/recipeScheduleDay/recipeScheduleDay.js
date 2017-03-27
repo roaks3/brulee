@@ -22,7 +22,7 @@ class RecipeScheduleDayCtrl {
   $onChanges (changesObj) {
     if (changesObj.groceryList) {
       this.recipes = this.selectedGroceryListStore
-        .selectRecipesForDayOfWeek(this.groceryList, this.dayOfWeek);
+        .selectRecipesForDayOfWeek(this.dayOfWeek);
     }
   }
 

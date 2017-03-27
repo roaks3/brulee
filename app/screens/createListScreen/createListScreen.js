@@ -59,9 +59,9 @@ class CreateListScreenCtrl {
 
     this.selectedGroceryListStore.setSelectedGroceryList(this.newGroceryList);
     this.selectedGroceryListStore
-      .fetchAllForGroceryList(this.newGroceryList)
+      .fetchAllForSelectedGroceryList()
       .then(() => {
-        this.categories = this.selectedGroceryListStore.selectCategoriesForGroceryList(this.newGroceryList);
+        this.categories = this.selectedGroceryListStore.selectCategories();
       });
   }
 
