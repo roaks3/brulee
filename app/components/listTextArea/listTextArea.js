@@ -6,11 +6,11 @@ import './listTextArea.scss';
 class ListTextAreaCtrl {
 
   $onInit () {
-    this.numLines = this.rawText.split('\n').length;
+    this.numLines = (this.rawText || '').split('\n').length;
   }
 
   updateLines () {
-    this.numLines = this.rawText.split('\n').length;
+    this.numLines = (this.rawText || '').split('\n').length;
   }
 
 }
