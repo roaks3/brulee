@@ -1,10 +1,9 @@
-import moment from 'moment';
 import angular from 'angular';
 
-import GroceryList from '../../scripts/datastores/GroceryList';
 import createListScreenStore from '../../scripts/services/createListScreenStore';
 import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 import statusBar from '../../components/statusBar/statusBar';
+import recipeListItem from '../../components/recipeListItem/recipeListItem';
 import recipeDayInput from '../../components/recipeDayInput/recipeDayInput';
 import groceryCategoryList from '../../components/groceryCategoryList/groceryCategoryList';
 
@@ -13,25 +12,25 @@ import './createListScreen.scss';
 
 class CreateListScreenCtrl {
 
-  constructor ($window, createListScreenStore, GroceryList, selectedGroceryListStore) {
+  constructor ($window, createListScreenStore, selectedGroceryListStore) {
     'ngInject';
 
     this.$window = $window;
     this.createListScreenStore = createListScreenStore;
-    this.GroceryList = GroceryList;
     this.selectedGroceryListStore = selectedGroceryListStore;
   }
 
   $onInit () {
-    this.recipes = [];
     this.errors = [];
     this.recipeSearch = { str: this.$window.sessionStorage.getItem('recipeFilterQuery') || '' };
 
     this.createListScreenStore
       .fetchAll()
       .then(() => {
+        this.createListScreenStore.init();
+        this.newGroceryList = this.selectedGroceryListStore.selectedGroceryList;
+        this.categories = [];
         this.recipeUseCountsByRecipeId = this.createListScreenStore.recipeUseCountsByRecipeId;
-        this.recipes = this.createListScreenStore.recipes;
         this.filterRecipes();
       })
       .catch(error => {
@@ -44,27 +43,6 @@ class CreateListScreenCtrl {
     this.filteredRecipes = this.createListScreenStore.selectSortedRecipesBySearchTerm(this.recipeSearch.str);
   }
 
-  calculateShoppingList () {
-    const selectedRecipes = _(this.recipes)
-      .filter('_selected')
-      .value();
-
-    this.newGroceryList = {
-      week_start: moment().day(0).format('YYYY-MM-DD'),
-      recipe_days: _.map(selectedRecipes, recipe => ({
-        recipe_id: recipe.id,
-        day_of_week: 0
-      }))
-    };
-
-    this.selectedGroceryListStore.setSelectedGroceryList(this.newGroceryList);
-    this.selectedGroceryListStore
-      .fetchAllForSelectedGroceryList()
-      .then(() => {
-        this.categories = this.selectedGroceryListStore.selectCategories();
-      });
-  }
-
   saveGroceryList () {
     this.errors = [];
     this.successMessage = null;
@@ -73,13 +51,8 @@ class CreateListScreenCtrl {
       //GroceryList.update($scope.newGroceryList);
       this.errors.push('Cannot update the grocery list in this view');
     } else {
-      this.GroceryList
-        .create({
-          week_start: this.newGroceryList.week_start,
-          recipe_days: _.map(this.newGroceryList.recipe_days, recipeDay => {
-            return _.pick(recipeDay, ['recipe_id', 'day_of_week']);
-          })
-        })
+      this.createListScreenStore
+        .createGroceryList()
         .then(() => {
           this.successMessage = 'Grocery list saved';
         })
@@ -93,14 +66,26 @@ class CreateListScreenCtrl {
     recipeDay.day_of_week = day;
   }
 
+  addRecipe (recipe) {
+    this.createListScreenStore.addRecipeToGroceryList(recipe.id);
+    this.newGroceryList = this.selectedGroceryListStore.selectedGroceryList;
+    this.categories = this.selectedGroceryListStore.selectCategories();
+  }
+
+  removeRecipe (recipe) {
+    this.createListScreenStore.removeRecipeFromGroceryList(recipe.id);
+    this.newGroceryList = this.selectedGroceryListStore.selectedGroceryList;
+    this.categories = this.selectedGroceryListStore.selectCategories();
+  }
+
 }
 
 export default angular
   .module('screens.createListScreen', [
-    GroceryList,
     createListScreenStore,
     selectedGroceryListStore,
     statusBar,
+    recipeListItem,
     recipeDayInput,
     groceryCategoryList
   ])

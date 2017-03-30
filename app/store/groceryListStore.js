@@ -18,6 +18,19 @@ class GroceryListStore {
       });
   }
 
+  createGroceryList (groceryList) {
+    return this.GroceryList
+      .create({
+        week_start: groceryList.week_start,
+        recipe_days: _.map(groceryList.recipe_days, recipeDay => {
+          return _.pick(recipeDay, ['recipe_id', 'day_of_week']);
+        })
+      })
+      .then(() => {
+        this.groceryLists = this.GroceryList.getAll();
+      });
+  }
+
   updateGroceryList (groceryList) {
     return this.GroceryList
       .update(groceryList.id, _.pick(groceryList, [

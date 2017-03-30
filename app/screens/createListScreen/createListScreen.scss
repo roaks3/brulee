@@ -32,57 +32,6 @@
   padding: 10px 10px 5px 10px;
 }
 
-.cl-recipe {
-  box-shadow: 1px 1px 3px 0 $brulee-grey-light;
-  margin-bottom: 5px;
-  padding: 10px;
-}
-
-.cl-recipe-top {
-  display: flex;
-}
-
-.cl-recipe-bottom {
-  font-size: 12px;
-  padding: 5px 20px;
-
-  span {
-    border-radius: 4px;
-    background-color: $brulee-purple-medium;
-    color: white;
-    padding: 2px 4px;
-  }
-}
-
-.cl-recipe-select {
-  cursor: pointer;
-  display: flex;
-  font-weight: 400;
-  width: 80%;
-
-  input[type="checkbox"] {
-    margin: 4px 7px 0 0;
-  }
-}
-
-.cl-recipe-title {
-  color: $brulee-steel-medium-dark;
-}
-
-.cl-recipe-link {
-  font-size: 12px;
-  line-height: 20px;
-  text-align: center;
-  width: 10%;
-}
-
-.cl-recipe-num-used {
-  color: $brulee-steel-medium-light;
-  letter-spacing: 1px;
-  text-align: center;
-  width: 10%;
-}
-
 .cl-ingredient-list-section {
   padding-left: 10px;
   width: 50%;

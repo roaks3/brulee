@@ -1,0 +1,28 @@
+<li class="bru-recipeListItem">
+
+  <div class="bru-recipeListItem-top">
+    <label class="bru-recipeListItem-select">
+      <input type="checkbox"
+             ng-model="$ctrl.selected"
+             ng-change="$ctrl.toggleRecipe()">
+      <div class="bru-recipeListItem-title">
+        {{$ctrl.recipe.name}}
+      </div>
+    </label>
+    <div class="bru-recipeListItem-link">
+      <a ui-sref="recipe({id: $ctrl.recipe.id})">
+        View
+      </a>
+    </div>
+    <div class="bru-recipeListItem-num-used">
+      {{$ctrl.useCount || 0}}x
+    </div>
+  </div>
+<!-- change to list tags -->
+  <div class="bru-recipeListItem-bottom" ng-if="$ctrl.recipe.tags">
+    <span>
+      {{$ctrl.recipe.tags}}
+    </span>
+  </div>
+
+</li>

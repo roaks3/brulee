@@ -18,44 +18,18 @@
            ng-model="$ctrl.recipeSearch.str">
 
     <ul class="cl-recipe-list">
-      <li class="cl-recipe"
-          ng-repeat="recipe in $ctrl.filteredRecipes">
-
-        <div class="cl-recipe-top">
-          <label class="cl-recipe-select">
-            <input type="checkbox"
-                   ng-model="recipe._selected">
-            <div class="cl-recipe-title">
-              {{recipe.name}}
-            </div>
-          </label>
-          <div class="cl-recipe-link">
-            <a ui-sref="recipe({id: recipe.id})">
-              View
-            </a>
-          </div>
-          <div class="cl-recipe-num-used">
-            {{$ctrl.recipeUseCountsByRecipeId[recipe.id] || 0}}x
-          </div>
-        </div>
-
-        <div class="cl-recipe-bottom" ng-if="recipe.tags">
-          <span>
-            {{recipe.tags}}
-          </span>
-        </div>
-
-      </li>
+      <recipe-list-item
+        ng-repeat="recipe in $ctrl.filteredRecipes"
+        recipe="recipe"
+        use-count="$ctrl.recipeUseCountsByRecipeId[recipe.id] || 0"
+        on-select-recipe="$ctrl.addRecipe(recipe)"
+        on-unselect-recipe="$ctrl.removeRecipe(recipe)">
+      </recipe-list-item>
     </ul>
 
   </section>
 
   <section class="cl-ingredient-list-section">
-
-    <button class="btn-primary"
-            ng-click="$ctrl.calculateShoppingList()">
-      Generate List
-    </button>
 
     <button ng-show="$ctrl.newGroceryList"
             class="btn-primary"
