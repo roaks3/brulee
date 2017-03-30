@@ -12,13 +12,14 @@
   &-bottom {
     font-size: 12px;
     padding: 5px 20px;
+  }
 
-    span {
-      border-radius: 4px;
-      background-color: $brulee-purple-medium;
-      color: white;
-      padding: 2px 4px;
-    }
+  &-tag {
+    border-radius: 4px;
+    background-color: $brulee-purple-medium;
+    color: white;
+    margin-right: 5px;
+    padding: 2px 4px;
   }
 
   &-select {

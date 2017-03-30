@@ -7,6 +7,7 @@ class RecipeListItemCtrl {
 
   $onInit () {
     this.selected = false;
+    this.tags = this.recipe.tags ? this.recipe.tags.split(',') : [];
   }
 
   toggleRecipe () {

@@ -18,10 +18,10 @@
       {{$ctrl.useCount || 0}}x
     </div>
   </div>
-<!-- change to list tags -->
-  <div class="bru-recipeListItem-bottom" ng-if="$ctrl.recipe.tags">
-    <span>
-      {{$ctrl.recipe.tags}}
+  <div class="bru-recipeListItem-bottom" ng-if="$ctrl.tags.length">
+    <span class="bru-recipeListItem-tag"
+          ng-repeat="tag in $ctrl.tags">
+      {{tag}}
     </span>
   </div>
 
