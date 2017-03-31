@@ -2,7 +2,6 @@ import moment from 'moment';
 import angular from 'angular';
 
 import categoryStore from '../../store/categoryStore';
-import GroceryList from '../datastores/GroceryList';
 import groceryListStore from '../../store/groceryListStore';
 import ingredientStore from '../../store/ingredientStore';
 import recipeStore from '../../store/recipeStore';
@@ -10,11 +9,10 @@ import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 
 class CreateListScreenStore {
 
-  constructor (categoryStore, GroceryList, groceryListStore, ingredientStore, recipeStore, selectedGroceryListStore) {
+  constructor (categoryStore, groceryListStore, ingredientStore, recipeStore, selectedGroceryListStore) {
     'ngInject';
 
     this.categoryStore = categoryStore;
-    this.GroceryList = GroceryList;
     this.groceryListStore = groceryListStore;
     this.ingredientStore = ingredientStore;
     this.recipeStore = recipeStore;
@@ -38,9 +36,10 @@ class CreateListScreenStore {
   }
 
   fetchRecipeUseCounts () {
-    return this.GroceryList
-      .findAll()
-      .then(groceryLists => {
+    return this.groceryListStore
+      .fetchRecentGroceryLists(20)
+      .then(() => {
+        const groceryLists = this.groceryListStore.selectRecentGroceryLists(20);
         this.recipeUseCountsByRecipeId = groceryLists.reduce((memo, groceryList) => {
           const recipeIds = groceryList.recipe_days.map(recipeDay => recipeDay.recipe_id);
           recipeIds.forEach(recipeId => {
@@ -94,7 +93,6 @@ class CreateListScreenStore {
 export default angular
   .module('services.createListScreenStore', [
     categoryStore,
-    GroceryList,
     groceryListStore,
     ingredientStore,
     recipeStore,
