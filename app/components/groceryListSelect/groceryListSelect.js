@@ -20,8 +20,12 @@ class GroceryListSelectCtrl {
       .refreshAll()
       .then(groceryLists => {
         this.groceryLists = _.takeRight(_.sortBy(groceryLists, 'week_start'), 4);
-        this.selectedGroceryList =
-          this.selectedGroceryListId && this.GroceryList.get(this.selectedGroceryListId);
+        if (this.selectedGroceryListId) {
+          this.selectedGroceryList = this.GroceryList.get(this.selectedGroceryListId);
+        } else {
+          // By default, select the most recent grocery list
+          this.onSelect({groceryList: this.groceryLists[this.groceryLists.length - 1]});
+        }
       });
   }
 
@@ -56,7 +60,8 @@ export default angular.module('components.groceryListSelect', [GroceryList])
   .component('groceryListSelect', {
     template,
     bindings: {
-      selectedGroceryListId: '<'
+      selectedGroceryListId: '<',
+      onSelect: '&'
     },
     controller: GroceryListSelectCtrl,
     controllerAs: 'vm'

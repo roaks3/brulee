@@ -5,7 +5,8 @@
 <section class="grocery-list-section">
 
   <grocery-list-select
-    selected-grocery-list-id="vm.groceryList.id">
+    selected-grocery-list-id="vm.groceryListId"
+    on-select="vm.selectGroceryList(groceryList.id)">
   </grocery-list-select>
 
   <section class="grocery-list-view-section">

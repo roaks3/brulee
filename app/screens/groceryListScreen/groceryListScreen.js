@@ -12,31 +12,32 @@ import './groceryListScreen.scss';
 
 class GroceryListScreenCtrl {
 
-  constructor ($stateParams, selectedGroceryListStore) {
+  constructor ($state, $stateParams, selectedGroceryListStore) {
     'ngInject';
 
+    this.$state = $state;
     this.$stateParams = $stateParams;
     this.selectedGroceryListStore = selectedGroceryListStore;
     this.errors = [];
   }
 
   $onInit () {
-    // TODO: Default to most recent week if no id is supplied
-    if (this.$stateParams.id) {
-      this.selectGroceryList(this.$stateParams.id);
+    this.groceryListId = this.$stateParams.id;
+    if (this.groceryListId) {
+      this.selectedGroceryListStore
+        .fetchSelectedGroceryList(this.groceryListId)
+        .then(() => this.selectedGroceryListStore.fetchAllForSelectedGroceryList())
+        .then(() => {
+          this.groceryList = this.selectedGroceryListStore.selectedGroceryList;
+        })
+        .catch(error => {
+          this.errors.push(error);
+        });
     }
   }
 
   selectGroceryList (id) {
-    return this.selectedGroceryListStore
-      .fetchSelectedGroceryList(id)
-      .then(() => this.selectedGroceryListStore.fetchAllForSelectedGroceryList())
-      .then(() => {
-        this.groceryList = this.selectedGroceryListStore.selectedGroceryList;
-      })
-      .catch(error => {
-        this.errors.push(error);
-      });
+    this.$state.go('grocery', {id});
   }
 
   addIngredient (ingredient) {

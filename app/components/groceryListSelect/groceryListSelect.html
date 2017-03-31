@@ -18,11 +18,11 @@
   <ul class="grocery-list-select-expanded"
       ng-if="vm.showOptions || !vm.selectedGroceryList">
 
-    <a ng-repeat="groceryList in vm.groceryLists"
-       ng-class="{'btn-primary': !vm.isSelected(groceryList), 'btn-select': vm.isSelected(groceryList)}"
-       ui-sref="grocery({id: groceryList.id})">
+    <button ng-repeat="groceryList in vm.groceryLists"
+            ng-class="{'btn-primary': !vm.isSelected(groceryList), 'btn-select': vm.isSelected(groceryList)}"
+            ng-click="vm.onSelect({groceryList})">
       {{vm.displayName(groceryList)}}
-    </a>
+    </button>
 
   </ul>
 
