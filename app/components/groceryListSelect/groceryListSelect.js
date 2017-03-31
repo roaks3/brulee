@@ -1,27 +1,28 @@
 import moment from 'moment';
 import angular from 'angular';
 
-import GroceryList from '../../scripts/datastores/GroceryList';
+import groceryListStore from '../../store/groceryListStore';
 
 import template from './groceryListSelect.html';
 import './groceryListSelect.scss';
 
 class GroceryListSelectCtrl {
 
-  constructor (GroceryList) {
+  constructor (groceryListStore) {
     'ngInject';
 
-    this.GroceryList = GroceryList;
+    this.groceryListStore = groceryListStore;
     this.groceryLists = [];
   }
 
   $onInit () {
-    this.GroceryList
-      .refreshAll()
-      .then(groceryLists => {
-        this.groceryLists = _.takeRight(_.sortBy(groceryLists, 'week_start'), 4);
+    this.groceryListStore
+      .fetchRecentGroceryLists(4)
+      .then(() => {
+        this.groceryLists = this.groceryListStore.selectRecentGroceryLists(4);
         if (this.selectedGroceryListId) {
-          this.selectedGroceryList = this.GroceryList.get(this.selectedGroceryListId);
+          this.selectedGroceryList =
+            this.groceryListStore.selectGroceryListById(this.selectedGroceryListId);
         } else {
           // By default, select the most recent grocery list
           this.onSelect({groceryList: this.groceryLists[this.groceryLists.length - 1]});
@@ -56,7 +57,7 @@ class GroceryListSelectCtrl {
 
 }
 
-export default angular.module('components.groceryListSelect', [GroceryList])
+export default angular.module('components.groceryListSelect', [groceryListStore])
   .component('groceryListSelect', {
     template,
     bindings: {

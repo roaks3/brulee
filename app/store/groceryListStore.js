@@ -18,6 +18,19 @@ class GroceryListStore {
       });
   }
 
+  fetchRecentGroceryLists (limit) {
+    return this.GroceryList
+      .findAll({
+        s: {
+          week_start: -1
+        },
+        l: limit
+      })
+      .then(() => {
+        this.groceryLists = this.GroceryList.getAll();
+      });
+  }
+
   createGroceryList (groceryList) {
     return this.GroceryList
       .create({
@@ -45,6 +58,10 @@ class GroceryListStore {
 
   selectGroceryListById (id) {
     return this.groceryLists.find(groceryList => groceryList.id === id);
+  }
+
+  selectRecentGroceryLists (limit) {
+    return _.takeRight(_.sortBy(this.groceryLists, 'week_start'), limit);
   }
 
 }
