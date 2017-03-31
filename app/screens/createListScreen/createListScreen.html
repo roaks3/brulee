@@ -31,13 +31,13 @@
 
   <section class="cl-ingredient-list-section">
 
-    <button ng-show="$ctrl.newGroceryList"
+    <button ng-show="$ctrl.newGroceryList && $ctrl.newGroceryList.recipe_days.length"
             class="btn-primary"
             ng-click="$ctrl.saveGroceryList()">
       Save Grocery List
     </button>
 
-    <div ng-show="$ctrl.newGroceryList">
+    <div ng-show="$ctrl.newGroceryList && $ctrl.newGroceryList.recipe_days.length">
 
       <ul class="cl-recipe-days">
         <li class="cl-recipe-day"
