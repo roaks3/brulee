@@ -1,11 +1,11 @@
 import moment from 'moment';
 import angular from 'angular';
 
-import categoryStore from '../../store/categoryStore';
-import groceryListStore from '../../store/groceryListStore';
-import ingredientStore from '../../store/ingredientStore';
-import recipeStore from '../../store/recipeStore';
-import selectedGroceryListStore from '../../store/selectedGroceryListStore';
+import categoryStore from './categoryStore';
+import groceryListStore from './groceryListStore';
+import ingredientStore from './ingredientStore';
+import recipeStore from './recipeStore';
+import selectedGroceryListStore from './selectedGroceryListStore';
 
 class CreateListScreenStore {
 

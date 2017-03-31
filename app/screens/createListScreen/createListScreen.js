@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import createListScreenStore from '../../scripts/services/createListScreenStore';
+import createListScreenStore from '../../store/createListScreenStore';
 import selectedGroceryListStore from '../../store/selectedGroceryListStore';
 import statusBar from '../../components/statusBar/statusBar';
 import recipeListItem from '../../components/recipeListItem/recipeListItem';
