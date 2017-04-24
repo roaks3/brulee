@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import categoryPageStore from '../../scripts/services/categoryPageStore';
+import categoryEditScreenStore from '../../scripts/services/categoryEditScreenStore';
 import addIngredientForm from '../addIngredientForm/addIngredientForm';
 import ingredientEditList from '../ingredientEditList/ingredientEditList';
 
@@ -9,21 +9,21 @@ import './categoryEditListItem.scss';
 
 class CategoryEditListItemCtrl {
 
-  constructor ($window, categoryPageStore) {
+  constructor ($window, categoryEditScreenStore) {
     'ngInject';
 
     this.$window = $window;
-    this.categoryPageStore = categoryPageStore;
+    this.categoryEditScreenStore = categoryEditScreenStore;
   }
 
   $onInit () {
-    this.ingredients = this.categoryPageStore.selectIngredientsForCategory(this.category.id);
+    this.ingredients = this.categoryEditScreenStore.selectIngredientsForCategory(this.category.id);
     this.isEditing = false;
   }
 
   $onChanges (changesObj) {
     if (changesObj.category) {
-      this.ingredients = this.categoryPageStore.selectIngredientsForCategory(this.category.id);
+      this.ingredients = this.categoryEditScreenStore.selectIngredientsForCategory(this.category.id);
     }
   }
 
@@ -33,7 +33,7 @@ class CategoryEditListItemCtrl {
     }
 
     if (!_.find(this.category.ingredient_ids, ingredient.id)) {
-      this.categoryPageStore.addIngredientToCategory(ingredient.id, this.category.id);
+      this.categoryEditScreenStore.addIngredientToCategory(ingredient.id, this.category.id);
     } else {
       this.$window.alert('This ingredient already exists in this category');
     }
@@ -43,7 +43,7 @@ class CategoryEditListItemCtrl {
     if (!this.$window.confirm(`Remove '${ingredient.name}' from '${this.category.name}'?`)) {
       return;
     }
-    this.categoryPageStore.removeIngredientFromCategory(ingredient.id, this.category.id);
+    this.categoryEditScreenStore.removeIngredientFromCategory(ingredient.id, this.category.id);
   }
 
   toggleEditing () {
@@ -54,7 +54,7 @@ class CategoryEditListItemCtrl {
 
 export default angular
   .module('components.categoryEditListItem', [
-    categoryPageStore,
+    categoryEditScreenStore,
     addIngredientForm,
     ingredientEditList
   ])

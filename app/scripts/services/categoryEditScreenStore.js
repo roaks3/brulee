@@ -4,7 +4,7 @@ import Category from '../datastores/Category';
 import Ingredient from '../datastores/Ingredient';
 import categoryService from './categoryService';
 
-class CategoryPageStore {
+class CategoryEditScreenStore {
 
   constructor (Category, categoryService, Ingredient) {
     'ngInject';
@@ -89,10 +89,10 @@ class CategoryPageStore {
 }
 
 export default angular
-  .module('services.categoryPageStore', [
+  .module('services.categoryEditScreenStore', [
     Category,
     categoryService,
     Ingredient
   ])
-  .service('categoryPageStore', CategoryPageStore)
+  .service('categoryEditScreenStore', CategoryEditScreenStore)
   .name;

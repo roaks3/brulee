@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import categoryPageStore from '../../scripts/services/categoryPageStore';
+import categoryEditScreenStore from '../../scripts/services/categoryEditScreenStore';
 import statusBar from '../../components/statusBar/statusBar';
 import categoryEditListItem from '../../components/categoryEditListItem/categoryEditListItem';
 
@@ -9,12 +9,12 @@ import './categoryEditScreen.scss';
 
 class CategoryEditScreenCtrl {
 
-  constructor ($q, $window, categoryPageStore) {
+  constructor ($q, $window, categoryEditScreenStore) {
     'ngInject';
 
     this.$q = $q;
     this.$window = $window;
-    this.categoryPageStore = categoryPageStore;
+    this.categoryEditScreenStore = categoryEditScreenStore;
     this.categories = [];
     this.errors = [];
     this.successMessage = null;
@@ -23,11 +23,11 @@ class CategoryEditScreenCtrl {
   $onInit () {
     this.$q
       .all([
-        this.categoryPageStore.fetchAllCategories(),
-        this.categoryPageStore.fetchAllIngredients()
+        this.categoryEditScreenStore.fetchAllCategories(),
+        this.categoryEditScreenStore.fetchAllIngredients()
       ])
       .then(() => {
-        this.categories = this.categoryPageStore.categories;
+        this.categories = this.categoryEditScreenStore.categories;
       })
       .catch(error => {
         this.errors.push(error);
@@ -38,7 +38,7 @@ class CategoryEditScreenCtrl {
     this.errors = [];
     this.successMessage = null;
 
-    this.categoryPageStore
+    this.categoryEditScreenStore
       .saveAllCategories()
       .then(() => {
         this.successMessage = 'Saved all categories';
@@ -56,10 +56,10 @@ class CategoryEditScreenCtrl {
     this.errors = [];
     this.successMessage = null;
 
-    this.categoryPageStore
+    this.categoryEditScreenStore
       .createCategory(categoryName)
       .then(() => {
-        this.categories = this.categoryPageStore.categories;
+        this.categories = this.categoryEditScreenStore.categories;
         this.successMessage = 'Created category';
       })
       .catch(error => {
@@ -75,10 +75,10 @@ class CategoryEditScreenCtrl {
     this.errors = [];
     this.successMessage = null;
 
-    this.categoryPageStore
+    this.categoryEditScreenStore
       .destroyCategory(categoryId)
       .then(() => {
-        this.categories = this.categoryPageStore.categories;
+        this.categories = this.categoryEditScreenStore.categories;
         this.successMessage = 'Deleted category';
       })
       .catch(error => {
@@ -90,7 +90,7 @@ class CategoryEditScreenCtrl {
 
 export default angular
   .module('screens.categoryEditScreen', [
-    categoryPageStore,
+    categoryEditScreenStore,
     statusBar,
     categoryEditListItem
   ])
