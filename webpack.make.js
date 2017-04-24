@@ -259,7 +259,9 @@ module.exports = function (options) {
             // Define free global variables
             new webpack.DefinePlugin({
                 'process.env': {
-                    NODE_ENV: '"production"'
+                    NODE_ENV: '"production"',
+                    API_URL: `"${process.env.API_URL || 'http://localhost:3000'}"`,
+                    API_KEY: `"${process.env.API_KEY || ''}"`
                 }
             })
         );
@@ -271,7 +273,9 @@ module.exports = function (options) {
             // Define free global variables
             new webpack.DefinePlugin({
                 'process.env': {
-                    NODE_ENV: '"development"'
+                    NODE_ENV: '"development"',
+                    API_URL: `"${process.env.API_URL || 'http://localhost:3000'}"`,
+                    API_KEY: `"${process.env.API_KEY || ''}"`
                 }
             }),
 

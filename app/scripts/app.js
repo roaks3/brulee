@@ -69,16 +69,15 @@ angular.module('bruleeApp', [
         template: '<recipe-screen></recipe-screen>'
       });
 
-    var databaseName = 'heroku_r2q4kcbs';
     _.assign(DSHttpAdapterProvider.defaults, {
       log: false,
-      basePath: `https://api.mlab.com/api/1/databases/${databaseName}/collections`,
+      basePath: process.env.API_URL,
       httpConfig: {
         headers: {
           'Content-type': 'application/json'
         },
         params: {
-          apiKey: 'VPQEa9jL2UFh3w24C6SWjqcWUoVYVDVB'
+          apiKey: process.env.API_KEY
         }
       }
     });
