@@ -1,3 +1,4 @@
+import moment from 'moment';
 import angular from 'angular';
 
 import recipeScheduleDay from '../recipeScheduleDay/recipeScheduleDay';
@@ -8,7 +9,8 @@ import './recipeSchedule.scss';
 class RecipeScheduleCtrl {
 
   $onInit () {
-    this.days = _.range(0, 7);
+    const start = moment(this.groceryList.week_start, 'YYYY-MM-DD').day();
+    this.days = _.range(0, 7).map(day => (day + start) % 7);
   }
 
 }

@@ -21,7 +21,7 @@ class CreateListScreenStore {
 
   init () {
     this.selectedGroceryListStore.setSelectedGroceryList({
-      week_start: moment().day(0).format('YYYY-MM-DD'),
+      week_start: moment().format('YYYY-MM-DD'),
       recipe_days: []
     });
   }
