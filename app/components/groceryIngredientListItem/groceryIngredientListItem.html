@@ -18,7 +18,9 @@
        class="grocery-ingredient-list-item-recipe-list">
     <div class="recipe"
          ng-repeat="recipe in $ctrl.recipes">
-      {{recipe.name}}
+      <a ui-sref="recipe({id: recipe.id})">
+        {{recipe.name}}
+      </a>
     </div>
   </div>
 
