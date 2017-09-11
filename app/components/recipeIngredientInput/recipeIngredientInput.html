@@ -5,6 +5,18 @@
     <span class="fa fa-close"></span>
   </button>
 
+  <input
+    type="text"
+    class="rii-amount"
+    ng-model="vm.recipeIngredient.amount"
+    ng-change="vm.onAmountChange({amount: vm.recipeIngredient.amount})">
+
+  <input
+    type="text"
+    class="rii-unit"
+    ng-model="vm.recipeIngredient.unit"
+    ng-change="vm.onUnitChange({unit: vm.recipeIngredient.unit})">
+
   <ingredient-typeahead
     class="rii-typeahead"
     selected-ingredient="vm.ingredient"

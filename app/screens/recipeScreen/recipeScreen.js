@@ -68,7 +68,7 @@ class RecipeScreenCtrl {
     }
 
     const recipeIngredients = _.map(this.recipe.recipe_ingredients,
-      ri => _.pick(ri, ['ingredient_id', 'amount']));
+      ri => _.pick(ri, ['ingredient_id', 'amount', 'unit']));
 
     this.Recipe
       .update(this.recipe.id, _.assign(
@@ -106,6 +106,14 @@ class RecipeScreenCtrl {
 
   updateRecipeIngredient (recipeIngredient, ingredientId) {
     recipeIngredient.ingredient_id = ingredientId || null;
+  }
+
+  updateRecipeIngredientAmount (recipeIngredient, amount) {
+    recipeIngredient.amount = amount || null;
+  }
+
+  updateRecipeIngredientUnit (recipeIngredient, unit) {
+    recipeIngredient.unit = unit || null;
   }
 
 }

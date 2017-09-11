@@ -46,6 +46,8 @@ export default angular
       recipeIngredient: '<',
       onRemove: '&',
       onIngredientChange: '&',
+      onAmountChange: '&',
+      onUnitChange: '&',
       inputDisabled: '<'
     },
     controller: RecipeIngredientInputCtrl,

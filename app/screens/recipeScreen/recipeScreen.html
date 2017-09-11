@@ -92,7 +92,9 @@
       ng-repeat="recipe_ingredient in vm.recipe.recipe_ingredients"
       recipe-ingredient="recipe_ingredient"
       on-remove="vm.removeRecipeIngredient(recipe_ingredient)"
-      on-ingredient-change="vm.updateRecipeIngredient(recipe_ingredient, ingredientId)">
+      on-ingredient-change="vm.updateRecipeIngredient(recipe_ingredient, ingredientId)"
+      on-amount-change="vm.updateRecipeIngredientAmount(recipe_ingredient, amount)"
+      on-unit-change="vm.updateRecipeIngredientUnit(recipe_ingredient, unit)">
     </recipe-ingredient-input>
   </ul>
 
