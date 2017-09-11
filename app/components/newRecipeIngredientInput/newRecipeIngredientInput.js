@@ -35,9 +35,13 @@ export default angular
     template,
     bindings: {
       ingredient: '<',
+      amount: '<',
+      unit: '<',
       category: '<',
       onRemove: '&',
       onIngredientChange: '&',
+      onAmountChange: '&',
+      onUnitChange: '&',
       onCategoryChange: '&'
     },
     controller: NewRecipeIngredientInputCtrl,

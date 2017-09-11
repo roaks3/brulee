@@ -87,7 +87,8 @@ class AddRecipeScreenCtrl {
             {
               recipe_ingredients: _.map(this.recipe.recipe_ingredients, recipeIngredient => ({
                 ingredient_id: recipeIngredient.ingredient.id,
-                amount: recipeIngredient.amount
+                amount: recipeIngredient.amount,
+                unit: recipeIngredient.unit
               }))
             }
           ));
@@ -140,6 +141,14 @@ class AddRecipeScreenCtrl {
 
   updateRecipeIngredient (recipeIngredient, ingredient) {
     recipeIngredient.ingredient = ingredient || null;
+  }
+
+  updateRecipeIngredientAmount (recipeIngredient, amount) {
+    recipeIngredient.amount = amount || null;
+  }
+
+  updateRecipeIngredientUnit (recipeIngredient, unit) {
+    recipeIngredient.unit = unit || null;
   }
 
   updateRecipeIngredientCategory (recipeIngredient, category) {

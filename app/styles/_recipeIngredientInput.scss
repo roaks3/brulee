@@ -1,6 +1,14 @@
 .recipe-ingredient-input {
   display: flex;
 
+  .rii-amount {
+    width: 50px !important;
+  }
+
+  .rii-unit {
+    width: 100px !important;
+  }
+
   .btn-weak {
     border: none;
     padding: 5px;

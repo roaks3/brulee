@@ -44,6 +44,7 @@ export default angular.module('services.ingredientParseService', [])
         ingredient: {
           name: item
         },
+        unit: unit,
         amount: amount
       };
     };
