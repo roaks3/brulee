@@ -8,6 +8,7 @@
     </div>
 
     <div class="recipe-count"
+         ng-class="{multi: $ctrl.recipes.length > 1}"
          ng-click="$ctrl.toggle()">
       {{$ctrl.recipes.length}}
     </div>

@@ -31,6 +31,10 @@
     background-color: $brulee-steel-medium-dark;
     border-radius: 10px;
     cursor: pointer;
+
+    &.multi {
+      background-color: $brulee-green-dark;
+    }
   }
 }
 
