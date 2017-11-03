@@ -33,7 +33,7 @@ angular.module('bruleeApp', [
     $locationProvider.html5Mode(true);
 
     $urlRouterProvider
-      .otherwise('/createList');
+      .otherwise('/grocery');
 
     $stateProvider
       .state('createList', {
