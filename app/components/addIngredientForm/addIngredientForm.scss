@@ -1,0 +1,10 @@
+@import '../../styles/buttons';
+
+.bru-addIngredientForm {
+  display: flex;
+  padding: 20px 0;
+
+  button {
+    @extend .btn-primary;
+  }
+}

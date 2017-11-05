@@ -10,17 +10,3 @@ input[type=text] {
   height: 34px;
   padding: 6px 12px;
 }
-
-.ingredient-form {
-  display: flex;
-  padding: 20px 0;
-
-  button {
-    @extend .btn-primary;
-  }
-
-  .ingredient-typeahead.valid {
-    background-color: rgba($brulee-green-light, .3);
-    border-color: $brulee-green-medium;
-  }
-}

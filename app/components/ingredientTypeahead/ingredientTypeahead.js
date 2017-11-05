@@ -4,6 +4,7 @@ import uiBootstrap from 'angular-ui-bootstrap';
 import Ingredient from '../../scripts/datastores/Ingredient';
 
 import template from './ingredientTypeahead.html';
+import './ingredientTypeahead.scss';
 
 class IngredientTypeaheadCtrl {
 
