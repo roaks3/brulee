@@ -1,0 +1,9 @@
+@import '../../styles/buttons';
+
+.bru-addRecipeForm {
+  display: flex;
+
+  button {
+    @extend .btn-primary;
+  }
+}

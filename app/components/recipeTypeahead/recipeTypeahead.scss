@@ -1,0 +1,6 @@
+@import '../../styles/colors';
+
+.bru-recipeTypeahead.valid {
+  background-color: rgba($brulee-green-light, .3);
+  border-color: $brulee-green-medium;
+}

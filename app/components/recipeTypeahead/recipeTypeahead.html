@@ -1,0 +1,10 @@
+<input
+  class="bru-recipeTypeahead"
+  ng-class="{valid: $ctrl.isValid()}"
+  type="text"
+  ng-model="$ctrl._selectedRecipe"
+  uib-typeahead="recipe as recipe.name for recipe in $ctrl.recipes | filter:$viewValue"
+  typeahead-select-on-exact="true"
+  typeahead-on-select="$ctrl.onSelect({recipe: $ctrl._selectedRecipe})"
+  ng-change="$ctrl.onChange($ctrl._selectedRecipe)"
+  ng-disabled="$ctrl.inputDisabled">

@@ -1,11 +1,30 @@
-<li class="recipe-schedule-day">
+<li class="bru-recipeScheduleDay">
 
-  <h1 ng-class="{today: vm.isToday}">
-    {{vm.dayName}}
-  </h1>
+  <header class="bru-recipeScheduleDay-header">
+    <h1 ng-class="{today: $ctrl.isToday}">
+      {{$ctrl.dayName}}
+    </h1>
 
-  <ul class="recipe-schedule-day-recipes">
-    <li ng-repeat="recipe in vm.recipes">
+    <button class="btn-weak"
+            ng-click="$ctrl.toggleAddRecipe()"
+            ng-if="$ctrl.editing && !$ctrl.addingRecipe">
+      <span class="fa fa-plus"></span>
+      Add Recipe
+    </button>
+
+    <add-recipe-form
+      ng-if="$ctrl.addingRecipe"
+      on-add="$ctrl.addRecipe(recipe)">
+    </add-recipe-form>
+  </header>
+
+  <ul class="bru-recipeScheduleDay-recipes">
+    <li ng-repeat="recipe in $ctrl.recipes">
+      <button class="btn-weak"
+              ng-click="$ctrl.removeRecipe(recipe)"
+              ng-if="$ctrl.editing">
+        <span class="fa fa-close"></span>
+      </button>
       <a ui-sref="recipe({id: recipe.id})">
         {{recipe.name}}
       </a>

@@ -1,9 +1,22 @@
-<ul class="recipe-schedule-days">
+<div class="bru-recipeSchedule">
 
-  <recipe-schedule-day
-    ng-repeat="day in vm.days"
-    grocery-list="vm.groceryList"
-    day-of-week="day">
-  </recipe-schedule-day>
+  <button class="btn-weak"
+          ng-click="$ctrl.toggleEdit()"
+          ng-if="!$ctrl.editing">
+    <span class="fa fa-edit"></span>
+    Edit
+  </button>
 
-</ul>
+  <ul>
+
+    <recipe-schedule-day
+      ng-repeat="day in $ctrl.days"
+      grocery-list="$ctrl.groceryList"
+      day-of-week="day"
+      editing="$ctrl.editing"
+      on-change="$ctrl.onChange()">
+    </recipe-schedule-day>
+
+  </ul>
+
+</div>

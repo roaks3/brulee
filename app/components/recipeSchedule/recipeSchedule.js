@@ -13,15 +13,19 @@ class RecipeScheduleCtrl {
     this.days = _.range(0, 7).map(day => (day + start) % 7);
   }
 
+  toggleEdit () {
+    this.editing = true;
+  }
+
 }
 
 export default angular.module('components.recipeSchedule', [recipeScheduleDay])
   .component('recipeSchedule', {
     template,
     bindings: {
-      groceryList: '<'
+      groceryList: '<',
+      onChange: '&'
     },
-    controller: RecipeScheduleCtrl,
-    controllerAs: 'vm'
+    controller: RecipeScheduleCtrl
   })
   .name;

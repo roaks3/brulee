@@ -66,6 +66,39 @@ class SelectedGroceryListStore {
       });
   }
 
+  addRecipeToGroceryList (recipe, dayOfWeek) {
+    const groceryList = Object.assign({}, this.selectedGroceryList, {
+      recipe_days: [
+        ...this.selectedGroceryList.recipe_days || [],
+        {
+          recipe_id: recipe.id,
+          day_of_week: dayOfWeek
+        }
+      ]
+    });
+
+    return this.groceryListStore
+      .updateGroceryList(groceryList)
+      .then(() => {
+        this.recipeStore.addRecipe(recipe);
+        this.selectedGroceryList = this.groceryListStore.selectGroceryListById(groceryList.id);
+      });
+  }
+
+  removeRecipeFromGroceryList (recipe, dayOfWeek) {
+    const groceryList = Object.assign({}, this.selectedGroceryList, {
+      recipe_days: this.selectedGroceryList.recipe_days.filter(recipeDay => {
+        return recipeDay.recipe_id !== recipe.id || recipeDay.day_of_week !== dayOfWeek;
+      })
+    });
+
+    return this.groceryListStore
+      .updateGroceryList(groceryList)
+      .then(() => {
+        this.selectedGroceryList = this.groceryListStore.selectGroceryListById(groceryList.id);
+      });
+  }
+
   selectCategories () {
     const ingredients = this.selectIngredients();
     const ingredientIds = ingredients.map(ingredient => ingredient.id);

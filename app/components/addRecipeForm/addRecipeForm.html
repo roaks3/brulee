@@ -1,0 +1,9 @@
+<div class="bru-addRecipeForm">
+  <recipe-typeahead
+    selected-recipe="$ctrl.recipe"
+    on-select="$ctrl.updateRecipe(recipe)">
+  </recipe-typeahead>
+  <button ng-click="$ctrl.addRecipe()">
+    Add
+  </button>
+</div>

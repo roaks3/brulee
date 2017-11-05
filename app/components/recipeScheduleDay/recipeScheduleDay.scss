@@ -1,19 +1,41 @@
 @import '../../styles/colors';
 
-.recipe-schedule-day {
+.bru-recipeScheduleDay {
   padding: 15px 30px;
 
-  h1 {
-    font-size: 12px;
-    text-transform: uppercase;
+  &-header {
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
 
-    &.today {
-      color: $brulee-red;
-      font-weight: 700;
+    > h1 {
+      font-size: 12px;
+      text-transform: uppercase;
+
+      &.today {
+        color: $brulee-red;
+        font-weight: 700;
+      }
+    }
+
+    > .btn-weak {
+      text-transform: none;
+      margin-left: 10px;
+      padding: 5px 10px;
     }
   }
-}
 
-.recipe-schedule-day-recipes {
-  margin-top: 10px;
+  .bru-addRecipeForm {
+    margin-left: 10px;
+  }
+
+  &-recipes {
+    margin-top: 10px;
+
+    .btn-weak {
+      border: none;
+      padding: 5px;
+    }
+  }
 }

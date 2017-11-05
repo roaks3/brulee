@@ -1,6 +1,10 @@
 @import '../../styles/colors';
 
-.recipe-schedule-days {
+.bru-recipeSchedule {
   border-left: 1px solid $brulee-grey-lightest;
   margin: 20px 0;
+
+  > .btn-weak {
+    margin: 15px 30px;
+  }
 }

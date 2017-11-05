@@ -37,6 +37,11 @@ class RecipeStore {
     return this.fetchRecipesById(recipeIds);
   }
 
+  addRecipe (recipe) {
+    this.Recipe.inject(recipe);
+    this.recipes = this.Recipe.getAll();
+  }
+
   selectRecipesBySearchTerm (searchTerm, ingredientIds) {
     return this.recipes.filter(recipe => {
       return (recipe.name && recipe.name.toLowerCase().includes(searchTerm.toLowerCase())) ||

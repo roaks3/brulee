@@ -22,7 +22,8 @@
     <recipe-schedule
       ng-if="vm.groceryList.recipe_days"
       grocery-list="vm.groceryList"
-      class="grocery-list-schedule-section">
+      class="grocery-list-schedule-section"
+      on-change="vm.onRecipeScheduleChange()">
     </recipe-schedule>
   </section>
 

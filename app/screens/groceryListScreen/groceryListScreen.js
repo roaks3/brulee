@@ -52,6 +52,10 @@ class GroceryListScreenCtrl {
     this.errors = [error];
   }
 
+  onRecipeScheduleChange () {
+    this.groceryList = Object.assign({}, this.selectedGroceryListStore.selectedGroceryList);
+  }
+
 }
 
 export default angular
