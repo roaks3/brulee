@@ -41,11 +41,10 @@ class GroceryListScreenCtrl {
   }
 
   addIngredient (ingredient) {
-    this.groceryList = null;
     this.selectedGroceryListStore
       .addIngredientToGroceryList(ingredient)
       .then(() => {
-        this.groceryList = this.selectedGroceryListStore.selectedGroceryList;
+        this.groceryList = Object.assign({}, this.selectedGroceryListStore.selectedGroceryList);
       });
   }
 
