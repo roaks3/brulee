@@ -1,56 +1,53 @@
 import angular from 'angular';
 
 import categoryStore from '../../store/categoryStore';
-import Category from '../datastores/Category';
-import Ingredient from '../datastores/Ingredient';
+import ingredientStore from '../../store/ingredientStore';
 
 class CategoryEditScreenStore {
 
-  constructor ($q, categoryStore, Category, Ingredient) {
+  constructor ($q, categoryStore, ingredientStore) {
     'ngInject';
 
     this.$q = $q;
     this.categoryStore = categoryStore;
-    this.Category = Category;
-    this.Ingredient = Ingredient;
+    this.ingredientStore = ingredientStore;
     this.categories = [];
     this.ingredients = [];
   }
 
   fetchAllCategories () {
-    return this.Category
-      .refreshAll()
-      .then(categories => {
-        this.categories = categories;
+    return this.categoryStore
+      .fetchAllCategories()
+      .then(() => {
+        this.categories = this.categoryStore.selectAllCategories();
       });
   }
 
   fetchAllIngredients () {
-    return this.Ingredient
-      .refreshAll()
-      .then(ingredients => {
-        this.ingredients = ingredients;
+    return this.ingredientStore
+      .fetchAllIngredients()
+      .then(() => {
+        this.ingredients = this.ingredientStore.selectAllIngredients();
       });
   }
 
   createCategory (categoryName) {
-    return this.Category
-      .create({
+    return this.categoryStore
+      .createCategory({
         name: categoryName,
         order: this.categories.length + 1,
         ingredient_ids: []
       })
-      .then(category => {
-        this.categories = [...this.categories, category];
-        return category;
+      .then(() => {
+        this.categories = this.categoryStore.selectAllCategories();
       });
   }
 
   destroyCategory (categoryId) {
-    return this.Category
-      .destroy(categoryId)
+    return this.categoryStore
+      .destroyCategory(categoryId)
       .then(() => {
-        this.categories = this.categories.filter(c => c.id !== categoryId);
+        this.categories = this.categoryStore.selectAllCategories();
       });
   }
 
@@ -99,8 +96,7 @@ class CategoryEditScreenStore {
 export default angular
   .module('services.categoryEditScreenStore', [
     categoryStore,
-    Category,
-    Ingredient
+    ingredientStore
   ])
   .service('categoryEditScreenStore', CategoryEditScreenStore)
   .name;

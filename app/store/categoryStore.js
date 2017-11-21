@@ -18,6 +18,18 @@ class CategoryStore {
       });
   }
 
+  createCategory (category) {
+    return this.Category
+      .create(_.pick(category, [
+        'name',
+        'order',
+        'ingredient_ids'
+      ]))
+      .then(() => {
+        this.categories = this.Category.getAll();
+      });
+  }
+
   updateCategory (category) {
     return this.Category
       .update(category.id, _.pick(category, [
@@ -25,6 +37,14 @@ class CategoryStore {
         'order',
         'ingredient_ids'
       ]))
+      .then(() => {
+        this.categories = this.Category.getAll();
+      });
+  }
+
+  destroyCategory (categoryId) {
+    return this.Category
+      .destroy(categoryId)
       .then(() => {
         this.categories = this.Category.getAll();
       });

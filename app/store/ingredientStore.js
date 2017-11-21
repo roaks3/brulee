@@ -42,6 +42,10 @@ class IngredientStore {
     this.ingredients = this.Ingredient.getAll();
   }
 
+  selectAllIngredients () {
+    return this.ingredients;
+  }
+
   selectIngredientsBySearchTerm (searchTerm) {
     return this.ingredients.filter(ingredient => ingredient.name.toLowerCase().includes(searchTerm.toLowerCase()));
   }
