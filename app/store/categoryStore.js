@@ -18,6 +18,18 @@ class CategoryStore {
       });
   }
 
+  updateCategory (category) {
+    return this.Category
+      .update(category.id, _.pick(category, [
+        'name',
+        'order',
+        'ingredient_ids'
+      ]))
+      .then(() => {
+        this.categories = this.Category.getAll();
+      });
+  }
+
   selectAllCategories () {
     return this.categories;
   }

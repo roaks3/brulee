@@ -33,7 +33,11 @@ class CategoryEditListItemCtrl {
     }
 
     if (!_.find(this.category.ingredient_ids, ingredient.id)) {
-      this.categoryEditScreenStore.addIngredientToCategory(ingredient.id, this.category.id);
+      this.categoryEditScreenStore
+        .addIngredientToCategory(ingredient.id, this.category.id)
+        .then(() => {
+          this.onUpdate();
+        });
     } else {
       this.$window.alert('This ingredient already exists in this category');
     }
@@ -43,7 +47,11 @@ class CategoryEditListItemCtrl {
     if (!this.$window.confirm(`Remove '${ingredient.name}' from '${this.category.name}'?`)) {
       return;
     }
-    this.categoryEditScreenStore.removeIngredientFromCategory(ingredient.id, this.category.id);
+    this.categoryEditScreenStore
+      .removeIngredientFromCategory(ingredient.id, this.category.id)
+      .then(() => {
+        this.onUpdate();
+      });
   }
 
   toggleEditing () {
@@ -62,6 +70,7 @@ export default angular
     template,
     bindings: {
       category: '<',
+      onUpdate: '&',
       onRemove: '&'
     },
     controller: CategoryEditListItemCtrl,

@@ -1,16 +1,17 @@
 import angular from 'angular';
 
+import categoryStore from '../../store/categoryStore';
 import Category from '../datastores/Category';
 import Ingredient from '../datastores/Ingredient';
-import categoryService from './categoryService';
 
 class CategoryEditScreenStore {
 
-  constructor (Category, categoryService, Ingredient) {
+  constructor ($q, categoryStore, Category, Ingredient) {
     'ngInject';
 
+    this.$q = $q;
+    this.categoryStore = categoryStore;
     this.Category = Category;
-    this.categoryService = categoryService;
     this.Ingredient = Ingredient;
     this.categories = [];
     this.ingredients = [];
@@ -30,11 +31,6 @@ class CategoryEditScreenStore {
       .then(ingredients => {
         this.ingredients = ingredients;
       });
-  }
-
-  saveAllCategories () {
-    return this.categoryService
-      .updateAll(this.categories);
   }
 
   createCategory (categoryName) {
@@ -59,23 +55,35 @@ class CategoryEditScreenStore {
   }
 
   addIngredientToCategory (ingredientId, categoryId) {
-    // Remove ingredient from all other categories
-    _.each(this.categories, otherCategory => {
-      this.removeIngredientFromCategory(ingredientId, otherCategory.id);
-    });
-
-    // Add ingredient to this category
     const categoryIndex = this.categories.findIndex(c => c.id === categoryId);
-    this.categories[categoryIndex] = Object.assign({}, this.categories[categoryIndex], {
+    const category = Object.assign({}, this.categories[categoryIndex], {
       ingredient_ids: [...this.categories[categoryIndex].ingredient_ids, ingredientId]
     });
+    const removeFromCategories = this.categories.filter(c => c.ingredient_ids.includes(ingredientId));
+
+    return this.$q
+      .all(
+        removeFromCategories.map(removeFromCategory => {
+          return this.removeIngredientFromCategory(ingredientId, removeFromCategory.id);
+        })
+      )
+      .then(() => this.categoryStore.updateCategory(category))
+      .then(() => {
+        this.categories = this.categoryStore.selectAllCategories();
+      });
   }
 
   removeIngredientFromCategory (ingredientId, categoryId) {
     const categoryIndex = this.categories.findIndex(c => c.id === categoryId);
-    this.categories[categoryIndex] = Object.assign({}, this.categories[categoryIndex], {
+    const category = Object.assign({}, this.categories[categoryIndex], {
       ingredient_ids: this.categories[categoryIndex].ingredient_ids.filter(id => id !== ingredientId)
     });
+
+    return this.categoryStore
+      .updateCategory(category)
+      .then(() => {
+        this.categories = this.categoryStore.selectAllCategories();
+      });
   }
 
   selectIngredientsForCategory (categoryId) {
@@ -90,8 +98,8 @@ class CategoryEditScreenStore {
 
 export default angular
   .module('services.categoryEditScreenStore', [
+    categoryStore,
     Category,
-    categoryService,
     Ingredient
   ])
   .service('categoryEditScreenStore', CategoryEditScreenStore)

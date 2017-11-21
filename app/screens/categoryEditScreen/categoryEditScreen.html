@@ -7,11 +7,6 @@
 
   <section class="bru-categoryEditPage-actions">
 
-    <button class="btn-primary"
-            ng-click="vm.saveCategories()">
-      Save All
-    </button>
-
     <div class="bru-categoryEditPage-addCategory">
       <input type="text"
              ng-model="newCategory">
@@ -30,6 +25,7 @@
 
       <category-edit-list-item
         category="category"
+        on-update="vm.updateCategory()"
         on-remove="vm.removeCategory(category.id)">
       </category-edit-list-item>
 

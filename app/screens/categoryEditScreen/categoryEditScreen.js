@@ -34,20 +34,6 @@ class CategoryEditScreenCtrl {
       });
   }
 
-  saveCategories () {
-    this.errors = [];
-    this.successMessage = null;
-
-    this.categoryEditScreenStore
-      .saveAllCategories()
-      .then(() => {
-        this.successMessage = 'Saved all categories';
-      })
-      .catch(error => {
-        this.errors.push(error);
-      });
-  }
-
   addCategory (categoryName) {
     if (!this.$window.confirm(`Add a new category named '${categoryName}'?`)) {
       return;
@@ -65,6 +51,10 @@ class CategoryEditScreenCtrl {
       .catch(error => {
         this.errors.push(error);
       });
+  }
+
+  updateCategory () {
+    this.categories = this.categoryEditScreenStore.categories.map(category => Object.assign({}, category));
   }
 
   removeCategory (categoryId) {
