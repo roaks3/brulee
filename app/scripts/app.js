@@ -7,7 +7,6 @@ import '../styles/main.scss';
 import navBar from '../components/navBar/navBar';
 import groceryListScreen from '../screens/groceryListScreen/groceryListScreen';
 import recipeScreen from '../screens/recipeScreen/recipeScreen';
-import ingredientListScreen from '../screens/ingredientListScreen/ingredientListScreen';
 import ingredientScreen from '../screens/ingredientScreen/ingredientScreen';
 import categoryEditScreen from '../screens/categoryEditScreen/categoryEditScreen';
 import createListScreen from '../screens/createListScreen/createListScreen';
@@ -20,7 +19,6 @@ angular.module('bruleeApp', [
     navBar,
     groceryListScreen,
     recipeScreen,
-    ingredientListScreen,
     ingredientScreen,
     categoryEditScreen,
     createListScreen,
@@ -44,10 +42,6 @@ angular.module('bruleeApp', [
         url: '/addRecipes',
         template: '<add-recipe-screen></add-recipe-screen>'
       })
-      .state('categories', {
-        url: '/categories',
-        template: '<category-edit-screen></category-edit-screen>'
-      })
       .state('groceries', {
         url: '/grocery',
         template: '<grocery-list-screen></grocery-list-screen>'
@@ -57,8 +51,8 @@ angular.module('bruleeApp', [
         template: '<grocery-list-screen></grocery-list-screen>'
       })
       .state('ingredients', {
-        url: '/ingredient',
-        template: '<ingredient-list-screen></ingredient-list-screen>'
+        url: '/ingredients',
+        template: '<category-edit-screen></category-edit-screen>'
       })
       .state('ingredient', {
         url: '/ingredient/:id',
