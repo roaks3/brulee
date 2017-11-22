@@ -1,7 +1,7 @@
 import angular from 'angular';
 
-import categoryStore from '../../store/categoryStore';
-import ingredientStore from '../../store/ingredientStore';
+import categoryStore from './categoryStore';
+import ingredientStore from './ingredientStore';
 
 class CategoryEditScreenStore {
 

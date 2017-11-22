@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import categoryEditScreenStore from '../../scripts/services/categoryEditScreenStore';
+import categoryEditScreenStore from '../../store/categoryEditScreenStore';
 import statusBar from '../../components/statusBar/statusBar';
 import categoryEditListItem from '../../components/categoryEditListItem/categoryEditListItem';
 
