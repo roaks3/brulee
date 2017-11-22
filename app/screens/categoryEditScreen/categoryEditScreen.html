@@ -16,6 +16,12 @@
       </button>
     </div>
 
+    <div class="bru-categoryEditPage-filter">
+      <input type="text"
+             ng-model="vm.searchTerm"
+             placeholder="Filter ingredients">
+    </div>
+
   </section>
 
   <section class="bru-categoryEditPage-categoryList">
@@ -25,6 +31,7 @@
 
       <category-edit-list-item
         category="category"
+        search-term="vm.searchTerm"
         on-update="vm.updateCategory()"
         on-remove="vm.removeCategory(category.id)">
       </category-edit-list-item>

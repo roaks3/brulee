@@ -12,7 +12,6 @@ class CategoryEditScreenStore {
     this.categoryStore = categoryStore;
     this.ingredientStore = ingredientStore;
     this.categories = [];
-    this.ingredients = [];
   }
 
   fetchAllCategories () {
@@ -24,11 +23,7 @@ class CategoryEditScreenStore {
   }
 
   fetchAllIngredients () {
-    return this.ingredientStore
-      .fetchAllIngredients()
-      .then(() => {
-        this.ingredients = this.ingredientStore.selectAllIngredients();
-      });
+    return this.ingredientStore.fetchAllIngredients();
   }
 
   createCategory (categoryName) {
@@ -86,9 +81,16 @@ class CategoryEditScreenStore {
   selectIngredientsForCategory (categoryId) {
     const category = this.categories.find(category => category.id === categoryId);
     return _.sortBy(
-      this.ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id)),
+      this.ingredientStore.selectAllIngredients().filter(ingredient => category.ingredient_ids.includes(ingredient.id)),
       'name'
     );
+  }
+
+  selectIngredientsForCategoryBySearchTerm (categoryId, searchTerm) {
+    const ingredients = this.selectIngredientsForCategory(categoryId);
+    return ingredients.filter(ingredient => {
+      return !searchTerm || (ingredient.name && ingredient.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    });
   }
 
 }

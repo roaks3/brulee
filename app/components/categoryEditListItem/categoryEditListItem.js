@@ -22,8 +22,9 @@ class CategoryEditListItemCtrl {
   }
 
   $onChanges (changesObj) {
-    if (changesObj.category) {
-      this.ingredients = this.categoryEditScreenStore.selectIngredientsForCategory(this.category.id);
+    if (changesObj.category || changesObj.searchTerm) {
+      this.ingredients =
+        this.categoryEditScreenStore.selectIngredientsForCategoryBySearchTerm(this.category.id, this.searchTerm);
     }
   }
 
@@ -70,6 +71,7 @@ export default angular
     template,
     bindings: {
       category: '<',
+      searchTerm: '<',
       onUpdate: '&',
       onRemove: '&'
     },
