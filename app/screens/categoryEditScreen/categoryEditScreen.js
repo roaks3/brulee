@@ -21,13 +21,10 @@ class CategoryEditScreenCtrl {
   }
 
   $onInit () {
-    this.$q
-      .all([
-        this.categoryEditScreenStore.fetchAllCategories(),
-        this.categoryEditScreenStore.fetchAllIngredients()
-      ])
+    this.categoryEditScreenStore
+      .fetchAll()
       .then(() => {
-        this.categories = this.categoryEditScreenStore.categories;
+        this.categories = this.categoryEditScreenStore.selectCategories();
       })
       .catch(error => {
         this.errors.push(error);
@@ -45,7 +42,7 @@ class CategoryEditScreenCtrl {
     this.categoryEditScreenStore
       .createCategory(categoryName)
       .then(() => {
-        this.categories = this.categoryEditScreenStore.categories;
+        this.categories = this.categoryEditScreenStore.selectCategories();
         this.successMessage = 'Created category';
       })
       .catch(error => {
@@ -54,7 +51,7 @@ class CategoryEditScreenCtrl {
   }
 
   updateCategory () {
-    this.categories = this.categoryEditScreenStore.categories.map(category => Object.assign({}, category));
+    this.categories = this.categoryEditScreenStore.selectCategories().map(category => Object.assign({}, category));
   }
 
   removeCategory (categoryId) {
@@ -68,7 +65,7 @@ class CategoryEditScreenCtrl {
     this.categoryEditScreenStore
       .destroyCategory(categoryId)
       .then(() => {
-        this.categories = this.categoryEditScreenStore.categories;
+        this.categories = this.categoryEditScreenStore.selectCategories();
         this.successMessage = 'Deleted category';
       })
       .catch(error => {

@@ -11,47 +11,37 @@ class CategoryEditScreenStore {
     this.$q = $q;
     this.categoryStore = categoryStore;
     this.ingredientStore = ingredientStore;
-    this.categories = [];
   }
 
-  fetchAllCategories () {
-    return this.categoryStore
-      .fetchAllCategories()
-      .then(() => {
-        this.categories = this.categoryStore.selectAllCategories();
-      });
-  }
-
-  fetchAllIngredients () {
-    return this.ingredientStore.fetchAllIngredients();
+  fetchAll () {
+    return this.$q
+      .all([
+        this.categoryStore.fetchAllCategories(),
+        this.ingredientStore.fetchAllIngredients()
+      ]);
   }
 
   createCategory (categoryName) {
+    const categories = this.selectCategories();
     return this.categoryStore
       .createCategory({
         name: categoryName,
-        order: this.categories.length + 1,
+        order: categories.length + 1,
         ingredient_ids: []
-      })
-      .then(() => {
-        this.categories = this.categoryStore.selectAllCategories();
       });
   }
 
   destroyCategory (categoryId) {
-    return this.categoryStore
-      .destroyCategory(categoryId)
-      .then(() => {
-        this.categories = this.categoryStore.selectAllCategories();
-      });
+    return this.categoryStore.destroyCategory(categoryId);
   }
 
   addIngredientToCategory (ingredientId, categoryId) {
-    const categoryIndex = this.categories.findIndex(c => c.id === categoryId);
-    const category = Object.assign({}, this.categories[categoryIndex], {
-      ingredient_ids: [...this.categories[categoryIndex].ingredient_ids, ingredientId]
+    const category = this.categoryStore.selectCategoryById(categoryId);
+    const categories = this.selectCategories();
+    const updatedCategory = Object.assign({}, category, {
+      ingredient_ids: [...category.ingredient_ids, ingredientId]
     });
-    const removeFromCategories = this.categories.filter(c => c.ingredient_ids.includes(ingredientId));
+    const removeFromCategories = categories.filter(c => c.ingredient_ids.includes(ingredientId));
 
     return this.$q
       .all(
@@ -59,27 +49,24 @@ class CategoryEditScreenStore {
           return this.removeIngredientFromCategory(ingredientId, removeFromCategory.id);
         })
       )
-      .then(() => this.categoryStore.updateCategory(category))
-      .then(() => {
-        this.categories = this.categoryStore.selectAllCategories();
-      });
+      .then(() => this.categoryStore.updateCategory(updatedCategory));
   }
 
   removeIngredientFromCategory (ingredientId, categoryId) {
-    const categoryIndex = this.categories.findIndex(c => c.id === categoryId);
-    const category = Object.assign({}, this.categories[categoryIndex], {
-      ingredient_ids: this.categories[categoryIndex].ingredient_ids.filter(id => id !== ingredientId)
+    const category = this.categoryStore.selectCategoryById(categoryId);
+    const updatedCategory = Object.assign({}, category, {
+      ingredient_ids: category.ingredient_ids.filter(id => id !== ingredientId)
     });
 
-    return this.categoryStore
-      .updateCategory(category)
-      .then(() => {
-        this.categories = this.categoryStore.selectAllCategories();
-      });
+    return this.categoryStore.updateCategory(updatedCategory);
+  }
+
+  selectCategories () {
+    return this.categoryStore.selectAllCategories();
   }
 
   selectIngredientsForCategory (categoryId) {
-    const category = this.categories.find(category => category.id === categoryId);
+    const category = this.categoryStore.selectCategoryById(categoryId);
     return _.sortBy(
       this.ingredientStore.selectAllIngredients().filter(ingredient => category.ingredient_ids.includes(ingredient.id)),
       'name'
