@@ -1,72 +1,74 @@
 @import '../../styles/colors';
 
-.ar-main-section {
-  display: flex;
-  margin-top: 30px;
-}
-
-.ar-original-text-section {
-  width: 40%;
-
-  textarea {
-    background-color: $brulee-white;
-    border: 1px solid $brulee-grey-light;
-    color: $brulee-steel-medium-dark;
-    display: block;
-    font-size: 14px;
-    height: auto;
-    line-height: 1.42857143;
-    padding: 6px 12px;
-    width: 100%;
-  }
-}
-
-.ar-parse-btn-section {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-
-  .btn-primary {
-    margin-top: 100px;
-  }
-}
-
-.ar-save-recipe-section {
-  width: 40%;
-
-  fieldset {
-    margin-bottom: 15px;
+.bru-addRecipePage {
+  &-main {
+    display: flex;
+    margin-top: 30px;  
   }
 
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
+  &-originalTextSection {
+    width: 40%;
+
+    textarea {
+      background-color: $brulee-white;
+      border: 1px solid $brulee-grey-light;
+      color: $brulee-steel-medium-dark;
+      display: block;
+      font-size: 14px;
+      height: auto;
+      line-height: 1.42857143;
+      padding: 6px 12px;
+      width: 100%;
+    }  
   }
 
-  input[type=text] {
-    width: 100%;
-  }
+  &-parseButtonSection {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    width: 20%;
 
-  .error {
-    font-weight: bold;
-    color: $error-red-dark;
+    .btn-primary {
+      margin-top: 100px;
+    }
   }
-}
+  
+  &-saveRecipeSection {
+    width: 40%;
 
-.ar-parsed-ingredients {
-  padding-top: 20px;
-  padding-bottom: 20px;
+    fieldset {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type=text] {
+      width: 100%;
+    }
+
+    .error {
+      font-weight: bold;
+      color: $error-red-dark;
+    }
+    
+    .ar-parsed-ingredients {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+  } 
 }
 
 @media screen and (max-width: 992px) {
-  .ar-main-section {
-    display: block;
-  }
-
-  .ar-original-text-section,
-  .ar-parse-btn-section,
-  .ar-save-recipe-section {
-    width: 100%;
+  .bru-addRecipePage {
+    &-main {
+      display: block;
+    }
+    
+    &-originalTextSection, &-parseButtonSection, &-saveRecipeSection {
+      width: 100%;
+    }
   }
 }

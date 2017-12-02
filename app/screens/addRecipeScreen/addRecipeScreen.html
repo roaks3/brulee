@@ -3,22 +3,22 @@
   success-message="$ctrl.successMessage">
 </status-bar>
 
-<section class="ar-main-section">
+<section class="bru-addRecipePage-main">
 
-  <section class="ar-original-text-section">
+  <section class="bru-addRecipePage-originalTextSection">
     <textarea ng-model="$ctrl.recipe.original_text"
               rows="20">
     </textarea>
   </section>
 
-  <section class="ar-parse-btn-section">
+  <section class="bru-addRecipePage-parseButtonSection">
     <button class="btn-primary"
             ng-click="$ctrl.parseRecipeText()">
       ==>
     </button>
   </section>
 
-  <section class="ar-save-recipe-section"
+  <section class="bru-addRecipePage-saveRecipeSection"
            ng-show="$ctrl.isParsed">
 
     <fieldset ng-class="{'has-error': !$ctrl.recipe.name && $ctrl.isNameInvalid}">
@@ -40,7 +40,7 @@
              name="recipeUrl">
     </fieldset>
 
-    <div class="ar-parsed-ingredients">
+    <ul class="ar-parsed-ingredients">
       <new-recipe-ingredient-input
         ng-repeat="recipe_ingredient in $ctrl.recipe.recipe_ingredients"
         ingredient="recipe_ingredient.ingredient"
@@ -53,7 +53,7 @@
         on-unit-change="$ctrl.updateRecipeIngredientUnit(recipe_ingredient, unit)"
         on-category-change="$ctrl.updateRecipeIngredientCategory(recipe_ingredient, category)">
       </new-recipe-ingredient-input>
-    </div>
+    </ul>
 
     <button class="btn-primary"
             ng-click="$ctrl.addRecipe()">
