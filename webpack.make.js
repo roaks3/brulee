@@ -261,7 +261,9 @@ module.exports = function (options) {
                 'process.env': {
                     NODE_ENV: '"production"',
                     API_URL: `"${process.env.API_URL || 'http://localhost:3000'}"`,
-                    API_KEY: `"${process.env.API_KEY || ''}"`
+                    API_KEY: `"${process.env.API_KEY || ''}"`,
+                    BRULEE_API_ENABLED: `"${process.env.BRULEE_API_ENABLED || ''}"`,
+                    BRULEE_API_URL: `"${process.env.BRULEE_API_URL || ''}"`
                 }
             })
         );
@@ -275,7 +277,9 @@ module.exports = function (options) {
                 'process.env': {
                     NODE_ENV: '"development"',
                     API_URL: `"${process.env.API_URL || 'http://localhost:3000'}"`,
-                    API_KEY: `"${process.env.API_KEY || ''}"`
+                    API_KEY: `"${process.env.API_KEY || ''}"`,
+                    BRULEE_API_ENABLED: `"${process.env.BRULEE_API_ENABLED || ''}"`,
+                    BRULEE_API_URL: `"${process.env.BRULEE_API_URL || ''}"`
                 }
             }),
 

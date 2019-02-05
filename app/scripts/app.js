@@ -65,7 +65,7 @@ angular.module('bruleeApp', [
 
     _.assign(DSHttpAdapterProvider.defaults, {
       log: false,
-      basePath: process.env.API_URL,
+      basePath: process.env.BRULEE_API_ENABLED ? process.env.BRULEE_API_URL : process.env.API_URL,
       httpConfig: {
         headers: {
           'Content-type': 'application/json'
