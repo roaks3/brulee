@@ -1,9 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const path = require('path');
 const api = require('./api');
 
-app.use('/api', api);
+app.use('/api', cors(), api);
 
 app.use(express.static('dist'));
 
