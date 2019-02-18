@@ -1,17 +1,15 @@
 import angular from 'angular';
 import jsData from 'js-data-angular';
 
-import bruleeDataService from '../services/bruleeDataService';
+export default angular.module('services.Category', [jsData])
 
-export default angular.module('services.Category', [jsData, bruleeDataService])
-
-  .factory('Category', function (bruleeDataService, DS) {
+  .factory('Category', function (DS) {
     'ngInject';
 
-    return DS.defineResource(_.assign({
+    return DS.defineResource({
       name: 'category',
       endpoint: 'categories'
-    }, bruleeDataService.jsDataConfig));
+    });
 
   })
   .name;

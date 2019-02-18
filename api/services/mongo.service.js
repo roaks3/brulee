@@ -1,4 +1,11 @@
 const fetch = require('node-fetch');
+const _ = require('lodash');
+
+const normalizeId = obj => {
+  obj.id = obj._id.$oid;
+  delete obj._id;
+  return obj;
+};
 
 const find = (collection, { q, s, l } = {}) =>
   fetch(`${process.env.API_URL}/${collection}?apiKey=${process.env.API_KEY}${q ? `&q=${q}` : ''}${s ? `&s=${s}` : ''}${l ? `&l=${l}` : ''}`, {
@@ -6,7 +13,8 @@ const find = (collection, { q, s, l } = {}) =>
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(json => json && json.map(normalizeId));
 
 const findOne = (collection, id) =>
   fetch(`${process.env.API_URL}/${collection}/${id}?apiKey=${process.env.API_KEY}`, {
@@ -14,7 +22,8 @@ const findOne = (collection, id) =>
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(normalizeId);
 
 const create = (collection, obj) =>
   fetch(`${process.env.API_URL}/${collection}?apiKey=${process.env.API_KEY}`, {
@@ -22,9 +31,10 @@ const create = (collection, obj) =>
     headers: {
       'Content-Type': 'application/json'
     },
-    body: obj
+    body: JSON.stringify(obj)
   })
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(normalizeId);
 
 const update = (collection, id, obj) =>
   fetch(`${process.env.API_URL}/${collection}/${id}?apiKey=${process.env.API_KEY}`, {
@@ -32,9 +42,10 @@ const update = (collection, id, obj) =>
     headers: {
       'Content-Type': 'application/json'
     },
-    body: obj
+    body: JSON.stringify(obj)
   })
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(normalizeId);
 
 const deleteOne = (collection, id) =>
   fetch(`${process.env.API_URL}/${collection}/${id}?apiKey=${process.env.API_KEY}`, {
@@ -42,7 +53,8 @@ const deleteOne = (collection, id) =>
       'Content-Type': 'application/json'
     }
   })
-    .then(res => res.json());
+    .then(res => res.json())
+    .then(normalizeId);
 
 module.exports = {
   find,

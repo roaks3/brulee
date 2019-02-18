@@ -1,17 +1,15 @@
 import angular from 'angular';
 import jsData from 'js-data-angular';
 
-import bruleeDataService from '../services/bruleeDataService';
+export default angular.module('services.Recipe', [jsData])
 
-export default angular.module('services.Recipe', [jsData, bruleeDataService])
-
-  .factory('Recipe', function (bruleeDataService, DS) {
+  .factory('Recipe', function (DS) {
     'ngInject';
 
-    return DS.defineResource(_.assign({
+    return DS.defineResource({
       name: 'recipe',
       endpoint: 'recipes'
-    }, bruleeDataService.jsDataConfig));
+    });
 
   })
   .name;
