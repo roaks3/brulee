@@ -1,24 +1,41 @@
-const mongo = require('./mongo.service');
+const _ = require('lodash');
+const pg = require('./pg.service');
+const { SQL } = require('sql-template-strings');
 
-const find = q =>
-  mongo.find('ingredients', { q });
+const create = obj => {
+  const fields = _.pick(obj, ['id', 'name', 'category_id']);
+  if (_.isEmpty(fields)) {
+    throw new Error('No valid fields provided to create ingredient');
+  }
 
-const findOne = id =>
-  mongo.findOne('ingredients', id);
+  return pg.pgQuery(
+    pg.createSql('ingredients', fields)
+  );
+};
 
-const create = obj =>
-  mongo.create('ingredients', obj);
+const updateName = (id, name) =>
+  pg.pgQuery(SQL`
+    update ingredients
+    set name = ${name}
+    where id = ${id}
+  `);
 
-const update = (id, obj) =>
-  mongo.update('ingredients', id, obj);
+const updateCategory = (id, categoryId) =>
+  pg.pgQuery(SQL`
+    update ingredients
+    set category_id = ${categoryId}
+    where id = ${id}
+  `);
 
 const deleteOne = id =>
-  mongo.deleteOne('ingredients', id);
+  pg.pgQuery(SQL`
+    delete from ingredients
+    where id = ${id}
+  `);
 
 module.exports = {
-  find,
-  findOne,
   create,
-  update,
+  updateName,
+  updateCategory,
   deleteOne
 };

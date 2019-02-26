@@ -1,31 +1,54 @@
+const mongoIngredientService = require('../services/mongo/ingredient.service');
 const ingredientService = require('../services/ingredient.service');
 
 const index = (req, res) => {
-  ingredientService.find(req.query.q)
+  mongoIngredientService.find(req.query.q)
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const show = (req, res) => {
-  ingredientService.findOne(req.params.id)
+  mongoIngredientService.findOne(req.params.id)
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const create = (req, res) => {
-  ingredientService.create(req.body)
+  mongoIngredientService.create(req.body)
+    .then(json =>
+      ingredientService.create(json)
+        .then(() => json))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const update = (req, res) => {
-  ingredientService.update(req.params.id, req.body)
+  mongoIngredientService.update(req.params.id, req.body)
+    .then(json => {
+      if (!req.body.name) {
+        return json;
+      }
+
+      return ingredientService.updateName(req.params.id, req.body.name)
+        .then(() => json);
+    })
+    .then(json => {
+      if (!req.body.category_id) {
+        return json;
+      }
+
+      return ingredientService.updateCategory(req.params.id, req.body.category_id)
+        .then(() => json);
+    })
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const destroy = (req, res) => {
-  ingredientService.deleteOne(req.params.id)
+  mongoIngredientService.deleteOne(req.params.id)
+    .then(json =>
+      ingredientService.deleteOne(req.params.id)
+        .then(() => json))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

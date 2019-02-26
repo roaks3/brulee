@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const _ = require('lodash');
 
 const normalizeId = obj => {
   obj.id = obj._id.$oid;

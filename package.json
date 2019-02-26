@@ -15,7 +15,9 @@
     "js-data-angular": "^3.2.1",
     "lodash": "^4.2.1",
     "moment": "^2.10.6",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "pg": "^7.8.0",
+    "sql-template-strings": "^2.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.5.1",
