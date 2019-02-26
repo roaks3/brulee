@@ -48,6 +48,7 @@ const update = (collection, id, obj) =>
 
 const deleteOne = (collection, id) =>
   fetch(`${process.env.API_URL}/${collection}/${id}?apiKey=${process.env.API_KEY}`, {
+    method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     }
