@@ -1,4 +1,4 @@
-const mongo = require('./mongo.service');
+const mongo = require('./mongo/mongo.service');
 
 const find = opts =>
   mongo.find('groceryLists', opts);

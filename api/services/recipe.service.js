@@ -1,4 +1,4 @@
-const mongo = require('./mongo.service');
+const mongo = require('./mongo/mongo.service');
 
 const find = q =>
   mongo.find('recipes', { q });
