@@ -22,8 +22,7 @@ class CategoryStore {
     return this.Category
       .create(_.pick(category, [
         'name',
-        'order',
-        'ingredient_ids'
+        'order'
       ]))
       .then(() => {
         this.categories = this.Category.getAll();

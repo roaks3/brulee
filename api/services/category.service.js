@@ -1,24 +1,41 @@
-const mongo = require('./mongo/mongo.service');
+const _ = require('lodash');
+const { SQL } = require('sql-template-strings');
+const pg = require('./pg.service');
 
-const find = q =>
-  mongo.find('categories', { q });
+const create = obj => {
+  const fields = _.pick(obj, ['id', 'name', 'display_order']);
+  if (_.isEmpty(fields)) {
+    throw new Error('No valid fields provided to create category');
+  }
 
-const findOne = id =>
-  mongo.findOne('categories', id);
+  return pg.pgQuery(
+    pg.createSql('categories', fields)
+  );
+};
 
-const create = obj =>
-  mongo.create('categories', obj);
+const updateName = (id, name) =>
+  pg.pgQuery(SQL`
+    update categories
+    set name = ${name}
+    where id = ${id}
+  `);
 
-const update = (id, obj) =>
-  mongo.update('categories', id, obj);
+const updateDisplayOrder = (id, displayOrder) =>
+  pg.pgQuery(SQL`
+    update categories
+    set display_order = ${displayOrder}
+    where id = ${id}
+  `);
 
 const deleteOne = id =>
-  mongo.deleteOne('categories', id);
+  pg.pgQuery(SQL`
+    delete from categories
+    where id = ${id}
+  `);
 
 module.exports = {
-  find,
-  findOne,
   create,
-  update,
+  updateName,
+  updateDisplayOrder,
   deleteOne
 };

@@ -26,8 +26,7 @@ class CategoryEditScreenStore {
     return this.categoryStore
       .createCategory({
         name: categoryName,
-        order: categories.length + 1,
-        ingredient_ids: []
+        order: categories.length + 1
       });
   }
 

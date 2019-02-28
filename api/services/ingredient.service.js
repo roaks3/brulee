@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const pg = require('./pg.service');
 const { SQL } = require('sql-template-strings');
+const pg = require('./pg.service');
 
 const create = obj => {
   const fields = _.pick(obj, ['id', 'name', 'category_id']);
@@ -27,6 +27,13 @@ const updateCategory = (id, categoryId) =>
     where id = ${id}
   `);
 
+const updateCategoryForAll = (ids, categoryId) =>
+  pg.pgQuery(SQL`
+    update ingredients
+    set category_id = ${categoryId}
+    where id = any(${ids})
+  `);
+
 const deleteOne = id =>
   pg.pgQuery(SQL`
     delete from ingredients
@@ -37,5 +44,6 @@ module.exports = {
   create,
   updateName,
   updateCategory,
+  updateCategoryForAll,
   deleteOne
 };
