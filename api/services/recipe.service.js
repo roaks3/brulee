@@ -63,7 +63,7 @@ const updateRecipeIngredient = (recipeId, ingredientId, obj) => {
   const fields = _.pick(obj, ['amount', 'unit']);
 
   if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update recipe ingredient');
+    throw new Error('No valid fields provided to update recipe_ingredient');
   }
 
   const query = pg.updateSql('recipe_ingredients', fields);
