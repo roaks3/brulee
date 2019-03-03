@@ -3,7 +3,7 @@
 /*eslint-env node*/
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
-var open = require('open');
+var open = require('opn');
 var lazypipe = require('lazypipe');
 var rimraf = require('rimraf');
 var runSequence = require('run-sequence');
