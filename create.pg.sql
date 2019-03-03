@@ -30,7 +30,8 @@ create table recipes (
 create table recipe_ingredients (
     recipe_id text,
     ingredient_id text,
-    amount text
+    amount text,
+    unit text
 );
 
 create index recipe_ingredients_recipe_id_idx on recipe_ingredients (recipe_id);
@@ -58,7 +59,8 @@ create index grocery_list_recipes_recipe_id_idx on grocery_list_recipes (recipe_
 create table grocery_list_ingredients (
     grocery_list_id text,
     ingredient_id text,
-    amount text
+    amount text,
+    unit text
 );
 
 create index grocery_list_ingredients_grocery_list_id_idx on grocery_list_ingredients (grocery_list_id);

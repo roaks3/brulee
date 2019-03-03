@@ -48,7 +48,37 @@ const createSql = (tablename, obj) => {
   return query;
 };
 
+const updateSql = (tablename, obj) => {
+  if (_.isEmpty(obj)) {
+    throw new Error(`Cannot generate update sql for an empty object: ${tablename}`);
+  }
+
+  const fieldPairs = _.toPairs(obj);
+  const query = SQL`
+    update
+  `;
+
+  query.append(tablename);
+
+  query.append(`
+    set ${fieldPairs[0][0]} =
+  `);
+
+  query.append(SQL`${fieldPairs[0][1]}`);
+
+  fieldPairs.slice(1).forEach(([key, val]) => {
+    query.append(`
+      , ${key} =
+    `);
+
+    query.append(SQL`${val}`);
+  });
+
+  return query;
+};
+
 module.exports = {
   pgQuery,
-  createSql
+  createSql,
+  updateSql
 };

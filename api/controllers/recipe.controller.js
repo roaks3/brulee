@@ -1,31 +1,82 @@
+const mongoRecipeService = require('../services/mongo/recipe.service');
 const recipeService = require('../services/recipe.service');
 
 const index = (req, res) => {
-  recipeService.find(req.query.q)
+  mongoRecipeService.find(req.query.q)
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const show = (req, res) => {
-  recipeService.findOne(req.params.id)
+  mongoRecipeService.findOne(req.params.id)
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
+const createRecipeIngredient = (recipeId, recipeIngredient) =>
+  recipeService.createRecipeIngredient(Object.assign({}, recipeIngredient, { recipe_id: recipeId }));
+
 const create = (req, res) => {
-  recipeService.create(req.body)
+  mongoRecipeService.create(req.body)
+    .then(json =>
+      recipeService.create(json)
+        .then(() => json))
+    .then(json =>
+      Promise
+        .all(
+          (req.body.recipe_ingredients || []).map(ri =>
+            createRecipeIngredient(json.id, ri)))
+        .then(() => json))
     .then(json => res.send(json))
     .catch(e => console.log(e));
+};
+
+const updateRecipeIngredientsForRecipe = (oldRecipe, newRecipe) => {
+  const createdRecipeIngredients = newRecipe.recipe_ingredients
+    .filter(nri =>
+      !oldRecipe.recipe_ingredients.find(ori => ori.ingredient_id === nri.ingredient_id));
+  const removedRecipeIngredients = oldRecipe.recipe_ingredients
+    .filter(ori =>
+      !newRecipe.recipe_ingredients.find(nri => nri.ingredient_id === ori.ingredient_id));
+  const changedRecipeIngredients = newRecipe.recipe_ingredients
+    .filter(nri =>
+      oldRecipe.recipe_ingredients.find(ori =>
+        ori.ingredient_id === nri.ingredient_id && (ori.amount !== nri.amount || ori.unit !== nri.unit)));
+
+  return Promise.all([
+    ...createdRecipeIngredients.map(ri =>
+      createRecipeIngredient(oldRecipe.id, ri)),
+    ...removedRecipeIngredients.map(ri =>
+      recipeService.deleteOneRecipeIngredient(oldRecipe.id, ri.ingredient_id)),
+    ...changedRecipeIngredients.map(ri =>
+      recipeService.updateRecipeIngredient(oldRecipe.id, ri.ingredient_id, ri))]);
 };
 
 const update = (req, res) => {
-  recipeService.update(req.params.id, req.body)
+  let original;
+  mongoRecipeService.findOne(req.params.id)
+    .then(json => {
+      original = json;
+    })
+    .then(() => mongoRecipeService.update(req.params.id, req.body))
+    .then(json =>
+      recipeService.update(req.params.id, req.body)
+        .then(() => json))
+    .then(json =>
+      updateRecipeIngredientsForRecipe(original, req.body)
+        .then(() => json))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const destroy = (req, res) => {
-  recipeService.deleteOne(req.params.id)
+  mongoRecipeService.deleteOne(req.params.id)
+    .then(json =>
+      recipeService.deleteRecipeIngredientsForRecipe(req.params.id)
+        .then(() => json))
+    .then(json =>
+      recipeService.deleteOne(req.params.id)
+        .then(() => json))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
