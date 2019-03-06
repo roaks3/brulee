@@ -8,6 +8,12 @@ const index = (req, res) => {
     .catch(e => console.log(e));
 };
 
+const recent = (req, res) => {
+  mongoGroceryListService.find({ l: req.query.limit, s: encodeURI('{week_start:-1}') })
+    .then(json => res.send(json))
+    .catch(e => console.log(e));
+};
+
 const show = (req, res) => {
   mongoGroceryListService.findOne(req.params.id)
     .then(json => res.send(json))
@@ -121,6 +127,7 @@ const update = (req, res) => {
 
 module.exports = {
   index,
+  recent,
   show,
   create,
   update

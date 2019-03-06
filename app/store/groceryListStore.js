@@ -21,11 +21,8 @@ class GroceryListStore {
   fetchRecentGroceryLists (limit) {
     return this.GroceryList
       .findAll({
-        s: {
-          week_start: -1
-        },
-        l: limit
-      })
+        limit,
+      }, { endpoint: 'groceryLists/recent' })
       .then(() => {
         this.groceryLists = this.GroceryList.getAll();
       });
