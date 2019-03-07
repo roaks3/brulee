@@ -3,7 +3,7 @@ const categoryService = require('../services/category.service');
 const ingredientService = require('../services/ingredient.service');
 
 const index = (req, res) => {
-  mongoCategoryService.find(req.query.q)
+  mongoCategoryService.find()
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

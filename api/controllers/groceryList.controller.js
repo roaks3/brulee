@@ -3,13 +3,13 @@ const mongoGroceryListService = require('../services/mongo/groceryList.service')
 const groceryListService = require('../services/groceryList.service');
 
 const index = (req, res) => {
-  mongoGroceryListService.find(req.query)
+  mongoGroceryListService.find({})
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const recent = (req, res) => {
-  mongoGroceryListService.find({ l: req.query.limit, s: encodeURI('{week_start:-1}') })
+  mongoGroceryListService.find({ limit: req.query.limit, sortMostRecent: true })
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

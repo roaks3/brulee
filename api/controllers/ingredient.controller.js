@@ -2,7 +2,7 @@ const mongoIngredientService = require('../services/mongo/ingredient.service');
 const ingredientService = require('../services/ingredient.service');
 
 const index = (req, res) => {
-  mongoIngredientService.find(req.query.q)
+  mongoIngredientService.find({ ids: req.query.ids, names: req.query.names })
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

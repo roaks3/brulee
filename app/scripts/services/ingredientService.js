@@ -11,16 +11,8 @@ export default angular.module('services.ingredientService', [Ingredient])
       return _.head(Ingredient.filter({name}));
     };
 
-    this.findAllIngredientsByName = (names) => {
-      return Ingredient
-        .findAll({
-          q: {
-            name: {
-              '$in': names
-            }
-          }
-        });
-    };
+    this.findAllIngredientsByName = names =>
+      Ingredient.findAll({ names });
 
     return this;
 

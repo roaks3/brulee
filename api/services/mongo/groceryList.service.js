@@ -1,7 +1,20 @@
 const mongo = require('./mongo.service');
 
-const find = opts =>
-  mongo.find('groceryLists', opts);
+const find = ({ limit, sortMostRecent }) => {
+  let query = {};
+
+  if (limit) {
+    query.l = limit;
+  }
+
+  if (sortMostRecent) {
+    query.s = encodeURI(JSON.stringify({
+      week_start: -1
+    }));
+  }
+
+  return mongo.find('groceryLists', query);
+};
 
 const findOne = id =>
   mongo.findOne('groceryLists', id);

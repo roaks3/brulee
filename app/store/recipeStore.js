@@ -20,13 +20,7 @@ class RecipeStore {
 
   fetchRecipesById (ids) {
     return this.Recipe
-      .findAll({
-        q: {
-          _id: {
-            $in: ids.map(id => ({$oid: id}))
-          }
-        }
-      })
+      .findAll({ ids })
       .then(() => {
         this.recipes = this.Recipe.getAll();
       });

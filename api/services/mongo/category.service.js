@@ -1,7 +1,7 @@
 const mongo = require('./mongo.service');
 
-const find = q =>
-  mongo.find('categories', { q });
+const find = () =>
+  mongo.find('categories', {});
 
 const findOne = id =>
   mongo.findOne('categories', id);
