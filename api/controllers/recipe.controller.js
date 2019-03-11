@@ -1,8 +1,9 @@
+const _ = require('lodash');
 const mongoRecipeService = require('../services/mongo/recipe.service');
 const recipeService = require('../services/recipe.service');
 
 const index = (req, res) => {
-  mongoRecipeService.find({ ids: req.query.ids })
+  mongoRecipeService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids })
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

@@ -1,8 +1,12 @@
+const _ = require('lodash');
 const mongoIngredientService = require('../services/mongo/ingredient.service');
 const ingredientService = require('../services/ingredient.service');
 
 const index = (req, res) => {
-  mongoIngredientService.find({ ids: req.query.ids, names: req.query.names })
+  mongoIngredientService.find({
+    ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids,
+    names: _.isString(req.query.names) ? [ req.query.names ] : req.query.names
+  })
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
