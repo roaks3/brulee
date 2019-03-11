@@ -65,23 +65,16 @@ const create = (req, res) => {
 const updateGroceryListRecipesForGroceryList = (oldGroceryList, newGroceryList) => {
   const createdRecipeDays = newGroceryList.recipe_days
     .filter(nrd =>
-      !oldGroceryList.recipe_days.find(ord => ord.recipe_id === nrd.recipe_id));
+      !oldGroceryList.recipe_days.find(ord => ord.recipe_id === nrd.recipe_id && ord.day_of_week === nrd.day_of_week));
   const removedRecipeDays = oldGroceryList.recipe_days
     .filter(ord =>
-      !newGroceryList.recipe_days.find(nrd => nrd.recipe_id === ord.recipe_id));
-  const changedGroceryListRecipes = newGroceryList.recipe_days
-    .filter(nrd =>
-      oldGroceryList.recipe_days.find(ord =>
-        ord.recipe_id === nrd.recipe_id && ord.day_of_week !== nrd.day_of_week))
-    .map(rd => recipeDayToGroceryListRecipe(newGroceryList, rd));
+      !newGroceryList.recipe_days.find(nrd => nrd.recipe_id === ord.recipe_id && nrd.day_of_week === ord.day_of_week));
 
   return Promise.all([
     ...createdRecipeDays.map(rd =>
       createGroceryListRecipe(Object.assign({}, newGroceryList, { id: oldGroceryList.id }), rd)),
     ...removedRecipeDays.map(rd =>
-      groceryListService.deleteOneGroceryListRecipe(oldGroceryList.id, rd.recipe_id)),
-    ...changedGroceryListRecipes.map(glr =>
-      groceryListService.updateGroceryListRecipe(oldGroceryList.id, glr.recipe_id, glr))]);
+      groceryListService.deleteOneGroceryListRecipe(oldGroceryList.id, rd.recipe_id, rd.day_of_week))]);
 };
 
 const updateAdditionalIngredientsForGroceryList = (oldGroceryList, newGroceryList) => {

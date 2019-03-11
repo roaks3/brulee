@@ -55,26 +55,10 @@ const createGroceryListRecipe = obj => {
   );
 };
 
-const updateGroceryListRecipe = (groceryListId, recipeId, obj) => {
-  const fields = _.pick(obj, ['day_of_week', 'scheduled_for']);
-
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update grocery_list_recipe');
-  }
-
-  const query = pg.updateSql('grocery_list_recipes', fields);
-
-  query.append(SQL`
-    where grocery_list_id = ${groceryListId} and recipe_id = ${recipeId}
-  `);
-
-  return pg.pgQuery(query);
-};
-
-const deleteOneGroceryListRecipe = (groceryListId, recipeId) =>
+const deleteOneGroceryListRecipe = (groceryListId, recipeId, dayOfWeek) =>
   pg.pgQuery(SQL`
     delete from grocery_list_recipes
-    where grocery_list_id = ${groceryListId} and recipe_id = ${recipeId}
+    where grocery_list_id = ${groceryListId} and recipe_id = ${recipeId} and day_of_week = ${dayOfWeek}
   `);
 
 const createGroceryListIngredient = obj => {
@@ -115,7 +99,6 @@ module.exports = {
   update,
   deleteOne,
   createGroceryListRecipe,
-  updateGroceryListRecipe,
   deleteOneGroceryListRecipe,
   createGroceryListIngredient,
   updateGroceryListIngredient,
