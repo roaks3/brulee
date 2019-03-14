@@ -1,15 +1,26 @@
 const _ = require('lodash');
 const mongoRecipeService = require('../services/mongo/recipe.service');
 const recipeService = require('../services/recipe.service');
+const recipeSerializer = require('../serializers/recipe.serializer');
 
 const index = (req, res) => {
-  mongoRecipeService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids })
+  recipeService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids })
+    .then(json =>
+      Promise.all(
+        json.map(recipe =>
+          recipeService.findRecipeIngredients({ recipeIds: [recipe.id] })
+            .then(recipeIngredients => recipeSerializer.serialize(recipe, recipeIngredients)))))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const show = (req, res) => {
-  mongoRecipeService.findOne(req.params.id)
+  recipeService.find({ ids: [req.params.id] })
+    .then(json =>
+      recipeService.findRecipeIngredients({ recipeIds: [req.params.id] })
+        .then(recipeIngredients => [ json, recipeIngredients ]))
+    .then(([ json, recipeIngredients ]) =>
+      json && json.length && recipeSerializer.serialize(json[0], recipeIngredients))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

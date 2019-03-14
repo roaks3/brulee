@@ -2,6 +2,21 @@ const _ = require('lodash');
 const { SQL } = require('sql-template-strings');
 const pg = require('./pg.service');
 
+const find = ({ ids }) => {
+  const query = SQL`
+    select *
+    from recipes
+  `;
+
+  if (ids) {
+    query.append(SQL`
+      where id = any(${ids})
+    `);
+  }
+
+  return pg.pgQuery(query);
+};
+
 const create = obj => {
   const fields = _.pick(obj, ['id', 'name', 'original_text', 'url']);
   if (_.isEmpty(fields)) {
@@ -48,6 +63,21 @@ const deleteOne = id =>
     where id = ${id}
   `);
 
+const findRecipeIngredients = ({ recipeIds }) => {
+  const query = SQL`
+    select *
+    from recipe_ingredients
+  `;
+
+  if (recipeIds) {
+    query.append(SQL`
+      where recipe_id = any(${recipeIds})
+    `);
+  }
+
+  return pg.pgQuery(query);
+};
+
 const createRecipeIngredient = obj => {
   const fields = _.pick(obj, ['recipe_id', 'ingredient_id', 'amount', 'unit']);
   if (_.isEmpty(fields)) {
@@ -88,9 +118,11 @@ const deleteRecipeIngredientsForRecipe = recipeId =>
   `);
 
 module.exports = {
+  find,
   create,
   update,
   deleteOne,
+  findRecipeIngredients,
   createRecipeIngredient,
   updateRecipeIngredient,
   deleteOneRecipeIngredient,

@@ -1,15 +1,26 @@
 const mongoCategoryService = require('../services/mongo/category.service');
 const categoryService = require('../services/category.service');
 const ingredientService = require('../services/ingredient.service');
+const categorySerializer = require('../serializers/category.serializer');
 
 const index = (req, res) => {
-  mongoCategoryService.find()
+  categoryService.find({})
+    .then(json =>
+      Promise.all(
+        json.map(category =>
+          ingredientService.find({ categoryId: category.id })
+            .then(ingredients => categorySerializer.serialize(category, ingredients)))))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const show = (req, res) => {
-  mongoCategoryService.findOne(req.params.id)
+  categoryService.find({ ids: [req.params.id] })
+    .then(json =>
+      ingredientService.find({ categoryId: req.params.id })
+        .then(ingredients => [ json, ingredients ]))
+    .then(([ json, ingredients ]) =>
+      json && json.length && categorySerializer.serialize(json[0], ingredients))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

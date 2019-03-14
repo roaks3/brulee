@@ -1,21 +1,46 @@
 const moment = require('moment');
 const mongoGroceryListService = require('../services/mongo/groceryList.service');
 const groceryListService = require('../services/groceryList.service');
+const groceryListSerializer = require('../serializers/groceryList.serializer');
 
 const index = (req, res) => {
-  mongoGroceryListService.find({})
+  groceryListService.find({ ids: req.query.ids })
+    .then(json =>
+      Promise.all(
+        json.map(groceryList =>
+          Promise.all([
+            groceryListService.findGroceryListRecipes({ groceryListIds: [groceryList.id] }),
+            groceryListService.findGroceryListIngredients({ groceryListIds: [groceryList.id] })
+          ])
+            .then(([groceryListRecipes, groceryListIngredients]) => groceryListSerializer.serialize(groceryList, groceryListRecipes, groceryListIngredients)))))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const recent = (req, res) => {
-  mongoGroceryListService.find({ limit: req.query.limit, sortMostRecent: true })
+  groceryListService.find({ limit: req.query.limit, sortMostRecent: true })
+    .then(json =>
+      Promise.all(
+        json.map(groceryList =>
+          Promise.all([
+            groceryListService.findGroceryListRecipes({ groceryListIds: [groceryList.id] }),
+            groceryListService.findGroceryListIngredients({ groceryListIds: [groceryList.id] })
+          ])
+            .then(([groceryListRecipes, groceryListIngredients]) => groceryListSerializer.serialize(groceryList, groceryListRecipes, groceryListIngredients)))))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const show = (req, res) => {
-  mongoGroceryListService.findOne(req.params.id)
+  groceryListService.find({ ids: [req.params.id] })
+    .then(json =>
+      Promise.all([
+        groceryListService.findGroceryListRecipes({ groceryListIds: [req.params.id] }),
+        groceryListService.findGroceryListIngredients({ groceryListIds: [req.params.id] })
+      ])
+        .then(([groceryListRecipes, groceryListIngredients]) => [ json, groceryListRecipes, groceryListIngredients ]))
+    .then(([ json, groceryListRecipes, groceryListIngredients ]) =>
+      json && json.length && groceryListSerializer.serialize(json[0], groceryListRecipes, groceryListIngredients))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

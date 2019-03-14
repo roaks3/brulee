@@ -2,6 +2,21 @@ const _ = require('lodash');
 const { SQL } = require('sql-template-strings');
 const pg = require('./pg.service');
 
+const find = ({ ids }) => {
+  const query = SQL`
+    select *
+    from categories
+  `;
+
+  if (ids) {
+    query.append(SQL`
+      where id = any(${ids})
+    `);
+  }
+
+  return pg.pgQuery(query);
+};
+
 const create = obj => {
   const fields = _.pick(obj, ['id', 'name', 'display_order']);
   if (_.isEmpty(fields)) {
@@ -34,6 +49,7 @@ const deleteOne = id =>
   `);
 
 module.exports = {
+  find,
   create,
   updateName,
   updateDisplayOrder,

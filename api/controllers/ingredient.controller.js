@@ -1,18 +1,21 @@
 const _ = require('lodash');
 const mongoIngredientService = require('../services/mongo/ingredient.service');
 const ingredientService = require('../services/ingredient.service');
+const ingredientSerializer = require('../serializers/ingredient.serializer');
 
 const index = (req, res) => {
-  mongoIngredientService.find({
+  ingredientService.find({
     ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids,
     names: _.isString(req.query.names) ? [ req.query.names ] : req.query.names
   })
+    .then(json => json.map(ingredientSerializer.serialize))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
 
 const show = (req, res) => {
-  mongoIngredientService.findOne(req.params.id)
+  ingredientService.find({ ids: [req.params.id] })
+    .then(json => json && json.length && ingredientSerializer.serialize(json[0]))
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
