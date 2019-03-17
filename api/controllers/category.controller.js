@@ -20,7 +20,7 @@ const show = (req, res) => {
       ingredientService.find({ categoryId: req.params.id })
         .then(ingredients => [ json, ingredients ]))
     .then(([ json, ingredients ]) =>
-      json && json.length && categorySerializer.serialize(json[0], ingredients))
+      (json && json.length) ? categorySerializer.serialize(json[0], ingredients) : {})
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
@@ -28,7 +28,7 @@ const show = (req, res) => {
 const create = (req, res) => {
   mongoCategoryService.create(Object.assign({}, req.body, { ingredient_ids: [] }))
     .then(json =>
-      categoryService.create(json)
+      categoryService.create(Object.assign({}, json, { display_order: json.order }))
         .then(() => json))
     .then(json => res.send(json))
     .catch(e => console.log(e));

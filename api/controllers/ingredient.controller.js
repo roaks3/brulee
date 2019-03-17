@@ -15,7 +15,7 @@ const index = (req, res) => {
 
 const show = (req, res) => {
   ingredientService.find({ ids: [req.params.id] })
-    .then(json => json && json.length && ingredientSerializer.serialize(json[0]))
+    .then(json => (json && json.length) ? ingredientSerializer.serialize(json[0]) : {})
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };

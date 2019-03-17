@@ -1,10 +1,11 @@
+const _ = require('lodash');
 const moment = require('moment');
 const mongoGroceryListService = require('../services/mongo/groceryList.service');
 const groceryListService = require('../services/groceryList.service');
 const groceryListSerializer = require('../serializers/groceryList.serializer');
 
 const index = (req, res) => {
-  groceryListService.find({ ids: req.query.ids })
+  groceryListService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids })
     .then(json =>
       Promise.all(
         json.map(groceryList =>
@@ -40,7 +41,7 @@ const show = (req, res) => {
       ])
         .then(([groceryListRecipes, groceryListIngredients]) => [ json, groceryListRecipes, groceryListIngredients ]))
     .then(([ json, groceryListRecipes, groceryListIngredients ]) =>
-      json && json.length && groceryListSerializer.serialize(json[0], groceryListRecipes, groceryListIngredients))
+      (json && json.length) ? groceryListSerializer.serialize(json[0], groceryListRecipes, groceryListIngredients) : {})
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
@@ -143,10 +144,26 @@ const update = (req, res) => {
     .catch(e => console.log(e));
 };
 
+const destroy = (req, res) => {
+  mongoGroceryListService.deleteOne(req.params.id)
+    .then(json =>
+      groceryListService.deleteGroceryListIngredientsForGroceryList(req.params.id)
+        .then(() => json))
+    .then(json =>
+      groceryListService.deleteGroceryListRecipesForGroceryList(req.params.id)
+        .then(() => json))
+    .then(json =>
+      groceryListService.deleteOne(req.params.id)
+        .then(() => json))
+    .then(json => res.send(json))
+    .catch(e => console.log(e));
+};
+
 module.exports = {
   index,
   recent,
   show,
   create,
-  update
+  update,
+  destroy
 };

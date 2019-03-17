@@ -103,6 +103,12 @@ const deleteOneGroceryListRecipe = (groceryListId, recipeId, dayOfWeek) =>
     where grocery_list_id = ${groceryListId} and recipe_id = ${recipeId} and day_of_week = ${dayOfWeek}
   `);
 
+const deleteGroceryListRecipesForGroceryList = groceryListId =>
+  pg.pgQuery(SQL`
+    delete from grocery_list_recipes
+    where grocery_list_id = ${groceryListId}
+  `);
+
 const findGroceryListIngredients = ({ groceryListIds }) => {
   const query = SQL`
     select *
@@ -151,6 +157,12 @@ const deleteOneGroceryListIngredient = (groceryListId, ingredientId) =>
     where grocery_list_id = ${groceryListId} and ingredient_id = ${ingredientId}
   `);
 
+const deleteGroceryListIngredientsForGroceryList = groceryListId =>
+  pg.pgQuery(SQL`
+    delete from grocery_list_ingredients
+    where grocery_list_id = ${groceryListId}
+  `);
+
 module.exports = {
   find,
   create,
@@ -159,8 +171,10 @@ module.exports = {
   findGroceryListRecipes,
   createGroceryListRecipe,
   deleteOneGroceryListRecipe,
+  deleteGroceryListRecipesForGroceryList,
   findGroceryListIngredients,
   createGroceryListIngredient,
   updateGroceryListIngredient,
-  deleteOneGroceryListIngredient
+  deleteOneGroceryListIngredient,
+  deleteGroceryListIngredientsForGroceryList
 };

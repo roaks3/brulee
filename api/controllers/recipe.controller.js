@@ -20,7 +20,7 @@ const show = (req, res) => {
       recipeService.findRecipeIngredients({ recipeIds: [req.params.id] })
         .then(recipeIngredients => [ json, recipeIngredients ]))
     .then(([ json, recipeIngredients ]) =>
-      json && json.length && recipeSerializer.serialize(json[0], recipeIngredients))
+      (json && json.length) ? recipeSerializer.serialize(json[0], recipeIngredients) : {})
     .then(json => res.send(json))
     .catch(e => console.log(e));
 };
@@ -44,15 +44,15 @@ const create = (req, res) => {
 };
 
 const updateRecipeIngredientsForRecipe = (oldRecipe, newRecipe) => {
-  const createdRecipeIngredients = newRecipe.recipe_ingredients
+  const createdRecipeIngredients = (newRecipe.recipe_ingredients || [])
     .filter(nri =>
-      !oldRecipe.recipe_ingredients.find(ori => ori.ingredient_id === nri.ingredient_id));
-  const removedRecipeIngredients = oldRecipe.recipe_ingredients
+      !(oldRecipe.recipe_ingredients || []).find(ori => ori.ingredient_id === nri.ingredient_id));
+  const removedRecipeIngredients = (oldRecipe.recipe_ingredients || [])
     .filter(ori =>
-      !newRecipe.recipe_ingredients.find(nri => nri.ingredient_id === ori.ingredient_id));
-  const changedRecipeIngredients = newRecipe.recipe_ingredients
+      !(newRecipe.recipe_ingredients || []).find(nri => nri.ingredient_id === ori.ingredient_id));
+  const changedRecipeIngredients = (newRecipe.recipe_ingredients || [])
     .filter(nri =>
-      oldRecipe.recipe_ingredients.find(ori =>
+      (oldRecipe.recipe_ingredients || []).find(ori =>
         ori.ingredient_id === nri.ingredient_id && (ori.amount !== nri.amount || ori.unit !== nri.unit)));
 
   return Promise.all([
