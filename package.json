@@ -2,6 +2,7 @@
   "name": "brulee",
   "private": true,
   "dependencies": {
+    "@types/node": "^11.11.3",
     "angular": "^1.6.0",
     "angular-animate": "^1.6.0",
     "angular-ui-bootstrap": "^0.14.3",
@@ -58,6 +59,7 @@
     "sass-loader": "^6.0.2",
     "style-loader": "^0.13.1",
     "supertest": "^4.0.2",
+    "typescript": "^3.3.3333",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
     "webpack-stream": "^3.2.0"
@@ -66,7 +68,7 @@
     "node": "^10.15.2"
   },
   "scripts": {
-    "test": "gulp test",
-    "postinstall": "gulp build"
+    "build": "tsc && gulp build",
+    "test": "gulp test"
   }
 }
