@@ -4,46 +4,42 @@ const mongoGroceryListService = require('../services/mongo/groceryList.service')
 const groceryListService = require('../services/groceryList.service');
 const groceryListSerializer = require('../serializers/groceryList.serializer');
 
-const index = (req, res) => {
-  groceryListService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids })
-    .then(json =>
-      Promise.all(
-        json.map(groceryList =>
-          Promise.all([
-            groceryListService.findGroceryListRecipes({ groceryListIds: [groceryList.id] }),
-            groceryListService.findGroceryListIngredients({ groceryListIds: [groceryList.id] })
-          ])
-            .then(([groceryListRecipes, groceryListIngredients]) => groceryListSerializer.serialize(groceryList, groceryListRecipes, groceryListIngredients)))))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const index = async req => {
+  const groceryLists = await groceryListService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids });
+
+  return Promise.all(
+    groceryLists.map(async groceryList => {
+      const [groceryListRecipes, groceryListIngredients] = await Promise.all([
+        groceryListService.findGroceryListRecipes({ groceryListIds: [groceryList.id] }),
+        groceryListService.findGroceryListIngredients({ groceryListIds: [groceryList.id] })
+      ]);
+      return groceryListSerializer.serialize(groceryList, groceryListRecipes, groceryListIngredients);
+    }));
 };
 
-const recent = (req, res) => {
-  groceryListService.find({ limit: req.query.limit, sortMostRecent: true })
-    .then(json =>
-      Promise.all(
-        json.map(groceryList =>
-          Promise.all([
-            groceryListService.findGroceryListRecipes({ groceryListIds: [groceryList.id] }),
-            groceryListService.findGroceryListIngredients({ groceryListIds: [groceryList.id] })
-          ])
-            .then(([groceryListRecipes, groceryListIngredients]) => groceryListSerializer.serialize(groceryList, groceryListRecipes, groceryListIngredients)))))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const recent = async req => {
+  const groceryLists = await groceryListService.find({ limit: req.query.limit, sortMostRecent: true });
+
+  return Promise.all(
+    groceryLists.map(async groceryList => {
+      const [groceryListRecipes, groceryListIngredients] = await Promise.all([
+        groceryListService.findGroceryListRecipes({ groceryListIds: [groceryList.id] }),
+        groceryListService.findGroceryListIngredients({ groceryListIds: [groceryList.id] })
+      ]);
+      return groceryListSerializer.serialize(groceryList, groceryListRecipes, groceryListIngredients);
+    }));
 };
 
-const show = (req, res) => {
-  groceryListService.find({ ids: [req.params.id] })
-    .then(json =>
-      Promise.all([
-        groceryListService.findGroceryListRecipes({ groceryListIds: [req.params.id] }),
-        groceryListService.findGroceryListIngredients({ groceryListIds: [req.params.id] })
-      ])
-        .then(([groceryListRecipes, groceryListIngredients]) => [ json, groceryListRecipes, groceryListIngredients ]))
-    .then(([ json, groceryListRecipes, groceryListIngredients ]) =>
-      (json && json.length) ? groceryListSerializer.serialize(json[0], groceryListRecipes, groceryListIngredients) : {})
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const show = async req => {
+  const groceryLists = await groceryListService.find({ ids: [req.params.id] });
+
+  const [groceryListRecipes, groceryListIngredients] = await Promise.all([
+    groceryListService.findGroceryListRecipes({ groceryListIds: [req.params.id] }),
+    groceryListService.findGroceryListIngredients({ groceryListIds: [req.params.id] })
+  ]);
+
+  return (groceryLists && groceryLists.length) ?
+    groceryListSerializer.serialize(groceryLists[0], groceryListRecipes, groceryListIngredients) : {};
 };
 
 const recipeDayToGroceryListRecipe = (groceryList, recipeDay) => {
@@ -67,25 +63,18 @@ const createGroceryListIngredient = (groceryListId, additionalIngredient) =>
   groceryListService.createGroceryListIngredient(
     Object.assign({}, additionalIngredient, { grocery_list_id: groceryListId }));
 
-const create = (req, res) => {
-  mongoGroceryListService.create(req.body)
-    .then(json =>
-      groceryListService.create(json)
-        .then(() => json))
-    .then(json =>
-      Promise
-        .all(
-          (req.body.recipe_days || []).map(rd =>
-            createGroceryListRecipe(json, rd)))
-        .then(() => json))
-    .then(json =>
-      Promise
-        .all(
-          (req.body.additional_ingredients || []).map(ai =>
-            createGroceryListIngredient(json.id, ai)))
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const create = async req => {
+  const created = await mongoGroceryListService.create(req.body);
+  
+  await groceryListService.create(created);
+  await Promise.all(
+    (req.body.recipe_days || []).map(recipeDay =>
+      createGroceryListRecipe(created, recipeDay)));
+  await Promise.all(
+    (req.body.additional_ingredients || []).map(additionalIngredient =>
+      createGroceryListIngredient(created.id, additionalIngredient)));
+
+  return created;
 };
 
 const updateGroceryListRecipesForGroceryList = (oldGroceryList, newGroceryList) => {
@@ -124,39 +113,25 @@ const updateAdditionalIngredientsForGroceryList = (oldGroceryList, newGroceryLis
       groceryListService.updateGroceryListIngredient(oldGroceryList.id, ai.ingredient_id, ai))]);
 };
 
-const update = (req, res) => {
-  let original;
-  mongoGroceryListService.findOne(req.params.id)
-    .then(json => {
-      original = json;
-    })
-    .then(() => mongoGroceryListService.update(req.params.id, req.body))
-    .then(json =>
-      groceryListService.update(req.params.id, req.body)
-        .then(() => json))
-    .then(json =>
-      updateGroceryListRecipesForGroceryList(original, req.body)
-        .then(() => json))
-    .then(json =>
-      updateAdditionalIngredientsForGroceryList(original, req.body)
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const update = async req => {
+  const original = await mongoGroceryListService.findOne(req.params.id);
+  const updated = await mongoGroceryListService.update(req.params.id, req.body);
+  
+  await groceryListService.update(req.params.id, req.body);
+  await updateGroceryListRecipesForGroceryList(original, req.body);
+  await updateAdditionalIngredientsForGroceryList(original, req.body);
+
+  return updated;
 };
 
-const destroy = (req, res) => {
-  mongoGroceryListService.deleteOne(req.params.id)
-    .then(json =>
-      groceryListService.deleteGroceryListIngredientsForGroceryList(req.params.id)
-        .then(() => json))
-    .then(json =>
-      groceryListService.deleteGroceryListRecipesForGroceryList(req.params.id)
-        .then(() => json))
-    .then(json =>
-      groceryListService.deleteOne(req.params.id)
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const destroy = async req => {
+  const deleted = await mongoGroceryListService.deleteOne(req.params.id);
+
+  await groceryListService.deleteGroceryListIngredientsForGroceryList(req.params.id);
+  await groceryListService.deleteGroceryListRecipesForGroceryList(req.params.id);
+  await groceryListService.deleteOne(req.params.id);
+  
+  return deleted;
 };
 
 module.exports = {

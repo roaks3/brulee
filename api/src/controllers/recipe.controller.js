@@ -3,44 +3,35 @@ const mongoRecipeService = require('../services/mongo/recipe.service');
 const recipeService = require('../services/recipe.service');
 const recipeSerializer = require('../serializers/recipe.serializer');
 
-const index = (req, res) => {
-  recipeService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids })
-    .then(json =>
-      Promise.all(
-        json.map(recipe =>
-          recipeService.findRecipeIngredients({ recipeIds: [recipe.id] })
-            .then(recipeIngredients => recipeSerializer.serialize(recipe, recipeIngredients)))))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const index = async req => {
+  const recipes = await recipeService.find({ ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids });
+
+  return Promise.all(
+    recipes.map(async recipe => {
+      const recipeIngredients = await recipeService.findRecipeIngredients({ recipeIds: [recipe.id] });
+      return recipeSerializer.serialize(recipe, recipeIngredients);
+    }));
 };
 
-const show = (req, res) => {
-  recipeService.find({ ids: [req.params.id] })
-    .then(json =>
-      recipeService.findRecipeIngredients({ recipeIds: [req.params.id] })
-        .then(recipeIngredients => [ json, recipeIngredients ]))
-    .then(([ json, recipeIngredients ]) =>
-      (json && json.length) ? recipeSerializer.serialize(json[0], recipeIngredients) : {})
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const show = async req => {
+  const recipes = await recipeService.find({ ids: [req.params.id] })
+  const recipeIngredients = await recipeService.findRecipeIngredients({ recipeIds: [req.params.id] });
+  
+  return (recipes && recipes.length) ? recipeSerializer.serialize(recipes[0], recipeIngredients) : {};
 };
 
 const createRecipeIngredient = (recipeId, recipeIngredient) =>
   recipeService.createRecipeIngredient(Object.assign({}, recipeIngredient, { recipe_id: recipeId }));
 
-const create = (req, res) => {
-  mongoRecipeService.create(req.body)
-    .then(json =>
-      recipeService.create(json)
-        .then(() => json))
-    .then(json =>
-      Promise
-        .all(
-          (req.body.recipe_ingredients || []).map(ri =>
-            createRecipeIngredient(json.id, ri)))
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const create = async req => {
+  const created = await mongoRecipeService.create(req.body);
+  
+  await recipeService.create(created);
+  await Promise.all(
+    (req.body.recipe_ingredients || []).map(recipeIngredient =>
+      createRecipeIngredient(created.id, recipeIngredient)))
+
+  return created;
 };
 
 const updateRecipeIngredientsForRecipe = (oldRecipe, newRecipe) => {
@@ -64,33 +55,23 @@ const updateRecipeIngredientsForRecipe = (oldRecipe, newRecipe) => {
       recipeService.updateRecipeIngredient(oldRecipe.id, ri.ingredient_id, ri))]);
 };
 
-const update = (req, res) => {
-  let original;
-  mongoRecipeService.findOne(req.params.id)
-    .then(json => {
-      original = json;
-    })
-    .then(() => mongoRecipeService.update(req.params.id, req.body))
-    .then(json =>
-      recipeService.update(req.params.id, req.body)
-        .then(() => json))
-    .then(json =>
-      updateRecipeIngredientsForRecipe(original, req.body)
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const update = async req => {
+  const original = await mongoRecipeService.findOne(req.params.id);
+  const updated = await mongoRecipeService.update(req.params.id, req.body);
+
+  await recipeService.update(req.params.id, req.body);
+  await updateRecipeIngredientsForRecipe(original, req.body);
+  
+  return updated;
 };
 
-const destroy = (req, res) => {
-  mongoRecipeService.deleteOne(req.params.id)
-    .then(json =>
-      recipeService.deleteRecipeIngredientsForRecipe(req.params.id)
-        .then(() => json))
-    .then(json =>
-      recipeService.deleteOne(req.params.id)
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const destroy = async req => {
+  const deleted = await mongoRecipeService.deleteOne(req.params.id);
+  
+  await recipeService.deleteRecipeIngredientsForRecipe(req.params.id);
+  await recipeService.deleteOne(req.params.id);
+  
+  return deleted;
 };
 
 module.exports = {

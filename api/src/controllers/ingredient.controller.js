@@ -3,61 +3,49 @@ const mongoIngredientService = require('../services/mongo/ingredient.service');
 const ingredientService = require('../services/ingredient.service');
 const ingredientSerializer = require('../serializers/ingredient.serializer');
 
-const index = (req, res) => {
-  ingredientService.find({
+const index = async req => {
+  const ingredients = await ingredientService.find({
     ids: _.isString(req.query.ids) ? [ req.query.ids ] : req.query.ids,
     names: _.isString(req.query.names) ? [ req.query.names ] : req.query.names
-  })
-    .then(json => json.map(ingredientSerializer.serialize))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+  });
+
+  return ingredients.map(ingredientSerializer.serialize);
 };
 
-const show = (req, res) => {
-  ingredientService.find({ ids: [req.params.id] })
-    .then(json => (json && json.length) ? ingredientSerializer.serialize(json[0]) : {})
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const show = async req => {
+  const ingredients = await ingredientService.find({ ids: [req.params.id] });
+  
+  return (ingredients && ingredients.length) ? ingredientSerializer.serialize(ingredients[0]) : {};
 };
 
-const create = (req, res) => {
-  mongoIngredientService.create(req.body)
-    .then(json =>
-      ingredientService.create(json)
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const create = async req => {
+  const created = await mongoIngredientService.create(req.body);
+
+  await ingredientService.create(created);
+
+  return created;
 };
 
-const update = (req, res) => {
-  mongoIngredientService.update(req.params.id, req.body)
-    .then(json => {
-      if (!req.body.name) {
-        return json;
-      }
+const update = async req => {
+  const updated = await mongoIngredientService.update(req.params.id, req.body)
 
-      return ingredientService.updateName(req.params.id, req.body.name)
-        .then(() => json);
-    })
-    .then(json => {
-      if (!req.body.category_id) {
-        return json;
-      }
+  if (req.body.name) {
+    await ingredientService.updateName(req.params.id, req.body.name);
+  }
 
-      return ingredientService.updateCategory(req.params.id, req.body.category_id)
-        .then(() => json);
-    })
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+  if (req.body.category_id) {
+    await ingredientService.updateCategory(req.params.id, req.body.category_id);
+  }
+
+  return updated;
 };
 
-const destroy = (req, res) => {
-  mongoIngredientService.deleteOne(req.params.id)
-    .then(json =>
-      ingredientService.deleteOne(req.params.id)
-        .then(() => json))
-    .then(json => res.send(json))
-    .catch(e => console.log(e));
+const destroy = async req => {
+  const deleted = await mongoIngredientService.deleteOne(req.params.id);
+  
+  await ingredientService.deleteOne(req.params.id);
+
+  return deleted;
 };
 
 module.exports = {

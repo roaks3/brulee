@@ -68,7 +68,9 @@
     "node": "^10.15.2"
   },
   "scripts": {
-    "build": "tsc && gulp build",
+    "build": "build:api && build:web",
+    "build:api": "tsc",
+    "build:web": "gulp build",
     "test": "gulp test"
   }
 }

@@ -1,12 +1,13 @@
 const { Router } = require('express');
+const { toExpress } = require('../utils/express');
 const controller = require('../controllers/recipe.controller');
 
 const router = new Router();
 
-router.get('/', controller.index);
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.destroy);
+router.get('/', toExpress(controller.index));
+router.get('/:id', toExpress(controller.show));
+router.post('/', toExpress(controller.create));
+router.put('/:id', toExpress(controller.update));
+router.delete('/:id', toExpress(controller.destroy));
 
 module.exports = router;
