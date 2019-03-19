@@ -6,7 +6,7 @@ const find = ({ ids }) => {
 
   if (ids) {
     q._id = {
-      $in: ids.map(id => ({$oid: id}))
+      $in: ids.map(id => ({ $oid: id }))
     };
   }
 
@@ -15,17 +15,13 @@ const find = ({ ids }) => {
   return mongo.find('recipes', { q });
 };
 
-const findOne = id =>
-  mongo.findOne('recipes', id);
+const findOne = id => mongo.findOne('recipes', id);
 
-const create = obj =>
-  mongo.create('recipes', obj);
+const create = obj => mongo.create('recipes', obj);
 
-const update = (id, obj) =>
-  mongo.update('recipes', id, obj);
+const update = (id, obj) => mongo.update('recipes', id, obj);
 
-const deleteOne = id =>
-  mongo.deleteOne('recipes', id);
+const deleteOne = id => mongo.deleteOne('recipes', id);
 
 module.exports = {
   find,

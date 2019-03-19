@@ -5,26 +5,37 @@ const categorySerializer = require('../serializers/category.serializer');
 
 const index = async req => {
   const categories = await categoryService.find({});
-  
+
   return Promise.all(
     categories.map(async category => {
-      const ingredients = await ingredientService.find({ categoryId: category.id });
+      const ingredients = await ingredientService.find({
+        categoryId: category.id
+      });
       return categorySerializer.serialize(category, ingredients);
-    }));
+    })
+  );
 };
 
 const show = async req => {
   const categories = await categoryService.find({ ids: [req.params.id] });
-  const ingredients = await ingredientService.find({ categoryId: req.params.id });
+  const ingredients = await ingredientService.find({
+    categoryId: req.params.id
+  });
 
-  return (categories && categories.length) ? categorySerializer.serialize(categories[0], ingredients) : {};
+  return categories && categories.length
+    ? categorySerializer.serialize(categories[0], ingredients)
+    : {};
 };
 
 const create = async req => {
-  const created = await mongoCategoryService.create(Object.assign({}, req.body, { ingredient_ids: [] }));
-  
-  await categoryService.create(Object.assign({}, created, { display_order: created.order }));
-  
+  const created = await mongoCategoryService.create(
+    Object.assign({}, req.body, { ingredient_ids: [] })
+  );
+
+  await categoryService.create(
+    Object.assign({}, created, { display_order: created.order })
+  );
+
   return created;
 };
 
@@ -40,7 +51,10 @@ const update = async req => {
   }
 
   if (req.body.ingredient_ids) {
-    await ingredientService.updateCategoryForAll(req.body.ingredient_ids, req.params.id);
+    await ingredientService.updateCategoryForAll(
+      req.body.ingredient_ids,
+      req.params.id
+    );
   }
 
   return updated;
@@ -48,7 +62,7 @@ const update = async req => {
 
 const destroy = async req => {
   const deleted = await mongoCategoryService.deleteOne(req.params.id);
-  
+
   await categoryService.deleteOne(req.params.id);
 
   return deleted;

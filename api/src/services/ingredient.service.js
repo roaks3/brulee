@@ -35,9 +35,7 @@ const create = obj => {
     throw new Error('No valid fields provided to create ingredient');
   }
 
-  return pg.pgQuery(
-    pg.createSql('ingredients', fields)
-  );
+  return pg.pgQuery(pg.createSql('ingredients', fields));
 };
 
 const updateName = (id, name) =>

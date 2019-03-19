@@ -7,21 +7,24 @@ const pgPool = new pg.Pool({
 });
 
 const pgQuery = sql =>
-  pgPool.connect()
-    .then(connection =>
-      connection.query(sql)
-        .then(result => {
-          connection.release();
-          return result && result.rows;
-        })
-        .catch(e => {
-          connection.release();
-          throw e;
-        }));
+  pgPool.connect().then(connection =>
+    connection
+      .query(sql)
+      .then(result => {
+        connection.release();
+        return result && result.rows;
+      })
+      .catch(e => {
+        connection.release();
+        throw e;
+      })
+  );
 
 const createSql = (tablename, obj) => {
   if (_.isEmpty(obj)) {
-    throw new Error(`Cannot generate create sql for an empty object: ${tablename}`);
+    throw new Error(
+      `Cannot generate create sql for an empty object: ${tablename}`
+    );
   }
 
   const fieldPairs = _.toPairs(obj);
@@ -50,7 +53,9 @@ const createSql = (tablename, obj) => {
 
 const updateSql = (tablename, obj) => {
   if (_.isEmpty(obj)) {
-    throw new Error(`Cannot generate update sql for an empty object: ${tablename}`);
+    throw new Error(
+      `Cannot generate update sql for an empty object: ${tablename}`
+    );
   }
 
   const fieldPairs = _.toPairs(obj);

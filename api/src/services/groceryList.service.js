@@ -40,9 +40,7 @@ const create = obj => {
     fields.weekStart = moment(fields.weekStart, 'YYYY-MM-DD').toDate();
   }
 
-  return pg.pgQuery(
-    pg.createSql('grocery_lists', fields)
-  );
+  return pg.pgQuery(pg.createSql('grocery_lists', fields));
 };
 
 const update = (id, obj) => {
@@ -87,14 +85,17 @@ const findGroceryListRecipes = ({ groceryListIds }) => {
 };
 
 const createGroceryListRecipe = obj => {
-  const fields = _.pick(obj, ['grocery_list_id', 'recipe_id', 'day_of_week', 'scheduled_for']);
+  const fields = _.pick(obj, [
+    'grocery_list_id',
+    'recipe_id',
+    'day_of_week',
+    'scheduled_for'
+  ]);
   if (_.isEmpty(fields)) {
     throw new Error('No valid fields provided to create grocery_list_recipe');
   }
 
-  return pg.pgQuery(
-    pg.createSql('grocery_list_recipes', fields)
-  );
+  return pg.pgQuery(pg.createSql('grocery_list_recipes', fields));
 };
 
 const deleteOneGroceryListRecipe = (groceryListId, recipeId, dayOfWeek) =>
@@ -125,21 +126,28 @@ const findGroceryListIngredients = ({ groceryListIds }) => {
 };
 
 const createGroceryListIngredient = obj => {
-  const fields = _.pick(obj, ['grocery_list_id', 'ingredient_id', 'amount', 'unit']);
+  const fields = _.pick(obj, [
+    'grocery_list_id',
+    'ingredient_id',
+    'amount',
+    'unit'
+  ]);
   if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to create grocery_list_ingredient');
+    throw new Error(
+      'No valid fields provided to create grocery_list_ingredient'
+    );
   }
 
-  return pg.pgQuery(
-    pg.createSql('grocery_list_ingredients', fields)
-  );
+  return pg.pgQuery(pg.createSql('grocery_list_ingredients', fields));
 };
 
 const updateGroceryListIngredient = (groceryListId, ingredientId, obj) => {
   const fields = _.pick(obj, ['amount', 'unit']);
 
   if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update grocery_list_ingredient');
+    throw new Error(
+      'No valid fields provided to update grocery_list_ingredient'
+    );
   }
 
   const query = pg.updateSql('grocery_list_ingredients', fields);

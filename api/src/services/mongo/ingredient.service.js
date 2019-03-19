@@ -6,13 +6,13 @@ const find = ({ ids, names }) => {
 
   if (ids) {
     q._id = {
-      $in: ids.map(id => ({$oid: id}))
+      $in: ids.map(id => ({ $oid: id }))
     };
   }
 
   if (names) {
     q.name = {
-      '$in': names
+      $in: names
     };
   }
 
@@ -21,17 +21,13 @@ const find = ({ ids, names }) => {
   return mongo.find('ingredients', { q });
 };
 
-const findOne = id =>
-  mongo.findOne('ingredients', id);
+const findOne = id => mongo.findOne('ingredients', id);
 
-const create = obj =>
-  mongo.create('ingredients', obj);
+const create = obj => mongo.create('ingredients', obj);
 
-const update = (id, obj) =>
-  mongo.update('ingredients', id, obj);
+const update = (id, obj) => mongo.update('ingredients', id, obj);
 
-const deleteOne = id =>
-  mongo.deleteOne('ingredients', id);
+const deleteOne = id => mongo.deleteOne('ingredients', id);
 
 module.exports = {
   find,

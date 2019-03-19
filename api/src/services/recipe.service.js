@@ -23,9 +23,7 @@ const create = obj => {
     throw new Error('No valid fields provided to create recipe');
   }
 
-  return pg.pgQuery(
-    pg.createSql('recipes', fields)
-  );
+  return pg.pgQuery(pg.createSql('recipes', fields));
 };
 
 const update = (id, obj) => {
@@ -84,9 +82,7 @@ const createRecipeIngredient = obj => {
     throw new Error('No valid fields provided to create recipe_ingredient');
   }
 
-  return pg.pgQuery(
-    pg.createSql('recipe_ingredients', fields)
-  );
+  return pg.pgQuery(pg.createSql('recipe_ingredients', fields));
 };
 
 const updateRecipeIngredient = (recipeId, ingredientId, obj) => {

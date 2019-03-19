@@ -23,9 +23,7 @@ const create = obj => {
     throw new Error('No valid fields provided to create category');
   }
 
-  return pg.pgQuery(
-    pg.createSql('categories', fields)
-  );
+  return pg.pgQuery(pg.createSql('categories', fields));
 };
 
 const updateName = (id, name) =>
