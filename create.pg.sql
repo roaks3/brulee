@@ -24,7 +24,8 @@ create table recipes (
     cook_time_in_minutes integer,
     original_text text,
     instructions text,
-    modifications text
+    modifications text,
+    nutrition_facts text
 );
 
 create table recipe_ingredients (
