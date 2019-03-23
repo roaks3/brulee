@@ -30,8 +30,8 @@ const find = ({ ids, sortMostRecent, limit }) => {
   return pg.pgQuery(query);
 };
 
-const create = obj => {
-  const fields = _.pick(obj, ['id', 'week_start']);
+const create = async obj => {
+  const fields = _.pick(obj, ['week_start']);
   if (_.isEmpty(fields)) {
     throw new Error('No valid fields provided to create grocery_list');
   }
@@ -40,10 +40,12 @@ const create = obj => {
     fields.weekStart = moment(fields.weekStart, 'YYYY-MM-DD').toDate();
   }
 
-  return pg.pgQuery(pg.createSql('grocery_lists', fields));
+  const result = await pg.pgQuery(pg.createSql('grocery_lists', fields));
+
+  return result && result.length ? result[0] : {};
 };
 
-const update = (id, obj) => {
+const update = async (id, obj) => {
   const fields = _.pick(obj, ['week_start']);
 
   if (fields.weekStart) {
@@ -58,16 +60,23 @@ const update = (id, obj) => {
 
   query.append(SQL`
     where id = ${id}
+    returning *
   `);
 
-  return pg.pgQuery(query);
+  const result = await pg.pgQuery(query);
+
+  return result && result.length ? result[0] : {};
 };
 
-const deleteOne = id =>
-  pg.pgQuery(SQL`
+const deleteOne = async id => {
+  const result = await pg.pgQuery(SQL`
     delete from grocery_lists
     where id = ${id}
+    returning *
   `);
+
+  return result && result.length ? result[0] : {};
+};
 
 const findGroceryListRecipes = ({ groceryListIds }) => {
   const query = SQL`
@@ -84,7 +93,7 @@ const findGroceryListRecipes = ({ groceryListIds }) => {
   return pg.pgQuery(query);
 };
 
-const createGroceryListRecipe = obj => {
+const createGroceryListRecipe = async obj => {
   const fields = _.pick(obj, [
     'grocery_list_id',
     'recipe_id',
@@ -95,7 +104,9 @@ const createGroceryListRecipe = obj => {
     throw new Error('No valid fields provided to create grocery_list_recipe');
   }
 
-  return pg.pgQuery(pg.createSql('grocery_list_recipes', fields));
+  const result = await pg.pgQuery(pg.createSql('grocery_list_recipes', fields));
+
+  return result && result.length ? result[0] : {};
 };
 
 const deleteOneGroceryListRecipe = (groceryListId, recipeId, dayOfWeek) =>
@@ -125,7 +136,7 @@ const findGroceryListIngredients = ({ groceryListIds }) => {
   return pg.pgQuery(query);
 };
 
-const createGroceryListIngredient = obj => {
+const createGroceryListIngredient = async obj => {
   const fields = _.pick(obj, [
     'grocery_list_id',
     'ingredient_id',
@@ -138,7 +149,11 @@ const createGroceryListIngredient = obj => {
     );
   }
 
-  return pg.pgQuery(pg.createSql('grocery_list_ingredients', fields));
+  const result = await pg.pgQuery(
+    pg.createSql('grocery_list_ingredients', fields)
+  );
+
+  return result && result.length ? result[0] : {};
 };
 
 const updateGroceryListIngredient = (groceryListId, ingredientId, obj) => {

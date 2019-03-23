@@ -44,6 +44,10 @@ describe('Grocery List API:', function() {
       it('should return new grocery list in response', function() {
         expect(!!newGroceryList.id).to.equal(true);
         expect(newGroceryList.week_start).to.equal('2019-02-17');
+
+        // contains recipes
+        let recipe1 = newGroceryList.recipe_days.find(rd => rd.recipe_id === '59bfcc13c2ef16276900d864');
+        expect(recipe1.recipe_id).to.equal('59bfcc13c2ef16276900d864');
       });
 
       it('should create grocery list in database', function(done) {
@@ -140,6 +144,14 @@ describe('Grocery List API:', function() {
       it('should return updated grocery list in response', function() {
         expect(updateResponse.id).to.equal(newGroceryList.id);
         expect(updateResponse.week_start).to.equal('2019-02-17');
+
+        // contains recipes
+        let recipe1 = updateResponse.recipe_days.find(rd => rd.recipe_id === '59bfcc13c2ef16276900d864');
+        expect(recipe1.recipe_id).to.equal('59bfcc13c2ef16276900d864');
+
+        // contains ingredients
+        let ingredient1 = updateResponse.additional_ingredients.find(ai => ai.ingredient_id === '57c5ab9b989e94dc397dd4fa');
+        expect(ingredient1.ingredient_id).to.equal('57c5ab9b989e94dc397dd4fa');
       });
 
       it('should update grocery list in database', function(done) {

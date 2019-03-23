@@ -17,13 +17,15 @@ const find = ({ ids }) => {
   return pg.pgQuery(query);
 };
 
-const create = obj => {
-  const fields = _.pick(obj, ['id', 'name', 'display_order']);
+const create = async obj => {
+  const fields = _.pick(obj, ['name', 'display_order']);
   if (_.isEmpty(fields)) {
     throw new Error('No valid fields provided to create category');
   }
 
-  return pg.pgQuery(pg.createSql('categories', fields));
+  const result = await pg.pgQuery(pg.createSql('categories', fields));
+
+  return result && result.length ? result[0] : {};
 };
 
 const updateName = (id, name) =>
@@ -40,11 +42,15 @@ const updateDisplayOrder = (id, displayOrder) =>
     where id = ${id}
   `);
 
-const deleteOne = id =>
-  pg.pgQuery(SQL`
+const deleteOne = async id => {
+  const result = await pg.pgQuery(SQL`
     delete from categories
     where id = ${id}
+    returning *
   `);
+
+  return result && result.length ? result[0] : {};
+};
 
 module.exports = {
   find,

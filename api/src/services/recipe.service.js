@@ -17,16 +17,18 @@ const find = ({ ids }) => {
   return pg.pgQuery(query);
 };
 
-const create = obj => {
-  const fields = _.pick(obj, ['id', 'name', 'original_text', 'url']);
+const create = async obj => {
+  const fields = _.pick(obj, ['name', 'original_text', 'url']);
   if (_.isEmpty(fields)) {
     throw new Error('No valid fields provided to create recipe');
   }
 
-  return pg.pgQuery(pg.createSql('recipes', fields));
+  const result = await pg.pgQuery(pg.createSql('recipes', fields));
+
+  return result && result.length ? result[0] : {};
 };
 
-const update = (id, obj) => {
+const update = async (id, obj) => {
   const fields = _.pick(obj, [
     'name',
     'url',
@@ -50,16 +52,23 @@ const update = (id, obj) => {
 
   query.append(SQL`
     where id = ${id}
+    returning *
   `);
 
-  return pg.pgQuery(query);
+  const result = await pg.pgQuery(query);
+
+  return result && result.length ? result[0] : {};
 };
 
-const deleteOne = id =>
-  pg.pgQuery(SQL`
+const deleteOne = async id => {
+  const result = await pg.pgQuery(SQL`
     delete from recipes
     where id = ${id}
+    returning *
   `);
+
+  return result && result.length ? result[0] : {};
+};
 
 const findRecipeIngredients = ({ recipeIds }) => {
   const query = SQL`
@@ -76,13 +85,15 @@ const findRecipeIngredients = ({ recipeIds }) => {
   return pg.pgQuery(query);
 };
 
-const createRecipeIngredient = obj => {
+const createRecipeIngredient = async obj => {
   const fields = _.pick(obj, ['recipe_id', 'ingredient_id', 'amount', 'unit']);
   if (_.isEmpty(fields)) {
     throw new Error('No valid fields provided to create recipe_ingredient');
   }
 
-  return pg.pgQuery(pg.createSql('recipe_ingredients', fields));
+  const result = await pg.pgQuery(pg.createSql('recipe_ingredients', fields));
+
+  return result && result.length ? result[0] : {};
 };
 
 const updateRecipeIngredient = (recipeId, ingredientId, obj) => {

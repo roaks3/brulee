@@ -47,6 +47,10 @@ describe('Recipe API:', function() {
       it('should return new recipe in response', function() {
         expect(!!newRecipe.id).to.equal(true);
         expect(newRecipe.name).to.equal('test recipe');
+
+        // contains recipe ingredients
+        let ingredient1 = newRecipe.recipe_ingredients.find(ri => ri.ingredient_id === '57c5ab9b989e94dc397dd4fa');
+        expect(ingredient1.ingredient_id).to.equal('57c5ab9b989e94dc397dd4fa');
       });
 
       it('should create recipe in database', function(done) {
@@ -143,6 +147,10 @@ describe('Recipe API:', function() {
       it('should return updated recipe in response', function() {
         expect(updateResponse.id).to.equal(newRecipe.id);
         expect(updateResponse.name).to.equal('test recipe updated');
+
+        // contains recipe ingredients
+        let ingredient1 = updateResponse.recipe_ingredients.find(ri => ri.ingredient_id === '57c5ab9b989e94dc397dd4fa');
+        expect(ingredient1.ingredient_id).to.equal('57c5ab9b989e94dc397dd4fa');
       });
 
       it('should update recipe in database', function(done) {

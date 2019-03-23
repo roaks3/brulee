@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const mongoRecipeService = require('../services/mongo/recipe.service');
 const recipeService = require('../services/recipe.service');
 const recipeSerializer = require('../serializers/recipe.serializer');
 
@@ -30,75 +29,84 @@ const show = async req => {
 };
 
 const createRecipeIngredient = (recipeId, recipeIngredient) =>
-  recipeService.createRecipeIngredient(
-    Object.assign({}, recipeIngredient, { recipe_id: recipeId })
-  );
+  recipeService.createRecipeIngredient({
+    ...recipeIngredient,
+    recipe_id: recipeId
+  });
 
 const create = async req => {
-  const created = await mongoRecipeService.create(req.body);
+  const created = await recipeService.create(req.body);
 
-  await recipeService.create(created);
-  await Promise.all(
+  const createdRecipeIngredients = await Promise.all(
     (req.body.recipe_ingredients || []).map(recipeIngredient =>
       createRecipeIngredient(created.id, recipeIngredient)
     )
   );
 
-  return created;
+  return recipeSerializer.serialize(created, createdRecipeIngredients);
 };
 
-const updateRecipeIngredientsForRecipe = (oldRecipe, newRecipe) => {
-  const createdRecipeIngredients = (newRecipe.recipe_ingredients || []).filter(
+const updateRecipeIngredientsForRecipe = (
+  recipeId,
+  oldRecipeIngredients,
+  newRecipeIngredients
+) => {
+  const createdRecipeIngredients = (newRecipeIngredients || []).filter(
     nri =>
-      !(oldRecipe.recipe_ingredients || []).find(
+      !(oldRecipeIngredients || []).find(
         ori => ori.ingredient_id === nri.ingredient_id
       )
   );
-  const removedRecipeIngredients = (oldRecipe.recipe_ingredients || []).filter(
+  const removedRecipeIngredients = (oldRecipeIngredients || []).filter(
     ori =>
-      !(newRecipe.recipe_ingredients || []).find(
+      !(newRecipeIngredients || []).find(
         nri => nri.ingredient_id === ori.ingredient_id
       )
   );
-  const changedRecipeIngredients = (newRecipe.recipe_ingredients || []).filter(
-    nri =>
-      (oldRecipe.recipe_ingredients || []).find(
-        ori =>
-          ori.ingredient_id === nri.ingredient_id &&
-          (ori.amount !== nri.amount || ori.unit !== nri.unit)
-      )
+  const changedRecipeIngredients = (newRecipeIngredients || []).filter(nri =>
+    (oldRecipeIngredients || []).find(
+      ori =>
+        ori.ingredient_id === nri.ingredient_id &&
+        (ori.amount !== nri.amount || ori.unit !== nri.unit)
+    )
   );
 
   return Promise.all([
-    ...createdRecipeIngredients.map(ri =>
-      createRecipeIngredient(oldRecipe.id, ri)
-    ),
+    ...createdRecipeIngredients.map(ri => createRecipeIngredient(recipeId, ri)),
     ...removedRecipeIngredients.map(ri =>
-      recipeService.deleteOneRecipeIngredient(oldRecipe.id, ri.ingredient_id)
+      recipeService.deleteOneRecipeIngredient(recipeId, ri.ingredient_id)
     ),
     ...changedRecipeIngredients.map(ri =>
-      recipeService.updateRecipeIngredient(oldRecipe.id, ri.ingredient_id, ri)
+      recipeService.updateRecipeIngredient(recipeId, ri.ingredient_id, ri)
     )
   ]);
 };
 
 const update = async req => {
-  const original = await mongoRecipeService.findOne(req.params.id);
-  const updated = await mongoRecipeService.update(req.params.id, req.body);
+  const updated = await recipeService.update(req.params.id, req.body);
+  const originalRecipeIngredients = await recipeService.findRecipeIngredients({
+    recipeIds: [req.params.id]
+  });
 
-  await recipeService.update(req.params.id, req.body);
-  await updateRecipeIngredientsForRecipe(original, req.body);
+  await updateRecipeIngredientsForRecipe(
+    req.params.id,
+    originalRecipeIngredients,
+    req.body.recipe_ingredients
+  );
 
-  return updated;
+  const updatedRecipeIngredients = await recipeService.findRecipeIngredients({
+    recipeIds: [req.params.id]
+  });
+
+  return recipeSerializer.serialize(updated, updatedRecipeIngredients);
 };
 
 const destroy = async req => {
-  const deleted = await mongoRecipeService.deleteOne(req.params.id);
-
   await recipeService.deleteRecipeIngredientsForRecipe(req.params.id);
-  await recipeService.deleteOne(req.params.id);
 
-  return deleted;
+  const deleted = await recipeService.deleteOne(req.params.id);
+
+  return recipeSerializer.serialize(deleted, []);
 };
 
 module.exports = {

@@ -46,7 +46,7 @@ const createSql = (tablename, obj) => {
     query.append(SQL`, ${val}`);
   });
 
-  query.append(')');
+  query.append(') returning *');
 
   return query;
 };

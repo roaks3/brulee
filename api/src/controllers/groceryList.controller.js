@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const moment = require('moment');
-const mongoGroceryListService = require('../services/mongo/groceryList.service');
 const groceryListService = require('../services/groceryList.service');
 const groceryListSerializer = require('../serializers/groceryList.serializer');
 
@@ -74,28 +73,24 @@ const show = async req => {
     : {};
 };
 
-const recipeDayToGroceryListRecipe = (groceryList, recipeDay) => {
+const recipeDayToGroceryListRecipe = (groceryListId, weekStart, recipeDay) => {
   let dowMoment =
-    groceryList.week_start &&
-    moment(groceryList.week_start, 'YYYY-MM-DD').day(recipeDay.day_of_week);
-  if (
-    dowMoment &&
-    dowMoment.isBefore(moment(groceryList.week_start, 'YYYY-MM-DD'))
-  ) {
+    weekStart && moment(weekStart, 'YYYY-MM-DD').day(recipeDay.day_of_week);
+  if (dowMoment && dowMoment.isBefore(moment(weekStart, 'YYYY-MM-DD'))) {
     dowMoment = dowMoment.add(7, 'days');
   }
 
   return {
-    grocery_list_id: groceryList.id,
+    grocery_list_id: groceryListId,
     recipe_id: recipeDay.recipe_id,
     day_of_week: recipeDay.day_of_week,
     scheduled_for: dowMoment && dowMoment.toDate()
   };
 };
 
-const createGroceryListRecipe = (groceryList, recipeDay) =>
+const createGroceryListRecipe = (groceryListId, weekStart, recipeDay) =>
   groceryListService.createGroceryListRecipe(
-    recipeDayToGroceryListRecipe(groceryList, recipeDay)
+    recipeDayToGroceryListRecipe(groceryListId, weekStart, recipeDay)
   );
 
 const createGroceryListIngredient = (groceryListId, additionalIngredient) =>
@@ -104,37 +99,41 @@ const createGroceryListIngredient = (groceryListId, additionalIngredient) =>
   );
 
 const create = async req => {
-  const created = await mongoGroceryListService.create(req.body);
-
-  await groceryListService.create(created);
-  await Promise.all(
+  const created = await groceryListService.create(req.body);
+  const createdGroceryListRecipes = await Promise.all(
     (req.body.recipe_days || []).map(recipeDay =>
-      createGroceryListRecipe(created, recipeDay)
+      createGroceryListRecipe(created.id, created.week_start, recipeDay)
     )
   );
-  await Promise.all(
+  const createdGroceryListIngredients = await Promise.all(
     (req.body.additional_ingredients || []).map(additionalIngredient =>
       createGroceryListIngredient(created.id, additionalIngredient)
     )
   );
 
-  return created;
+  return groceryListSerializer.serialize(
+    created,
+    createdGroceryListRecipes,
+    createdGroceryListIngredients
+  );
 };
 
 const updateGroceryListRecipesForGroceryList = (
-  oldGroceryList,
-  newGroceryList
+  groceryListId,
+  weekStart,
+  oldGroceryListRecipes,
+  newGroceryListRecipeDays
 ) => {
-  const createdRecipeDays = newGroceryList.recipe_days.filter(
+  const createdRecipeDays = newGroceryListRecipeDays.filter(
     nrd =>
-      !oldGroceryList.recipe_days.find(
+      !oldGroceryListRecipes.find(
         ord =>
           ord.recipe_id === nrd.recipe_id && ord.day_of_week === nrd.day_of_week
       )
   );
-  const removedRecipeDays = oldGroceryList.recipe_days.filter(
+  const removedRecipeDays = oldGroceryListRecipes.filter(
     ord =>
-      !newGroceryList.recipe_days.find(
+      !newGroceryListRecipeDays.find(
         nrd =>
           nrd.recipe_id === ord.recipe_id && nrd.day_of_week === ord.day_of_week
       )
@@ -142,14 +141,11 @@ const updateGroceryListRecipesForGroceryList = (
 
   return Promise.all([
     ...createdRecipeDays.map(rd =>
-      createGroceryListRecipe(
-        Object.assign({}, newGroceryList, { id: oldGroceryList.id }),
-        rd
-      )
+      createGroceryListRecipe(groceryListId, weekStart, rd)
     ),
     ...removedRecipeDays.map(rd =>
       groceryListService.deleteOneGroceryListRecipe(
-        oldGroceryList.id,
+        groceryListId,
         rd.recipe_id,
         rd.day_of_week
       )
@@ -157,30 +153,29 @@ const updateGroceryListRecipesForGroceryList = (
   ]);
 };
 
-const updateAdditionalIngredientsForGroceryList = (
-  oldGroceryList,
-  newGroceryList
+const updateGroceryListIngredientsForGroceryList = (
+  groceryListId,
+  oldGroceryListIngredients,
+  newGroceryListAdditionalIngredients
 ) => {
   const createdAdditionalIngredients = (
-    newGroceryList.additional_ingredients || []
+    newGroceryListAdditionalIngredients || []
   ).filter(
     nai =>
-      !(oldGroceryList.additional_ingredients || []).find(
+      !(oldGroceryListIngredients || []).find(
         oai => oai.ingredient_id === nai.ingredient_id
       )
   );
-  const removedAdditionalIngredients = (
-    oldGroceryList.additional_ingredients || []
-  ).filter(
+  const removedAdditionalIngredients = (oldGroceryListIngredients || []).filter(
     oai =>
-      !(newGroceryList.additional_ingredients || []).find(
+      !(newGroceryListAdditionalIngredients || []).find(
         nai => nai.ingredient_id === oai.ingredient_id
       )
   );
   const changedAdditionalIngredients = (
-    newGroceryList.additional_ingredients || []
+    newGroceryListAdditionalIngredients || []
   ).filter(nai =>
-    (oldGroceryList.additional_ingredients || []).find(
+    (oldGroceryListIngredients || []).find(
       oai =>
         oai.ingredient_id === nai.ingredient_id &&
         (oai.amount !== nai.amount || oai.unit !== nai.unit)
@@ -189,17 +184,17 @@ const updateAdditionalIngredientsForGroceryList = (
 
   return Promise.all([
     ...createdAdditionalIngredients.map(ai =>
-      createGroceryListIngredient(oldGroceryList.id, ai)
+      createGroceryListIngredient(groceryListId, ai)
     ),
     ...removedAdditionalIngredients.map(ai =>
       groceryListService.deleteOneGroceryListIngredient(
-        oldGroceryList.id,
+        groceryListId,
         ai.ingredient_id
       )
     ),
     ...changedAdditionalIngredients.map(ai =>
       groceryListService.updateGroceryListIngredient(
-        oldGroceryList.id,
+        groceryListId,
         ai.ingredient_id,
         ai
       )
@@ -208,28 +203,60 @@ const updateAdditionalIngredientsForGroceryList = (
 };
 
 const update = async req => {
-  const original = await mongoGroceryListService.findOne(req.params.id);
-  const updated = await mongoGroceryListService.update(req.params.id, req.body);
+  const updated = await groceryListService.update(req.params.id, req.body);
+  const originalGroceryListRecipes = await groceryListService.findGroceryListRecipes(
+    {
+      groceryListIds: [req.params.id]
+    }
+  );
+  const originalGroceryListIngredients = await groceryListService.findGroceryListIngredients(
+    {
+      groceryListIds: [req.params.id]
+    }
+  );
 
-  await groceryListService.update(req.params.id, req.body);
-  await updateGroceryListRecipesForGroceryList(original, req.body);
-  await updateAdditionalIngredientsForGroceryList(original, req.body);
+  await updateGroceryListRecipesForGroceryList(
+    req.params.id,
+    updated.week_start,
+    originalGroceryListRecipes,
+    req.body.recipe_days
+  );
+  await updateGroceryListIngredientsForGroceryList(
+    req.params.id,
+    originalGroceryListIngredients,
+    req.body.additional_ingredients
+  );
 
-  return updated;
+  const [
+    updatedGroceryListRecipes,
+    updatedGroceryListIngredients
+  ] = await Promise.all([
+    groceryListService.findGroceryListRecipes({
+      groceryListIds: [req.params.id]
+    }),
+    groceryListService.findGroceryListIngredients({
+      groceryListIds: [req.params.id]
+    })
+  ]);
+
+  return groceryListSerializer.serialize(
+    updated,
+    updatedGroceryListRecipes,
+    updatedGroceryListIngredients
+  );
 };
 
 const destroy = async req => {
-  const deleted = await mongoGroceryListService.deleteOne(req.params.id);
-
   await groceryListService.deleteGroceryListIngredientsForGroceryList(
     req.params.id
   );
   await groceryListService.deleteGroceryListRecipesForGroceryList(
     req.params.id
   );
-  await groceryListService.deleteOne(req.params.id);
 
-  return deleted;
+  const deleted = await groceryListService.deleteOne(req.params.id);
+
+  return groceryListSerializer.serialize(deleted, [], []);
 };
 
 module.exports = {

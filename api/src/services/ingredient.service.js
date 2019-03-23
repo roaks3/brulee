@@ -29,13 +29,15 @@ const find = ({ ids, names, categoryId }) => {
   return pg.pgQuery(query);
 };
 
-const create = obj => {
-  const fields = _.pick(obj, ['id', 'name', 'category_id']);
+const create = async obj => {
+  const fields = _.pick(obj, ['name', 'category_id']);
   if (_.isEmpty(fields)) {
     throw new Error('No valid fields provided to create ingredient');
   }
 
-  return pg.pgQuery(pg.createSql('ingredients', fields));
+  const result = await pg.pgQuery(pg.createSql('ingredients', fields));
+
+  return result && result.length ? result[0] : {};
 };
 
 const updateName = (id, name) =>
@@ -59,11 +61,15 @@ const updateCategoryForAll = (ids, categoryId) =>
     where id = any(${ids})
   `);
 
-const deleteOne = id =>
-  pg.pgQuery(SQL`
+const deleteOne = async id => {
+  const result = await pg.pgQuery(SQL`
     delete from ingredients
     where id = ${id}
+    returning *
   `);
+
+  return result && result.length ? result[0] : {};
+};
 
 module.exports = {
   find,
