@@ -69,7 +69,7 @@
     "node": "^10.15.2"
   },
   "scripts": {
-    "build": "build:api && build:web",
+    "build": "npm run build:api && npm run build:web",
     "build:api": "tsc",
     "build:web": "gulp build",
     "lint:api:fix": "npx prettier --single-quote --parser typescript --write \"api/src/**\"",
