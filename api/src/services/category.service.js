@@ -28,19 +28,24 @@ const create = async obj => {
   return result && result.length ? result[0] : {};
 };
 
-const updateName = (id, name) =>
-  pg.pgQuery(SQL`
-    update categories
-    set name = ${name}
+const update = async (id, obj) => {
+  const fields = _.pick(obj, ['name', 'display_order']);
+
+  if (_.isEmpty(fields)) {
+    throw new Error('No valid fields provided to update category');
+  }
+
+  const query = pg.updateSql('categories', fields);
+
+  query.append(SQL`
     where id = ${id}
+    returning *
   `);
 
-const updateDisplayOrder = (id, displayOrder) =>
-  pg.pgQuery(SQL`
-    update categories
-    set display_order = ${displayOrder}
-    where id = ${id}
-  `);
+  const result = await pg.pgQuery(query);
+
+  return result && result.length ? result[0] : {};
+};
 
 const deleteOne = async id => {
   const result = await pg.pgQuery(SQL`
@@ -55,7 +60,6 @@ const deleteOne = async id => {
 module.exports = {
   find,
   create,
-  updateName,
-  updateDisplayOrder,
+  update,
   deleteOne
 };

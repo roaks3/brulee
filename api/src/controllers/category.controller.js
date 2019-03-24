@@ -36,13 +36,10 @@ const create = async req => {
 };
 
 const update = async req => {
-  if (req.body.name) {
-    await categoryService.updateName(req.params.id, req.body.name);
-  }
-
-  if (req.body.order) {
-    await categoryService.updateDisplayOrder(req.params.id, req.body.order);
-  }
+  const updated = await categoryService.update(req.params.id, {
+    ...req.body,
+    display_order: req.body.order
+  });
 
   if (req.body.ingredient_ids) {
     await ingredientService.updateCategoryForAll(
@@ -51,14 +48,11 @@ const update = async req => {
     );
   }
 
-  const categories = await categoryService.find({ ids: [req.params.id] });
   const ingredients = await ingredientService.find({
     categoryId: req.params.id
   });
 
-  return categories && categories.length
-    ? categorySerializer.serialize(categories[0], ingredients)
-    : {};
+  return categorySerializer.serialize(updated, ingredients);
 };
 
 const destroy = async req => {

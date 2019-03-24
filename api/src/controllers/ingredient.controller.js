@@ -26,19 +26,9 @@ const create = async req => {
 };
 
 const update = async req => {
-  if (req.body.name) {
-    await ingredientService.updateName(req.params.id, req.body.name);
-  }
+  const updated = await ingredientService.update(req.params.id, req.body);
 
-  if (req.body.category_id) {
-    await ingredientService.updateCategory(req.params.id, req.body.category_id);
-  }
-
-  const ingredients = await ingredientService.find({ ids: [req.params.id] });
-
-  return ingredients && ingredients.length
-    ? ingredientSerializer.serialize(ingredients[0])
-    : {};
+  return ingredientSerializer.serialize(updated);
 };
 
 const destroy = async req => {
