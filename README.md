@@ -8,6 +8,6 @@ Plan your meals and grocery shop with Brulee:
 
 * Use the generated grocery list to shop for everything you need
 
-Written with Angular 1.5, using MongoDB backend
+Written with Angular 1.5, using Postgres backend
 
 ![Screenshot](screenshot.png)
