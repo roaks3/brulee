@@ -1,80 +1,59 @@
 const _ = require('lodash');
-const { SQL } = require('sql-template-strings');
 const pg = require('./pg.service');
 
 const find = ({ ids, names, categoryId }) => {
-  const query = SQL`
-    select *
-    from ingredients
-  `;
+  const query = pg.knex('ingredients').select();
 
   if (ids) {
-    query.append(SQL`
-      where id = any(${ids})
-    `);
+    query.whereIn('id', ids);
   }
 
   if (names) {
-    query.append(SQL`
-      where name = any(${names})
-    `);
+    query.whereIn('name', names);
   }
 
   if (categoryId) {
-    query.append(SQL`
-      where category_id = ${categoryId}
-    `);
+    query.where({ category_id: categoryId });
   }
 
-  return pg.pgQuery(query);
+  return query;
 };
 
 const create = async obj => {
   const fields = _.pick(obj, ['name', 'category_id']);
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to create ingredient');
-  }
 
-  const result = await pg.pgQuery(pg.createSql('ingredients', fields));
+  const [result] = await pg
+    .knex('ingredients')
+    .insert(fields)
+    .returning('*');
 
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
 const update = async (id, obj) => {
   const fields = _.pick(obj, ['name', 'category_id']);
 
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update ingredient');
-  }
+  const [result] = await pg
+    .knex('ingredients')
+    .update(fields)
+    .where({ id })
+    .returning('*');
 
-  const query = pg.updateSql('ingredients', fields);
-
-  query.append(SQL`
-    where id = ${id}
-    returning *
-  `);
-
-  const result = await pg.pgQuery(query);
-
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
 const updateCategoryForAll = (ids, categoryId) =>
-  pg.pgQuery(SQL`
-    update ingredients
-    set category_id = ${categoryId}
-    where id = any(${ids})
-  `);
+  pg
+    .knex('ingredients')
+    .update({ category_id: categoryId })
+    .whereIn('id', ids);
 
-const deleteOne = async id => {
-  const result = await pg.pgQuery(SQL`
-    delete from ingredients
-    where id = ${id}
-    returning *
-  `);
-
-  return result && result.length ? result[0] : {};
-};
+const deleteOne = id =>
+  pg
+    .knex('ingredients')
+    .del()
+    .where({ id })
+    .return({ id });
 
 module.exports = {
   find,

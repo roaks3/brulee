@@ -1,31 +1,25 @@
 const _ = require('lodash');
-const { SQL } = require('sql-template-strings');
 const pg = require('./pg.service');
 
 const find = ({ ids }) => {
-  const query = SQL`
-    select *
-    from recipes
-  `;
+  const query = pg.knex('recipes').select();
 
   if (ids) {
-    query.append(SQL`
-      where id = any(${ids})
-    `);
+    query.whereIn('id', ids);
   }
 
-  return pg.pgQuery(query);
+  return query;
 };
 
 const create = async obj => {
   const fields = _.pick(obj, ['name', 'original_text', 'url']);
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to create recipe');
-  }
 
-  const result = await pg.pgQuery(pg.createSql('recipes', fields));
+  const [result] = await pg
+    .knex('recipes')
+    .insert(fields)
+    .returning('*');
 
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
 const update = async (id, obj) => {
@@ -44,85 +38,66 @@ const update = async (id, obj) => {
   fields.prepare_time_in_minutes = fields.prepare_time_in_minutes || undefined;
   fields.cook_time_in_minutes = fields.cook_time_in_minutes || undefined;
 
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update recipe');
-  }
+  const [result] = await pg
+    .knex('recipes')
+    .update(fields)
+    .where({ id })
+    .returning('*');
 
-  const query = pg.updateSql('recipes', fields);
-
-  query.append(SQL`
-    where id = ${id}
-    returning *
-  `);
-
-  const result = await pg.pgQuery(query);
-
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
-const deleteOne = async id => {
-  const result = await pg.pgQuery(SQL`
-    delete from recipes
-    where id = ${id}
-    returning *
-  `);
-
-  return result && result.length ? result[0] : {};
-};
+const deleteOne = id =>
+  pg
+    .knex('recipes')
+    .del()
+    .where({ id })
+    .return({ id });
 
 const findRecipeIngredients = ({ recipeIds }) => {
-  const query = SQL`
-    select *
-    from recipe_ingredients
-  `;
+  const query = pg.knex('recipe_ingredients').select();
 
   if (recipeIds) {
-    query.append(SQL`
-      where recipe_id = any(${recipeIds})
-    `);
+    query.whereIn('recipe_id', recipeIds);
   }
 
-  return pg.pgQuery(query);
+  return query;
 };
 
 const createRecipeIngredient = async obj => {
   const fields = _.pick(obj, ['recipe_id', 'ingredient_id', 'amount', 'unit']);
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to create recipe_ingredient');
-  }
 
-  const result = await pg.pgQuery(pg.createSql('recipe_ingredients', fields));
+  const [result] = await pg
+    .knex('recipe_ingredients')
+    .insert(fields)
+    .returning('*');
 
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
-const updateRecipeIngredient = (recipeId, ingredientId, obj) => {
+const updateRecipeIngredient = async (recipeId, ingredientId, obj) => {
   const fields = _.pick(obj, ['amount', 'unit']);
 
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update recipe_ingredient');
-  }
+  const [result] = await pg
+    .knex('recipe_ingredients')
+    .update(fields)
+    .where({ recipe_id: recipeId, ingredient_id: ingredientId })
+    .returning('*');
 
-  const query = pg.updateSql('recipe_ingredients', fields);
-
-  query.append(SQL`
-    where recipe_id = ${recipeId} and ingredient_id = ${ingredientId}
-  `);
-
-  return pg.pgQuery(query);
+  return result || {};
 };
 
 const deleteOneRecipeIngredient = (recipeId, ingredientId) =>
-  pg.pgQuery(SQL`
-    delete from recipe_ingredients
-    where recipe_id = ${recipeId} and ingredient_id = ${ingredientId}
-  `);
+  pg
+    .knex('recipe_ingredients')
+    .del()
+    .where({ recipe_id: recipeId, ingredient_id: ingredientId });
 
 const deleteRecipeIngredientsForRecipe = recipeId =>
-  pg.pgQuery(SQL`
-    delete from recipe_ingredients
-    where recipe_id = ${recipeId}
-  `);
+  pg
+    .knex('recipe_ingredients')
+    .del()
+    .where({ recipe_id: recipeId });
 
 module.exports = {
   find,

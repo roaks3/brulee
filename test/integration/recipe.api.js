@@ -7,10 +7,16 @@ const app = express();
 const api = require('../../api/dist');
 
 app.use(bodyParser.json());
-app.use('/api', api);
+app.use('/api', api.router);
 
 describe('Recipe API:', function() {
   let newRecipe;
+
+  after(function(done) {
+    api.destroy()
+      .then(res => done())
+      .catch(err => done(err));
+  });
 
   describe('POST /api/recipes', function() {
     describe('with valid recipe data', function() {

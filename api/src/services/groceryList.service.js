@@ -1,96 +1,63 @@
 const _ = require('lodash');
 const moment = require('moment');
-const { SQL } = require('sql-template-strings');
 const pg = require('./pg.service');
 
 const find = ({ ids, sortMostRecent, limit }) => {
-  const query = SQL`
-    select *
-    from grocery_lists
-  `;
+  const query = pg.knex('grocery_lists').select();
 
   if (ids) {
-    query.append(SQL`
-      where id = any(${ids})
-    `);
+    query.whereIn('id', ids);
   }
 
   if (sortMostRecent) {
-    query.append(SQL`
-      order by week_start desc
-    `);
+    query.orderBy('week_start', 'desc');
   }
 
   if (limit) {
-    query.append(SQL`
-      limit ${limit}
-    `);
+    query.limit(limit);
   }
 
-  return pg.pgQuery(query);
+  return query;
 };
 
 const create = async obj => {
-  const fields = _.pick(obj, ['week_start']);
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to create grocery_list');
-  }
+  const [result] = await pg
+    .knex('grocery_lists')
+    .insert({
+      week_start: moment(obj.week_start, 'YYYY-MM-DD').toDate()
+    })
+    .returning('*');
 
-  if (fields.weekStart) {
-    fields.weekStart = moment(fields.weekStart, 'YYYY-MM-DD').toDate();
-  }
-
-  const result = await pg.pgQuery(pg.createSql('grocery_lists', fields));
-
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
 const update = async (id, obj) => {
-  const fields = _.pick(obj, ['week_start']);
+  const [result] = await pg
+    .knex('grocery_lists')
+    .update({
+      week_start: moment(obj.week_start, 'YYYY-MM-DD').toDate()
+    })
+    .where({ id })
+    .returning('*');
 
-  if (fields.weekStart) {
-    fields.weekStart = moment(fields.weekStart, 'YYYY-MM-DD').toDate();
-  }
-
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to update grocery_list');
-  }
-
-  const query = pg.updateSql('grocery_lists', fields);
-
-  query.append(SQL`
-    where id = ${id}
-    returning *
-  `);
-
-  const result = await pg.pgQuery(query);
-
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
-const deleteOne = async id => {
-  const result = await pg.pgQuery(SQL`
-    delete from grocery_lists
-    where id = ${id}
-    returning *
-  `);
-
-  return result && result.length ? result[0] : {};
-};
+const deleteOne = id =>
+  pg
+    .knex('grocery_lists')
+    .del()
+    .where({ id })
+    .return({ id });
 
 const findGroceryListRecipes = ({ groceryListIds }) => {
-  const query = SQL`
-    select *
-    from grocery_list_recipes
-  `;
+  const query = pg.knex('grocery_list_recipes').select();
 
   if (groceryListIds) {
-    query.append(SQL`
-      where grocery_list_id = any(${groceryListIds})
-    `);
+    query.whereIn('grocery_list_id', groceryListIds);
   }
 
-  return pg.pgQuery(query);
+  return query;
 };
 
 const createGroceryListRecipe = async obj => {
@@ -100,40 +67,39 @@ const createGroceryListRecipe = async obj => {
     'day_of_week',
     'scheduled_for'
   ]);
-  if (_.isEmpty(fields)) {
-    throw new Error('No valid fields provided to create grocery_list_recipe');
-  }
 
-  const result = await pg.pgQuery(pg.createSql('grocery_list_recipes', fields));
+  const [result] = await pg
+    .knex('grocery_list_recipes')
+    .insert(fields)
+    .returning('*');
 
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
 const deleteOneGroceryListRecipe = (groceryListId, recipeId, dayOfWeek) =>
-  pg.pgQuery(SQL`
-    delete from grocery_list_recipes
-    where grocery_list_id = ${groceryListId} and recipe_id = ${recipeId} and day_of_week = ${dayOfWeek}
-  `);
+  pg
+    .knex('grocery_list_recipes')
+    .del()
+    .where({
+      grocery_list_id: groceryListId,
+      recipe_id: recipeId,
+      day_of_week: dayOfWeek
+    });
 
 const deleteGroceryListRecipesForGroceryList = groceryListId =>
-  pg.pgQuery(SQL`
-    delete from grocery_list_recipes
-    where grocery_list_id = ${groceryListId}
-  `);
+  pg
+    .knex('grocery_list_recipes')
+    .del()
+    .where({ grocery_list_id: groceryListId });
 
 const findGroceryListIngredients = ({ groceryListIds }) => {
-  const query = SQL`
-    select *
-    from grocery_list_ingredients
-  `;
+  const query = pg.knex('grocery_list_ingredients').select();
 
   if (groceryListIds) {
-    query.append(SQL`
-      where grocery_list_id = any(${groceryListIds})
-    `);
+    query.whereIn('grocery_list_id', groceryListIds);
   }
 
-  return pg.pgQuery(query);
+  return query;
 };
 
 const createGroceryListIngredient = async obj => {
@@ -143,48 +109,48 @@ const createGroceryListIngredient = async obj => {
     'amount',
     'unit'
   ]);
-  if (_.isEmpty(fields)) {
-    throw new Error(
-      'No valid fields provided to create grocery_list_ingredient'
-    );
-  }
 
-  const result = await pg.pgQuery(
-    pg.createSql('grocery_list_ingredients', fields)
-  );
+  const [result] = await pg
+    .knex('grocery_list_ingredients')
+    .insert(fields)
+    .returning('*');
 
-  return result && result.length ? result[0] : {};
+  return result || {};
 };
 
-const updateGroceryListIngredient = (groceryListId, ingredientId, obj) => {
+const updateGroceryListIngredient = async (
+  groceryListId,
+  ingredientId,
+  obj
+) => {
   const fields = _.pick(obj, ['amount', 'unit']);
 
-  if (_.isEmpty(fields)) {
-    throw new Error(
-      'No valid fields provided to update grocery_list_ingredient'
-    );
-  }
+  const [result] = await pg
+    .knex('grocery_list_ingredients')
+    .update(fields)
+    .where({
+      grocery_list_id: groceryListId,
+      ingredient_id: ingredientId
+    })
+    .returning('*');
 
-  const query = pg.updateSql('grocery_list_ingredients', fields);
-
-  query.append(SQL`
-    where grocery_list_id = ${groceryListId} and ingredient_id = ${ingredientId}
-  `);
-
-  return pg.pgQuery(query);
+  return result || {};
 };
 
 const deleteOneGroceryListIngredient = (groceryListId, ingredientId) =>
-  pg.pgQuery(SQL`
-    delete from grocery_list_ingredients
-    where grocery_list_id = ${groceryListId} and ingredient_id = ${ingredientId}
-  `);
+  pg
+    .knex('grocery_list_ingredients')
+    .del()
+    .where({
+      grocery_list_id: groceryListId,
+      ingredient_id: ingredientId
+    });
 
 const deleteGroceryListIngredientsForGroceryList = groceryListId =>
-  pg.pgQuery(SQL`
-    delete from grocery_list_ingredients
-    where grocery_list_id = ${groceryListId}
-  `);
+  pg
+    .knex('grocery_list_ingredients')
+    .del()
+    .where({ grocery_list_id: groceryListId });
 
 module.exports = {
   find,

@@ -7,10 +7,16 @@ const app = express();
 const api = require('../../api/dist');
 
 app.use(bodyParser.json());
-app.use('/api', api);
+app.use('/api', api.router);
 
 describe('Category API:', function() {
   let newCategory;
+
+  after(function(done) {
+    api.destroy()
+      .then(res => done())
+      .catch(err => done(err));
+  });
 
   describe('POST /api/categories', function() {
     describe('with valid category data', function() {

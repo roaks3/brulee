@@ -6,7 +6,7 @@ const path = require('path');
 const api = require('./api/dist');
 
 app.use(bodyParser.json());
-app.use('/api', cors(), api);
+app.use('/api', cors(), api.router);
 
 app.use(express.static('dist'));
 

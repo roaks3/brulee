@@ -2,7 +2,6 @@
   "name": "brulee",
   "private": true,
   "dependencies": {
-    "@types/node": "^11.11.3",
     "angular": "^1.6.0",
     "angular-animate": "^1.6.0",
     "angular-ui-bootstrap": "^0.14.3",
@@ -14,6 +13,7 @@
     "font-awesome": "^4.7.0",
     "js-data": "^2.9.0",
     "js-data-angular": "^3.2.1",
+    "knex": "^0.16.3",
     "lodash": "^4.2.1",
     "moment": "^2.10.6",
     "node-fetch": "^2.3.0",
@@ -21,6 +21,8 @@
     "sql-template-strings": "^2.2.2"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.26",
+    "@types/node": "^11.12.2",
     "babel-core": "^6.5.1",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
