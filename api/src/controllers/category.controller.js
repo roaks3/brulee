@@ -41,13 +41,6 @@ const update = async req => {
     display_order: req.body.order
   });
 
-  if (req.body.ingredient_ids) {
-    await ingredientService.updateCategoryForAll(
-      req.body.ingredient_ids,
-      req.params.id
-    );
-  }
-
   const ingredients = await ingredientService.find({
     categoryId: req.params.id
   });

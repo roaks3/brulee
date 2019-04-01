@@ -34,30 +34,8 @@ class CategoryEditScreenStore {
     return this.categoryStore.destroyCategory(categoryId);
   }
 
-  addIngredientToCategory (ingredientId, categoryId) {
-    const category = this.categoryStore.selectCategoryById(categoryId);
-    const categories = this.selectCategories();
-    const updatedCategory = Object.assign({}, category, {
-      ingredient_ids: [...category.ingredient_ids, ingredientId]
-    });
-    const removeFromCategories = categories.filter(c => c.ingredient_ids.includes(ingredientId));
-
-    return this.$q
-      .all(
-        removeFromCategories.map(removeFromCategory => {
-          return this.removeIngredientFromCategory(ingredientId, removeFromCategory.id);
-        })
-      )
-      .then(() => this.categoryStore.updateCategory(updatedCategory));
-  }
-
-  removeIngredientFromCategory (ingredientId, categoryId) {
-    const category = this.categoryStore.selectCategoryById(categoryId);
-    const updatedCategory = Object.assign({}, category, {
-      ingredient_ids: category.ingredient_ids.filter(id => id !== ingredientId)
-    });
-
-    return this.categoryStore.updateCategory(updatedCategory);
+  updateIngredient (ingredientId, obj) {
+    return this.ingredientStore.updateIngredient(ingredientId, obj);
   }
 
   selectCategories () {

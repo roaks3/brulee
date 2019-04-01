@@ -38,30 +38,20 @@ class AddRecipeScreenCtrl {
 
   createNewIngredients (recipe) {
     const ingredientsToCreate = _(recipe.recipe_ingredients)
-      .map('ingredient')
+      .map(recipeIngredient =>
+        Object.assign(
+          {},
+          recipeIngredient.ingredient, {
+            category_id: recipeIngredient.selectedCategory && recipeIngredient.selectedCategory.id
+          })
+      )
       .reject('id')
       .value();
 
     return this.$q
       .all(_.map(ingredientsToCreate, ingredient => {
-        return this.Ingredient.create({name: ingredient.name});
+        return this.Ingredient.create({name: ingredient.name, category_id: ingredient.category_id});
       }));
-  }
-
-  updateCategories (recipe) {
-    let categoriesToUpdate = [];
-
-    _.each(recipe.recipe_ingredients, recipeIngredient => {
-      if (recipeIngredient.selectedCategory && !this.isCategorized(recipeIngredient)) {
-        let category = recipeIngredient.selectedCategory;
-        const ingredient = this.ingredientService.getByName(recipeIngredient.ingredient.name);
-
-        category.ingredient_ids.push(ingredient.id);
-        categoriesToUpdate.push(category);
-      }
-    });
-
-    return this.categoryService.updateAll(categoriesToUpdate);
   }
 
   updateRecipeIngredients (recipe) {
@@ -78,7 +68,6 @@ class AddRecipeScreenCtrl {
     }
 
     this.createNewIngredients(this.recipe)
-      .then(() => this.updateCategories(this.recipe))
       .then(() => this.updateRecipeIngredients(this.recipe))
       .then(() => {
         return this.Recipe

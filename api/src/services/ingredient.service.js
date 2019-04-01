@@ -42,12 +42,6 @@ const update = async (id, obj) => {
   return result || {};
 };
 
-const updateCategoryForAll = (ids, categoryId) =>
-  pg
-    .knex('ingredients')
-    .update({ category_id: categoryId })
-    .whereIn('id', ids);
-
 const deleteOne = id =>
   pg
     .knex('ingredients')
@@ -59,6 +53,5 @@ module.exports = {
   find,
   create,
   update,
-  updateCategoryForAll,
   deleteOne
 };

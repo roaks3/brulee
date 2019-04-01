@@ -4,7 +4,7 @@ import Category from '../datastores/Category';
 
 export default angular.module('services.categoryService', [Category])
 
-  .service('categoryService', function ($q, Category) {
+  .service('categoryService', function (Category) {
     'ngInject';
 
     this.size = function () {
@@ -19,14 +19,6 @@ export default angular.module('services.categoryService', [Category])
           }
         }
       }));
-    };
-
-    this.updateAll = function (categories) {
-      return $q.all(
-        _.map(categories, function (category) {
-          return Category.update(category.id, _.pick(category, ['name', 'order', 'ingredient_ids']));
-        })
-      );
     };
 
     return this;

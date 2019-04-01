@@ -33,23 +33,20 @@ class CategoryEditListItemCtrl {
       return;
     }
 
-    if (!_.find(this.category.ingredient_ids, ingredient.id)) {
-      this.categoryEditScreenStore
-        .addIngredientToCategory(ingredient.id, this.category.id)
-        .then(() => {
-          this.onUpdate();
-        });
-    } else {
-      this.$window.alert('This ingredient already exists in this category');
-    }
+    this.categoryEditScreenStore
+      .updateIngredient(ingredient.id, { category_id: this.category.id })
+      .then(() => {
+        this.onUpdate();
+      });
   }
 
   removeIngredient (ingredient) {
     if (!this.$window.confirm(`Remove '${ingredient.name}' from '${this.category.name}'?`)) {
       return;
     }
+
     this.categoryEditScreenStore
-      .removeIngredientFromCategory(ingredient.id, this.category.id)
+      .updateIngredient(ingredient.id, { category_id: null })
       .then(() => {
         this.onUpdate();
       });

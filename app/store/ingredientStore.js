@@ -36,6 +36,14 @@ class IngredientStore {
     this.ingredients = this.Ingredient.getAll();
   }
 
+  updateIngredient (id, obj) {
+    return this.Ingredient
+      .update(id, _.pick(obj, ['name', 'category_id']))
+      .then(() => {
+        this.ingredients = this.Ingredient.getAll();
+      });
+  }
+
   selectAllIngredients () {
     return this.ingredients;
   }
