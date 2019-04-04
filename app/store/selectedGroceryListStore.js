@@ -101,14 +101,10 @@ class SelectedGroceryListStore {
 
   selectCategories () {
     const ingredients = this.selectIngredients();
-    const ingredientIds = ingredients.map(ingredient => ingredient.id);
-    let categories = this.categoryStore.selectCategoriesForIngredients(ingredientIds);
+    let categories = this.categoryStore.selectCategoriesForIngredients(ingredients);
 
     // Add Uncategorized if there are ingredients with no category
-    const categorizedIngredientIds = _(categories).map('ingredient_ids').flatten().uniq().value();
-    const uncategorized =
-      ingredients.some(ingredient => !categorizedIngredientIds.includes(ingredient.id));
-    if (uncategorized) {
+    if (ingredients.some(ingredient => !ingredient.category_id)) {
       categories = [...categories, UNCATEGORIZED];
     }
 
@@ -122,13 +118,8 @@ class SelectedGroceryListStore {
 
   selectIngredientsForCategory (categoryId) {
     const ingredients = this.selectIngredients();
-    const category = this.categoryStore.selectCategoryById(categoryId);
-    if (!category) {
-      const categories = this.categoryStore.selectAllCategories();
-      const categorizedIngredientIds = _(categories).map('ingredient_ids').flatten().uniq().value();
-      return ingredients.filter(ingredient => !categorizedIngredientIds.includes(ingredient.id));
-    }
-    return ingredients.filter(ingredient => category.ingredient_ids.includes(ingredient.id));
+    return ingredients.filter(
+      ingredient => ingredient.category_id === categoryId || (!ingredient.category_id && !categoryId));
   }
 
   selectRecipesForIngredient (ingredientId) {

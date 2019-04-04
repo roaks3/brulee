@@ -43,9 +43,8 @@ class CategoryEditScreenStore {
   }
 
   selectIngredientsForCategory (categoryId) {
-    const category = this.categoryStore.selectCategoryById(categoryId);
     return _.sortBy(
-      this.ingredientStore.selectAllIngredients().filter(ingredient => category.ingredient_ids.includes(ingredient.id)),
+      this.ingredientStore.selectAllIngredients().filter(ingredient => ingredient.category_id === categoryId),
       'name'
     );
   }

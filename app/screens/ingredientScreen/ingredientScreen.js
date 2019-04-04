@@ -4,7 +4,6 @@ import uiRouter from 'angular-ui-router';
 import Category from '../../scripts/datastores/Category';
 import Ingredient from '../../scripts/datastores/Ingredient';
 import Recipe from '../../scripts/datastores/Recipe';
-import categoryService from '../../scripts/services/categoryService';
 import recipeService from '../../scripts/services/recipeService';
 import statusBar from '../../components/statusBar/statusBar';
 import categorySelect from '../../components/categorySelect/categorySelect';
@@ -13,14 +12,13 @@ import template from './ingredientScreen.html';
 
 class IngredientScreenCtrl {
 
-  constructor ($state, $stateParams, $window, Category, categoryService, Ingredient, Recipe, recipeService) {
+  constructor ($state, $stateParams, $window, Category, Ingredient, Recipe, recipeService) {
     'ngInject';
 
     this.$state = $state;
     this.$stateParams = $stateParams;
     this.$window = $window;
     this.Category = Category;
-    this.categoryService = categoryService;
     this.Ingredient = Ingredient;
     this.Recipe = Recipe;
     this.recipeService = recipeService;
@@ -33,19 +31,21 @@ class IngredientScreenCtrl {
   }
 
   $onInit () {
-    this.Category.refreshAll()
-      .then(() => {
-        this.category = this.categoryService.getByIngredientId(this.$stateParams.id);
-      })
-      .catch(error => {
-        this.errors.push(error);
-      });
-
     this.Ingredient.refreshAll()
       .then(ingredients => {
         this.ingredients = ingredients;
         this.ingredient = this.Ingredient.get(this.$stateParams.id);
         this.ingredientName = this.ingredient.name;
+
+        if (!this.ingredient.category_id) {
+          this.category = null;
+          return;
+        }
+
+        return this.Category.find(this.ingredient.category_id)
+          .then(category => {
+            this.category = category;
+          });
       })
       .catch(error => {
         this.errors.push(error);
@@ -120,7 +120,6 @@ export default angular
     Category,
     Ingredient,
     Recipe,
-    categoryService,
     recipeService,
     statusBar,
     categorySelect

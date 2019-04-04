@@ -56,10 +56,9 @@ class CategoryStore {
     return this.categories.find(category => category.id === id);
   }
 
-  selectCategoriesForIngredients (ingredientIds) {
-    return this.categories.filter(category => {
-      return category.ingredient_ids.some(ingredientId => ingredientIds.includes(ingredientId));
-    });
+  selectCategoriesForIngredients (ingredients) {
+    const categoryIds = ingredients.map(ingredient => ingredient.category_id)
+    return this.categories.filter(category => categoryIds.includes(category.id));
   }
 
 }

@@ -105,9 +105,8 @@ class AddRecipeScreenCtrl {
           const existingIngredient = this.ingredientService.getByName(recipeIngredient.ingredient.name);
           if (existingIngredient) {
             recipeIngredient.ingredient = existingIngredient;
+            recipeIngredient.selectedCategory = this.categoryService.get(recipeIngredient.ingredient.category_id);
           }
-
-          recipeIngredient.selectedCategory = this.categoryService.getByIngredientId(recipeIngredient.ingredient.id);
         });
 
         this.recipe.recipe_ingredients = recipeIngredients;
@@ -117,15 +116,6 @@ class AddRecipeScreenCtrl {
 
   removeRecipeIngredient (recipeIngredient) {
     _.pull(this.recipe.recipe_ingredients, recipeIngredient);
-  }
-
-  isCategorized (recipeIngredient) {
-    // TODO: This should probably use some other field to reflect whether the
-    // selected category needs to be saved
-    if (recipeIngredient && recipeIngredient.ingredient) {
-      return !!this.categoryService.getByIngredientId(recipeIngredient.ingredient.id);
-    }
-    return false;
   }
 
   updateRecipeIngredient (recipeIngredient, ingredient) {

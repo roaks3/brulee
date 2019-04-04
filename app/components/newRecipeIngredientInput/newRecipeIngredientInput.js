@@ -20,7 +20,7 @@ class NewRecipeIngredientInputCtrl {
 
   changeIngredient (ingredient) {
     this.onIngredientChange({ingredient: ingredient});
-    this.onCategoryChange({category: this.categoryService.getByIngredientId(ingredient.id)});
+    this.onCategoryChange({category: this.categoryService.get(ingredient.category_id)});
   }
 
 }

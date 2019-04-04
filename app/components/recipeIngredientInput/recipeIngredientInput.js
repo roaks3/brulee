@@ -21,13 +21,13 @@ class RecipeIngredientInputCtrl {
       .find(this.recipeIngredient.ingredient_id)
       .then((ingredient) => {
         this.ingredient = ingredient;
-        this.category = this.categoryService.getByIngredientId(ingredient.id);
+        this.category = this.categoryService.get(ingredient.category_id);
       });
   }
 
   changeIngredient (ingredient) {
     this.ingredient = ingredient;
-    this.category = this.categoryService.getByIngredientId(ingredient.id);
+    this.category = this.categoryService.get(ingredient.category_id);
     this.onIngredientChange({ingredientId: this.ingredient.id});
   }
 
