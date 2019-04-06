@@ -22,7 +22,8 @@ class GroceryListStore {
     return this.GroceryList
       .findAll({
         limit,
-      }, { endpoint: 'groceryLists/recent' })
+        sortMostRecent: true
+      })
       .then(() => {
         this.groceryLists = this.GroceryList.getAll();
       });

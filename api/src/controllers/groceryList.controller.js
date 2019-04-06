@@ -5,32 +5,9 @@ const groceryListSerializer = require('../serializers/groceryList.serializer');
 
 const index = async req => {
   const groceryLists = await groceryListService.find({
-    ids: _.isString(req.query.ids) ? [req.query.ids] : req.query.ids
-  });
-
-  return Promise.all(
-    groceryLists.map(async groceryList => {
-      const [groceryListRecipes, groceryListIngredients] = await Promise.all([
-        groceryListService.findGroceryListRecipes({
-          groceryListIds: [groceryList.id]
-        }),
-        groceryListService.findGroceryListIngredients({
-          groceryListIds: [groceryList.id]
-        })
-      ]);
-      return groceryListSerializer.serialize(
-        groceryList,
-        groceryListRecipes,
-        groceryListIngredients
-      );
-    })
-  );
-};
-
-const recent = async req => {
-  const groceryLists = await groceryListService.find({
+    ids: _.isString(req.query.ids) ? [req.query.ids] : req.query.ids,
     limit: req.query.limit,
-    sortMostRecent: true
+    sortMostRecent: req.query.sortMostRecent
   });
 
   return Promise.all(
@@ -261,7 +238,6 @@ const destroy = async req => {
 
 module.exports = {
   index,
-  recent,
   show,
   create,
   update,

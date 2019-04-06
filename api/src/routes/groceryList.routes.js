@@ -5,7 +5,6 @@ const controller = require('../controllers/groceryList.controller');
 const router = new Router();
 
 router.get('/', toExpress(controller.index));
-router.get('/recent', toExpress(controller.recent));
 router.get('/:id', toExpress(controller.show));
 router.post('/', toExpress(controller.create));
 router.put('/:id', toExpress(controller.update));
