@@ -4,7 +4,7 @@ import uiRouter from 'angular-ui-router';
 import Category from '../../scripts/datastores/Category';
 import Ingredient from '../../scripts/datastores/Ingredient';
 import Recipe from '../../scripts/datastores/Recipe';
-import recipeService from '../../scripts/services/recipeService';
+import recipeStore from '../../store/recipeStore';
 import statusBar from '../../components/statusBar/statusBar';
 import categorySelect from '../../components/categorySelect/categorySelect';
 
@@ -12,7 +12,7 @@ import template from './ingredientScreen.html';
 
 class IngredientScreenCtrl {
 
-  constructor ($state, $stateParams, $window, Category, Ingredient, Recipe, recipeService) {
+  constructor ($state, $stateParams, $window, Category, Ingredient, Recipe, recipeStore) {
     'ngInject';
 
     this.$state = $state;
@@ -21,7 +21,7 @@ class IngredientScreenCtrl {
     this.Category = Category;
     this.Ingredient = Ingredient;
     this.Recipe = Recipe;
-    this.recipeService = recipeService;
+    this.recipeStore = recipeStore;
     this.category = {};
     this.ingredients = [];
     this.ingredient = {};
@@ -53,7 +53,7 @@ class IngredientScreenCtrl {
 
     this.Recipe.refreshAll()
       .then(() => {
-        this.recipes = this.recipeService.filterByIngredientId(this.$stateParams.id);
+        this.recipes = this.recipeStore.selectRecipesBySearchTerm('', [this.$stateParams.id]);
       })
       .catch(error => {
         this.errors.push(error);
@@ -120,7 +120,7 @@ export default angular
     Category,
     Ingredient,
     Recipe,
-    recipeService,
+    recipeStore,
     statusBar,
     categorySelect
   ])
