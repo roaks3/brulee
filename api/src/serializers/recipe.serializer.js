@@ -1,6 +1,7 @@
 const serialize = (recipe, recipeIngredients) => ({
   id: recipe.id,
   name: recipe.name,
+  use_count: parseInt(recipe.use_count || 0, 10),
   url: recipe.url,
   tags: recipe.tags,
   prepare_time_in_minutes: recipe.prepare_time_in_minutes,

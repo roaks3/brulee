@@ -10,9 +10,9 @@ class RecipeStore {
     this.Recipe = Recipe;
   }
 
-  fetchAllRecipes () {
+  fetchAllRecipes (opts) {
     return this.Recipe
-      .findAll()
+      .findAll(opts)
       .then(recipes => {
         this.recipes = recipes;
       });

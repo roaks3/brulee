@@ -21,7 +21,7 @@
       <recipe-list-item
         ng-repeat="recipe in $ctrl.filteredRecipes"
         recipe="recipe"
-        use-count="$ctrl.recipeUseCountsByRecipeId[recipe.id] || 0"
+        use-count="recipe.use_count || 0"
         on-select-recipe="$ctrl.addRecipe(recipe)"
         on-unselect-recipe="$ctrl.removeRecipe(recipe)">
       </recipe-list-item>

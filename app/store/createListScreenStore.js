@@ -27,27 +27,11 @@ class CreateListScreenStore {
   }
 
   fetchAll () {
-    return this.fetchRecipeUseCounts()
-      // Recipes and ingredients used for searching
-      .then(() => this.ingredientStore.fetchAllIngredients())
-      .then(() => this.recipeStore.fetchAllRecipes())
+    // Recipes and ingredients used for searching
+    return this.ingredientStore.fetchAllIngredients()
+      .then(() => this.recipeStore.fetchAllRecipes({ includeUseCounts: true }))
       // Categories used for displaying grocery list, and faster/easier to have them all to start
       .then(() => this.categoryStore.fetchAllCategories());
-  }
-
-  fetchRecipeUseCounts () {
-    return this.groceryListStore
-      .fetchRecentGroceryLists(20)
-      .then(() => {
-        const groceryLists = this.groceryListStore.selectRecentGroceryLists(20);
-        this.recipeUseCountsByRecipeId = groceryLists.reduce((memo, groceryList) => {
-          const recipeIds = groceryList.recipe_days.map(recipeDay => recipeDay.recipe_id);
-          recipeIds.forEach(recipeId => {
-            memo[recipeId] = (memo[recipeId] || 0) + 1;
-          });
-          return memo;
-        }, {});
-      });
   }
 
   addRecipeToGroceryList (recipeId) {
@@ -85,7 +69,7 @@ class CreateListScreenStore {
   selectSortedRecipesBySearchTerm (searchTerm) {
     const ingredientIds = this.ingredientStore.selectIngredientsBySearchTerm(searchTerm).map(i => i.id);
     const recipes = this.recipeStore.selectRecipesBySearchTerm(searchTerm, ingredientIds);
-    return _.sortBy(recipes, recipe => this.recipeUseCountsByRecipeId[recipe.id] || 0).reverse();
+    return _.sortBy(recipes, recipe => recipe.use_count || 0).reverse();
   }
 
 }

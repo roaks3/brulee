@@ -1,11 +1,21 @@
 const _ = require('lodash');
 const pg = require('./pg.service');
 
-const find = ({ ids }) => {
-  const query = pg.knex('recipes').select();
+const find = ({ ids, includeUseCounts }) => {
+  const query = pg.knex('recipes').select('recipes.*');
 
   if (ids) {
-    query.whereIn('id', ids);
+    query.whereIn('recipes.id', ids);
+  }
+
+  if (includeUseCounts) {
+    query.count('grocery_lists.id as use_count')
+      .leftJoin('grocery_list_recipes', 'recipes.id', 'grocery_list_recipes.recipe_id')
+      .leftJoin('grocery_lists', function () {
+        this.on('grocery_list_recipes.grocery_list_id', '=', 'grocery_lists.id')
+          .andOn('grocery_lists.created_at', '>', pg.knex.raw('now() - interval \'5 months\''));
+      })
+      .groupBy('recipes.id');
   }
 
   return query;

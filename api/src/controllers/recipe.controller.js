@@ -4,7 +4,8 @@ const recipeSerializer = require('../serializers/recipe.serializer');
 
 const index = async req => {
   const recipes = await recipeService.find({
-    ids: _.isString(req.query.ids) ? [req.query.ids] : req.query.ids
+    ids: _.isString(req.query.ids) ? [req.query.ids] : req.query.ids,
+    includeUseCounts: req.query.includeUseCounts
   });
 
   return Promise.all(

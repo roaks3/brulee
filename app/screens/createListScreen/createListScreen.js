@@ -30,7 +30,6 @@ class CreateListScreenCtrl {
         this.createListScreenStore.init();
         this.newGroceryList = this.selectedGroceryListStore.selectedGroceryList;
         this.categories = [];
-        this.recipeUseCountsByRecipeId = this.createListScreenStore.recipeUseCountsByRecipeId;
         this.filterRecipes();
       })
       .catch(error => {
