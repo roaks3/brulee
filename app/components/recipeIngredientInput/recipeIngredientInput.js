@@ -1,7 +1,7 @@
 import angular from 'angular';
 
+import Category from '../../scripts/datastores/Category';
 import Ingredient from '../../scripts/datastores/Ingredient';
-import categoryService from '../../scripts/services/categoryService';
 import ingredientTypeahead from '../ingredientTypeahead/ingredientTypeahead';
 import categorySelect from '../categorySelect/categorySelect';
 
@@ -9,10 +9,10 @@ import template from './recipeIngredientInput.html';
 
 class RecipeIngredientInputCtrl {
 
-  constructor (categoryService, Ingredient) {
+  constructor (Category, Ingredient) {
     'ngInject';
 
-    this.categoryService = categoryService;
+    this.Category = Category;
     this.Ingredient = Ingredient;
   }
 
@@ -21,13 +21,13 @@ class RecipeIngredientInputCtrl {
       .find(this.recipeIngredient.ingredient_id)
       .then((ingredient) => {
         this.ingredient = ingredient;
-        this.category = this.categoryService.get(ingredient.category_id);
+        this.category = this.Category.get(ingredient.category_id || '');
       });
   }
 
   changeIngredient (ingredient) {
     this.ingredient = ingredient;
-    this.category = this.categoryService.get(ingredient.category_id);
+    this.category = this.Category.get(ingredient.category_id || '');
     this.onIngredientChange({ingredientId: this.ingredient.id});
   }
 
@@ -35,8 +35,8 @@ class RecipeIngredientInputCtrl {
 
 export default angular
   .module('components.recipeIngredientInput', [
+    Category,
     Ingredient,
-    categoryService,
     ingredientTypeahead,
     categorySelect
   ])

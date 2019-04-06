@@ -3,7 +3,6 @@ import angular from 'angular';
 import Category from '../../scripts/datastores/Category';
 import Ingredient from '../../scripts/datastores/Ingredient';
 import Recipe from '../../scripts/datastores/Recipe';
-import categoryService from '../../scripts/services/categoryService';
 import ingredientParseService from '../../scripts/services/ingredientParseService';
 import ingredientService from '../../scripts/services/ingredientService';
 import statusBar from '../../components/statusBar/statusBar';
@@ -14,12 +13,11 @@ import './addRecipeScreen.scss';
 
 class AddRecipeScreenCtrl {
 
-  constructor ($q, Category, categoryService, Ingredient, ingredientParseService, ingredientService, Recipe) {
+  constructor ($q, Category, Ingredient, ingredientParseService, ingredientService, Recipe) {
     'ngInject';
 
     this.$q = $q;
     this.Category = Category;
-    this.categoryService = categoryService;
     this.Ingredient = Ingredient;
     this.ingredientParseService = ingredientParseService;
     this.ingredientService = ingredientService;
@@ -105,7 +103,7 @@ class AddRecipeScreenCtrl {
           const existingIngredient = this.ingredientService.getByName(recipeIngredient.ingredient.name);
           if (existingIngredient) {
             recipeIngredient.ingredient = existingIngredient;
-            recipeIngredient.selectedCategory = this.categoryService.get(recipeIngredient.ingredient.category_id);
+            recipeIngredient.selectedCategory = this.Category.get(recipeIngredient.ingredient.category_id || '');
           }
         });
 
@@ -141,7 +139,6 @@ export default angular
     Category,
     Ingredient,
     Recipe,
-    categoryService,
     ingredientParseService,
     ingredientService,
     statusBar,
