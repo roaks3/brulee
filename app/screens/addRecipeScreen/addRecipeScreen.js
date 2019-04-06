@@ -4,7 +4,6 @@ import Category from '../../scripts/datastores/Category';
 import Ingredient from '../../scripts/datastores/Ingredient';
 import Recipe from '../../scripts/datastores/Recipe';
 import ingredientParseService from '../../scripts/services/ingredientParseService';
-import ingredientService from '../../scripts/services/ingredientService';
 import statusBar from '../../components/statusBar/statusBar';
 import newRecipeIngredientInput from '../../components/newRecipeIngredientInput/newRecipeIngredientInput';
 
@@ -13,14 +12,13 @@ import './addRecipeScreen.scss';
 
 class AddRecipeScreenCtrl {
 
-  constructor ($q, Category, Ingredient, ingredientParseService, ingredientService, Recipe) {
+  constructor ($q, Category, Ingredient, ingredientParseService, Recipe) {
     'ngInject';
 
     this.$q = $q;
     this.Category = Category;
     this.Ingredient = Ingredient;
     this.ingredientParseService = ingredientParseService;
-    this.ingredientService = ingredientService;
     this.Recipe = Recipe;
   }
 
@@ -54,7 +52,7 @@ class AddRecipeScreenCtrl {
 
   updateRecipeIngredients (recipe) {
     _.each(recipe.recipe_ingredients, recipeIngredient => {
-      recipeIngredient.ingredient = this.ingredientService.getByName(recipeIngredient.ingredient.name);
+      recipeIngredient.ingredient = _.head(this.Ingredient.filter({ name: recipeIngredient.ingredient.name }));
     });
   }
 
@@ -96,11 +94,11 @@ class AddRecipeScreenCtrl {
       .uniq()
       .value();
 
-    this.ingredientService
-      .findAllIngredientsByName(ingredientNames)
+    this.Ingredient
+      .findAll({ names: ingredientNames })
       .then(() => {
         _.each(recipeIngredients, recipeIngredient => {
-          const existingIngredient = this.ingredientService.getByName(recipeIngredient.ingredient.name);
+          const existingIngredient = _.head(this.Ingredient.filter({ name: recipeIngredient.ingredient.name }));
           if (existingIngredient) {
             recipeIngredient.ingredient = existingIngredient;
             recipeIngredient.selectedCategory = this.Category.get(recipeIngredient.ingredient.category_id || '');
@@ -140,7 +138,6 @@ export default angular
     Ingredient,
     Recipe,
     ingredientParseService,
-    ingredientService,
     statusBar,
     newRecipeIngredientInput
   ])
