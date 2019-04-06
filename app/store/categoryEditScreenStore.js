@@ -22,11 +22,9 @@ class CategoryEditScreenStore {
   }
 
   createCategory (categoryName) {
-    const categories = this.selectCategories();
     return this.categoryStore
       .createCategory({
-        name: categoryName,
-        order: categories.length + 1
+        name: categoryName
       });
   }
 

@@ -24,8 +24,7 @@ describe('Category API:', function() {
         request(app)
           .post('/api/categories')
           .send({
-            name: 'test category',
-            order: 99
+            name: 'test category'
           })
           .expect(200)
           .expect('Content-Type', /json/)
@@ -47,7 +46,7 @@ describe('Category API:', function() {
           .then(res => {
             expect(res.body.id).to.equal(newCategory.id);
             expect(res.body.name).to.equal('test category');
-            expect(res.body.order).to.equal(99);
+            expect(res.body.display_order).to.equal(100);
             done();
           })
           .catch(err => done(err));
@@ -78,7 +77,7 @@ describe('Category API:', function() {
           .put(`/api/categories/${newCategory.id}`)
           .send({
             name: 'test category updated',
-            order: 100
+            display_order: 200
           })
           .expect(200)
           .expect('Content-Type', /json/)
@@ -100,7 +99,7 @@ describe('Category API:', function() {
           .then(res => {
             expect(res.body.id).to.equal(newCategory.id);
             expect(res.body.name).to.equal('test category updated');
-            expect(res.body.order).to.equal(100);
+            expect(res.body.display_order).to.equal(200);
             done();
           })
           .catch(err => done(err));

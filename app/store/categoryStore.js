@@ -21,8 +21,7 @@ class CategoryStore {
   createCategory (category) {
     return this.Category
       .create(_.pick(category, [
-        'name',
-        'order'
+        'name'
       ]))
       .then(() => {
         this.categories = this.Category.getAll();
@@ -33,7 +32,7 @@ class CategoryStore {
     return this.Category
       .update(category.id, _.pick(category, [
         'name',
-        'order'
+        'display_order'
       ]))
       .then(() => {
         this.categories = this.Category.getAll();

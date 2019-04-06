@@ -16,7 +16,12 @@ const create = async obj => {
 
   const [result] = await pg
     .knex('categories')
-    .insert(fields)
+    .insert({
+      ...fields,
+      display_order: fields.display_order || function () {
+        this.select(pg.knex.raw('max(display_order) + 1')).from('categories');
+      }
+    })
     .returning('*');
 
   return result || {};

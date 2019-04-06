@@ -7,7 +7,7 @@ import recipeStore from './recipeStore';
 
 const UNCATEGORIZED = {
   name: 'Uncategorized',
-  order: 0
+  display_order: 0
 };
 
 class SelectedGroceryListStore {
@@ -108,7 +108,7 @@ class SelectedGroceryListStore {
       categories = [...categories, UNCATEGORIZED];
     }
 
-    return _.sortBy(categories, 'order');
+    return _.sortBy(categories, 'display_order');
   }
 
   selectIngredients () {

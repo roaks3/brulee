@@ -36,10 +36,7 @@ const create = async req => {
 };
 
 const update = async req => {
-  const updated = await categoryService.update(req.params.id, {
-    ...req.body,
-    display_order: req.body.order
-  });
+  const updated = await categoryService.update(req.params.id, req.body);
 
   const ingredients = await ingredientService.find({
     categoryId: req.params.id
