@@ -9,11 +9,23 @@ const find = ({ ids, includeUseCounts }) => {
   }
 
   if (includeUseCounts) {
-    query.count('grocery_lists.id as use_count')
-      .leftJoin('grocery_list_recipes', 'recipes.id', 'grocery_list_recipes.recipe_id')
-      .leftJoin('grocery_lists', function () {
-        this.on('grocery_list_recipes.grocery_list_id', '=', 'grocery_lists.id')
-          .andOn('grocery_lists.created_at', '>', pg.knex.raw('now() - interval \'5 months\''));
+    query
+      .count('grocery_lists.id as use_count')
+      .leftJoin(
+        'grocery_list_recipes',
+        'recipes.id',
+        'grocery_list_recipes.recipe_id'
+      )
+      .leftJoin('grocery_lists', function() {
+        this.on(
+          'grocery_list_recipes.grocery_list_id',
+          '=',
+          'grocery_lists.id'
+        ).andOn(
+          'grocery_lists.created_at',
+          '>',
+          pg.knex.raw("now() - interval '5 months'")
+        );
       })
       .groupBy('recipes.id');
   }

@@ -18,9 +18,11 @@ const create = async obj => {
     .knex('categories')
     .insert({
       ...fields,
-      display_order: fields.display_order || function () {
-        this.select(pg.knex.raw('max(display_order) + 1')).from('categories');
-      }
+      display_order:
+        fields.display_order ||
+        function() {
+          this.select(pg.knex.raw('max(display_order) + 1')).from('categories');
+        }
     })
     .returning('*');
 
