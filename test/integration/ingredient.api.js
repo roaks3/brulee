@@ -137,16 +137,6 @@ describe('Ingredient API:', function() {
           })
           .catch(err => done(err));
       });
-
-      it('should update category association in database', function(done) {
-        request(app)
-          .get('/api/categories/57c3909f989e94dc397dd462')
-          .then(res => {
-            expect(res.body.ingredient_ids.includes(newIngredient.id)).to.equal(true);
-            done();
-          })
-          .catch(err => done(err));
-      });
     });
   });
 

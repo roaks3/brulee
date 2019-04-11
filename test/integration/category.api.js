@@ -46,7 +46,7 @@ describe('Category API:', function() {
           .then(res => {
             expect(res.body.id).to.equal(newCategory.id);
             expect(res.body.name).to.equal('test category');
-            expect(res.body.display_order).to.equal(100);
+            expect(res.body.display_order).to.equal(7);
             done();
           })
           .catch(err => done(err));

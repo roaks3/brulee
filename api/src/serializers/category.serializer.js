@@ -1,8 +1,7 @@
-const serialize = (category, ingredients) => ({
+const serialize = category => ({
   id: category.id,
   name: category.name,
-  display_order: category.display_order,
-  ingredient_ids: ingredients.map(ingredient => ingredient.id)
+  display_order: category.display_order
 });
 
 module.exports = {
