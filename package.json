@@ -71,10 +71,12 @@
     "node": "^10.15.2"
   },
   "scripts": {
-    "build": "npm run build:api && npm run build:web",
+    "build": "npm run build:api && npm run build:web && npm run build:react",
     "build:api": "tsc",
     "build:web": "gulp build",
+    "build:react": "pushd react_app; SKIP_PREFLIGHT_CHECK=true npm run build; popd",
     "lint:api:fix": "npx prettier --single-quote --parser typescript --write \"api/src/**\"",
+    "postinstall": "pushd react_app; npm install; popd",
     "test": "gulp test"
   }
 }
