@@ -108,6 +108,30 @@ describe('Recipe API:', function() {
         })
         .catch(err => done(err));
     });
+
+    it('with used ingredientId, should respond with recipe', function(done) {
+      request(app)
+        .get('/api/recipes')
+        .query({ ingredientId: '57c5ab9b989e94dc397dd4fa' })
+        .then(res => {
+          expect(!!res.body.find(i => i.id === newRecipe.id)).to.equal(true);
+          done();
+        })
+        .catch(err => done(err));
+    });
+
+    it('with includeUseCounts true, should respond with 0 use count in recipe', function(done) {
+      request(app)
+        .get('/api/recipes')
+        .query({ ids: [newRecipe.id], includeUseCounts: true })
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .then(res => {
+          expect(res.body.find(i => i.id === newRecipe.id).use_count).to.equal(0);
+          done();
+        })
+        .catch(err => done(err));
+    });
   });
 
   describe('PUT /api/recipes/:id', function() {

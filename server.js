@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use('/api', cors(), api.router);
 
 // Routes transitioned to the react app should redirect to the react index.html
-app.route('/react_app')
+app.route('/r/*')
   .get((req, res) => {
     res.sendFile(path.resolve(path.normalize(__dirname) + '/react_app/build/index.html'));
   });

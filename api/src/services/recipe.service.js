@@ -1,11 +1,21 @@
 const _ = require('lodash');
 const pg = require('./pg.service');
 
-const find = ({ ids, includeUseCounts }) => {
+const find = ({ ids, ingredientId, includeUseCounts }) => {
   const query = pg.knex('recipes').select('recipes.*');
 
   if (ids) {
     query.whereIn('recipes.id', ids);
+  }
+
+  if (ingredientId) {
+    query
+      .innerJoin(
+        'recipe_ingredients',
+        'recipes.id',
+        'recipe_ingredients.recipe_id'
+      )
+      .where('recipe_ingredients.ingredient_id', ingredientId);
   }
 
   if (includeUseCounts) {
