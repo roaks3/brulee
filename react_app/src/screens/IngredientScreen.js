@@ -29,9 +29,29 @@ class IngredientScreen extends Component {
       });
   }
 
+  handleDelete = () => {
+    if (!window.confirm(`Remove '${this.state.ingredient.name}'?`)) {
+      return;
+    }
+
+    jsonFetch(`/api/ingredients/${this.state.ingredient.id}`, {
+      method: 'DELETE'
+    })
+      .then(() => {
+        console.log('Success');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   render() {
     return (
       <div>
+        <button class="btn-delete" onClick={this.handleDelete}>
+          Delete
+        </button>
+
         <h1>{this.state.ingredient && this.state.ingredient.name}</h1>
 
         <div>

@@ -164,10 +164,10 @@ const updateGroceryListIngredientsForGroceryList = (
       createGroceryListIngredient(groceryListId, ai)
     ),
     ...removedAdditionalIngredients.map(ai =>
-      groceryListService.deleteOneGroceryListIngredient(
+      groceryListService.deleteGroceryListIngredients({
         groceryListId,
-        ai.ingredient_id
-      )
+        ingredientId: ai.ingredient_id
+      })
     ),
     ...changedAdditionalIngredients.map(ai =>
       groceryListService.updateGroceryListIngredient(
@@ -224,9 +224,9 @@ const update = async req => {
 };
 
 const destroy = async req => {
-  await groceryListService.deleteGroceryListIngredientsForGroceryList(
-    req.params.id
-  );
+  await groceryListService.deleteGroceryListIngredients({
+    groceryListId: req.params.id
+  });
   await groceryListService.deleteGroceryListRecipesForGroceryList(
     req.params.id
   );

@@ -12,6 +12,10 @@ router.use('/groceryLists', gorceryListRoutes);
 router.use('/ingredients', ingredientRoutes);
 router.use('/recipes', recipeRoutes);
 
+router.use((err, req, res, next) => {
+  res.status(500).send(err.message);
+});
+
 module.exports = {
   router,
   destroy: async () => pg.knex.destroy()

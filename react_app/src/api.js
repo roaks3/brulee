@@ -4,4 +4,12 @@ export const jsonFetch = (url, opts) =>
       'Content-type': 'application/json'
     },
     ...opts
-  }).then(response => response.json());
+  }).then(response => {
+    if (!response.ok) {
+      return response.text().then(text => {
+        throw new Error(text);
+      });
+    }
+
+    return response.json();
+  });

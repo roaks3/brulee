@@ -77,7 +77,7 @@
     "build:react": "cd react_app; SKIP_PREFLIGHT_CHECK=true npm run build; cd ..",
     "lint:api:fix": "npx prettier --single-quote --parser typescript --write \"api/src/**\"",
     "lint:react:fix": "npx prettier --single-quote --write \"react_app/src/**\"",
-    "lint:fix": "lint:api:fix && lint:react:fix",
+    "lint:fix": "npm run lint:api:fix && npm run lint:react:fix",
     "postinstall": "cd react_app; npm install; cd ..",
     "test": "gulp test"
   }

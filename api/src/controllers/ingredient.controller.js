@@ -1,6 +1,8 @@
 const _ = require('lodash');
+const groceryListService = require('../services/groceryList.service');
 const ingredientService = require('../services/ingredient.service');
 const ingredientSerializer = require('../serializers/ingredient.serializer');
+const recipeService = require('../services/recipe.service');
 
 const index = async req => {
   const ingredients = await ingredientService.find({
@@ -32,6 +34,22 @@ const update = async req => {
 };
 
 const destroy = async req => {
+  const associatedRecipes = await recipeService.find({
+    ingredientId: req.params.id
+  });
+  if (associatedRecipes.length) {
+    throw new Error(
+      `Cannot delete because ingredient is being used in recipes: [${associatedRecipes
+        .map(r => r.name)
+        .join(', ')}]`
+    );
+  }
+
+  // Eliminate orphaned references in grocery lists without requiring the user to do so manually
+  await groceryListService.deleteGroceryListIngredients({
+    ingredientId: req.params.id
+  });
+
   const deleted = await ingredientService.deleteOne(req.params.id);
 
   return ingredientSerializer.serialize(deleted);

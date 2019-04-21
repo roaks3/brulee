@@ -141,8 +141,81 @@ describe('Ingredient API:', function() {
   });
 
   describe('DELETE /api/ingredients/:id', function() {
+    describe('with an associated recipe', function() {
+      let deleteResponse;
+      let newRecipe;
+
+      before(function(done) {
+        request(app)
+          .post('/api/recipes')
+          .send({
+            name: 'test recipe',
+            recipe_ingredients: [
+              {
+                ingredient_id: newIngredient.id,
+                amount: '1',
+                unit: 'each'
+              }
+            ]
+          })
+          .then(res => {
+            newRecipe = res.body;
+            done();
+          })
+          .catch(err => done(err));
+      });
+
+      before(function(done) {
+        request(app)
+          .delete(`/api/ingredients/${newIngredient.id}`)
+          .expect(500)
+          .then(res => {
+            deleteResponse = res.text;
+            done();
+          })
+          .catch(err => done(err));
+      });
+
+      after(function(done) {
+        request(app)
+          .delete(`/api/recipes/${newRecipe.id}`)
+          .then(res => done())
+          .catch(err => done(err));
+      });
+
+      it('should return error in response', function() {
+        expect(deleteResponse).to.equal('Cannot delete because ingredient is being used in recipes: [test recipe]');
+      });
+
+      it('should not delete ingredient in database', function(done) {
+        request(app)
+          .get(`/api/ingredients/${newIngredient.id}`)
+          .then(res => {
+            expect(!!res.body.id).to.equal(true);
+            done();
+          })
+          .catch(err => done(err));
+      });
+    });
+
     describe('with valid deletion', function() {
       let deleteResponse;
+
+      before(function(done) {
+        request(app)
+          .put('/api/groceryLists/57a37d58bd966f35d8f87da7')
+          .send({
+            additional_ingredients: [
+              {
+                ingredient_id: newIngredient.id,
+                amount: '1',
+                unit: 'each'
+              }
+            ]
+          })
+          .then(res => done())
+          .catch(err => done(err));
+      });
 
       before(function(done) {
         request(app)
@@ -165,6 +238,17 @@ describe('Ingredient API:', function() {
           .get(`/api/ingredients/${newIngredient.id}`)
           .then(res => {
             expect(!!res.body.id).to.equal(false);
+            done();
+          })
+          .catch(err => done(err));
+      });
+
+      it('should delete ingredient from grocery list', function(done) {
+        request(app)
+          .get('/api/groceryLists')
+          .query({ ids: ['57a37d58bd966f35d8f87da7'] })
+          .then(res => {
+            expect(res.body[0].additional_ingredients.length).to.equal(0);
             done();
           })
           .catch(err => done(err));

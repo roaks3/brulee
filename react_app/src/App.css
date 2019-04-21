@@ -20,6 +20,26 @@
   text-decoration: none;
 }
 
+.btn-delete {
+  background-color: #d33141;
+  border: 1px solid #c12938;
+  border-radius: 4px;
+  color: white;
+  display: inline-block;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-delete:not(:disabled):hover,
+.btn-delete:not(:disabled):focus {
+  background-color: #ac2532;
+  border-color: #8f1f2a;
+  color: white;
+}
+
 .navbar-container {
   background-color: #f6f9fc;
   color: #8898aa;

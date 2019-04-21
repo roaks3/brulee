@@ -137,20 +137,19 @@ const updateGroceryListIngredient = async (
   return result || {};
 };
 
-const deleteOneGroceryListIngredient = (groceryListId, ingredientId) =>
+const deleteGroceryListIngredients = ({ groceryListId, ingredientId }) =>
   pg
     .knex('grocery_list_ingredients')
     .del()
-    .where({
-      grocery_list_id: groceryListId,
-      ingredient_id: ingredientId
-    });
-
-const deleteGroceryListIngredientsForGroceryList = groceryListId =>
-  pg
-    .knex('grocery_list_ingredients')
-    .del()
-    .where({ grocery_list_id: groceryListId });
+    .where(
+      _.pickBy(
+        {
+          grocery_list_id: groceryListId,
+          ingredient_id: ingredientId
+        },
+        Boolean
+      )
+    );
 
 module.exports = {
   find,
@@ -164,6 +163,5 @@ module.exports = {
   findGroceryListIngredients,
   createGroceryListIngredient,
   updateGroceryListIngredient,
-  deleteOneGroceryListIngredient,
-  deleteGroceryListIngredientsForGroceryList
+  deleteGroceryListIngredients
 };
