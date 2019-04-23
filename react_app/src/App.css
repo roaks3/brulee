@@ -6,6 +6,26 @@
   width: 1170px;
 }
 
+.btn-primary {
+  background-color: #3297d3;
+  border: 1px solid #2a89c2;
+  border-radius: 4px;
+  color: white;
+  display: inline-block;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 14px;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn-primary:not(:disabled):hover,
+.btn-primary:not(:disabled):focus {
+  background-color: #257aad;
+  border-color: #1f6690;
+  color: white;
+}
+
 .btn-select {
   background-color: #24b47e;
   border: 1px solid #209f6f;

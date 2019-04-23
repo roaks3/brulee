@@ -138,6 +138,38 @@ describe('Ingredient API:', function() {
           .catch(err => done(err));
       });
     });
+
+    describe('with used name', function() {
+      let updateResponse;
+
+      before(function(done) {
+        request(app)
+          .put(`/api/ingredients/${newIngredient.id}`)
+          .send({
+            name: 'salt',
+          })
+          .expect(500)
+          .then(res => {
+            updateResponse = res.text;
+            done();
+          })
+          .catch(err => done(err));
+      });
+
+      it('should return error in response', function() {
+        expect(updateResponse).to.equal('This ingredient name already exists');
+      });
+
+      it('should not update ingredient in database', function(done) {
+        request(app)
+          .get(`/api/ingredients/${newIngredient.id}`)
+          .then(res => {
+            expect(res.body.name).to.equal('test ingredient updated');
+            done();
+          })
+          .catch(err => done(err));
+      });
+    });
   });
 
   describe('DELETE /api/ingredients/:id', function() {

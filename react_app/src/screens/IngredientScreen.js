@@ -45,14 +45,49 @@ class IngredientScreen extends Component {
       });
   };
 
+  handleSave = () => {
+    jsonFetch(`/api/ingredients/${this.state.ingredient.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name: this.state.ingredient.name
+      })
+    })
+      .then(() => {
+        console.log('Success');
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  handleNameChange = e => {
+    const name = e.target.value;
+    this.setState(prevState => ({
+      ingredient: {
+        ...prevState.ingredient,
+        name
+      }
+    }));
+  };
+
   render() {
     return (
       <div>
+        <button class="btn-primary" onClick={this.handleSave}>
+          Save
+        </button>
+
         <button class="btn-delete" onClick={this.handleDelete}>
           Delete
         </button>
 
-        <h1>{this.state.ingredient && this.state.ingredient.name}</h1>
+        <h1>
+          <input
+            type="text"
+            value={this.state.ingredient && this.state.ingredient.name}
+            onChange={this.handleNameChange}
+          />
+        </h1>
 
         <div>
           <button className="btn-select" disabled="disabled">

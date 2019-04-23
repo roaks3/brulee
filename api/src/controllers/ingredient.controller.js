@@ -28,6 +28,15 @@ const create = async req => {
 };
 
 const update = async req => {
+  if (req.body.name) {
+    const ingredientsWithSameName = await ingredientService.find({
+      names: [req.body.name]
+    });
+    if (ingredientsWithSameName.some(i => i.id !== req.params.id)) {
+      throw new Error('This ingredient name already exists');
+    }
+  }
+
   const updated = await ingredientService.update(req.params.id, req.body);
 
   return ingredientSerializer.serialize(updated);
