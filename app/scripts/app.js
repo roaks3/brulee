@@ -7,7 +7,6 @@ import '../styles/main.scss';
 import navBar from '../components/navBar/navBar';
 import groceryListScreen from '../screens/groceryListScreen/groceryListScreen';
 import recipeScreen from '../screens/recipeScreen/recipeScreen';
-import ingredientScreen from '../screens/ingredientScreen/ingredientScreen';
 import categoryEditScreen from '../screens/categoryEditScreen/categoryEditScreen';
 import createListScreen from '../screens/createListScreen/createListScreen';
 import addRecipeScreen from '../screens/addRecipeScreen/addRecipeScreen';
@@ -19,7 +18,6 @@ angular.module('bruleeApp', [
     navBar,
     groceryListScreen,
     recipeScreen,
-    ingredientScreen,
     categoryEditScreen,
     createListScreen,
     addRecipeScreen
@@ -53,10 +51,6 @@ angular.module('bruleeApp', [
       .state('ingredients', {
         url: '/ingredients',
         template: '<category-edit-screen></category-edit-screen>'
-      })
-      .state('ingredient', {
-        url: '/ingredient/:id',
-        template: '<ingredient-screen></ingredient-screen>'
       })
       .state('recipe', {
         url: '/recipe/:id',
