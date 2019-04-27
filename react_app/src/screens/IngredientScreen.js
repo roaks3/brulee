@@ -1,40 +1,40 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { jsonFetch } from '../api';
 
-class IngredientScreen extends Component {
-  state = {};
+const IngredientScreen = ({ match }) => {
+  const [ingredient, setIngredient] = useState();
+  const [category, setCategory] = useState();
+  const [recipes, setRecipes] = useState();
 
-  componentWillMount() {
-    const ingredientId = this.props.match.params.id;
+  useEffect(() => {
+    const ingredientId = match.params.id;
     jsonFetch(`/api/ingredients/${ingredientId}`)
-      .then(ingredient => {
-        this.setState({ ingredient });
+      .then(i => {
+        setIngredient(i);
 
-        if (!ingredient.category_id) {
+        if (!i.category_id) {
           return;
         }
 
-        return jsonFetch(`/api/categories/${ingredient.category_id}`).then(
-          category => {
-            this.setState({ category });
-          }
-        );
+        return jsonFetch(`/api/categories/${i.category_id}`).then(c => {
+          setCategory(c);
+        });
       })
       .then(() => {
         return jsonFetch(`/api/recipes?ingredientId=${ingredientId}`).then(
-          recipes => {
-            this.setState({ recipes });
+          rs => {
+            setRecipes(rs);
           }
         );
       });
-  }
+  }, [match.params.id]);
 
-  handleDelete = () => {
-    if (!window.confirm(`Remove '${this.state.ingredient.name}'?`)) {
+  const handleDelete = () => {
+    if (!window.confirm(`Remove '${ingredient.name}'?`)) {
       return;
     }
 
-    jsonFetch(`/api/ingredients/${this.state.ingredient.id}`, {
+    jsonFetch(`/api/ingredients/${ingredient.id}`, {
       method: 'DELETE'
     })
       .then(() => {
@@ -45,11 +45,11 @@ class IngredientScreen extends Component {
       });
   };
 
-  handleSave = () => {
-    jsonFetch(`/api/ingredients/${this.state.ingredient.id}`, {
+  const handleSave = () => {
+    jsonFetch(`/api/ingredients/${ingredient.id}`, {
       method: 'PUT',
       body: JSON.stringify({
-        name: this.state.ingredient.name
+        name: ingredient.name
       })
     })
       .then(() => {
@@ -60,46 +60,41 @@ class IngredientScreen extends Component {
       });
   };
 
-  handleNameChange = e => {
+  const handleNameChange = e => {
     const name = e.target.value;
-    this.setState(prevState => ({
-      ingredient: {
-        ...prevState.ingredient,
-        name
-      }
-    }));
+    setIngredient({
+      ...ingredient,
+      name
+    });
   };
 
-  render() {
-    return (
+  return (
+    <div>
+      <button class="btn-primary" onClick={handleSave}>
+        Save
+      </button>
+
+      <button class="btn-delete" onClick={handleDelete}>
+        Delete
+      </button>
+
+      <h1>
+        <input
+          type="text"
+          value={ingredient && ingredient.name}
+          onChange={handleNameChange}
+        />
+      </h1>
+
       <div>
-        <button class="btn-primary" onClick={this.handleSave}>
-          Save
+        <button className="btn-select" disabled="disabled">
+          {category && category.name}
         </button>
-
-        <button class="btn-delete" onClick={this.handleDelete}>
-          Delete
-        </button>
-
-        <h1>
-          <input
-            type="text"
-            value={this.state.ingredient && this.state.ingredient.name}
-            onChange={this.handleNameChange}
-          />
-        </h1>
-
-        <div>
-          <button className="btn-select" disabled="disabled">
-            {this.state.category && this.state.category.name}
-          </button>
-        </div>
-
-        {this.state.recipes &&
-          this.state.recipes.map(recipe => <h4>{recipe.name}</h4>)}
       </div>
-    );
-  }
-}
+
+      {recipes && recipes.map(recipe => <h4>{recipe.name}</h4>)}
+    </div>
+  );
+};
 
 export default IngredientScreen;
