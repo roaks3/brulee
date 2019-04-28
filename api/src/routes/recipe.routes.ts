@@ -1,8 +1,8 @@
-const { Router } = require('express');
-const { toExpress } = require('../utils/express');
-const controller = require('../controllers/ingredient.controller');
+import * as express from 'express';
+import { toExpress } from '../utils/express';
+import controller from '../controllers/recipe.controller';
 
-const router = new Router();
+const router = express.Router();
 
 router.get('/', toExpress(controller.index));
 router.get('/:id', toExpress(controller.show));
@@ -10,4 +10,4 @@ router.post('/', toExpress(controller.create));
 router.put('/:id', toExpress(controller.update));
 router.delete('/:id', toExpress(controller.destroy));
 
-module.exports = router;
+export default router;
