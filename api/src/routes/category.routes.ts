@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { toExpress } from '../utils/express';
-import controller from '../controllers/category.controller';
+import * as controller from '../controllers/category.controller';
 
 const router = express.Router();
 

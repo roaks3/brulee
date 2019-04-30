@@ -166,7 +166,7 @@ export const updateRecipeIngredient = async (
 export const deleteOneRecipeIngredient = (
   recipeId: string,
   ingredientId: string
-): Promise<void> =>
+): Promise<any> =>
   Promise.resolve(
     pg
       .knex('recipe_ingredients')
@@ -176,7 +176,7 @@ export const deleteOneRecipeIngredient = (
 
 export const deleteRecipeIngredientsForRecipe = (
   recipeId: string
-): Promise<void> =>
+): Promise<any> =>
   Promise.resolve(
     pg
       .knex('recipe_ingredients')

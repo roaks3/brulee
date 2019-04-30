@@ -132,7 +132,7 @@ export const deleteOneGroceryListRecipe = (
   groceryListId: string,
   recipeId: string,
   dayOfWeek: number
-): Promise<void> =>
+): Promise<any> =>
   Promise.resolve(
     pg
       .knex('grocery_list_recipes')
@@ -146,7 +146,7 @@ export const deleteOneGroceryListRecipe = (
 
 export const deleteGroceryListRecipesForGroceryList = (
   groceryListId: string
-): Promise<void> =>
+): Promise<any> =>
   Promise.resolve(
     pg
       .knex('grocery_list_recipes')
@@ -206,7 +206,7 @@ export const updateGroceryListIngredient = async (
 export const deleteGroceryListIngredients = ({
   groceryListId,
   ingredientId
-}: DeleteGroceryListIngredientsOpts): Promise<void> =>
+}: DeleteGroceryListIngredientsOpts): Promise<any> =>
   Promise.resolve(
     pg
       .knex('grocery_list_ingredients')

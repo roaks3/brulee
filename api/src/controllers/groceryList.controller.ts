@@ -1,9 +1,28 @@
-const _ = require('lodash');
-const moment = require('moment');
-const groceryListService = require('../services/groceryList.service');
-const groceryListSerializer = require('../serializers/groceryList.serializer');
+import * as _ from 'lodash';
+import * as express from 'express';
+import moment from 'moment';
+import * as groceryListService from '../services/groceryList.service';
+import groceryListSerializer from '../serializers/groceryList.serializer';
 
-const index = async req => {
+export interface RecipeDay {
+  recipe_id?: string;
+  day_of_week?: number;
+}
+
+export interface AdditionalIngredient {
+  ingredient_id?: string;
+  amount?: string;
+  unit?: string;
+}
+
+export interface GroceryList {
+  id?: string;
+  week_start?: string;
+  recipe_days?: RecipeDay[];
+  additional_ingredients?: AdditionalIngredient[];
+}
+
+export const index = async (req: express.Request): Promise<GroceryList[]> => {
   const groceryLists = await groceryListService.find({
     ids: _.isString(req.query.ids) ? [req.query.ids] : req.query.ids,
     limit: req.query.limit,
@@ -11,25 +30,29 @@ const index = async req => {
   });
 
   return Promise.all(
-    groceryLists.map(async groceryList => {
-      const [groceryListRecipes, groceryListIngredients] = await Promise.all([
-        groceryListService.findGroceryListRecipes({
-          groceryListIds: [groceryList.id]
-        }),
-        groceryListService.findGroceryListIngredients({
-          groceryListIds: [groceryList.id]
-        })
-      ]);
-      return groceryListSerializer.serialize(
-        groceryList,
-        groceryListRecipes,
-        groceryListIngredients
-      );
-    })
+    groceryLists.map(
+      async (
+        groceryList: groceryListService.GroceryList
+      ): Promise<GroceryList> => {
+        const [groceryListRecipes, groceryListIngredients] = await Promise.all([
+          groceryListService.findGroceryListRecipes({
+            groceryListIds: [groceryList.id]
+          }),
+          groceryListService.findGroceryListIngredients({
+            groceryListIds: [groceryList.id]
+          })
+        ]);
+        return groceryListSerializer.serialize(
+          groceryList,
+          groceryListRecipes,
+          groceryListIngredients
+        );
+      }
+    )
   );
 };
 
-const show = async req => {
+export const show = async (req: express.Request): Promise<GroceryList> => {
   const groceryLists = await groceryListService.find({ ids: [req.params.id] });
 
   const [groceryListRecipes, groceryListIngredients] = await Promise.all([
@@ -50,10 +73,13 @@ const show = async req => {
     : {};
 };
 
-const recipeDayToGroceryListRecipe = (groceryListId, weekStart, recipeDay) => {
-  let dowMoment =
-    weekStart && moment(weekStart, 'YYYY-MM-DD').day(recipeDay.day_of_week);
-  if (dowMoment && dowMoment.isBefore(moment(weekStart, 'YYYY-MM-DD'))) {
+const recipeDayToGroceryListRecipe = (
+  groceryListId: string,
+  weekStart: Date,
+  recipeDay: RecipeDay
+): groceryListService.GroceryListRecipe => {
+  let dowMoment = weekStart && moment(weekStart).day(recipeDay.day_of_week);
+  if (dowMoment && dowMoment.isBefore(moment(weekStart))) {
     dowMoment = dowMoment.add(7, 'days');
   }
 
@@ -65,26 +91,34 @@ const recipeDayToGroceryListRecipe = (groceryListId, weekStart, recipeDay) => {
   };
 };
 
-const createGroceryListRecipe = (groceryListId, weekStart, recipeDay) =>
+const createGroceryListRecipe = (
+  groceryListId: string,
+  weekStart: Date,
+  recipeDay: RecipeDay
+): Promise<groceryListService.GroceryListRecipe> =>
   groceryListService.createGroceryListRecipe(
     recipeDayToGroceryListRecipe(groceryListId, weekStart, recipeDay)
   );
 
-const createGroceryListIngredient = (groceryListId, additionalIngredient) =>
+const createGroceryListIngredient = (
+  groceryListId: string,
+  additionalIngredient: AdditionalIngredient
+): Promise<groceryListService.GroceryListIngredient> =>
   groceryListService.createGroceryListIngredient(
     Object.assign({}, additionalIngredient, { grocery_list_id: groceryListId })
   );
 
-const create = async req => {
+export const create = async (req: express.Request): Promise<GroceryList> => {
   const created = await groceryListService.create(req.body);
   const createdGroceryListRecipes = await Promise.all(
-    (req.body.recipe_days || []).map(recipeDay =>
+    (req.body.recipe_days || []).map((recipeDay: RecipeDay) =>
       createGroceryListRecipe(created.id, created.week_start, recipeDay)
     )
   );
   const createdGroceryListIngredients = await Promise.all(
-    (req.body.additional_ingredients || []).map(additionalIngredient =>
-      createGroceryListIngredient(created.id, additionalIngredient)
+    (req.body.additional_ingredients || []).map(
+      (additionalIngredient: AdditionalIngredient) =>
+        createGroceryListIngredient(created.id, additionalIngredient)
     )
   );
 
@@ -96,11 +130,11 @@ const create = async req => {
 };
 
 const updateGroceryListRecipesForGroceryList = (
-  groceryListId,
-  weekStart,
-  oldGroceryListRecipes,
-  newGroceryListRecipeDays
-) => {
+  groceryListId: string,
+  weekStart: Date,
+  oldGroceryListRecipes: groceryListService.GroceryListRecipe[],
+  newGroceryListRecipeDays: RecipeDay[]
+): Promise<(groceryListService.GroceryListRecipe | any)[]> => {
   const createdRecipeDays = newGroceryListRecipeDays.filter(
     nrd =>
       !oldGroceryListRecipes.find(
@@ -131,10 +165,10 @@ const updateGroceryListRecipesForGroceryList = (
 };
 
 const updateGroceryListIngredientsForGroceryList = (
-  groceryListId,
-  oldGroceryListIngredients,
-  newGroceryListAdditionalIngredients
-) => {
+  groceryListId: string,
+  oldGroceryListIngredients: groceryListService.GroceryListIngredient[],
+  newGroceryListAdditionalIngredients: AdditionalIngredient[]
+): Promise<(groceryListService.GroceryListIngredient | any)[]> => {
   const createdAdditionalIngredients = (
     newGroceryListAdditionalIngredients || []
   ).filter(
@@ -179,7 +213,7 @@ const updateGroceryListIngredientsForGroceryList = (
   ]);
 };
 
-const update = async req => {
+export const update = async (req: express.Request): Promise<GroceryList> => {
   const updated = await groceryListService.update(req.params.id, req.body);
   const originalGroceryListRecipes = await groceryListService.findGroceryListRecipes(
     {
@@ -223,7 +257,7 @@ const update = async req => {
   );
 };
 
-const destroy = async req => {
+export const destroy = async (req: express.Request): Promise<GroceryList> => {
   await groceryListService.deleteGroceryListIngredients({
     groceryListId: req.params.id
   });
@@ -234,12 +268,4 @@ const destroy = async req => {
   const deleted = await groceryListService.deleteOne(req.params.id);
 
   return groceryListSerializer.serialize(deleted, [], []);
-};
-
-module.exports = {
-  index,
-  show,
-  create,
-  update,
-  destroy
 };
