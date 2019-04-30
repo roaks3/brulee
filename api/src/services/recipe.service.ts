@@ -1,7 +1,41 @@
-const _ = require('lodash');
-const pg = require('./pg.service');
+import * as _ from 'lodash';
+import * as pg from './pg.service';
 
-const find = ({ ids, ingredientId, includeUseCounts }) => {
+export interface Recipe {
+  id?: string;
+  name?: string;
+  url?: string;
+  tags?: string;
+  prepare_time_in_minutes?: number;
+  cook_time_in_minutes?: number;
+  original_text?: string;
+  instructions?: string;
+  modifications?: string;
+  nutrition_facts?: string;
+}
+
+export interface RecipeIngredient {
+  recipe_id?: string;
+  ingredient_id?: string;
+  amount?: string;
+  unit?: string;
+}
+
+export interface FindOpts {
+  ids?: string[];
+  ingredientId?: string;
+  includeUseCounts?: boolean;
+}
+
+export interface FindRecipeIngredientsOpts {
+  recipeIds?: string[];
+}
+
+export const find = ({
+  ids,
+  ingredientId,
+  includeUseCounts
+}: FindOpts): Promise<Recipe[]> => {
   const query = pg.knex('recipes').select('recipes.*');
 
   if (ids) {
@@ -40,10 +74,10 @@ const find = ({ ids, ingredientId, includeUseCounts }) => {
       .groupBy('recipes.id');
   }
 
-  return query;
+  return Promise.resolve(query);
 };
 
-const create = async obj => {
+export const create = async (obj: Recipe): Promise<Recipe> => {
   const fields = _.pick(obj, ['name', 'original_text', 'url']);
 
   const [result] = await pg
@@ -54,7 +88,7 @@ const create = async obj => {
   return result || {};
 };
 
-const update = async (id, obj) => {
+export const update = async (id: string, obj: Recipe): Promise<Recipe> => {
   const fields = _.pick(obj, [
     'name',
     'url',
@@ -79,24 +113,30 @@ const update = async (id, obj) => {
   return result || {};
 };
 
-const deleteOne = id =>
-  pg
-    .knex('recipes')
-    .del()
-    .where({ id })
-    .return({ id });
+export const deleteOne = (id: string): Promise<Recipe> =>
+  Promise.resolve(
+    pg
+      .knex('recipes')
+      .del()
+      .where({ id })
+      .return({ id })
+  );
 
-const findRecipeIngredients = ({ recipeIds }) => {
+export const findRecipeIngredients = ({
+  recipeIds
+}: FindRecipeIngredientsOpts): Promise<RecipeIngredient[]> => {
   const query = pg.knex('recipe_ingredients').select();
 
   if (recipeIds) {
     query.whereIn('recipe_id', recipeIds);
   }
 
-  return query;
+  return Promise.resolve(query);
 };
 
-const createRecipeIngredient = async obj => {
+export const createRecipeIngredient = async (
+  obj: RecipeIngredient
+): Promise<RecipeIngredient> => {
   const fields = _.pick(obj, ['recipe_id', 'ingredient_id', 'amount', 'unit']);
 
   const [result] = await pg
@@ -107,7 +147,11 @@ const createRecipeIngredient = async obj => {
   return result || {};
 };
 
-const updateRecipeIngredient = async (recipeId, ingredientId, obj) => {
+export const updateRecipeIngredient = async (
+  recipeId: string,
+  ingredientId: string,
+  obj: RecipeIngredient
+): Promise<RecipeIngredient> => {
   const fields = _.pick(obj, ['amount', 'unit']);
 
   const [result] = await pg
@@ -119,26 +163,23 @@ const updateRecipeIngredient = async (recipeId, ingredientId, obj) => {
   return result || {};
 };
 
-const deleteOneRecipeIngredient = (recipeId, ingredientId) =>
-  pg
-    .knex('recipe_ingredients')
-    .del()
-    .where({ recipe_id: recipeId, ingredient_id: ingredientId });
+export const deleteOneRecipeIngredient = (
+  recipeId: string,
+  ingredientId: string
+): Promise<void> =>
+  Promise.resolve(
+    pg
+      .knex('recipe_ingredients')
+      .del()
+      .where({ recipe_id: recipeId, ingredient_id: ingredientId })
+  );
 
-const deleteRecipeIngredientsForRecipe = recipeId =>
-  pg
-    .knex('recipe_ingredients')
-    .del()
-    .where({ recipe_id: recipeId });
-
-module.exports = {
-  find,
-  create,
-  update,
-  deleteOne,
-  findRecipeIngredients,
-  createRecipeIngredient,
-  updateRecipeIngredient,
-  deleteOneRecipeIngredient,
-  deleteRecipeIngredientsForRecipe
-};
+export const deleteRecipeIngredientsForRecipe = (
+  recipeId: string
+): Promise<void> =>
+  Promise.resolve(
+    pg
+      .knex('recipe_ingredients')
+      .del()
+      .where({ recipe_id: recipeId })
+  );

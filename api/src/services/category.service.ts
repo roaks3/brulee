@@ -1,17 +1,27 @@
-const _ = require('lodash');
-const pg = require('./pg.service');
+import * as _ from 'lodash';
+import * as pg from './pg.service';
 
-const find = ({ ids }) => {
+export interface Category {
+  id?: string;
+  name?: string;
+  display_order?: number;
+}
+
+export interface FindOpts {
+  ids?: string[];
+}
+
+export const find = ({ ids }: FindOpts): Promise<Category[]> => {
   const query = pg.knex('categories').select();
 
   if (ids) {
     query.whereIn('id', ids);
   }
 
-  return query;
+  return Promise.resolve(query);
 };
 
-const create = async obj => {
+export const create = async (obj: Category): Promise<Category> => {
   const fields = _.pick(obj, ['name', 'display_order']);
 
   const [result] = await pg
@@ -29,7 +39,7 @@ const create = async obj => {
   return result || {};
 };
 
-const update = async (id, obj) => {
+export const update = async (id: string, obj: Category): Promise<Category> => {
   const fields = _.pick(obj, ['name', 'display_order']);
 
   const [result] = await pg
@@ -41,16 +51,11 @@ const update = async (id, obj) => {
   return result || {};
 };
 
-const deleteOne = id =>
-  pg
-    .knex('categories')
-    .del()
-    .where({ id })
-    .return({ id });
-
-module.exports = {
-  find,
-  create,
-  update,
-  deleteOne
-};
+export const deleteOne = (id: string): Promise<Category> =>
+  Promise.resolve(
+    pg
+      .knex('categories')
+      .del()
+      .where({ id })
+      .return({ id })
+  );

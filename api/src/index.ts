@@ -3,7 +3,7 @@ import categoryRoutes from './routes/category.routes';
 import gorceryListRoutes from './routes/groceryList.routes';
 import ingredientRoutes from './routes/ingredient.routes';
 import recipeRoutes from './routes/recipe.routes';
-import pg from './services/pg.service';
+import * as pg from './services/pg.service';
 
 export const router = express.Router();
 
