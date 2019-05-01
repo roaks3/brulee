@@ -1,26 +1,11 @@
 import * as _ from 'lodash';
 import moment from 'moment';
 import * as pg from './pg.service';
-
-export interface GroceryList {
-  id?: string;
-  week_start?: Date;
-  created_at?: Date;
-}
-
-export interface GroceryListRecipe {
-  grocery_list_id?: string;
-  recipe_id?: string;
-  day_of_week?: number;
-  scheduled_for?: Date;
-}
-
-export interface GroceryListIngredient {
-  grocery_list_id?: string;
-  ingredient_id?: string;
-  amount?: string;
-  unit?: string;
-}
+import {
+  GroceryList,
+  GroceryListIngredient,
+  GroceryListRecipe
+} from '../models/groceryList.model';
 
 export interface FindOpts {
   ids?: string[];

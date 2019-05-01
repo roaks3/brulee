@@ -1,30 +1,16 @@
 import * as _ from 'lodash';
 import * as express from 'express';
+import {
+  RecipeIngredient,
+  RecipeResponse,
+  RecipeIngredientRequest
+} from '../models/recipe.model';
 import * as recipeService from '../services/recipe.service';
-import recipeSerializer from '../serializers/recipe.serializer';
+import * as recipeSerializer from '../serializers/recipe.serializer';
 
-export interface Recipe {
-  id?: string;
-  name?: string;
-  use_count?: number;
-  url?: string;
-  tags?: string;
-  prepare_time_in_minutes?: number;
-  cook_time_in_minutes?: number;
-  original_text?: string;
-  instructions?: string;
-  modifications?: string;
-  nutrition_facts?: string;
-  recipe_ingredients?: RecipeIngredient[];
-}
-
-export interface RecipeIngredient {
-  ingredient_id?: string;
-  amount?: string;
-  unit?: string;
-}
-
-export const index = async (req: express.Request): Promise<Recipe[]> => {
+export const index = async (
+  req: express.Request
+): Promise<RecipeResponse[]> => {
   const recipes = await recipeService.find({
     ids: _.isString(req.query.ids) ? [req.query.ids] : req.query.ids,
     ingredientId: req.query.ingredientId,
@@ -41,7 +27,7 @@ export const index = async (req: express.Request): Promise<Recipe[]> => {
   );
 };
 
-export const show = async (req: express.Request): Promise<Recipe> => {
+export const show = async (req: express.Request): Promise<RecipeResponse> => {
   const recipes = await recipeService.find({ ids: [req.params.id] });
   const recipeIngredients = await recipeService.findRecipeIngredients({
     recipeIds: [req.params.id]
@@ -54,19 +40,19 @@ export const show = async (req: express.Request): Promise<Recipe> => {
 
 const createRecipeIngredient = (
   recipeId: string,
-  recipeIngredient: RecipeIngredient
-): Promise<recipeService.RecipeIngredient> =>
+  recipeIngredient: RecipeIngredientRequest
+): Promise<RecipeIngredient> =>
   recipeService.createRecipeIngredient({
     ...recipeIngredient,
     recipe_id: recipeId
   });
 
-export const create = async (req: express.Request): Promise<Recipe> => {
+export const create = async (req: express.Request): Promise<RecipeResponse> => {
   const created = await recipeService.create(req.body);
 
   const createdRecipeIngredients = await Promise.all(
     (req.body.recipe_ingredients || []).map(
-      (recipeIngredient: RecipeIngredient) =>
+      (recipeIngredient: RecipeIngredientRequest) =>
         createRecipeIngredient(created.id, recipeIngredient)
     )
   );
@@ -76,9 +62,9 @@ export const create = async (req: express.Request): Promise<Recipe> => {
 
 const updateRecipeIngredientsForRecipe = (
   recipeId: string,
-  oldRecipeIngredients: recipeService.RecipeIngredient[],
-  newRecipeIngredients: RecipeIngredient[]
-): Promise<(recipeService.RecipeIngredient | any)[]> => {
+  oldRecipeIngredients: RecipeIngredient[],
+  newRecipeIngredients: RecipeIngredientRequest[]
+): Promise<(RecipeIngredient | any)[]> => {
   const createdRecipeIngredients = (newRecipeIngredients || []).filter(
     nri =>
       !(oldRecipeIngredients || []).find(
@@ -110,7 +96,7 @@ const updateRecipeIngredientsForRecipe = (
   ]);
 };
 
-export const update = async (req: express.Request): Promise<Recipe> => {
+export const update = async (req: express.Request): Promise<RecipeResponse> => {
   const updated = await recipeService.update(req.params.id, req.body);
   const originalRecipeIngredients = await recipeService.findRecipeIngredients({
     recipeIds: [req.params.id]
@@ -129,7 +115,9 @@ export const update = async (req: express.Request): Promise<Recipe> => {
   return recipeSerializer.serialize(updated, updatedRecipeIngredients);
 };
 
-export const destroy = async (req: express.Request): Promise<Recipe> => {
+export const destroy = async (
+  req: express.Request
+): Promise<RecipeResponse> => {
   await recipeService.deleteRecipeIngredientsForRecipe(req.params.id);
 
   const deleted = await recipeService.deleteOne(req.params.id);

@@ -1,10 +1,16 @@
-const moment = require('moment');
+import moment from 'moment';
+import {
+  GroceryList,
+  GroceryListIngredient,
+  GroceryListRecipe,
+  GroceryListResponse
+} from '../models/groceryList.model';
 
-const serialize = (
-  groceryList,
-  groceryListRecipes,
-  groceryListIngredients
-) => ({
+export const serialize = (
+  groceryList: GroceryList,
+  groceryListRecipes: GroceryListRecipe[],
+  groceryListIngredients: GroceryListIngredient[]
+): GroceryListResponse => ({
   id: groceryList.id,
   week_start:
     groceryList.week_start &&
@@ -18,7 +24,3 @@ const serialize = (
     amount: groceryListIngredient.amount
   }))
 });
-
-module.exports = {
-  serialize
-};

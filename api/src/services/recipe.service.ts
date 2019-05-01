@@ -1,25 +1,6 @@
 import * as _ from 'lodash';
 import * as pg from './pg.service';
-
-export interface Recipe {
-  id?: string;
-  name?: string;
-  url?: string;
-  tags?: string;
-  prepare_time_in_minutes?: number;
-  cook_time_in_minutes?: number;
-  original_text?: string;
-  instructions?: string;
-  modifications?: string;
-  nutrition_facts?: string;
-}
-
-export interface RecipeIngredient {
-  recipe_id?: string;
-  ingredient_id?: string;
-  amount?: string;
-  unit?: string;
-}
+import { Recipe, RecipeIngredient } from '../models/recipe.model';
 
 export interface FindOpts {
   ids?: string[];
@@ -31,7 +12,7 @@ export interface FindRecipeIngredientsOpts {
   recipeIds?: string[];
 }
 
-export const find = ({
+export const find = async ({
   ids,
   ingredientId,
   includeUseCounts
@@ -74,7 +55,13 @@ export const find = ({
       .groupBy('recipes.id');
   }
 
-  return Promise.resolve(query);
+  const results = await query;
+
+  // Cast count from a string (used to support postgres bigint) to a number
+  return results.map((result: any) => ({
+    ...result,
+    use_count: parseInt(result.use_count || '0', 10)
+  }));
 };
 
 export const create = async (obj: Recipe): Promise<Recipe> => {

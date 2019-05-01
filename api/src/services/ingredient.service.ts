@@ -1,11 +1,6 @@
 import * as _ from 'lodash';
 import * as pg from './pg.service';
-
-export interface Ingredient {
-  id?: string;
-  name?: string;
-  category_id?: string;
-}
+import { Ingredient } from '../models/ingredient.model';
 
 export interface FindOpts {
   ids?: string[];

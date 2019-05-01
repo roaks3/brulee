@@ -1,7 +1,16 @@
-const serialize = (recipe, recipeIngredients) => ({
+import {
+  Recipe,
+  RecipeIngredient,
+  RecipeResponse
+} from '../models/recipe.model';
+
+export const serialize = (
+  recipe: Recipe,
+  recipeIngredients: RecipeIngredient[]
+): RecipeResponse => ({
   id: recipe.id,
   name: recipe.name,
-  use_count: parseInt(recipe.use_count || 0, 10),
+  use_count: recipe.use_count,
   url: recipe.url,
   tags: recipe.tags,
   prepare_time_in_minutes: recipe.prepare_time_in_minutes,
@@ -16,7 +25,3 @@ const serialize = (recipe, recipeIngredients) => ({
     unit: recipeIngredient.unit
   }))
 });
-
-module.exports = {
-  serialize
-};
